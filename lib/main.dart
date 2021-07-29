@@ -12,7 +12,7 @@ void main() async {
   HttpUtil.http.interceptors.add(CookieManager(HttpUtil.cookieJar));
   await HttpUtil.http.post("/api/v3/user/session", data: {
     'userName': 'admin@cloudreve.org',
-    'Password': 'yangcheng8533',
+    'Password': '',
     'captchaCode': ''
   });
 
