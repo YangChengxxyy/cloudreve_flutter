@@ -8,19 +8,26 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  final ChangePath changePath;
+
+  Home({Key? key, required this.changePath}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => _HomeState(changePath: changePath);
 }
+
+typedef void ChangePath(String newPath);
 
 class _HomeState extends State<Home> {
   List<File>? fileList;
 
-  String path = "/";
+  ChangePath changePath;
+  String _path = "/";
+
+  _HomeState({required this.changePath});
 
   Widget _buildHead() {
-    List<String> paths1 = path.split("/");
+    List<String> paths1 = _path.split("/");
     List<Widget> buttons = <Widget>[];
     paths1[0] = "/";
 
@@ -32,8 +39,9 @@ class _HomeState extends State<Home> {
       var button = ElevatedButton(
           onPressed: () {
             if (i == 0) {
+              changePath("/");
               setState(() {
-                path = "/";
+                _path = "/";
               });
             } else {
               String before = "/";
@@ -44,11 +52,11 @@ class _HomeState extends State<Home> {
                   before += paths2[j] + "/";
                 }
               }
+              changePath(before);
               setState(() {
-                path = before;
+                _path = before;
               });
             }
-            print("bar:  " + path);
           },
           child: Text(paths2[i]));
       buttons.add(button);
@@ -160,14 +168,17 @@ class _HomeState extends State<Home> {
       }
 
       void _dirTap() {
-        setState(() {
-          if (path == "/") {
-            path = path + file.name;
-          } else {
-            path = path + "/" + file.name;
-          }
-        });
-        print("dir:  " + path);
+        if (_path == "/") {
+          changePath(_path + file.name);
+          setState(() {
+            _path += file.name;
+          });
+        } else {
+          changePath(_path + "/" + file.name);
+          setState(() {
+            _path += "/" + file.name;
+          });
+        }
       }
 
       widgetList.add(Card(
@@ -231,7 +242,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<Response> _getFiles() async {
-    Response response = await HttpUtil.http.get('/api/v3/directory$path');
+    Response response = await HttpUtil.http.get('/api/v3/directory$_path');
     return response;
   }
 }

@@ -13,7 +13,7 @@ class LoginApp extends StatefulWidget {
 class _LoginAppState extends State<LoginApp> {
   _onLoginBtnClick() {
     Navigator.of(context).pushAndRemoveUntil(
-        new MaterialPageRoute(builder: (context) => new HomeApp()),
+        new MaterialPageRoute(builder: (context) => new MainApp()),
         (route) => route == null);
   }
 

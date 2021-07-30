@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             'captchaCode': ''
           });
       if (logResp.data['code'] == 0) {
-        return Future.value((HomeApp()));
+        return Future.value((MainApp()));
       } else {
         prefs.clear();
         return Future.value((LoginApp()));
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Cloudreve',
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -81,7 +81,7 @@ class LoadingApp extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          margin: EdgeInsets.only(top: 150),
+          margin: EdgeInsets.only(top: 150 * 1.5),
           alignment: Alignment.topCenter,
           // 设置图片为圆形
           child: ClipOval(
@@ -98,17 +98,16 @@ class LoadingApp extends StatelessWidget {
   }
 }
 
-class HomeApp extends StatefulWidget {
-  const HomeApp({Key? key}) : super(key: key);
+class MainApp extends StatefulWidget {
+  const MainApp({Key? key}) : super(key: key);
 
   @override
-  State<HomeApp> createState() => _HomeAppState();
+  State<MainApp> createState() => _MainAppState();
 }
 
-class _HomeAppState extends State<HomeApp> {
+class _MainAppState extends State<MainApp> {
   int _selectedIndex = 0;
-
-  static List<Widget> _widgetOptions = <Widget>[Home(), Setting()];
+  String _path = "/";
 
   void _onItemTapped(int index) {
     setState(() {
@@ -159,11 +158,16 @@ class _HomeAppState extends State<HomeApp> {
       //   ),
       // ),
       body: Center(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _widgetOptions,
+          child: <Widget>[
+        Home(
+          changePath: (String newPath) {
+            setState(() {
+              _path = newPath;
+            });
+          },
         ),
-      ),
+        Setting()
+      ][_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
