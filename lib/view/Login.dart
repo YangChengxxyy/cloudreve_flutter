@@ -3,6 +3,7 @@ import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApp extends StatefulWidget {
   @override
@@ -47,7 +48,7 @@ class LoginBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Container(
                     margin:
-                        const EdgeInsets.only(top: 180, left: 40, right: 40),
+                        const EdgeInsets.only(top: 150, left: 40, right: 40),
                     child: Column(
                       children: [
                         Container(
@@ -100,18 +101,23 @@ class LoginBody extends StatelessWidget {
                                     if ((_formKey.currentState as FormState)
                                         .validate()) {
                                       //验证通过提交数据
-                                      HttpUtil.http.interceptors.add(
-                                          CookieManager(HttpUtil.cookieJar));
                                       Response logResp = await HttpUtil.http
                                           .post("/api/v3/user/session", data: {
                                         'userName': _emailController.text,
                                         'Password': _pwdController.text,
                                         'captchaCode': ''
                                       });
-                                      print(logResp);
                                       if (logResp.data['code'] == 0) {
                                         await HttpUtil.http
                                             .get('/api/v3/user/storage');
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.setBool("isLogin", true);
+                                        prefs.setString(
+                                            "username", _emailController.text);
+                                        prefs.setString(
+                                            "password", _pwdController.text);
                                         onLoginBtnClick();
                                       } else {
                                         _pwdController.clear();
@@ -142,30 +148,11 @@ class LoginBody extends StatelessWidget {
                                   child: Text("登录"))),
                         ),
                         Container(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: Text("忘记密码",
-                                          style:
-                                              TextStyle(color: Colors.blue))),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: Text("注册账户",
-                                          style:
-                                              TextStyle(color: Colors.blue))),
-                                ),
-                              ),
-                            ],
-                          ),
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text("注册账户",
+                                  style: TextStyle(color: Colors.blue))),
                         )
                       ],
                     ),

@@ -2,6 +2,7 @@ import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/view/Login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Setting extends StatefulWidget {
   @override
@@ -19,6 +20,9 @@ class _SettingState extends State<Setting> {
             title: Text('退出登录'),
             onTap: () async {
               await HttpUtil.http.delete("/api/v3/user/session");
+
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.clear();
               Navigator.of(context).pushAndRemoveUntil(
                   new MaterialPageRoute(builder: (context) => new LoginApp()),
                   (route) => route == null);
