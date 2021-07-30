@@ -1,11 +1,10 @@
-import 'package:cloudreve/component/PicListView.dart';
+import 'dart:async';
+
+import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudreve/entity/File.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:async';
-
 import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
@@ -92,6 +91,14 @@ class _HomeState extends State<Home> {
       void _fileTap() {
         String date =
             file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
+        var sizeList = <String>["B", "KB", "MB", "GB"];
+        double size = file.size.toDouble();
+        int index = 0;
+        while (size < 1024) {
+          size /= 1024;
+          index++;
+        }
+
         showDialog(
           context: context,
           builder: (_) {
@@ -120,11 +127,12 @@ class _HomeState extends State<Home> {
                         response = await dio.download(
                             url, path!.path + "/" + file.name);
                         if (response.statusCode == 200) {
-                          String snack = '下载至:' + path.path + "/" + file.name;
+                          String snackString =
+                              '下载至:' + path.path + "/" + file.name;
                           Navigator.pop(_);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(snack),
+                              content: Text(snackString),
                             ),
                           );
                         } else {
@@ -141,9 +149,9 @@ class _HomeState extends State<Home> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("文件名:\t${file.name}"),
-                    Text("文件大小:\t${(file.size / 1024).toStringAsFixed(1)}KB"),
-                    Text("上传时间:\t$date")
+                    Text("文件名:\t\t${file.name}"),
+                    Text("文件大小:\t\t${size.toStringAsFixed(1)}${sizeList[index]}"),
+                    Text("上传时间:\t\t$date")
                   ],
                 ));
           },

@@ -1,6 +1,6 @@
 class File {
-  File(this.date, this.id, this.name, this.path, this.pic, this.size,
-      this.type) {}
+  File(
+      this.date, this.id, this.name, this.path, this.pic, this.size, this.type);
   late String date;
   late String id;
   late String name;

@@ -1,107 +1,176 @@
+import 'package:cloudreve/main.dart';
+import 'package:cloudreve/utils/HttpUtil.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-class LoginAlertDemoApp extends StatelessWidget {
+class LoginApp extends StatefulWidget {
+  @override
+  State<LoginApp> createState() => _LoginAppState();
+}
+
+class _LoginAppState extends State<LoginApp> {
+  _onLoginBtnClick() {
+    Navigator.of(context).pushAndRemoveUntil(
+        new MaterialPageRoute(builder: (context) => new HomeApp()),
+        (route) => route == null);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        theme: new ThemeData(
-          primarySwatch: Colors.green,
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("登录Cloudreve"),
         ),
-        home: Scaffold(
-          body: new LoginHomePage(),
+        body: LoginBody(
+          onLoginBtnClick: _onLoginBtnClick,
         ));
   }
 }
 
-class LoginHomePage extends StatefulWidget {
-  @override
-  _LoginHomePageState createState() {
-    return new _LoginHomePageState();
-  }
-}
+class LoginBody extends StatelessWidget {
+  VoidCallback onLoginBtnClick;
 
-class _LoginHomePageState extends State<LoginHomePage> {
+  LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _pwdController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: 120.0,
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 30.0),
-              color: Colors.white,
-              child: Icon(Icons.access_alarm),
-            ),
-            Container(
-              color: Colors.white,
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(left: 30.0, right: 30.0),
-              child: new Container(
-                child: buildForm(),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  TextEditingController unameController = new TextEditingController();
-  TextEditingController pwdController = new TextEditingController();
-  GlobalKey formKey = new GlobalKey<FormState>();
-
-  Widget buildForm() {
     return Form(
-      //设置globalKey，用于后面获取FormState
-      key: formKey,
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-            autofocus: false,
-            keyboardType: TextInputType.number,
-            //键盘回车键的样式
-            textInputAction: TextInputAction.next,
-            controller: unameController,
-            decoration: InputDecoration(
-                labelText: "用户名或邮箱",
-                hintText: "用户名或邮箱",
-                icon: Icon(Icons.person)),
-          ),
-          TextFormField(
-              autofocus: false,
-              controller: pwdController,
-              decoration: InputDecoration(
-                  labelText: "密码", hintText: "您的登录密码", icon: Icon(Icons.lock)),
-              obscureText: true,
-              ),
-          // 登录按钮
-          Padding(
-            padding: const EdgeInsets.only(top: 28.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: RaisedButton(
-                    padding: EdgeInsets.all(15.0),
-                    child: Text("登录"),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      if ((formKey.currentState as FormState).validate()) {
-
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+        autovalidate: true,
+        key: _formKey,
+        child: Center(
+            child: ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin:
+                        const EdgeInsets.only(top: 180, left: 40, right: 40),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topCenter,
+                          margin: EdgeInsets.only(bottom: 30),
+                          // 设置图片为圆形
+                          child: ClipOval(
+                            child: Image.asset(
+                              "assets/logo.png",
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        TextFormField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                                labelText: "电子邮箱", icon: Icon(Icons.email)),
+                            validator: (v) {
+                              if (v == null) {
+                                return null;
+                              }
+                              return v.trim().length > 0 ? null : "电子邮箱不能为空";
+                            }),
+                        TextFormField(
+                            controller: _pwdController,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "密码", icon: Icon(Icons.lock)),
+                            validator: (v) {
+                              if (v == null) {
+                                return null;
+                              } else if (v.trim().length < 6) {
+                                return "密码过短";
+                              } else if (v.trim().length == 0) {
+                                return "密码不能为空";
+                              }
+                            }),
+                        Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.only(top: 50),
+                          child: SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(),
+                                  onPressed: () async {
+                                    if ((_formKey.currentState as FormState)
+                                        .validate()) {
+                                      //验证通过提交数据
+                                      HttpUtil.http.interceptors.add(
+                                          CookieManager(HttpUtil.cookieJar));
+                                      Response logResp = await HttpUtil.http
+                                          .post("/api/v3/user/session", data: {
+                                        'userName': _emailController.text,
+                                        'Password': _pwdController.text,
+                                        'captchaCode': ''
+                                      });
+                                      print(logResp);
+                                      if (logResp.data['code'] == 0) {
+                                        await HttpUtil.http
+                                            .get('/api/v3/user/storage');
+                                        onLoginBtnClick();
+                                      } else {
+                                        _pwdController.clear();
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  "提示",
+                                                ),
+                                                content:
+                                                    new SingleChildScrollView(
+                                                  child: new ListBody(
+                                                    children: <Widget>[
+                                                      new Text(
+                                                        '密码错误',
+                                                        style: TextStyle(
+                                                            color: Colors.red),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      }
+                                    }
+                                  },
+                                  child: Text("登录"))),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: TextButton(
+                                      onPressed: () {},
+                                      child: Text("忘记密码",
+                                          style:
+                                              TextStyle(color: Colors.blue))),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                      onPressed: () {},
+                                      child: Text("注册账户",
+                                          style:
+                                              TextStyle(color: Colors.blue))),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                })));
   }
 }

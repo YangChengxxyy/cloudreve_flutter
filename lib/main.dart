@@ -1,28 +1,18 @@
-import 'dart:io';
-
-import 'package:cloudreve/entity/File.dart';
-import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/view/Home.dart';
+import 'package:cloudreve/view/Login.dart';
 import 'package:cloudreve/view/Setting.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 void main() async {
-  HttpUtil.http.interceptors.add(CookieManager(HttpUtil.cookieJar));
-  await HttpUtil.http.post("/api/v3/user/session", data: {
-    'userName': 'admin@cloudreve.org',
-    'Password': '',
-    'captchaCode': ''
-  });
-
-  HttpUtil.http.get('/api/v3/user/storage');
-
-  runApp(MyApp());
+  runApp(MyApp(home: LoginApp()));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  Widget home;
+
+  MyApp({Key? key, required this.home}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +29,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomeApp(),
+      home: home,
     );
   }
 }
@@ -54,8 +44,6 @@ class HomeApp extends StatefulWidget {
 class _HomeAppState extends State<HomeApp> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[Home(), Setting()];
 
   void _onItemTapped(int index) {
