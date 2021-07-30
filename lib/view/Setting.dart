@@ -1,5 +1,6 @@
 import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
+import 'package:cloudreve/view/Login.dart';
 import 'package:flutter/material.dart';
 
 class Setting extends StatefulWidget {
@@ -16,8 +17,11 @@ class _SettingState extends State<Setting> {
           child: ListTile(
             leading: Icon(Icons.logout),
             title: Text('退出登录'),
-            onTap: () {
-              // HttpUtil.http.delete("/api/v3/user/session");
+            onTap: () async {
+              await HttpUtil.http.delete("/api/v3/user/session");
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(builder: (context) => new LoginApp()),
+                  (route) => route == null);
             },
           ),
         ),

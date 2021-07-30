@@ -40,7 +40,6 @@ class LoginBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Form(
-        autovalidate: true,
         key: _formKey,
         child: Center(
             child: ListView.builder(

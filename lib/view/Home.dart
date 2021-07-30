@@ -150,7 +150,8 @@ class _HomeState extends State<Home> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text("文件名:\t\t${file.name}"),
-                    Text("文件大小:\t\t${size.toStringAsFixed(1)}${sizeList[index]}"),
+                    Text(
+                        "文件大小:\t\t${size.toStringAsFixed(1)}${sizeList[index]}"),
                     Text("上传时间:\t\t$date")
                   ],
                 ));
@@ -215,11 +216,12 @@ class _HomeState extends State<Home> {
                 Divider(color: Colors.blue),
                 Center(child: Text("暂无数据"))
               ];
-              return ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return list[index];
-                  });
+              return Scrollbar(
+                  child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        return list[index];
+                      }));
             }
           } else {
             return Center(child: Text("加载中"));
