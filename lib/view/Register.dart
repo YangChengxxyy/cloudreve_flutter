@@ -1,20 +1,23 @@
-import 'package:cloudreve/main.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
-import 'package:cloudreve/view/Register.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginApp extends StatefulWidget {
+import 'Login.dart';
+
+String registerUrl = "/api/v3/user";
+
+class RegisterApp extends StatefulWidget {
   @override
-  State<LoginApp> createState() => _LoginAppState();
+  State createState() {
+    return _RegisterAppState();
+  }
 }
 
-class _LoginAppState extends State<LoginApp> {
-  _onLoginBtnClick() {
+class _RegisterAppState extends State<RegisterApp> {
+  _onRegisterBtnClick() {
     Navigator.of(context).pushAndRemoveUntil(
-        new MaterialPageRoute(builder: (context) => new MainApp()),
+        new MaterialPageRoute(builder: (context) => new LoginApp()),
         (route) => route == null);
   }
 
@@ -22,22 +25,23 @@ class _LoginAppState extends State<LoginApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("登录Cloudreve"),
+          title: Text("注册Cloudreve"),
         ),
-        body: LoginBody(
-          onLoginBtnClick: _onLoginBtnClick,
+        body: RegisterBody(
+          onRegisterBtnClick: _onRegisterBtnClick,
         ));
   }
 }
 
-class LoginBody extends StatelessWidget {
-  VoidCallback onLoginBtnClick;
+class RegisterBody extends StatelessWidget {
+  VoidCallback onRegisterBtnClick;
 
-  LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
+  RegisterBody({Key? key, required this.onRegisterBtnClick});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _pwdController = new TextEditingController();
+  TextEditingController _pwdController2 = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +95,20 @@ class LoginBody extends StatelessWidget {
                                 return "密码不能为空";
                               }
                             }),
+                        TextFormField(
+                            controller: _pwdController2,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "确认密码",
+                                icon: Icon(Icons.lock_clock)),
+                            validator: (v) {
+                              if (v == null) {
+                                return null;
+                              } else if (v != _pwdController.text) {
+                                return "两次密码不一致";
+                              }
+                            }),
                         Container(
                           alignment: Alignment.center,
                           padding: EdgeInsets.only(top: 30),
@@ -102,26 +120,18 @@ class LoginBody extends StatelessWidget {
                                     if ((_formKey.currentState as FormState)
                                         .validate()) {
                                       //验证通过提交数据
-                                      Response logResp = await HttpUtil.http
-                                          .post("/api/v3/user/session", data: {
+                                      Response registerResp = await HttpUtil
+                                          .http
+                                          .post("/api/v3/user", data: {
                                         'userName': _emailController.text,
                                         'Password': _pwdController.text,
                                         'captchaCode': ''
                                       });
-                                      if (logResp.data['code'] == 0) {
-                                        await HttpUtil.http
-                                            .get('/api/v3/user/storage');
-                                        SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        prefs.setBool("isLogin", true);
-                                        prefs.setString(
-                                            "username", _emailController.text);
-                                        prefs.setString(
-                                            "password", _pwdController.text);
-                                        onLoginBtnClick();
-                                      } else {
+
+                                      if (registerResp.data['code'] == 203) {
+                                        _emailController.clear();
                                         _pwdController.clear();
+                                        _pwdController2.clear();
                                         showDialog(
                                             context: context,
                                             builder: (_) {
@@ -129,14 +139,23 @@ class LoginBody extends StatelessWidget {
                                                 title: Text(
                                                   "提示",
                                                 ),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pushAndRemoveUntil(
+                                                            new MaterialPageRoute(builder: (context) => new LoginApp()),
+                                                                (route) => route == null);
+                                                      },
+                                                      child: Text("OK"))
+                                                ],
                                                 content:
                                                     new SingleChildScrollView(
                                                   child: new ListBody(
                                                     children: <Widget>[
                                                       new Text(
-                                                        logResp.data['msg'],
+                                                        '请访问邮箱点击激活按钮',
                                                         style: TextStyle(
-                                                            color: Colors.red),
+                                                            color: Colors.blue),
                                                       ),
                                                     ],
                                                   ),
@@ -146,18 +165,15 @@ class LoginBody extends StatelessWidget {
                                       }
                                     }
                                   },
-                                  child: Text("登录"))),
+                                  child: Text("注册"))),
                         ),
                         Container(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.centerLeft,
                           child: TextButton(
                               onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) {
-                                  return RegisterApp();
-                                }));
+                                Navigator.pop(context);
                               },
-                              child: Text("注册账户",
+                              child: Text("返回登录",
                                   style: TextStyle(color: Colors.blue))),
                         )
                       ],
