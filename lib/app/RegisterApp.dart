@@ -4,38 +4,19 @@ import 'package:flutter/material.dart';
 
 import 'LoginApp.dart';
 
-String registerUrl = "/api/v3/user";
-
-class RegisterApp extends StatefulWidget {
-  @override
-  State createState() {
-    return _RegisterAppState();
-  }
-}
-
-class _RegisterAppState extends State<RegisterApp> {
-  _onRegisterBtnClick() {
-    Navigator.of(context).pushAndRemoveUntil(
-        new MaterialPageRoute(builder: (context) => new LoginApp()),
-        (route) => route == null);
-  }
-
+class RegisterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("注册Cloudreve"),
         ),
-        body: RegisterBody(
-          onRegisterBtnClick: _onRegisterBtnClick,
-        ));
+        body: RegisterBody());
   }
 }
 
 class RegisterBody extends StatelessWidget {
-  VoidCallback onRegisterBtnClick;
-
-  RegisterBody({Key? key, required this.onRegisterBtnClick});
+  RegisterBody({Key? key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = new TextEditingController();
@@ -119,8 +100,7 @@ class RegisterBody extends StatelessWidget {
                                     if ((_formKey.currentState as FormState)
                                         .validate()) {
                                       //验证通过提交数据
-                                      Response registerResp = await HttpUtil
-                                          .dio
+                                      Response registerResp = await HttpUtil.dio
                                           .post("/api/v3/user", data: {
                                         'userName': _emailController.text,
                                         'Password': _pwdController.text,
@@ -141,9 +121,15 @@ class RegisterBody extends StatelessWidget {
                                                 actions: [
                                                   TextButton(
                                                       onPressed: () {
-                                                        Navigator.of(context).pushAndRemoveUntil(
-                                                            new MaterialPageRoute(builder: (context) => new LoginApp()),
-                                                                (route) => route == null);
+                                                        Navigator.of(context)
+                                                            .pushAndRemoveUntil(
+                                                                new MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            new LoginApp()),
+                                                                (route) =>
+                                                                    route ==
+                                                                    null);
                                                       },
                                                       child: Text("OK"))
                                                 ],

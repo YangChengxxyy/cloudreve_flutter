@@ -17,6 +17,7 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   int _selectedIndex = 0;
   String _path = "/";
+  double _processNum = -1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,22 +42,37 @@ class _MainAppState extends State<MainApp> {
                 contentType: "application/octet-stream",
                 headers: {
                   "x-filename": file.name,
-                  "x-path": _path,
+                  "x-path": Uri.encodeComponent(_path),
                   HttpHeaders.contentLengthHeader: file.size
                 },
                 sendTimeout: 100000);
-
+            double oldProcess = 0;
             Response res = await HttpUtil.dio.post("/api/v3/file/upload",
                 options: option,
-                data: file.bytes,
-                onSendProgress: (process, total) {});
+                data: file.bytes, onSendProgress: (process, total) {
+              if (process / total - oldProcess > 0.01) {
+                oldProcess = process / total;
+                setState(() {
+                  _processNum = oldProcess;
+                });
+              }
+            });
 
             if (res.statusCode == 200) {
+              String text;
+              if (_path == '/') {
+                text = "上传成功:$_path${file.name}";
+              } else {
+                text = "上传成功:$_path/${file.name}";
+              }
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("上传成功:$_path${file.name}"),
+                  content: Text(text),
                 ),
               );
+              setState(() {
+                _processNum = -1;
+              });
             }
           }
         },
@@ -98,6 +114,8 @@ class _MainAppState extends State<MainApp> {
         child: IndexedStack(
           children: <Widget>[
             Home(
+              progressNum: _processNum,
+              path: _path,
               changePath: (String newPath) {
                 setState(() {
                   _path = newPath;

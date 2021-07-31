@@ -7,53 +7,60 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class Home extends StatefulWidget {
-  final ChangePath changePath;
+typedef void ChangeString(String newPath);
 
-  Home({
-    Key? key,
-    required this.changePath,
-  }) : super(key: key);
-
-  @override
-  State<Home> createState() => _HomeState(
-        changePath: changePath,
-      );
-}
-
-typedef void ChangePath(String newPath);
-
-class _HomeState extends State<Home> {
+class Home extends StatelessWidget {
   List<File>? fileList;
 
-  ChangePath changePath;
-  String _path = "/";
+  ChangeString changePath;
+  String path;
 
-  Widget _progressBar = Center(
-      child: LinearProgressIndicator(
-    backgroundColor: Colors.blue,
-    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-  ));
+  double progressNum = -1;
 
-  _HomeState({required this.changePath});
+  Home(
+      {required this.changePath,
+      required this.path,
+      required this.progressNum});
 
   @override
   Widget build(BuildContext context) {
+    Widget _progressBar = Container(
+        padding: EdgeInsets.fromLTRB(5, 5, 10, 10),
+        child: Row(
+          children: [
+            Expanded(
+              child: LinearProgressIndicator(
+                value: progressNum,
+                backgroundColor: Colors.blue,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              child: Text((progressNum * 100).toStringAsFixed(1) + "%"),
+            )
+          ],
+        ));
+
     return FutureBuilder(
         future: _getFiles(),
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!.data['data'];
-            var head = _buildHead();
+            var head = _buildHead(context);
             if (data != null) {
               var objects = data['objects'];
 
               var fileList = File.getFileList(objects);
 
-              var widgetList = _buildItems(fileList);
+              var widgetList = _buildItems(fileList, context);
 
               widgetList.insert(0, head);
               widgetList.insert(1, Divider(color: Colors.blue));
+
+              if (progressNum != -1) {
+                widgetList.insert(0, _progressBar);
+              }
 
               return ListView.builder(
                   itemCount: widgetList.length,
@@ -78,11 +85,10 @@ class _HomeState extends State<Home> {
             return Center(child: Text("加载中"));
           }
         });
-    ;
   }
 
-  Widget _buildHead() {
-    List<String> paths1 = _path.split("/");
+  Widget _buildHead(BuildContext context) {
+    List<String> paths1 = path.split("/");
     List<Widget> buttons = <Widget>[];
     paths1[0] = "/";
 
@@ -95,9 +101,6 @@ class _HomeState extends State<Home> {
           onPressed: () {
             if (i == 0) {
               changePath("/");
-              setState(() {
-                _path = "/";
-              });
             } else {
               String before = "/";
               for (int j = 1; j <= i; j++) {
@@ -108,9 +111,6 @@ class _HomeState extends State<Home> {
                 }
               }
               changePath(before);
-              setState(() {
-                _path = before;
-              });
             }
           },
           child: Text(paths2[i]));
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  List<Widget> _buildItems(List<File> fileList) {
+  List<Widget> _buildItems(List<File> fileList, BuildContext context) {
     var widgetList = <Widget>[];
     if (fileList.length == 0) {
       return [Center(child: Text("暂无数据"))];
@@ -136,6 +136,7 @@ class _HomeState extends State<Home> {
       var pdfRex = RegExp(r".*\.(pdf)");
       var wordRegex = RegExp(r".*\.(doc|docx)");
       var zipRegex = RegExp(r".*\.(zip|rar|7z)");
+      var apkRegex = RegExp(r".*\.(apk)");
 
       if (file.type == "dir") {
         icon = Icon(Icons.folder);
@@ -143,11 +144,19 @@ class _HomeState extends State<Home> {
         if (imageRex.hasMatch(file.name)) {
           icon = Icon(Icons.image);
         } else if (pdfRex.hasMatch(file.name)) {
-          icon = Icon(Icons.picture_as_pdf);
+          icon = Icon(
+            Icons.picture_as_pdf,
+            color: Colors.red,
+          );
         } else if (zipRegex.hasMatch(file.name)) {
           icon = Icon(Icons.archive);
         } else if (wordRegex.hasMatch(file.name)) {
           icon = Icon(Icons.book);
+        } else if (apkRegex.hasMatch(file.name)) {
+          icon = Icon(
+            Icons.android,
+            color: Colors.green,
+          );
         }
       }
 
@@ -182,9 +191,7 @@ class _HomeState extends State<Home> {
                           ),
                         );
                         Navigator.pop(_);
-                        setState(() {
-                          _path = _path;
-                        });
+                        changePath(path);
                       }
                     },
                   ),
@@ -239,16 +246,10 @@ class _HomeState extends State<Home> {
       }
 
       void _dirTap() {
-        if (_path == "/") {
-          changePath(_path + file.name);
-          setState(() {
-            _path += file.name;
-          });
+        if (path == "/") {
+          changePath(path + file.name);
         } else {
-          changePath(_path + "/" + file.name);
-          setState(() {
-            _path += "/" + file.name;
-          });
+          changePath(path + "/" + file.name);
         }
       }
 
@@ -270,7 +271,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<Response> _getFiles() async {
-    Response response = await HttpUtil.dio.get('/api/v3/directory$_path');
+    Response response = await HttpUtil.dio.get('/api/v3/directory$path');
     await HttpUtil.dio.get("/api/v3/user/storage");
     return response;
   }
