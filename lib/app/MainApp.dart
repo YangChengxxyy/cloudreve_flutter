@@ -98,6 +98,7 @@ class _MainAppState extends State<MainApp> {
               setState(() {
                 _processNum = -1;
               });
+              _refreshFileList(true);
             }
           }
         },
