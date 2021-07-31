@@ -56,7 +56,9 @@ class _MainAppState extends State<MainApp> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cloudreve'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.refresh))],
+        actions: [IconButton(onPressed: () {
+          _refreshFileList(true);
+        }, icon: Icon(Icons.refresh))],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
