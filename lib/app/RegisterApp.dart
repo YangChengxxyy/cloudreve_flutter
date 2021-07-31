@@ -2,7 +2,7 @@ import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'Login.dart';
+import 'LoginApp.dart';
 
 String registerUrl = "/api/v3/user";
 
@@ -120,7 +120,7 @@ class RegisterBody extends StatelessWidget {
                                         .validate()) {
                                       //验证通过提交数据
                                       Response registerResp = await HttpUtil
-                                          .http
+                                          .dio
                                           .post("/api/v3/user", data: {
                                         'userName': _emailController.text,
                                         'Password': _pwdController.text,

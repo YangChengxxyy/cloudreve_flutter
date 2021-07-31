@@ -1,6 +1,6 @@
-import 'package:cloudreve/main.dart';
+import 'package:cloudreve/app/MainApp.dart';
+import 'package:cloudreve/app/RegisterApp.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
-import 'package:cloudreve/view/Register.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,14 +101,14 @@ class LoginBody extends StatelessWidget {
                                     if ((_formKey.currentState as FormState)
                                         .validate()) {
                                       //验证通过提交数据
-                                      Response logResp = await HttpUtil.http
+                                      Response logResp = await HttpUtil.dio
                                           .post("/api/v3/user/session", data: {
                                         'userName': _emailController.text,
                                         'Password': _pwdController.text,
                                         'captchaCode': ''
                                       });
                                       if (logResp.data['code'] == 0) {
-                                        await HttpUtil.http
+                                        await HttpUtil.dio
                                             .get('/api/v3/user/storage');
                                         SharedPreferences prefs =
                                             await SharedPreferences

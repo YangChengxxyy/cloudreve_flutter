@@ -9,11 +9,21 @@ import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
   final ChangePath changePath;
+  final Widget? progressBar;
+  final bool isProgress;
 
-  Home({Key? key, required this.changePath}) : super(key: key);
+  Home(
+      {Key? key,
+      required this.changePath,
+      this.progressBar,
+      required this.isProgress})
+      : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState(changePath: changePath);
+  State<Home> createState() => _HomeState(
+      changePath: changePath,
+      progressBar: this.progressBar,
+      isProgress: this.isProgress);
 }
 
 typedef void ChangePath(String newPath);
@@ -24,7 +34,11 @@ class _HomeState extends State<Home> {
   ChangePath changePath;
   String _path = "/";
 
-  _HomeState({required this.changePath});
+  final Widget? progressBar;
+  final bool isProgress;
+
+  _HomeState(
+      {required this.changePath, this.progressBar, required this.isProgress});
 
   Widget _buildHead() {
     List<String> paths1 = _path.split("/");
@@ -119,7 +133,7 @@ class _HomeState extends State<Home> {
                       if (!status) {
                         await Permission.storage.request().isGranted;
                       } // 调用下载方法 --------做该做的事
-                      Dio http = HttpUtil.http;
+                      Dio http = HttpUtil.dio;
                       var path =
                           Theme.of(context).platform == TargetPlatform.android
                               ? await getExternalStorageDirectory()
@@ -212,9 +226,14 @@ class _HomeState extends State<Home> {
               var fileList = File.getFileList(objects);
 
               var widgetList = _buildItems(fileList);
-
-              widgetList.insert(0, head);
-              widgetList.insert(1, Divider(color: Colors.blue));
+              if (isProgress) {
+                widgetList.insert(0, progressBar!);
+                widgetList.insert(1, head);
+                widgetList.insert(2, Divider(color: Colors.blue));
+              } else {
+                widgetList.insert(0, head);
+                widgetList.insert(1, Divider(color: Colors.blue));
+              }
 
               return ListView.builder(
                   itemCount: widgetList.length,
@@ -227,6 +246,10 @@ class _HomeState extends State<Home> {
                 Divider(color: Colors.blue),
                 Center(child: Text("暂无数据"))
               ];
+              if (isProgress) {
+                list.insert(0, progressBar!);
+              }
+
               return Scrollbar(
                   child: ListView.builder(
                       itemCount: list.length,
@@ -242,7 +265,8 @@ class _HomeState extends State<Home> {
   }
 
   Future<Response> _getFiles() async {
-    Response response = await HttpUtil.http.get('/api/v3/directory$_path');
+    Response response = await HttpUtil.dio.get('/api/v3/directory$_path');
+    await HttpUtil.dio.get("/api/v3/user/storage");
     return response;
   }
 }
