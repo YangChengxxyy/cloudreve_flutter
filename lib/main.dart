@@ -159,16 +159,20 @@ class _MainAppState extends State<MainApp> {
       //   ),
       // ),
       body: Center(
-          child: <Widget>[
-        Home(
-          changePath: (String newPath) {
-            setState(() {
-              _path = newPath;
-            });
-          },
+        child: IndexedStack(
+          children: <Widget>[
+            Home(
+              changePath: (String newPath) {
+                setState(() {
+                  _path = newPath;
+                });
+              },
+            ),
+            Setting()
+          ],
+          index: _selectedIndex,
         ),
-        Setting()
-      ][_selectedIndex]),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
