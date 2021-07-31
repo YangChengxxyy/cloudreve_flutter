@@ -17,8 +17,6 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   int _selectedIndex = 0;
   String _path = "/";
-  Widget? _progressBar;
-  bool _isProgress = false;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -47,22 +45,13 @@ class _MainAppState extends State<MainApp> {
                   HttpHeaders.contentLengthHeader: file.size
                 },
                 sendTimeout: 100000);
+
             Response res = await HttpUtil.dio.post("/api/v3/file/upload",
                 options: option,
-                data: file.bytes, onSendProgress: (process, total) {
-              setState(() {
-                _isProgress = true;
-                _progressBar = new LinearProgressIndicator(
-                  backgroundColor: Colors.blue,
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
-                );
-              });
-            });
-            print(res.data);
+                data: file.bytes,
+                onSendProgress: (process, total) {});
+
             if (res.statusCode == 200) {
-              setState(() {
-                _path = _path;
-              });
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text("上传成功:$_path${file.name}"),
@@ -109,8 +98,6 @@ class _MainAppState extends State<MainApp> {
         child: IndexedStack(
           children: <Widget>[
             Home(
-              progressBar: _progressBar,
-              isProgress: _isProgress,
               changePath: (String newPath) {
                 setState(() {
                   _path = newPath;

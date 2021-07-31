@@ -9,21 +9,16 @@ import 'package:permission_handler/permission_handler.dart';
 
 class Home extends StatefulWidget {
   final ChangePath changePath;
-  final Widget? progressBar;
-  final bool isProgress;
 
-  Home(
-      {Key? key,
-      required this.changePath,
-      this.progressBar,
-      required this.isProgress})
-      : super(key: key);
+  Home({
+    Key? key,
+    required this.changePath,
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState(
-      changePath: changePath,
-      progressBar: this.progressBar,
-      isProgress: this.isProgress);
+        changePath: changePath,
+      );
 }
 
 typedef void ChangePath(String newPath);
@@ -34,11 +29,57 @@ class _HomeState extends State<Home> {
   ChangePath changePath;
   String _path = "/";
 
-  final Widget? progressBar;
-  final bool isProgress;
+  Widget _progressBar = Center(
+      child: LinearProgressIndicator(
+    backgroundColor: Colors.blue,
+    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+  ));
 
-  _HomeState(
-      {required this.changePath, this.progressBar, required this.isProgress});
+  _HomeState({required this.changePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: _getFiles(),
+        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!.data['data'];
+            var head = _buildHead();
+            if (data != null) {
+              var objects = data['objects'];
+
+              var fileList = File.getFileList(objects);
+
+              var widgetList = _buildItems(fileList);
+
+              widgetList.insert(0, head);
+              widgetList.insert(1, Divider(color: Colors.blue));
+
+              return ListView.builder(
+                  itemCount: widgetList.length,
+                  itemBuilder: (context, index) {
+                    return widgetList[index];
+                  });
+            } else {
+              List<Widget> list = <Widget>[
+                head,
+                Divider(color: Colors.blue),
+                Center(child: Text("暂无数据"))
+              ];
+
+              return Scrollbar(
+                  child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        return list[index];
+                      }));
+            }
+          } else {
+            return Center(child: Text("加载中"));
+          }
+        });
+    ;
+  }
 
   Widget _buildHead() {
     List<String> paths1 = _path.split("/");
@@ -127,12 +168,29 @@ class _HomeState extends State<Home> {
             return AlertDialog(
                 actions: <Widget>[
                   TextButton(
+                    child: Text("删除"),
                     onPressed: () async {
-                      bool status = await Permission.storage.isGranted;
-                      //判断如果还没拥有读写权限就申请获取权限
-                      if (!status) {
-                        await Permission.storage.request().isGranted;
-                      } // 调用下载方法 --------做该做的事
+                      Response delRes =
+                          await HttpUtil.dio.delete("/api/v3/object", data: {
+                        "dirs": [],
+                        "items": [file.id]
+                      });
+                      if (delRes.data['code'] == 0) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("删除成功"),
+                          ),
+                        );
+                        Navigator.pop(_);
+                        setState(() {
+                          _path = _path;
+                        });
+                      }
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('下载'),
+                    onPressed: () async {
                       Dio http = HttpUtil.dio;
                       var path =
                           Theme.of(context).platform == TargetPlatform.android
@@ -161,10 +219,9 @@ class _HomeState extends State<Home> {
                           throw Exception('接口出错');
                         }
                       } catch (e) {
-                        return print('ERROR:======>$e');
+                        return print(e);
                       }
                     },
-                    child: const Text('下载'),
                   ),
                 ],
                 content: Column(
@@ -210,58 +267,6 @@ class _HomeState extends State<Home> {
       ));
     }
     return widgetList;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _getFiles(),
-        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-          if (snapshot.hasData) {
-            var data = snapshot.data!.data['data'];
-            var head = _buildHead();
-            if (data != null) {
-              var objects = data['objects'];
-
-              var fileList = File.getFileList(objects);
-
-              var widgetList = _buildItems(fileList);
-              if (isProgress) {
-                widgetList.insert(0, progressBar!);
-                widgetList.insert(1, head);
-                widgetList.insert(2, Divider(color: Colors.blue));
-              } else {
-                widgetList.insert(0, head);
-                widgetList.insert(1, Divider(color: Colors.blue));
-              }
-
-              return ListView.builder(
-                  itemCount: widgetList.length,
-                  itemBuilder: (context, index) {
-                    return widgetList[index];
-                  });
-            } else {
-              List<Widget> list = <Widget>[
-                head,
-                Divider(color: Colors.blue),
-                Center(child: Text("暂无数据"))
-              ];
-              if (isProgress) {
-                list.insert(0, progressBar!);
-              }
-
-              return Scrollbar(
-                  child: ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        return list[index];
-                      }));
-            }
-          } else {
-            return Center(child: Text("加载中"));
-          }
-        });
-    ;
   }
 
   Future<Response> _getFiles() async {
