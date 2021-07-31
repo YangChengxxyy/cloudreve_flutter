@@ -102,7 +102,7 @@ class _HomeState extends State<Home> {
         var sizeList = <String>["B", "KB", "MB", "GB"];
         double size = file.size.toDouble();
         int index = 0;
-        while (size < 1024) {
+        while (size > 1024) {
           size /= 1024;
           index++;
         }
