@@ -2,7 +2,6 @@ import 'package:cloudreve/main.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/view/Register.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

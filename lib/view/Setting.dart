@@ -1,4 +1,3 @@
-import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/view/Login.dart';
 import 'package:flutter/material.dart';
