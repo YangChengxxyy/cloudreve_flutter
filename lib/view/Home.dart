@@ -199,6 +199,7 @@ class Home extends StatelessWidget {
                         );
                         Navigator.pop(_);
                         changePath(path);
+                        refresh(true);
                       }
                     },
                   ),

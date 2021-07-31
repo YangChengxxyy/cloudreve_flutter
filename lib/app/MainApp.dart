@@ -63,21 +63,21 @@ class _MainAppState extends State<MainApp> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var result = await FilePicker.platform
-              .pickFiles(withReadStream: true, withData: true);
+              .pickFiles(withReadStream: true);
           if (result != null) {
             var file = result.files.first;
             var option = Options(
                 method: "POST",
                 contentType: "application/octet-stream",
                 headers: {
-                  "x-filename": file.name,
+                  "x-filename": Uri.encodeComponent(file.name),
                   "x-path": Uri.encodeComponent(_path),
                   HttpHeaders.contentLengthHeader: file.size
                 },
                 sendTimeout: 100000);
             Response res = await HttpUtil.dio.post("/api/v3/file/upload",
                 options: option,
-                data: file.bytes, onSendProgress: (process, total) {
+                data: file.readStream, onSendProgress: (process, total) {
               setState(() {
                 _processNum = process / total;
               });
