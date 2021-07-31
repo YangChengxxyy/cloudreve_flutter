@@ -6,6 +6,7 @@ import 'package:cloudreve/view/Setting.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:cloudreve/entity/File.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -19,6 +20,30 @@ class _MainAppState extends State<MainApp> {
   String _path = "/";
   double _processNum = -1;
 
+  Future<Response>? _fileResp;
+  int _lastRequest = -1;
+
+  void _refreshFileList(bool immediately) {
+    if (immediately) {
+      _lastRequest = DateTime.now().millisecondsSinceEpoch;
+      setState(() {
+        print("访问后台");
+        _fileResp = HttpUtil.dio.get('/api/v3/directory$_path');
+      });
+      HttpUtil.dio.get("/api/v3/user/storage");
+    } else {
+      int now = DateTime.now().millisecondsSinceEpoch;
+      if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
+        _lastRequest = DateTime.now().millisecondsSinceEpoch;
+        setState(() {
+          print("访问后台");
+          _fileResp = HttpUtil.dio.get('/api/v3/directory$_path');
+        });
+        HttpUtil.dio.get("/api/v3/user/storage");
+      }
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -27,9 +52,11 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+    _refreshFileList(false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cloudreve'),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.refresh))],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -46,16 +73,12 @@ class _MainAppState extends State<MainApp> {
                   HttpHeaders.contentLengthHeader: file.size
                 },
                 sendTimeout: 100000);
-            double oldProcess = 0;
             Response res = await HttpUtil.dio.post("/api/v3/file/upload",
                 options: option,
                 data: file.bytes, onSendProgress: (process, total) {
-              if (process / total - oldProcess > 0.01) {
-                oldProcess = process / total;
-                setState(() {
-                  _processNum = oldProcess;
-                });
-              }
+              setState(() {
+                _processNum = process / total;
+              });
             });
 
             if (res.statusCode == 200) {
@@ -114,11 +137,18 @@ class _MainAppState extends State<MainApp> {
         child: IndexedStack(
           children: <Widget>[
             Home(
+              refresh: _refreshFileList,
               progressNum: _processNum,
               path: _path,
+              fileResp: _fileResp!,
               changePath: (String newPath) {
                 setState(() {
                   _path = newPath;
+                });
+              },
+              changeProgressNum: (double newNum) {
+                setState(() {
+                  _processNum = newNum;
                 });
               },
             ),

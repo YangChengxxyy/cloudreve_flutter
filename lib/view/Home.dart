@@ -7,20 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-typedef void ChangeString(String newPath);
+typedef void ChangeString(String newValue);
+typedef void ChangeDouble(double newValue);
+typedef void VoidParBool(bool b);
 
 class Home extends StatelessWidget {
-  List<File>? fileList;
-
   ChangeString changePath;
+  ChangeDouble changeProgressNum;
   String path;
-
+  Future<Response> fileResp;
   double progressNum = -1;
-
-  Home(
-      {required this.changePath,
-      required this.path,
-      required this.progressNum});
+  VoidParBool refresh;
+  Home({
+    required this.changePath,
+    required this.path,
+    required this.progressNum,
+    required this.changeProgressNum,
+    required this.fileResp,
+    required this.refresh,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class Home extends StatelessWidget {
         ));
 
     return FutureBuilder(
-        future: _getFiles(),
+        future: fileResp,
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!.data['data'];
@@ -62,11 +67,12 @@ class Home extends StatelessWidget {
                 widgetList.insert(0, _progressBar);
               }
 
-              return ListView.builder(
-                  itemCount: widgetList.length,
-                  itemBuilder: (context, index) {
-                    return widgetList[index];
-                  });
+              return Scrollbar(
+                  child: ListView.builder(
+                      itemCount: widgetList.length,
+                      itemBuilder: (context, index) {
+                        return widgetList[index];
+                      }));
             } else {
               List<Widget> list = <Widget>[
                 head,
@@ -112,6 +118,7 @@ class Home extends StatelessWidget {
               }
               changePath(before);
             }
+            refresh(true);
           },
           child: Text(paths2[i]));
       buttons.add(button);
@@ -211,12 +218,17 @@ class Home extends StatelessWidget {
                       String url = response.data['data'].toString();
                       Dio dio = Dio();
                       try {
-                        response = await dio.download(
-                            url, path!.path + "/" + file.name);
+                        Navigator.pop(_);
+                        response = await dio
+                            .download(url, path!.path + "/" + file.name,
+                                onReceiveProgress: (process, total) {
+                          changeProgressNum(process / total);
+                        });
                         if (response.statusCode == 200) {
                           String snackString =
                               '下载至:' + path.path + "/" + file.name;
-                          Navigator.pop(_);
+                          changeProgressNum(-1);
+                          refresh(true);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(snackString),
@@ -251,6 +263,7 @@ class Home extends StatelessWidget {
         } else {
           changePath(path + "/" + file.name);
         }
+        refresh(true);
       }
 
       widgetList.add(Card(
@@ -268,11 +281,5 @@ class Home extends StatelessWidget {
       ));
     }
     return widgetList;
-  }
-
-  Future<Response> _getFiles() async {
-    Response response = await HttpUtil.dio.get('/api/v3/directory$path');
-    await HttpUtil.dio.get("/api/v3/user/storage");
-    return response;
   }
 }
