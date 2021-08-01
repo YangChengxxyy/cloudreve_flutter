@@ -25,13 +25,14 @@ class Home extends StatelessWidget {
   Mode mode;
   Map<String, Uint8List> _cache = {};
 
-  Home({required this.changePath,
-    required this.path,
-    required this.progressNum,
-    required this.changeProgressNum,
-    required this.fileResp,
-    required this.refresh,
-    required this.mode});
+  Home(
+      {required this.changePath,
+      required this.path,
+      required this.progressNum,
+      required this.changeProgressNum,
+      required this.fileResp,
+      required this.refresh,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class Home extends StatelessWidget {
               if (mode == Mode.list) {
                 items = SliverList(
                   delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                       return _buildListItem(context, fileList[index]);
                     },
                     childCount: fileList.length,
@@ -87,7 +88,7 @@ class Home extends StatelessWidget {
                 items = SliverPadding(
                   sliver: SliverGrid(
                     delegate: SliverChildBuilderDelegate(
-                          (BuildContext _, int index) {
+                      (BuildContext _, int index) {
                         return _buildGridItem(context, fileList[index], index);
                       },
                       childCount: fileList.length,
@@ -107,7 +108,7 @@ class Home extends StatelessWidget {
                   slivers: [
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
+                        (BuildContext context, int index) {
                           return headList[index];
                         },
                         childCount: headList.length,
@@ -264,16 +265,13 @@ class Home extends StatelessWidget {
         return HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
             options: Options(responseType: ResponseType.bytes));
       } else {
-        Response response = Response(requestOptions:RequestOptions(path: ""));
+        Response response = Response(requestOptions: RequestOptions(path: ""));
         response.data = _cache[file.name];
         return Future<Response>.value(response);
       }
     }
 
-    double maxHeight = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double maxHeight = MediaQuery.of(context).size.width;
     double size = (maxHeight - 30) ~/ 2 - 62;
     Widget headImage;
     if (!isImage) {
@@ -283,7 +281,9 @@ class Home extends StatelessWidget {
         future: _getImage(),
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
-            _cache[file.name] == snapshot.data!.data;
+            if (_cache[file.name] == null) {
+              _cache[file.name] == snapshot.data!.data;
+            }
             return Container(
               child: ConstrainedBox(
                 child: Image.memory(
@@ -313,22 +313,22 @@ class Home extends StatelessWidget {
     return InkWell(
       child: Card(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              headImage,
-              Divider(
-                color: Colors.grey,
-                height: 0,
-              ),
-              ListTile(
-                leading: icon,
-                title: Text(
-                  file.name,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          )),
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          headImage,
+          Divider(
+            color: Colors.grey,
+            height: 0,
+          ),
+          ListTile(
+            leading: icon,
+            title: Text(
+              file.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      )),
       onTap: () {
         if (file.type == "file") {
           _fileTap(context, file);
@@ -360,7 +360,7 @@ class Home extends StatelessWidget {
                 child: Text("删除"),
                 onPressed: () async {
                   Response delRes =
-                  await HttpUtil.dio.delete("/api/v3/object", data: {
+                      await HttpUtil.dio.delete("/api/v3/object", data: {
                     "dirs": [],
                     "items": [file.id]
                   });
@@ -381,11 +381,9 @@ class Home extends StatelessWidget {
                 onPressed: () async {
                   Dio http = HttpUtil.dio;
                   var path =
-                  Theme
-                      .of(context)
-                      .platform == TargetPlatform.android
-                      ? await getExternalStorageDirectory()
-                      : await getApplicationSupportDirectory();
+                      Theme.of(context).platform == TargetPlatform.android
+                          ? await getExternalStorageDirectory()
+                          : await getApplicationSupportDirectory();
 
                   String getDownloadUrl = "/api/v3/file/download/${file.id}";
                   //设置连接超时时间
@@ -396,9 +394,9 @@ class Home extends StatelessWidget {
                     Navigator.pop(_);
                     response = await dio
                         .download(url, path!.path + "/" + file.name,
-                        onReceiveProgress: (process, total) {
-                          changeProgressNum(process / total);
-                        });
+                            onReceiveProgress: (process, total) {
+                      changeProgressNum(process / total);
+                    });
                     if (response.statusCode == 200) {
                       String snackString = '下载至:' + path.path + "/" + file.name;
                       changeProgressNum(-1);
