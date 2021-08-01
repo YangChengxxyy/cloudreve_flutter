@@ -15,6 +15,8 @@ typedef void VoidParBool(bool b);
 
 enum Mode { list, grid }
 
+Map<String, Uint8List> _cache = {};
+
 class Home extends StatelessWidget {
   ChangeString changePath;
   ChangeDouble changeProgressNum;
@@ -23,7 +25,6 @@ class Home extends StatelessWidget {
   double progressNum = -1;
   VoidParBool refresh;
   Mode mode;
-  Map<String, Uint8List> _cache = {};
 
   Home(
       {required this.changePath,
