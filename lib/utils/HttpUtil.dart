@@ -17,9 +17,9 @@ class HttpUtil {
   );
   static Dio dio = Dio(normalOption);
 
-  static List<Dio> getCountDios(int count){
+  static List<Dio> getCountDios(int count) {
     List<Dio> dios = [];
-    for(int i =0;i<count;i++){
+    for (int i = 0; i < count; i++) {
       Dio dio = Dio(normalOption);
       dio.interceptors.add(CookieManager(cookieJar));
       dios.add(dio);
@@ -27,7 +27,6 @@ class HttpUtil {
     return dios;
   }
 }
-
 
 class GetCookieInterceptor extends CookieManager {
   GetCookieInterceptor(CookieJar cookieJar) : super(cookieJar);

@@ -22,7 +22,6 @@ class Home extends StatelessWidget {
   double progressNum = -1;
   VoidParBool refresh;
   Mode mode;
-  var _dios = HttpUtil.getCountDios(6);
 
   Home(
       {required this.changePath,
@@ -265,7 +264,7 @@ class Home extends StatelessWidget {
       headImage = Container(height: size, child: icon);
     } else {
       headImage = FutureBuilder(
-        future: _dios[index % _dios.length].get("/api/v3/file/thumb/${file.id}",
+        future: HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
             options: Options(responseType: ResponseType.bytes)),
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {

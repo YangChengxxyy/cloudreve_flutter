@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
   Future<Widget> _feture() async {
     bool status = await Permission.storage.isGranted;
     HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
-    HttpUtil.dio.interceptors.add(GetCookieInterceptor(HttpUtil.cookieJar));
 
     if (!status) {
       await Permission.storage.request().isGranted;
