@@ -23,11 +23,12 @@ class _MainAppState extends State<MainApp> {
   Future<Response>? _fileResp;
   int _lastRequest = -1;
 
+  Mode _mode = Mode.grid;
+
   void _refreshFileList(bool immediately) {
     if (immediately) {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;
       setState(() {
-        print("访问后台");
         _fileResp = HttpUtil.dio.get('/api/v3/directory$_path');
       });
       HttpUtil.dio.get("/api/v3/user/storage");
@@ -36,7 +37,6 @@ class _MainAppState extends State<MainApp> {
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
         _lastRequest = DateTime.now().millisecondsSinceEpoch;
         setState(() {
-          print("访问后台");
           _fileResp = HttpUtil.dio.get('/api/v3/directory$_path');
         });
         HttpUtil.dio.get("/api/v3/user/storage");
@@ -53,17 +53,43 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     _refreshFileList(false);
+
+    Icon icon = Icon(Icons.list);
+    if (_mode == Mode.list) {
+      icon = Icon(Icons.list);
+    } else if (_mode == Mode.grid) {
+      icon = Icon(Icons.grid_4x4_outlined);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cloudreve'),
-        actions: [IconButton(onPressed: () {
-          _refreshFileList(true);
-        }, icon: Icon(Icons.refresh))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (_mode == Mode.list) {
+                  setState(() {
+                    _mode = Mode.grid;
+                  });
+                } else {
+                  setState(() {
+                    _mode = Mode.list;
+                  });
+                }
+              },
+              icon: icon),
+          IconButton(
+            onPressed: () {
+              _refreshFileList(true);
+            },
+            icon: Icon(Icons.refresh),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          var result = await FilePicker.platform
-              .pickFiles(withReadStream: true);
+          var result =
+              await FilePicker.platform.pickFiles(withReadStream: true);
           if (result != null) {
             var file = result.files.first;
             var option = Options(
@@ -140,6 +166,7 @@ class _MainAppState extends State<MainApp> {
         child: IndexedStack(
           children: <Widget>[
             Home(
+              mode: _mode,
               refresh: _refreshFileList,
               progressNum: _processNum,
               path: _path,

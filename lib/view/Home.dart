@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -11,6 +12,8 @@ typedef void ChangeString(String newValue);
 typedef void ChangeDouble(double newValue);
 typedef void VoidParBool(bool b);
 
+enum Mode { list, grid }
+
 class Home extends StatelessWidget {
   ChangeString changePath;
   ChangeDouble changeProgressNum;
@@ -18,17 +21,21 @@ class Home extends StatelessWidget {
   Future<Response> fileResp;
   double progressNum = -1;
   VoidParBool refresh;
-  Home({
-    required this.changePath,
-    required this.path,
-    required this.progressNum,
-    required this.changeProgressNum,
-    required this.fileResp,
-    required this.refresh,
-  });
+  Mode mode;
+  var _dios = HttpUtil.getCountDios(6);
+
+  Home(
+      {required this.changePath,
+      required this.path,
+      required this.progressNum,
+      required this.changeProgressNum,
+      required this.fileResp,
+      required this.refresh,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
+    ///进度条
     Widget _progressBar = Container(
         padding: EdgeInsets.fromLTRB(5, 5, 10, 10),
         child: Row(
@@ -36,8 +43,8 @@ class Home extends StatelessWidget {
             Expanded(
               child: LinearProgressIndicator(
                 value: progressNum,
-                backgroundColor: Colors.blue,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                backgroundColor: Colors.grey,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
               ),
             ),
             Container(
@@ -58,34 +65,74 @@ class Home extends StatelessWidget {
 
               var fileList = File.getFileList(objects);
 
-              var widgetList = _buildItems(fileList, context);
+              List<Widget> headList = [];
 
-              widgetList.insert(0, head);
-              widgetList.insert(1, Divider(color: Colors.blue));
+              headList.insert(0, head);
+              headList.insert(1, Divider(color: Colors.blue));
 
               if (progressNum != -1) {
-                widgetList.insert(0, _progressBar);
+                headList.insert(0, _progressBar);
+              }
+              Widget items;
+              if (mode == Mode.list) {
+                items = SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return _buildListItem(context, fileList[index]);
+                    },
+                    childCount: fileList.length,
+                  ),
+                );
+              } else {
+                items = SliverPadding(
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext _, int index) {
+                        return _buildGridItem(context, fileList[index], index);
+                      },
+                      childCount: fileList.length,
+                    ),
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, //Grid按两列显示
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 5.0,
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                );
               }
 
               return Scrollbar(
-                  child: ListView.builder(
-                      itemCount: widgetList.length,
-                      itemBuilder: (context, index) {
-                        return widgetList[index];
-                      }));
+                child: CustomScrollView(
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return headList[index];
+                        },
+                        childCount: headList.length,
+                      ),
+                    ),
+                    items
+                  ],
+                ),
+              );
             } else {
-              List<Widget> list = <Widget>[
+              List<Widget> widgetList = <Widget>[
                 head,
                 Divider(color: Colors.blue),
                 Center(child: Text("暂无数据"))
               ];
 
-              return Scrollbar(
-                  child: ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        return list[index];
-                      }));
+              if (progressNum != -1) {
+                widgetList.insert(0, _progressBar);
+              }
+
+              return ListView.builder(
+                  itemCount: widgetList.length,
+                  itemBuilder: (context, index) {
+                    return widgetList[index];
+                  });
             }
           } else {
             return Center(child: Text("加载中"));
@@ -93,6 +140,7 @@ class Home extends StatelessWidget {
         });
   }
 
+  /// 构建头部
   Widget _buildHead(BuildContext context) {
     List<String> paths1 = path.split("/");
     List<Widget> buttons = <Widget>[];
@@ -130,157 +178,248 @@ class Home extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildItems(List<File> fileList, BuildContext context) {
-    var widgetList = <Widget>[];
-    if (fileList.length == 0) {
-      return [Center(child: Text("暂无数据"))];
-    }
+  ///构建文件列表浏览
+  Widget _buildListItem(BuildContext context, File file) {
+    Icon icon = Icon(Icons.file_present);
 
-    for (var file in fileList) {
-      Icon icon = Icon(Icons.file_present);
+    var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
+    var pdfRex = RegExp(r".*\.(pdf)");
+    var wordRegex = RegExp(r".*\.(doc|docx)");
+    var zipRegex = RegExp(r".*\.(zip|rar|7z)");
+    var apkRegex = RegExp(r".*\.(apk)");
 
-      var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
-      var pdfRex = RegExp(r".*\.(pdf)");
-      var wordRegex = RegExp(r".*\.(doc|docx)");
-      var zipRegex = RegExp(r".*\.(zip|rar|7z)");
-      var apkRegex = RegExp(r".*\.(apk)");
-
-      if (file.type == "dir") {
-        icon = Icon(Icons.folder);
-      } else {
-        if (imageRex.hasMatch(file.name)) {
-          icon = Icon(Icons.image);
-        } else if (pdfRex.hasMatch(file.name)) {
-          icon = Icon(
-            Icons.picture_as_pdf,
-            color: Colors.red,
-          );
-        } else if (zipRegex.hasMatch(file.name)) {
-          icon = Icon(Icons.archive);
-        } else if (wordRegex.hasMatch(file.name)) {
-          icon = Icon(Icons.book);
-        } else if (apkRegex.hasMatch(file.name)) {
-          icon = Icon(
-            Icons.android,
-            color: Colors.green,
-          );
-        }
-      }
-
-      void _fileTap() {
-        String date =
-            file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
-        var sizeList = <String>["B", "KB", "MB", "GB"];
-        double size = file.size.toDouble();
-        int index = 0;
-        while (size > 1024) {
-          size /= 1024;
-          index++;
-        }
-
-        showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-                actions: <Widget>[
-                  TextButton(
-                    child: Text("删除"),
-                    onPressed: () async {
-                      Response delRes =
-                          await HttpUtil.dio.delete("/api/v3/object", data: {
-                        "dirs": [],
-                        "items": [file.id]
-                      });
-                      if (delRes.data['code'] == 0) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("删除成功"),
-                          ),
-                        );
-                        Navigator.pop(_);
-                        changePath(path);
-                        refresh(true);
-                      }
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('下载'),
-                    onPressed: () async {
-                      Dio http = HttpUtil.dio;
-                      var path =
-                          Theme.of(context).platform == TargetPlatform.android
-                              ? await getExternalStorageDirectory()
-                              : await getApplicationSupportDirectory();
-
-                      String getDownloadUrl =
-                          "/api/v3/file/download/${file.id}";
-                      //设置连接超时时间
-                      Response response = await http.put(getDownloadUrl);
-                      String url = response.data['data'].toString();
-                      Dio dio = Dio();
-                      try {
-                        Navigator.pop(_);
-                        response = await dio
-                            .download(url, path!.path + "/" + file.name,
-                                onReceiveProgress: (process, total) {
-                          changeProgressNum(process / total);
-                        });
-                        if (response.statusCode == 200) {
-                          String snackString =
-                              '下载至:' + path.path + "/" + file.name;
-                          changeProgressNum(-1);
-                          refresh(true);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(snackString),
-                            ),
-                          );
-                        } else {
-                          throw Exception('接口出错');
-                        }
-                      } catch (e) {
-                        return print(e);
-                      }
-                    },
-                  ),
-                ],
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("文件名:\t\t${file.name}"),
-                    Text(
-                        "文件大小:\t\t${size.toStringAsFixed(1)}${sizeList[index]}"),
-                    Text("上传时间:\t\t$date")
-                  ],
-                ));
-          },
+    if (file.type == "dir") {
+      icon = Icon(Icons.folder);
+    } else {
+      if (imageRex.hasMatch(file.name)) {
+        icon = Icon(Icons.image);
+      } else if (pdfRex.hasMatch(file.name)) {
+        icon = Icon(
+          Icons.picture_as_pdf,
+          color: Colors.red,
+        );
+      } else if (zipRegex.hasMatch(file.name)) {
+        icon = Icon(Icons.archive);
+      } else if (wordRegex.hasMatch(file.name)) {
+        icon = Icon(Icons.book);
+      } else if (apkRegex.hasMatch(file.name)) {
+        icon = Icon(
+          Icons.android,
+          color: Colors.green,
         );
       }
-
-      void _dirTap() {
-        if (path == "/") {
-          changePath(path + file.name);
-        } else {
-          changePath(path + "/" + file.name);
-        }
-        refresh(true);
-      }
-
-      widgetList.add(Card(
-        child: ListTile(
-          leading: icon,
-          title: Text(file.name),
-          onTap: () {
-            if (file.type == "file") {
-              _fileTap();
-            } else {
-              _dirTap();
-            }
-          },
-        ),
-      ));
     }
-    return widgetList;
+
+    return Card(
+      child: ListTile(
+        leading: icon,
+        title: Text(file.name),
+        onTap: () {
+          if (file.type == "file") {
+            _fileTap(context, file);
+          } else {
+            _dirTap(file);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildGridItem(BuildContext context, File file, int index) {
+    Icon icon = Icon(Icons.file_present);
+
+    var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
+    var pdfRex = RegExp(r".*\.(pdf)");
+    var wordRegex = RegExp(r".*\.(doc|docx)");
+    var zipRegex = RegExp(r".*\.(zip|rar|7z)");
+    var apkRegex = RegExp(r".*\.(apk)");
+
+    bool isImage = false;
+
+    if (file.type == "dir") {
+      icon = Icon(Icons.folder, color: Colors.grey);
+    } else {
+      if (imageRex.hasMatch(file.name)) {
+        icon = Icon(Icons.image, color: Colors.grey);
+        isImage = true;
+      } else if (pdfRex.hasMatch(file.name)) {
+        icon = Icon(
+          Icons.picture_as_pdf,
+          color: Colors.red,
+        );
+      } else if (zipRegex.hasMatch(file.name)) {
+        icon = Icon(Icons.archive, color: Colors.grey);
+      } else if (wordRegex.hasMatch(file.name)) {
+        icon = Icon(Icons.book, color: Colors.grey);
+      } else if (apkRegex.hasMatch(file.name)) {
+        icon = Icon(
+          Icons.android,
+          color: Colors.green,
+        );
+      }
+    }
+    double maxHeight = MediaQuery.of(context).size.width;
+    double size = (maxHeight - 30) ~/ 2 - 62;
+    Widget headImage;
+    if (!isImage) {
+      headImage = Container(height: size, child: icon);
+    } else {
+      headImage = FutureBuilder(
+        future: _dios[index % _dios.length].get("/api/v3/file/thumb/${file.id}",
+            options: Options(responseType: ResponseType.bytes)),
+        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              child: ConstrainedBox(
+                child: Image.memory(
+                  snapshot.data!.data,
+                  fit: BoxFit.cover,
+                ),
+                constraints: BoxConstraints.expand(),
+              ),
+              height: size,
+            );
+          } else {
+            return Container(
+              child: SizedBox(
+                child: CircularProgressIndicator(),
+                height: 44.0,
+                width: 44.0,
+              ),
+              alignment: Alignment.center,
+              height: size,
+              width: size,
+            );
+          }
+        },
+      );
+    }
+
+    return InkWell(
+      child: Card(
+          child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          headImage,
+          Divider(
+            color: Colors.grey,
+            height: 0,
+          ),
+          ListTile(
+            leading: icon,
+            title: Text(
+              file.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      )),
+      onTap: () {
+        if (file.type == "file") {
+          _fileTap(context, file);
+        } else {
+          _dirTap(file);
+        }
+      },
+    );
+  }
+
+  ///文件点击事件
+  void _fileTap(BuildContext context, File file) {
+    String date =
+        file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
+    var sizeList = <String>["B", "KB", "MB", "GB"];
+    double size = file.size.toDouble();
+    int index = 0;
+    while (size > 1024) {
+      size /= 1024;
+      index++;
+    }
+
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+            actions: <Widget>[
+              TextButton(
+                child: Text("删除"),
+                onPressed: () async {
+                  Response delRes =
+                      await HttpUtil.dio.delete("/api/v3/object", data: {
+                    "dirs": [],
+                    "items": [file.id]
+                  });
+                  if (delRes.data['code'] == 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("删除成功"),
+                      ),
+                    );
+                    Navigator.pop(_);
+                    changePath(path);
+                    refresh(true);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text('下载'),
+                onPressed: () async {
+                  Dio http = HttpUtil.dio;
+                  var path =
+                      Theme.of(context).platform == TargetPlatform.android
+                          ? await getExternalStorageDirectory()
+                          : await getApplicationSupportDirectory();
+
+                  String getDownloadUrl = "/api/v3/file/download/${file.id}";
+                  //设置连接超时时间
+                  Response response = await http.put(getDownloadUrl);
+                  String url = response.data['data'].toString();
+                  Dio dio = Dio();
+                  try {
+                    Navigator.pop(_);
+                    response = await dio
+                        .download(url, path!.path + "/" + file.name,
+                            onReceiveProgress: (process, total) {
+                      changeProgressNum(process / total);
+                    });
+                    if (response.statusCode == 200) {
+                      String snackString = '下载至:' + path.path + "/" + file.name;
+                      changeProgressNum(-1);
+                      refresh(true);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(snackString),
+                        ),
+                      );
+                    } else {
+                      throw Exception('接口出错');
+                    }
+                  } catch (e) {
+                    return print(e);
+                  }
+                },
+              ),
+            ],
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text("文件名:\t\t${file.name}"),
+                Text("文件大小:\t\t${size.toStringAsFixed(1)}${sizeList[index]}"),
+                Text("上传时间:\t\t$date")
+              ],
+            ));
+      },
+    );
+  }
+
+  //目录点击事件
+  void _dirTap(file) {
+    if (path == "/") {
+      changePath(path + file.name);
+    } else {
+      changePath(path + "/" + file.name);
+    }
+    refresh(true);
   }
 }

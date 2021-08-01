@@ -1,4 +1,3 @@
-
 import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
@@ -9,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/MainApp.dart';
 
-void main() async {
+void main() {
   runApp(MyApp());
 }
 
