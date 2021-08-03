@@ -262,12 +262,12 @@ class Home extends StatelessWidget {
     }
 
     Future<Response<dynamic>> _getImage() {
-      if (_cache[file.name] == null) {
+      if (_cache[file.id] == null) {
         return HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
             options: Options(responseType: ResponseType.bytes));
       } else {
         Response response = Response(requestOptions: RequestOptions(path: ""));
-        response.data = _cache[file.name];
+        response.data = _cache[file.id];
         return Future<Response>.value(response);
       }
     }
@@ -282,8 +282,8 @@ class Home extends StatelessWidget {
         future: _getImage(),
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
-            if (_cache[file.name] == null) {
-              _cache[file.name] == snapshot.data!.data;
+            if (_cache[file.id] == null) {
+              _cache[file.id] = snapshot.data!.data as Uint8List;
             }
             return Container(
               child: ConstrainedBox(
