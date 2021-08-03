@@ -15,7 +15,9 @@ typedef void VoidParBool(bool b);
 
 enum Mode { list, grid }
 
-Map<String, Uint8List> _cache = {};
+Map<String, Uint8List> _thumbCache = {};
+Map<String, String> _downloadUrlCache = {};
+Map<String, Uint8List> _imageCache = {};
 
 class Home extends StatelessWidget {
   ChangeString changePath;
@@ -212,19 +214,105 @@ class Home extends StatelessWidget {
       }
     }
 
-    return Card(
-      child: ListTile(
-        leading: icon,
-        title: Text(file.name),
-        onTap: () {
-          if (file.type == "file") {
-            _fileTap(context, file);
-          } else {
-            _dirTap(file);
-          }
-        },
+    return InkWell(
+      child: Card(
+        child: ListTile(
+          leading: icon,
+          title: Text(file.name),
+        ),
       ),
+      onTap: () {
+        if (file.type == "file") {
+          _fileTap(context, file);
+        } else {
+          _dirTap(file);
+        }
+      },
+      onDoubleTap: () {
+        if (imageRex.hasMatch(file.name)) {
+          _imageDoubleTap(context, file);
+        }
+      },
     );
+  }
+
+  void _imageDoubleTap(BuildContext context, File file) {
+    var image = FutureBuilder(
+      future: _getImage(file),
+      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+        if (snapshot.hasData) {
+          if (_imageCache[file.id] == null) {
+            _imageCache[file.id] = snapshot.data!.data as Uint8List;
+          }
+          return Container(
+            child: ConstrainedBox(
+              child: Image.memory(
+                snapshot.data!.data,
+                fit: BoxFit.contain,
+              ),
+              constraints: BoxConstraints.expand(),
+            ),
+          );
+        } else {
+          return Container(
+            child: SizedBox(
+              child: CircularProgressIndicator(),
+              height: 44.0,
+              width: 44.0,
+            ),
+            alignment: Alignment.center,
+          );
+        }
+      },
+    );
+
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            insetPadding: EdgeInsets.zero,
+            backgroundColor: Colors.black26,
+            content: Container(
+              child: ConstrainedBox(
+                child: image,
+                constraints: BoxConstraints.expand(),
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<Response<dynamic>> _geThumbImage(File file) {
+    if (_thumbCache[file.id] == null) {
+      return HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
+          options: Options(responseType: ResponseType.bytes));
+    } else {
+      Response response = Response(requestOptions: RequestOptions(path: ""));
+      response.data = _thumbCache[file.id];
+      return Future<Response>.value(response);
+    }
+  }
+
+  Future<Response<dynamic>> _getImage(File file) async {
+    if (_imageCache[file.id] == null) {
+      String downloadUrl;
+      if (_downloadUrlCache[file.id] == null) {
+        String getDownloadUrl = "/api/v3/file/download/${file.id}";
+        //设置连接超时时间
+        Response getUrlResp = await HttpUtil.dio.put(getDownloadUrl);
+        downloadUrl = getUrlResp.data['data'].toString();
+        _downloadUrlCache[file.id] = downloadUrl;
+      } else {
+        downloadUrl = _downloadUrlCache[file.id]!;
+      }
+      return HttpUtil.dio
+          .get(downloadUrl, options: Options(responseType: ResponseType.bytes));
+    } else {
+      Response response = Response(requestOptions: RequestOptions(path: ""));
+      response.data = _imageCache[file.id];
+      return Future<Response>.value(response);
+    }
   }
 
   Widget _buildGridItem(BuildContext context, File file, int index) {
@@ -261,17 +349,6 @@ class Home extends StatelessWidget {
       }
     }
 
-    Future<Response<dynamic>> _getImage() {
-      if (_cache[file.id] == null) {
-        return HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
-            options: Options(responseType: ResponseType.bytes));
-      } else {
-        Response response = Response(requestOptions: RequestOptions(path: ""));
-        response.data = _cache[file.id];
-        return Future<Response>.value(response);
-      }
-    }
-
     double maxHeight = MediaQuery.of(context).size.width;
     double size = (maxHeight - 30) ~/ 2 - 62;
     Widget headImage;
@@ -279,11 +356,11 @@ class Home extends StatelessWidget {
       headImage = Container(height: size, child: icon);
     } else {
       headImage = FutureBuilder(
-        future: _getImage(),
+        future: _geThumbImage(file),
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
-            if (_cache[file.id] == null) {
-              _cache[file.id] = snapshot.data!.data as Uint8List;
+            if (_thumbCache[file.id] == null) {
+              _thumbCache[file.id] = snapshot.data!.data as Uint8List;
             }
             return Container(
               child: ConstrainedBox(
@@ -335,6 +412,11 @@ class Home extends StatelessWidget {
           _fileTap(context, file);
         } else {
           _dirTap(file);
+        }
+      },
+      onDoubleTap: () {
+        if (imageRex.hasMatch(file.name)) {
+          _imageDoubleTap(context, file);
         }
       },
     );
