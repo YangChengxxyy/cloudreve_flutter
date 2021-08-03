@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_view/photo_view.dart';
 
 typedef void ChangeString(String newValue);
 typedef void ChangeDouble(double newValue);
@@ -245,13 +246,9 @@ class Home extends StatelessWidget {
             _imageCache[file.id] = snapshot.data!.data as Uint8List;
           }
           return Container(
-            child: ConstrainedBox(
-              child: Image.memory(
-                snapshot.data!.data,
-                fit: BoxFit.contain,
-              ),
-              constraints: BoxConstraints.expand(),
-            ),
+              child: PhotoView(
+                imageProvider: Image.memory(snapshot.data!.data,fit: BoxFit.contain,).image,
+              )
           );
         } else {
           return Container(
@@ -274,6 +271,8 @@ class Home extends StatelessWidget {
             insetPadding: EdgeInsets.zero,
             backgroundColor: Colors.black26,
             content: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               child: ConstrainedBox(
                 child: image,
                 constraints: BoxConstraints.expand(),
