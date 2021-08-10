@@ -2,7 +2,6 @@ import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,20 +15,15 @@ void main() {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-  void init() async {
-    bool status = await Permission.storage.isGranted;
-    HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
-    HttpUtil.dio.interceptors.add(DioCacheManager(CacheConfig()).interceptor);
-    if (!status) {
-      await Permission.storage.request().isGranted;
-    }
-  }
-
   MyApp({Key? key}) : super(key: key);
 
   Future<Widget> _feture() async {
-    init();
+    bool status = await Permission.storage.isGranted;
+    HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
 
+    if (!status) {
+      await Permission.storage.request().isGranted;
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getBool("isLogin") != null) {
@@ -104,3 +98,4 @@ class LoadingApp extends StatelessWidget {
     );
   }
 }
+
