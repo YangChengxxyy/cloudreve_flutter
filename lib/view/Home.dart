@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -247,9 +248,11 @@ class Home extends StatelessWidget {
           }
           return Container(
               child: PhotoView(
-                imageProvider: Image.memory(snapshot.data!.data,fit: BoxFit.contain,).image,
-              )
-          );
+            imageProvider: Image.memory(
+              snapshot.data!.data,
+              fit: BoxFit.contain,
+            ).image,
+          ));
         } else {
           return Container(
             child: SizedBox(
@@ -283,9 +286,12 @@ class Home extends StatelessWidget {
   }
 
   Future<Response<dynamic>> _geThumbImage(File file) {
+    Options options = buildCacheOptions(Duration(days: 1),
+        subKey: "thumb_" + file.id,
+        options: Options(responseType: ResponseType.bytes));
     if (_thumbCache[file.id] == null) {
-      return HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
-          options: Options(responseType: ResponseType.bytes));
+      return HttpUtil.dio
+          .get("/api/v3/file/thumb/${file.id}", options: options);
     } else {
       Response response = Response(requestOptions: RequestOptions(path: ""));
       response.data = _thumbCache[file.id];
@@ -359,12 +365,17 @@ class Home extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
             if (_thumbCache[file.id] == null) {
-              _thumbCache[file.id] = snapshot.data!.data as Uint8List;
+              if (snapshot.data!.data.runtimeType.toString() == "List<int>") {
+                _thumbCache[file.id] = Uint8List.fromList(snapshot.data!.data);
+                ;
+              } else {
+                _thumbCache[file.id] = snapshot.data!.data;
+              }
             }
             return Container(
               child: ConstrainedBox(
                 child: Image.memory(
-                  snapshot.data!.data,
+                  _thumbCache[file.id]!,
                   fit: BoxFit.cover,
                 ),
                 constraints: BoxConstraints.expand(),
