@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key? key}) : super(key: key);
 
-  Future<Widget> _feture() async {
+  Future<Widget> _future() async {
     bool status = await Permission.storage.isGranted;
     HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
 
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FutureBuilder(
-        future: _feture(),
+        future: _future(),
         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
           if (snapshot.hasData) {
             return snapshot.data!;

@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  chunked_uploader:
-    dependency: "direct main"
-    description:
-      name: chunked_uploader
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   clock:
     dependency: transitive
     description:
@@ -54,13 +47,6 @@ packages:
     dependency: transitive
     description:
       name: cookie_jar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
-  crypto:
-    dependency: transitive
-    description:
-      name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
@@ -156,13 +142,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
-  json_annotation:
-    dependency: "direct main"
-    description:
-      name: json_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.4.0"
   matcher:
     dependency: transitive
     description:
@@ -357,13 +336,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
-  universal_io:
-    dependency: transitive
-    description:
-      name: universal_io
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.4"
   vector_math:
     dependency: transitive
     description:

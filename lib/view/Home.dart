@@ -28,21 +28,23 @@ class Home extends StatelessWidget {
   double progressNum = -1;
   VoidParBool refresh;
   Mode mode;
+  double paddingNum = 10;
 
-  Home(
-      {required this.changePath,
-      required this.path,
-      required this.progressNum,
-      required this.changeProgressNum,
-      required this.fileResp,
-      required this.refresh,
-      required this.mode});
+  Home({
+    required this.changePath,
+    required this.path,
+    required this.progressNum,
+    required this.changeProgressNum,
+    required this.fileResp,
+    required this.refresh,
+    required this.mode,
+  });
 
   @override
   Widget build(BuildContext context) {
     ///进度条
     Widget _progressBar = Container(
-        padding: EdgeInsets.fromLTRB(5, 5, 10, 10),
+        padding: EdgeInsets.symmetric(horizontal: paddingNum),
         child: Row(
           children: [
             Expanded(
@@ -70,57 +72,51 @@ class Home extends StatelessWidget {
 
               var fileList = File.getFileList(objects);
 
-              List<Widget> headList = [];
+              List<Widget> widgetList = [];
 
-              headList.insert(0, head);
-              headList.insert(1, Divider(color: Colors.blue));
+              widgetList.add(head);
+              widgetList.add(Divider(color: Colors.blue));
 
               if (progressNum != -1) {
-                headList.insert(0, _progressBar);
+                widgetList.insert(0, _progressBar);
               }
-              Widget items;
               if (mode == Mode.list) {
-                items = SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return _buildListItem(context, fileList[index]);
-                    },
-                    childCount: fileList.length,
+                var item = Expanded(
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return _buildListItem(context, fileList[index]);
+                      },
+                      itemCount: fileList.length,
+                    ),
                   ),
                 );
+                widgetList.add(item);
               } else {
-                items = SliverPadding(
-                  sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext _, int index) {
+                var item = Expanded(
+                  child: Scrollbar(
+                    child: GridView.builder(
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, //Grid按两列显示
+                        mainAxisSpacing: paddingNum,
+                        crossAxisSpacing: 5.0,
+                      ),
+                      itemBuilder: (context, index) {
                         return _buildGridItem(context, fileList[index], index);
                       },
-                      childCount: fileList.length,
-                    ),
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, //Grid按两列显示
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 5.0,
+                      itemCount: fileList.length,
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
                 );
+                widgetList.add(item);
               }
 
-              return Scrollbar(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return headList[index];
-                        },
-                        childCount: headList.length,
-                      ),
-                    ),
-                    items
-                  ],
+              return Container(
+                child: Column(
+                  children: widgetList,
                 ),
+                padding: EdgeInsets.symmetric(horizontal: paddingNum),
               );
             } else {
               List<Widget> widgetList = <Widget>[
@@ -247,9 +243,11 @@ class Home extends StatelessWidget {
           }
           return Container(
               child: PhotoView(
-                imageProvider: Image.memory(snapshot.data!.data,fit: BoxFit.contain,).image,
-              )
-          );
+            imageProvider: Image.memory(
+              snapshot.data!.data,
+              fit: BoxFit.contain,
+            ).image,
+          ));
         } else {
           return Container(
             child: SizedBox(
@@ -349,7 +347,7 @@ class Home extends StatelessWidget {
     }
 
     double maxHeight = MediaQuery.of(context).size.width;
-    double size = (maxHeight - 30) ~/ 2 - 62;
+    double size = (maxHeight - paddingNum * 3) ~/ 2 - 62;
     Widget headImage;
     if (!isImage) {
       headImage = Container(height: size, child: icon);
