@@ -9,9 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
-typedef void ChangeString(String newValue);
-typedef void ChangeDouble(double newValue);
-typedef void VoidParBool(bool b);
+typedef void ChangeStringCallBack(String newValue);
+typedef void ChangeDoubleCallBack(double newValue);
+typedef void RefreshCallBack(bool b);
 
 enum Mode { list, grid }
 
@@ -20,12 +20,12 @@ Map<String, String> _downloadUrlCache = {};
 Map<String, Uint8List> _imageCache = {};
 
 class Home extends StatelessWidget {
-  ChangeString changePath;
-  ChangeDouble changeProgressNum;
+  ChangeStringCallBack changePath;
+  ChangeDoubleCallBack changeProgressNum;
   String path;
   Future<Response> fileResp;
   double progressNum = -1;
-  VoidParBool refresh;
+  RefreshCallBack refresh;
   Mode mode;
   double paddingNum = 10;
 
@@ -38,6 +38,17 @@ class Home extends StatelessWidget {
     required this.refresh,
     required this.mode,
   });
+
+  Future<Null> _refresh(BuildContext context){
+    return Future.delayed(Duration(seconds: 1),(){   // 延迟5s完成刷新
+      refresh(true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("刷新完成"),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +93,16 @@ class Home extends StatelessWidget {
               if (mode == Mode.list) {
                 var item = Expanded(
                   child: Scrollbar(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return _buildListItem(context, fileList[index]);
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        return _refresh(context);
                       },
-                      itemCount: fileList.length,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return _buildListItem(context, fileList[index]);
+                        },
+                        itemCount: fileList.length,
+                      ),
                     ),
                   ),
                 );
@@ -94,17 +110,22 @@ class Home extends StatelessWidget {
               } else {
                 var item = Expanded(
                   child: Scrollbar(
-                    child: GridView.builder(
-                      gridDelegate:
-                          new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, //Grid按两列显示
-                        mainAxisSpacing: paddingNum,
-                        crossAxisSpacing: 5.0,
-                      ),
-                      itemBuilder: (context, index) {
-                        return _buildGridItem(context, fileList[index], index);
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        return _refresh(context);
                       },
-                      itemCount: fileList.length,
+                      child: GridView.builder(
+                        gridDelegate:
+                            new SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, //Grid按两列显示
+                          mainAxisSpacing: paddingNum,
+                          crossAxisSpacing: 5.0,
+                        ),
+                        itemBuilder: (context, index) {
+                          return _buildGridItem(context, fileList[index], index);
+                        },
+                        itemCount: fileList.length,
+                      ),
                     ),
                   ),
                 );
