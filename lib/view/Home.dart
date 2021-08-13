@@ -6,8 +6,6 @@ import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
 
 typedef void ChangeString(String newValue);
@@ -460,11 +458,6 @@ class Home extends StatelessWidget {
                 child: const Text('下载'),
                 onPressed: () async {
                   Dio http = HttpUtil.dio;
-                  var path =
-                      Theme.of(context).platform == TargetPlatform.android
-                          ? await getExternalStorageDirectory()
-                          : await getApplicationSupportDirectory();
-
                   String getDownloadUrl = "/api/v3/file/download/${file.id}";
                   //设置连接超时时间
                   Response response = await http.put(getDownloadUrl);
@@ -472,13 +465,13 @@ class Home extends StatelessWidget {
                   Dio dio = Dio();
                   try {
                     Navigator.pop(_);
-                    response = await dio
-                        .download(url, path!.path + "/" + file.name,
-                            onReceiveProgress: (process, total) {
+                    String downPath = "/storage/emulated/0/Download/";
+                    response = await dio.download(url, downPath + file.name,
+                        onReceiveProgress: (process, total) {
                       changeProgressNum(process / total);
                     });
                     if (response.statusCode == 200) {
-                      String snackString = '下载至:' + path.path + "/" + file.name;
+                      String snackString = '下载至:' + downPath + file.name;
                       changeProgressNum(-1);
                       refresh(true);
                       ScaffoldMessenger.of(context).showSnackBar(
