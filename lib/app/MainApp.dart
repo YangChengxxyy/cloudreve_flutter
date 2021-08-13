@@ -27,21 +27,15 @@ class _MainAppState extends State<MainApp> {
 
   void _refreshFileList(bool immediately) {
     if (immediately) {
-      _lastRequest = DateTime
-          .now()
-          .millisecondsSinceEpoch;
+      _lastRequest = DateTime.now().millisecondsSinceEpoch;
       setState(() {
         _fileResp = HttpUtil.dio.get('/api/v3/directory$_path');
       });
       HttpUtil.dio.get("/api/v3/user/storage");
     } else {
-      int now = DateTime
-          .now()
-          .millisecondsSinceEpoch;
+      int now = DateTime.now().millisecondsSinceEpoch;
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
-        _lastRequest = DateTime
-            .now()
-            .millisecondsSinceEpoch;
+        _lastRequest = DateTime.now().millisecondsSinceEpoch;
         setState(() {
           _fileResp = HttpUtil.dio.get('/api/v3/directory$_path');
         });
@@ -50,13 +44,102 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
-  TextEditingController _newFolderController = new TextEditingController();
+  TextEditingController _newFoldController = new TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _newFold() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("新建目录"),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  if ((_formKey.currentState as FormState).validate()) {
+                    Response res = await HttpUtil.dio.put(
+                        "https://cloudreve.yycccloud.cn/api/v3/directory",
+                        data: {
+                          "path": _path + "/" + _newFoldController.text.trim()
+                        });
+                    if (res.statusCode == 200) {
+                      Navigator.of(context).pop(true);
+                      _newFoldController.text = "";
+                      _refreshFileList(true);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("新建目录成功"),
+                        ),
+                      );
+                    }
+                  }
+                },
+                child: Text("创建"))
+          ],
+          content: Form(
+            key: _formKey,
+            child: TextFormField(
+              controller: _newFoldController,
+              decoration:
+                  InputDecoration(labelText: "文件夹名称", icon: Icon(Icons.folder)),
+              validator: (v) {
+                if (v == null) {
+                  return null;
+                }
+                return v.trim().length > 0 ? null : "文件夹名称不得为空";
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _uploadFile() async {
+    var result = await FilePicker.platform.pickFiles(withReadStream: true);
+    if (result != null) {
+      var file = result.files.first;
+      var option = Options(
+          method: "POST",
+          contentType: "application/octet-stream",
+          headers: {
+            "x-filename": Uri.encodeComponent(file.name),
+            "x-path": Uri.encodeComponent(_path),
+            HttpHeaders.contentLengthHeader: file.size
+          },
+          sendTimeout: 100000);
+      Response res = await HttpUtil.dio.post("/api/v3/file/upload",
+          options: option,
+          data: file.readStream, onSendProgress: (process, total) {
+        setState(() {
+          _processNum = process / total;
+        });
+      });
+
+      if (res.statusCode == 200) {
+        String text;
+        if (_path == '/') {
+          text = "上传成功:$_path${file.name}";
+        } else {
+          text = "上传成功:$_path/${file.name}";
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(text),
+          ),
+        );
+        setState(() {
+          _processNum = -1;
+        });
+        _refreshFileList(true);
+      }
+    }
   }
 
   @override
@@ -87,123 +170,31 @@ class _MainAppState extends State<MainApp> {
                 }
               },
               icon: icon),
-          IconButton(
-            onPressed: () {
-              _refreshFileList(true);
+          PopupMenuButton<int>(
+            onSelected: (i) async {
+              if (i == 1) {
+                _uploadFile();
+              } else if (i == 2) {
+                _newFold();
+              }
             },
-            icon: Icon(Icons.refresh),
+            icon: Icon(
+              Icons.add,
+            ),
+            itemBuilder: (context) {
+              return <PopupMenuEntry<int>>[
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: Text('上传文件'),
+                ),
+                PopupMenuItem<int>(
+                  value: 2,
+                  child: Text('新建目录'),
+                ),
+              ];
+            },
           )
         ],
-      ),
-      floatingActionButton: PopupMenuButton<int>(
-        onSelected: (i) async {
-          if (i == 1) {
-            var result =
-            await FilePicker.platform.pickFiles(withReadStream: true);
-            if (result != null) {
-              var file = result.files.first;
-              var option = Options(
-                  method: "POST",
-                  contentType: "application/octet-stream",
-                  headers: {
-                    "x-filename": Uri.encodeComponent(file.name),
-                    "x-path": Uri.encodeComponent(_path),
-                    HttpHeaders.contentLengthHeader: file.size
-                  },
-                  sendTimeout: 100000);
-              Response res = await HttpUtil.dio.post("/api/v3/file/upload",
-                  options: option,
-                  data: file.readStream, onSendProgress: (process, total) {
-                    setState(() {
-                      _processNum = process / total;
-                    });
-                  });
-
-              if (res.statusCode == 200) {
-                String text;
-                if (_path == '/') {
-                  text = "上传成功:$_path${file.name}";
-                } else {
-                  text = "上传成功:$_path/${file.name}";
-                }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(text),
-                  ),
-                );
-                setState(() {
-                  _processNum = -1;
-                });
-                _refreshFileList(true);
-              }
-            }
-          } else if (i == 2) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text("新建目录"),
-                  actions: [
-                    TextButton(
-                        onPressed: () async {
-                          if ((_formKey.currentState as FormState).validate()) {
-                            Response res = await HttpUtil.dio.put(
-                                "https://cloudreve.yycccloud.cn/api/v3/directory",
-                                data: {
-                                  "path": _path + "/" +
-                                      _newFolderController.text.trim()
-                                });
-                            if(res.statusCode == 200){
-                              Navigator.of(context).pop(true);
-                              _newFolderController.text = "";
-                              _refreshFileList(true);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("新建目录成功"),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        child: Text("创建"))
-                  ],
-                  content: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      controller: _newFolderController,
-                      decoration: InputDecoration(
-                          labelText: "文件夹名称", icon: Icon(Icons.folder)),
-                      validator: (v) {
-                        if (v == null) {
-                          return null;
-                        }
-                        return v
-                            .trim()
-                            .length > 0 ? null : "文件夹名称不得为空";
-                      },
-                    ),
-                  ),
-                );
-              },
-            );
-          }
-        },
-        icon: Icon(
-          Icons.add,
-          color: Colors.blue,
-        ),
-        itemBuilder: (context) {
-          return <PopupMenuEntry<int>>[
-            PopupMenuItem<int>(
-              value: 1,
-              child: Text('上传文件'),
-            ),
-            PopupMenuItem<int>(
-              value: 2,
-              child: Text('新建目录'),
-            ),
-          ];
-        },
       ),
       // drawer: Drawer(
       //   child: ListView(
