@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:cloudreve/Service.dart';
 import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
@@ -39,8 +40,9 @@ class Home extends StatelessWidget {
     required this.mode,
   });
 
-  Future<Null> _refresh(BuildContext context){
-    return Future.delayed(Duration(seconds: 1),(){   // 延迟5s完成刷新
+  Future<Null> _refresh(BuildContext context) {
+    return Future.delayed(Duration(seconds: 1), () {
+      // 延迟1s完成刷新
       refresh(true);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -67,7 +69,13 @@ class Home extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: 10),
               child: Text((progressNum * 100).toStringAsFixed(1) + "%"),
-            )
+            ),
+            Container(
+                padding: EdgeInsets.only(left: 10),
+                child: TextButton(
+                  child: Text("Cancel"),
+                  onPressed: () {},
+                ))
           ],
         ));
 
@@ -90,46 +98,50 @@ class Home extends StatelessWidget {
               if (progressNum != -1) {
                 widgetList.insert(0, _progressBar);
               }
-              if (mode == Mode.list) {
-                var item = Expanded(
-                  child: Scrollbar(
-                    child: RefreshIndicator(
-                      onRefresh: () {
-                        return _refresh(context);
-                      },
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return _buildListItem(context, fileList[index]);
+              switch (mode) {
+                case Mode.list:
+                  var item = Expanded(
+                    child: Scrollbar(
+                      child: RefreshIndicator(
+                        onRefresh: () {
+                          return _refresh(context);
                         },
-                        itemCount: fileList.length,
-                      ),
-                    ),
-                  ),
-                );
-                widgetList.add(item);
-              } else {
-                var item = Expanded(
-                  child: Scrollbar(
-                    child: RefreshIndicator(
-                      onRefresh: () {
-                        return _refresh(context);
-                      },
-                      child: GridView.builder(
-                        gridDelegate:
-                            new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, //Grid按两列显示
-                          mainAxisSpacing: paddingNum,
-                          crossAxisSpacing: 5.0,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return _buildListItem(context, fileList[index]);
+                          },
+                          itemCount: fileList.length,
                         ),
-                        itemBuilder: (context, index) {
-                          return _buildGridItem(context, fileList[index], index);
-                        },
-                        itemCount: fileList.length,
                       ),
                     ),
-                  ),
-                );
-                widgetList.add(item);
+                  );
+                  widgetList.add(item);
+                  break;
+                case Mode.grid:
+                  var item = Expanded(
+                    child: Scrollbar(
+                      child: RefreshIndicator(
+                        onRefresh: () {
+                          return _refresh(context);
+                        },
+                        child: GridView.builder(
+                          gridDelegate:
+                              new SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, //Grid按两列显示
+                            mainAxisSpacing: paddingNum,
+                            crossAxisSpacing: 5.0,
+                          ),
+                          itemBuilder: (context, index) {
+                            return _buildGridItem(
+                                context, fileList[index], index);
+                          },
+                          itemCount: fileList.length,
+                        ),
+                      ),
+                    ),
+                  );
+                  widgetList.add(item);
+                  break;
               }
 
               return Container(
@@ -239,15 +251,15 @@ class Home extends StatelessWidget {
         ),
       ),
       onTap: () {
+        if (imageRex.hasMatch(file.name)) {
+          _imageDoubleTap(context, file);
+        }
+      },
+      onDoubleTap: () {
         if (file.type == "file") {
           _fileTap(context, file);
         } else {
           _dirTap(file);
-        }
-      },
-      onDoubleTap: () {
-        if (imageRex.hasMatch(file.name)) {
-          _imageDoubleTap(context, file);
         }
       },
     );
@@ -302,8 +314,7 @@ class Home extends StatelessWidget {
 
   Future<Response<dynamic>> _geThumbImage(File file) {
     if (_thumbCache[file.id] == null) {
-      return HttpUtil.dio.get("/api/v3/file/thumb/${file.id}",
-          options: Options(responseType: ResponseType.bytes));
+      return Service.getThumb(file.id);
     } else {
       Response response = Response(requestOptions: RequestOptions(path: ""));
       response.data = _thumbCache[file.id];
@@ -315,9 +326,7 @@ class Home extends StatelessWidget {
     if (_imageCache[file.id] == null) {
       String downloadUrl;
       if (_downloadUrlCache[file.id] == null) {
-        String getDownloadUrl = "/api/v3/file/download/${file.id}";
-        //设置连接超时时间
-        Response getUrlResp = await HttpUtil.dio.put(getDownloadUrl);
+        Response getUrlResp = await Service.getDownloadUrl(file.id);
         downloadUrl = getUrlResp.data['data'].toString();
         _downloadUrlCache[file.id] = downloadUrl;
       } else {
@@ -459,11 +468,7 @@ class Home extends StatelessWidget {
               TextButton(
                 child: Text("删除"),
                 onPressed: () async {
-                  Response delRes =
-                      await HttpUtil.dio.delete("/api/v3/object", data: {
-                    "dirs": [],
-                    "items": [file.id]
-                  });
+                  Response delRes = await Service.deleteItem([], file.id);
                   if (delRes.data['code'] == 0) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -479,10 +484,7 @@ class Home extends StatelessWidget {
               TextButton(
                 child: const Text('下载'),
                 onPressed: () async {
-                  Dio http = HttpUtil.dio;
-                  String getDownloadUrl = "/api/v3/file/download/${file.id}";
-                  //设置连接超时时间
-                  Response response = await http.put(getDownloadUrl);
+                  Response response = await Service.getDownloadUrl(file.id);
                   String url = response.data['data'].toString();
                   Dio dio = Dio();
                   try {
