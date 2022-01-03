@@ -5,7 +5,7 @@ import 'package:cloudreve/Service.dart';
 import 'package:cloudreve/entity/File.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
@@ -252,20 +252,20 @@ class Home extends StatelessWidget {
       ),
       onTap: () {
         if (imageRex.hasMatch(file.name)) {
-          _imageDoubleTap(context, file);
+          _imageTap(context, file);
         }
       },
       onDoubleTap: () {
         if (file.type == "file") {
-          _fileTap(context, file);
+          _fileDoubleTap(context, file);
         } else {
-          _dirTap(file);
+          _dirDoubleTap(file);
         }
       },
     );
   }
 
-  void _imageDoubleTap(BuildContext context, File file) {
+  void _imageTap(BuildContext context, File file) {
     var image = FutureBuilder(
       future: _getImage(file),
       builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
@@ -343,7 +343,6 @@ class Home extends StatelessWidget {
 
   Widget _buildGridItem(BuildContext context, File file, int index) {
     Icon icon = Icon(Icons.file_present);
-    print(index);
     var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
     var pdfRex = RegExp(r".*\.(pdf)");
     var wordRegex = RegExp(r".*\.(doc|docx)");
@@ -434,22 +433,22 @@ class Home extends StatelessWidget {
         ],
       )),
       onTap: () {
-        if (file.type == "file") {
-          _fileTap(context, file);
-        } else {
-          _dirTap(file);
+        if (imageRex.hasMatch(file.name)) {
+          _imageTap(context, file);
         }
       },
       onDoubleTap: () {
-        if (imageRex.hasMatch(file.name)) {
-          _imageDoubleTap(context, file);
+        if (file.type == "file") {
+          _fileDoubleTap(context, file);
+        } else {
+          _dirDoubleTap(file);
         }
       },
     );
   }
 
-  ///文件点击事件
-  void _fileTap(BuildContext context, File file) {
+  ///文件双击事件
+  void _fileDoubleTap(BuildContext context, File file) {
     String date =
         file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
     var sizeList = <String>["B", "KB", "MB", "GB"];
@@ -478,6 +477,36 @@ class Home extends StatelessWidget {
                     Navigator.pop(_);
                     changePath(path);
                     refresh(true);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text('打开'),
+                onPressed: () async {
+                  Response response = await Service.getDownloadUrl(file.id);
+                  String url = response.data['data'].toString();
+                  Dio dio = Dio();
+                  try {
+                    Navigator.pop(_);
+                    String downPath = "/storage/emulated/0/Download/";
+                    response = await dio.download(url, downPath + file.name,
+                        onReceiveProgress: (process, total) {
+                    });
+                    if (response.statusCode == 200) {
+                      String snackString = '下载至:' + downPath + file.name;
+                      refresh(true);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(snackString),
+                        ),
+                      );
+                      final _result = await OpenFile.open(downPath + file.name);
+                      print(_result.message);
+                    } else {
+                      throw Exception('接口出错');
+                    }
+                  } catch (e) {
+                    return print(e);
                   }
                 },
               ),
@@ -526,7 +555,7 @@ class Home extends StatelessWidget {
   }
 
   //目录点击事件
-  void _dirTap(file) {
+  void _dirDoubleTap(file) {
     if (path == "/") {
       changePath(path + file.name);
     } else {
