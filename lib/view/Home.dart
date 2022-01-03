@@ -343,7 +343,7 @@ class Home extends StatelessWidget {
 
   Widget _buildGridItem(BuildContext context, File file, int index) {
     Icon icon = Icon(Icons.file_present);
-
+    print(index);
     var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
     var pdfRex = RegExp(r".*\.(pdf)");
     var wordRegex = RegExp(r".*\.(doc|docx)");

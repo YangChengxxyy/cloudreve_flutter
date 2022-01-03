@@ -6,7 +6,8 @@ import 'package:file_picker/file_picker.dart';
 
 class Service {
   static Future<Response<dynamic>> getThumb(String fileId) async {
-    return await HttpUtil.dio.get("/api/v3/file/thumb/$fileId");
+    return await HttpUtil.dio.get("/api/v3/file/thumb/$fileId",
+        options: Options(responseType: ResponseType.bytes));
   }
 
   static Future<Response<dynamic>> getDownloadUrl(String fileId) async {
@@ -33,7 +34,8 @@ class Service {
     return HttpUtil.dio.put("/api/v3/directory", data: data);
   }
 
-  static Future<Response<dynamic>> uploadFile(PlatformFile file, String path,void Function(int, int) onSendProgress) {
+  static Future<Response<dynamic>> uploadFile(
+      PlatformFile file, String path, void Function(int, int) onSendProgress) {
     var option = Options(
         method: "POST",
         contentType: "application/octet-stream",
@@ -49,4 +51,10 @@ class Service {
       onSendProgress(process, total);
     });
   }
+
+  static Future<Response<dynamic>> session(String userName, String password) {
+    return HttpUtil.dio.post("/api/v3/user/session",
+        data: {'userName': userName, 'Password': password, 'captchaCode': ''});
+  }
+
 }

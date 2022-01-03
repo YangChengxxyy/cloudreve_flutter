@@ -1,3 +1,4 @@
+import 'package:cloudreve/Service.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -100,13 +101,7 @@ class RegisterBody extends StatelessWidget {
                                     if ((_formKey.currentState as FormState)
                                         .validate()) {
                                       //验证通过提交数据
-                                      Response registerResp = await HttpUtil.dio
-                                          .post("/api/v3/user", data: {
-                                        'userName': _emailController.text,
-                                        'Password': _pwdController.text,
-                                        'captchaCode': ''
-                                      });
-
+                                      Response registerResp = await Service.session(_emailController.text, _pwdController.text);
                                       if (registerResp.data['code'] == 203) {
                                         _emailController.clear();
                                         _pwdController.clear();
