@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:cloudreve/Service.dart';
-import 'package:cloudreve/entity/File.dart';
+import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:open_file/open_file.dart';
@@ -88,7 +88,7 @@ class Home extends StatelessWidget {
             if (data != null) {
               var objects = data['objects'];
 
-              var fileList = File.getFileList(objects);
+              var fileList = MFile.getFileList(objects);
 
               List<Widget> widgetList = [];
 
@@ -212,7 +212,7 @@ class Home extends StatelessWidget {
   }
 
   ///构建文件列表浏览
-  Widget _buildListItem(BuildContext context, File file) {
+  Widget _buildListItem(BuildContext context, MFile file) {
     Icon icon = Icon(Icons.file_present);
 
     var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
@@ -265,7 +265,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _imageTap(BuildContext context, File file) {
+  void _imageTap(BuildContext context, MFile file) {
     var image = FutureBuilder(
       future: _getImage(file),
       builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
@@ -312,7 +312,7 @@ class Home extends StatelessWidget {
         });
   }
 
-  Future<Response<dynamic>> _geThumbImage(File file) {
+  Future<Response<dynamic>> _geThumbImage(MFile file) {
     if (_thumbCache[file.id] == null) {
       return Service.getThumb(file.id);
     } else {
@@ -322,7 +322,7 @@ class Home extends StatelessWidget {
     }
   }
 
-  Future<Response<dynamic>> _getImage(File file) async {
+  Future<Response<dynamic>> _getImage(MFile file) async {
     if (_imageCache[file.id] == null) {
       String downloadUrl;
       if (_downloadUrlCache[file.id] == null) {
@@ -341,7 +341,7 @@ class Home extends StatelessWidget {
     }
   }
 
-  Widget _buildGridItem(BuildContext context, File file, int index) {
+  Widget _buildGridItem(BuildContext context, MFile file, int index) {
     Icon icon = Icon(Icons.file_present);
     var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
     var pdfRex = RegExp(r".*\.(pdf)");
@@ -448,7 +448,7 @@ class Home extends StatelessWidget {
   }
 
   //文件双击事件
-  void _fileDoubleTap(BuildContext context, File file) {
+  void _fileDoubleTap(BuildContext context, MFile file) {
     String date =
         file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
     var sizeList = <String>["B", "KB", "MB", "GB"];
