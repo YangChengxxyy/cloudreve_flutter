@@ -447,7 +447,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  ///文件双击事件
+  //文件双击事件
   void _fileDoubleTap(BuildContext context, File file) {
     String date =
         file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
@@ -493,15 +493,13 @@ class Home extends StatelessWidget {
                         onReceiveProgress: (process, total) {
                     });
                     if (response.statusCode == 200) {
-                      String snackString = '下载至:' + downPath + file.name;
                       refresh(true);
+                      final _result = await OpenFile.open(downPath + file.name);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(snackString),
+                          content: Text(_result.message),
                         ),
                       );
-                      final _result = await OpenFile.open(downPath + file.name);
-                      print(_result.message);
                     } else {
                       throw Exception('接口出错');
                     }
