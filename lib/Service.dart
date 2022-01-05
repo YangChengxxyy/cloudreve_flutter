@@ -57,4 +57,13 @@ class Service {
         data: {'userName': userName, 'Password': password, 'captchaCode': ''});
   }
 
+  static Future<Response<dynamic>> avatar(String id) {
+    return HttpUtil.dio.get("/api/v3/user/avatar/$id/l",
+        options: Options(responseType: ResponseType.bytes));
+  }
+
+  static register(String userName, String password) {
+    return HttpUtil.dio.post("/api/v3/user",
+        data: {'userName': userName, 'Password': password, 'captchaCode': ''});
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:cloudreve/Service.dart';
+import 'package:cloudreve/entity/LoginState.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -101,8 +102,13 @@ class RegisterBody extends StatelessWidget {
                                     if ((_formKey.currentState as FormState)
                                         .validate()) {
                                       //验证通过提交数据
-                                      Response registerResp = await Service.session(_emailController.text, _pwdController.text);
-                                      if (registerResp.data['code'] == 203) {
+                                      Response registerResp =
+                                          await Service.register(
+                                              _emailController.text,
+                                              _pwdController.text);
+                                      LoginState loginState =
+                                          LoginState.fromJson(registerResp.data);
+                                      if (loginState.code == 203) {
                                         _emailController.clear();
                                         _pwdController.clear();
                                         _pwdController2.clear();

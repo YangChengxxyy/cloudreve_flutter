@@ -1,4 +1,7 @@
+import 'package:cloudreve/Service.dart';
 import 'package:cloudreve/app/LoginApp.dart';
+import 'package:cloudreve/entity/LoginState.dart';
+import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -30,13 +33,19 @@ class MyApp extends StatelessWidget {
       String username = prefs.getString("username")!;
       String password = prefs.getString("password")!;
 
-      Response logResp = await HttpUtil.dio.post("/api/v3/user/session", data: {
-        'userName': username,
-        'Password': password,
-        'captchaCode': ''
-      });
-      if (logResp.data['code'] == 0) {
-        return Future.value((MainApp()));
+      //重新登录刷新登录信息
+      Response loginResp = await Service.session(username, password);
+      Response storageResp = await Service.storage();
+
+      LoginState loginResult = LoginState.fromJson(loginResp.data);
+      Storage storage = Storage.fromJson(storageResp.data['data']);
+      if (loginResult.code == 0) {
+        return Future.value(
+          (MainApp(
+            loginState: loginResult,
+            storage: storage,
+          )),
+        );
       } else {
         prefs.clear();
         return Future.value((LoginApp()));
@@ -98,4 +107,3 @@ class LoadingApp extends StatelessWidget {
     );
   }
 }
-

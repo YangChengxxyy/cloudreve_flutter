@@ -56,28 +56,29 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     ///进度条
     Widget _progressBar = Container(
-        padding: EdgeInsets.symmetric(horizontal: paddingNum),
-        child: Row(
-          children: [
-            Expanded(
-              child: LinearProgressIndicator(
-                value: progressNum,
-                backgroundColor: Colors.grey,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-              ),
+      padding: EdgeInsets.symmetric(horizontal: paddingNum),
+      child: Row(
+        children: [
+          Expanded(
+            child: LinearProgressIndicator(
+              value: progressNum,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             ),
-            Container(
-              padding: EdgeInsets.only(left: 10),
-              child: Text((progressNum * 100).toStringAsFixed(1) + "%"),
-            ),
-            Container(
-                padding: EdgeInsets.only(left: 10),
-                child: TextButton(
-                  child: Text("Cancel"),
-                  onPressed: () {},
-                ))
-          ],
-        ));
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            child: Text((progressNum * 100).toStringAsFixed(1) + "%"),
+          ),
+          // Container(
+          //     padding: EdgeInsets.only(left: 10),
+          //     child: TextButton(
+          //       child: Text("Cancel"),
+          //       onPressed: () {},
+          //     ))
+        ],
+      ),
+    );
 
     return FutureBuilder(
         future: fileResp,
@@ -274,12 +275,13 @@ class Home extends StatelessWidget {
             _imageCache[file.id] = snapshot.data!.data as Uint8List;
           }
           return Container(
-              child: PhotoView(
-            imageProvider: Image.memory(
-              snapshot.data!.data,
-              fit: BoxFit.contain,
-            ).image,
-          ));
+            child: PhotoView(
+              imageProvider: Image.memory(
+                snapshot.data!.data,
+                fit: BoxFit.contain,
+              ).image,
+            ),
+          );
         } else {
           return Container(
             child: SizedBox(
@@ -312,12 +314,12 @@ class Home extends StatelessWidget {
         });
   }
 
-  Future<Response<dynamic>> _geThumbImage(MFile file) {
-    if (_thumbCache[file.id] == null) {
-      return Service.getThumb(file.id);
+  Future<Response<dynamic>> _geThumbImage(String fileId) {
+    if (_thumbCache[fileId] == null) {
+      return Service.getThumb(fileId);
     } else {
       Response response = Response(requestOptions: RequestOptions(path: ""));
-      response.data = _thumbCache[file.id];
+      response.data = _thumbCache[fileId];
       return Future<Response>.value(response);
     }
   }
@@ -381,7 +383,7 @@ class Home extends StatelessWidget {
       headImage = Container(height: size, child: icon);
     } else {
       headImage = FutureBuilder(
-        future: _geThumbImage(file),
+        future: _geThumbImage(file.id),
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
             if (_thumbCache[file.id] == null) {
@@ -415,23 +417,24 @@ class Home extends StatelessWidget {
 
     return InkWell(
       child: Card(
-          child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          headImage,
-          Divider(
-            color: Colors.grey,
-            height: 0,
-          ),
-          ListTile(
-            leading: icon,
-            title: Text(
-              file.name,
-              overflow: TextOverflow.ellipsis,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            headImage,
+            Divider(
+              color: Colors.grey,
+              height: 0,
             ),
-          ),
-        ],
-      )),
+            ListTile(
+              leading: icon,
+              title: Text(
+                file.name,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
       onTap: () {
         if (imageRex.hasMatch(file.name)) {
           _imageTap(context, file);
@@ -451,103 +454,100 @@ class Home extends StatelessWidget {
   void _fileDoubleTap(BuildContext context, MFile file) {
     String date =
         file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
-    var sizeList = <String>["B", "KB", "MB", "GB"];
-    double size = file.size.toDouble();
-    int index = 0;
-    while (size > 1024) {
-      size /= 1024;
-      index++;
-    }
 
     showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(
-            actions: <Widget>[
-              TextButton(
-                child: Text("删除"),
-                onPressed: () async {
-                  Response delRes = await Service.deleteItem([], file.id);
-                  if (delRes.data['code'] == 0) {
+          actions: <Widget>[
+            TextButton(
+              child: Text("删除"),
+              onPressed: () async {
+                Response delRes = await Service.deleteItem([], file.id);
+                if (delRes.data['code'] == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("删除成功"),
+                    ),
+                  );
+                  Navigator.pop(_);
+                  changePath(path);
+                  refresh(true);
+                }
+              },
+            ),
+            TextButton(
+              child: const Text('打开'),
+              onPressed: () async {
+                Response response = await Service.getDownloadUrl(file.id);
+                String url = response.data['data'].toString();
+                Dio dio = Dio();
+                try {
+                  Navigator.pop(_);
+                  String downPath = "/storage/emulated/0/Download/";
+                  response = await dio.download(url, downPath + file.name,
+                      onReceiveProgress: (process, total) {});
+                  if (response.statusCode == 200) {
+                    refresh(true);
+                    final _result = await OpenFile.open(downPath + file.name);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("删除成功"),
+                        content: Text(_result.message),
                       ),
                     );
-                    Navigator.pop(_);
-                    changePath(path);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("下载失败"),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  return print(e);
+                }
+              },
+            ),
+            TextButton(
+              child: const Text('下载'),
+              onPressed: () async {
+                Response response = await Service.getDownloadUrl(file.id);
+                String url = response.data['data'].toString();
+                Dio dio = Dio();
+                try {
+                  Navigator.pop(_);
+                  String downPath = "/storage/emulated/0/Download/";
+                  response = await dio.download(url, downPath + file.name,
+                      onReceiveProgress: (process, total) {
+                    changeProgressNum(process / total);
+                  });
+                  if (response.statusCode == 200) {
+                    String snackString = '下载至:' + downPath + file.name;
+                    changeProgressNum(-1);
                     refresh(true);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(snackString),
+                      ),
+                    );
+                  } else {
+                    throw Exception('接口出错');
                   }
-                },
-              ),
-              TextButton(
-                child: const Text('打开'),
-                onPressed: () async {
-                  Response response = await Service.getDownloadUrl(file.id);
-                  String url = response.data['data'].toString();
-                  Dio dio = Dio();
-                  try {
-                    Navigator.pop(_);
-                    String downPath = "/storage/emulated/0/Download/";
-                    response = await dio.download(url, downPath + file.name,
-                        onReceiveProgress: (process, total) {
-                    });
-                    if (response.statusCode == 200) {
-                      refresh(true);
-                      final _result = await OpenFile.open(downPath + file.name);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(_result.message),
-                        ),
-                      );
-                    } else {
-                      throw Exception('接口出错');
-                    }
-                  } catch (e) {
-                    return print(e);
-                  }
-                },
-              ),
-              TextButton(
-                child: const Text('下载'),
-                onPressed: () async {
-                  Response response = await Service.getDownloadUrl(file.id);
-                  String url = response.data['data'].toString();
-                  Dio dio = Dio();
-                  try {
-                    Navigator.pop(_);
-                    String downPath = "/storage/emulated/0/Download/";
-                    response = await dio.download(url, downPath + file.name,
-                        onReceiveProgress: (process, total) {
-                      changeProgressNum(process / total);
-                    });
-                    if (response.statusCode == 200) {
-                      String snackString = '下载至:' + downPath + file.name;
-                      changeProgressNum(-1);
-                      refresh(true);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(snackString),
-                        ),
-                      );
-                    } else {
-                      throw Exception('接口出错');
-                    }
-                  } catch (e) {
-                    return print(e);
-                  }
-                },
-              ),
+                } catch (e) {
+                  return print(e);
+                }
+              },
+            ),
+          ],
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("文件名:\t\t${file.name}"),
+              Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble(), 1)}"),
+              Text("上传时间:\t\t$date")
             ],
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text("文件名:\t\t${file.name}"),
-                Text("文件大小:\t\t${size.toStringAsFixed(1)}${sizeList[index]}"),
-                Text("上传时间:\t\t$date")
-              ],
-            ));
+          ),
+        );
       },
     );
   }
@@ -562,3 +562,4 @@ class Home extends StatelessWidget {
     refresh(true);
   }
 }
+

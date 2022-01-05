@@ -1,3 +1,6 @@
+import 'package:cloudreve/entity/LoginState.dart';
+import 'package:cloudreve/entity/MFile.dart';
+import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
 import 'package:dio/dio.dart';
@@ -6,10 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:cloudreve/Service.dart';
 
 class MainApp extends StatefulWidget {
-  const MainApp({Key? key}) : super(key: key);
+  late LoginState _loginState;
+  late Storage _storage;
+
+  MainApp({Key? key, required LoginState loginState, required Storage storage})
+      : super(key: key) {
+    _loginState = loginState;
+    _storage = storage;
+  }
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  State<MainApp> createState() => _MainAppState(_loginState, _storage);
 }
 
 class _MainAppState extends State<MainApp> {
@@ -21,14 +31,21 @@ class _MainAppState extends State<MainApp> {
   int _lastRequest = -1;
 
   Mode _mode = Mode.grid;
+  late LoginState _loginState;
+  Storage _storage = new Storage(0, 100, 100);
 
-  void _refreshFileList(bool immediately) {
+  _MainAppState(LoginState loginState, Storage storage) {
+    _loginState = loginState;
+    _storage = storage;
+  }
+
+  void _refreshFileList(bool immediately) async {
     if (immediately) {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;
       setState(() {
         _fileResp = Service.directory(_path);
       });
-      Service.storage();
+      _storage = Storage.fromJson((await Service.storage()).data['data']);
     } else {
       int now = DateTime.now().millisecondsSinceEpoch;
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
@@ -36,7 +53,7 @@ class _MainAppState extends State<MainApp> {
         setState(() {
           _fileResp = Service.directory(_path);
         });
-        Service.storage();
+        _storage = Storage.fromJson((await Service.storage()).data['data']);
       }
     }
   }
@@ -99,7 +116,7 @@ class _MainAppState extends State<MainApp> {
     var result = await FilePicker.platform.pickFiles(withReadStream: true);
     if (result != null) {
       var file = result.files.first;
-      
+
       Response res = await Service.uploadFile(file, _path, (process, total) {
         setState(() {
           _processNum = process / total;
@@ -124,6 +141,10 @@ class _MainAppState extends State<MainApp> {
         _refreshFileList(true);
       }
     }
+  }
+
+  Future<Response<dynamic>> _getAvatar() {
+    return Service.avatar(_loginState.data.id);
   }
 
   @override
@@ -180,37 +201,103 @@ class _MainAppState extends State<MainApp> {
           )
         ],
       ),
-      // drawer: Drawer(
-      //   child: ListView(
-      //     padding: EdgeInsets.zero,
-      //     children: const <Widget>[
-      //       DrawerHeader(
-      //         decoration: BoxDecoration(
-      //           color: Colors.blue,
-      //         ),
-      //         child: Text(
-      //           'Drawer Header',
-      //           style: TextStyle(
-      //             color: Colors.white,
-      //             fontSize: 24,
-      //           ),
-      //         ),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.message),
-      //         title: Text('Messages'),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.account_circle),
-      //         title: Text('Profile'),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.settings),
-      //         title: Text('Settings'),
-      //       ),
-      //     ],
-      //   ),
-      // ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+
+            DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FutureBuilder(
+                      future: _getAvatar(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(
+                            alignment: Alignment.topCenter,
+                            padding: EdgeInsets.only(bottom: 15),
+                            child: ClipOval(
+                              child: Image.memory(
+                                snapshot.data!.data,
+                                fit: BoxFit.cover,
+                                width: 75,
+                                height: 75,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            child: SizedBox(
+                              child: CircularProgressIndicator(),
+                              height: 50.0,
+                              width: 50.0,
+                            ),
+                            alignment: Alignment.center,
+                            height: 75,
+                            width: 75,
+                          );
+                        }
+                      },
+                    ),
+                    Text(_loginState.data.nickname,style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black45
+                    ),)
+                  ],
+                )),
+            ListTile(
+              leading: Icon(Icons.storage),
+              textColor: Colors.grey,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "存储空间",
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: LinearProgressIndicator(
+                      value: (_storage.used.toDouble() /
+                          _storage.total.toDouble()),
+                      backgroundColor: Colors.grey,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                    ),
+                  ),
+                  Text(
+                    "${MFile.getFileSize(_storage.used.toDouble(), 1)}/${MFile.getFileSize(_storage.total.toDouble(), 1)}",
+                  )
+                ],
+              ),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.share),
+              textColor: Colors.grey,
+              title: Text("我的分享"),
+            ),
+            ListTile(
+              leading: Icon(Icons.phonelink),
+              textColor: Colors.grey,
+              title: Text("离线下载"),
+            ),
+            ListTile(
+              leading: Icon(Icons.phonelink),
+              textColor: Colors.grey,
+              title: Text("任务队列"),
+            ),
+            ListTile(
+              leading: Icon(Icons.assignment),
+              textColor: Colors.grey,
+              title: Text("任务队列"),
+            )
+          ],
+        ),
+      ),
       body: Center(
         child: IndexedStack(
           children: <Widget>[
