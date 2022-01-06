@@ -1,6 +1,6 @@
-import 'package:cloudreve/Service.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/app/LoginApp.dart';
-import 'package:cloudreve/entity/LoginState.dart';
+import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
@@ -37,14 +37,14 @@ class MyApp extends StatelessWidget {
       Response loginResp = await Service.session(username, password);
       Response storageResp = await Service.storage();
 
-      LoginState loginResult = LoginState.fromJson(loginResp.data);
+      LoginResult loginResult = LoginResult.fromJson(loginResp.data);
       Storage storage = Storage.fromJson(storageResp.data['data']);
       if (loginResult.code == 0) {
         return Future.value(
-          (MainApp(
-            loginState: loginResult,
+          MainApp(
+            userData: loginResult.data,
             storage: storage,
-          )),
+          ),
         );
       } else {
         prefs.clear();

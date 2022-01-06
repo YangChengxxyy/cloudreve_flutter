@@ -1,18 +1,18 @@
-class LoginState {
-  LoginState(this.code, this.data, this.msg);
+class LoginResult {
+  LoginResult(this.code, this.data, this.msg);
 
   late int code;
-  late LoginData data;
+  late UserData data;
   late String msg;
 
-  LoginState.fromJson(Map<String, dynamic> map) {
+  LoginResult.fromJson(Map<String, dynamic> map) {
     code = map['code'];
-    data = LoginData.fromJson(map['data']);
+    data = UserData.fromJson(map['data']);
     msg = map['msg'];
   }
 }
 
-class LoginData {
+class UserData {
   late String id;
   late String userName;
   late String nickname;
@@ -24,7 +24,7 @@ class LoginData {
   late Policy? policy;
   late Group? group;
 
-  LoginData(
+  UserData(
     this.id,
     this.userName,
     this.nickname,
@@ -37,7 +37,7 @@ class LoginData {
     this.group,
   );
 
-  LoginData.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['user_name'];
     nickname = json['nickname'];

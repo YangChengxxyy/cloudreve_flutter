@@ -1,5 +1,5 @@
-import 'package:cloudreve/Service.dart';
-import 'package:cloudreve/entity/LoginState.dart';
+import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -106,8 +106,8 @@ class RegisterBody extends StatelessWidget {
                                           await Service.register(
                                               _emailController.text,
                                               _pwdController.text);
-                                      LoginState loginState =
-                                          LoginState.fromJson(registerResp.data);
+                                      LoginResult loginState =
+                                          LoginResult.fromJson(registerResp.data);
                                       if (loginState.code == 203) {
                                         _emailController.clear();
                                         _pwdController.clear();

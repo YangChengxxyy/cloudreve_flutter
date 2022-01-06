@@ -5,16 +5,16 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
 class Service {
-  static Future<Response<dynamic>> getThumb(String fileId) async {
+  static Future<Response> getThumb(String fileId) async {
     return await HttpUtil.dio.get("/api/v3/file/thumb/$fileId",
         options: Options(responseType: ResponseType.bytes));
   }
 
-  static Future<Response<dynamic>> getDownloadUrl(String fileId) async {
+  static Future<Response> getDownloadUrl(String fileId) async {
     return await HttpUtil.dio.put("/api/v3/file/download/$fileId");
   }
 
-  static Future<Response<dynamic>> deleteItem(
+  static Future<Response> deleteItem(
       List<String> dirs, String fileId) async {
     return HttpUtil.dio.delete("/api/v3/object", data: {
       "dirs": dirs,
@@ -22,19 +22,19 @@ class Service {
     });
   }
 
-  static Future<Response<dynamic>> storage() {
+  static Future<Response> storage() {
     return HttpUtil.dio.get("/api/v3/user/storage");
   }
 
-  static Future<Response<dynamic>> directory(String path) {
+  static Future<Response> directory(String path) {
     return HttpUtil.dio.get('/api/v3/directory$path');
   }
 
-  static Future<Response<dynamic>> addDirectory(dynamic data) {
+  static Future<Response> addDirectory(dynamic data) {
     return HttpUtil.dio.put("/api/v3/directory", data: data);
   }
 
-  static Future<Response<dynamic>> uploadFile(
+  static Future<Response> uploadFile(
       PlatformFile file, String path, void Function(int, int) onSendProgress) {
     var option = Options(
         method: "POST",
@@ -52,18 +52,22 @@ class Service {
     });
   }
 
-  static Future<Response<dynamic>> session(String userName, String password) {
+  static Future<Response> session(String userName, String password) {
     return HttpUtil.dio.post("/api/v3/user/session",
         data: {'userName': userName, 'Password': password, 'captchaCode': ''});
   }
 
-  static Future<Response<dynamic>> avatar(String id) {
+  static Future<Response> avatar(String id) {
     return HttpUtil.dio.get("/api/v3/user/avatar/$id/l",
         options: Options(responseType: ResponseType.bytes));
   }
 
-  static register(String userName, String password) {
+  static Future<Response> register(String userName, String password) {
     return HttpUtil.dio.post("/api/v3/user",
         data: {'userName': userName, 'Password': password, 'captchaCode': ''});
+  }
+
+  static Future<Response> webdav(){
+    return HttpUtil.dio.get("/api/v3/webdav/accounts");
   }
 }

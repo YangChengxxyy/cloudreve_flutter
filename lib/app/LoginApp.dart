@@ -1,8 +1,8 @@
-import 'package:cloudreve/Service.dart';
 import 'package:cloudreve/app/MainApp.dart';
 import 'package:cloudreve/app/RegisterApp.dart';
-import 'package:cloudreve/entity/LoginState.dart';
+import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,11 +13,11 @@ class LoginApp extends StatefulWidget {
 }
 
 class _LoginAppState extends State<LoginApp> {
-  _onLoginBtnClick(LoginState loginState, Storage storage) {
+  _onLoginBtnClick(UserData userData, Storage storage) {
     Navigator.of(context).pushAndRemoveUntil(
         new MaterialPageRoute(
             builder: (context) => new MainApp(
-                  loginState: loginState,
+                  userData: userData,
                   storage: storage,
                 )),
         (route) => route == null);
@@ -36,7 +36,7 @@ class _LoginAppState extends State<LoginApp> {
 }
 
 class LoginBody extends StatelessWidget {
-  void Function(LoginState loginState, Storage storage) onLoginBtnClick;
+  void Function(UserData userData, Storage storage) onLoginBtnClick;
 
   LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
 
@@ -110,13 +110,13 @@ class LoginBody extends StatelessWidget {
                                       Response logResp = await Service.session(
                                           _emailController.text,
                                           _pwdController.text);
-                                      LoginState loginState =
-                                          LoginState.fromJson(logResp.data);
-                                      if (loginState.code == 0) {
+                                      LoginResult loginResult =
+                                          LoginResult.fromJson(logResp.data);
+                                      if (loginResult.code == 0) {
                                         Response storageResp =
                                             await Service.storage();
-                                        Storage storage =
-                                            Storage.fromJson(storageResp.data['data']);
+                                        Storage storage = Storage.fromJson(
+                                            storageResp.data['data']);
                                         SharedPreferences prefs =
                                             await SharedPreferences
                                                 .getInstance();
@@ -125,7 +125,7 @@ class LoginBody extends StatelessWidget {
                                             "username", _emailController.text);
                                         prefs.setString(
                                             "password", _pwdController.text);
-                                        onLoginBtnClick(loginState, storage);
+                                        onLoginBtnClick(loginResult.data, storage);
                                       } else {
                                         _pwdController.clear();
                                         showDialog(

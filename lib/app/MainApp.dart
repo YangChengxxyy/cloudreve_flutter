@@ -1,25 +1,29 @@
-import 'package:cloudreve/entity/LoginState.dart';
 import 'package:cloudreve/entity/MFile.dart';
+import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
+import 'package:cloudreve/view/Offline.dart';
 import 'package:cloudreve/view/Setting.dart';
+import 'package:cloudreve/view/Share.dart';
+import 'package:cloudreve/view/Task.dart';
+import 'package:cloudreve/view/WebDav.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudreve/Service.dart';
 
 class MainApp extends StatefulWidget {
-  late LoginState _loginState;
+  late UserData _userData;
   late Storage _storage;
 
-  MainApp({Key? key, required LoginState loginState, required Storage storage})
+  MainApp({Key? key, required UserData userData, required Storage storage})
       : super(key: key) {
-    _loginState = loginState;
+    _userData = userData;
     _storage = storage;
   }
 
   @override
-  State<MainApp> createState() => _MainAppState(_loginState, _storage);
+  State<MainApp> createState() => _MainAppState(_userData, _storage);
 }
 
 class _MainAppState extends State<MainApp> {
@@ -31,11 +35,11 @@ class _MainAppState extends State<MainApp> {
   int _lastRequest = -1;
 
   Mode _mode = Mode.grid;
-  late LoginState _loginState;
+  late UserData _userData;
   Storage _storage = new Storage(0, 100, 100);
 
-  _MainAppState(LoginState loginState, Storage storage) {
-    _loginState = loginState;
+  _MainAppState(UserData userData, Storage storage) {
+    _userData = userData;
     _storage = storage;
   }
 
@@ -143,8 +147,8 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
-  Future<Response<dynamic>> _getAvatar() {
-    return Service.avatar(_loginState.data.id);
+  Future<Response> _getAvatar() {
+    return Service.avatar(_userData.id);
   }
 
   @override
@@ -243,7 +247,7 @@ class _MainAppState extends State<MainApp> {
                         }
                       },
                     ),
-                    Text(_loginState.data.nickname,style: TextStyle(
+                    Text(_userData.nickname,style: TextStyle(
                       fontSize: 20,
                       color: Colors.black45
                     ),)
@@ -279,21 +283,41 @@ class _MainAppState extends State<MainApp> {
               leading: Icon(Icons.share),
               textColor: Colors.grey,
               title: Text("我的分享"),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return Share();
+                }));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.cloud_download),
+              textColor: Colors.grey,
+              title: Text("离线下载"),onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return Offline();
+              }));
+            },
+
             ),
             ListTile(
               leading: Icon(Icons.phonelink),
               textColor: Colors.grey,
-              title: Text("离线下载"),
-            ),
-            ListTile(
-              leading: Icon(Icons.phonelink),
-              textColor: Colors.grey,
-              title: Text("任务队列"),
+              title: Text("WebDav"),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return WebDav();
+                }));
+              },
             ),
             ListTile(
               leading: Icon(Icons.assignment),
               textColor: Colors.grey,
               title: Text("任务队列"),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return Task();
+                }));
+              },
             )
           ],
         ),

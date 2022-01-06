@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:cloudreve/Service.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
@@ -314,7 +314,7 @@ class Home extends StatelessWidget {
         });
   }
 
-  Future<Response<dynamic>> _geThumbImage(String fileId) {
+  Future<Response> _geThumbImage(String fileId) {
     if (_thumbCache[fileId] == null) {
       return Service.getThumb(fileId);
     } else {
@@ -324,7 +324,7 @@ class Home extends StatelessWidget {
     }
   }
 
-  Future<Response<dynamic>> _getImage(MFile file) async {
+  Future<Response> _getImage(MFile file) async {
     if (_imageCache[file.id] == null) {
       String downloadUrl;
       if (_downloadUrlCache[file.id] == null) {
