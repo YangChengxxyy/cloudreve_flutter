@@ -13,7 +13,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class MainApp extends StatefulWidget {
+  /// 用户数据
   late UserData _userData;
+  /// 存储信息
   late Storage _storage;
 
   MainApp({Key? key, required UserData userData, required Storage storage})

@@ -21,13 +21,21 @@ Map<String, String> _downloadUrlCache = {};
 Map<String, Uint8List> _imageCache = {};
 
 class Home extends StatelessWidget {
+  /// 修改path函数
   ChangeStringCallBack changePath;
+  /// 修改进度函数
   ChangeDoubleCallBack changeProgressNum;
+  /// 路径
   String path;
+  // 访问文件数据
   Future<Response> fileResp;
+  /// 进度
   double progressNum = -1;
+  /// 刷新函数
   RefreshCallBack refresh;
+  /// 类型
   Mode mode;
+  /// 外间距
   double paddingNum = 10;
 
   Home({
@@ -39,7 +47,7 @@ class Home extends StatelessWidget {
     required this.refresh,
     required this.mode,
   });
-
+  /// 刷新函数
   Future<Null> _refresh(BuildContext context) {
     return Future.delayed(Duration(seconds: 1), () {
       // 延迟1s完成刷新
@@ -54,7 +62,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///进度条
+    /// 进度条
     Widget _progressBar = Container(
       padding: EdgeInsets.symmetric(horizontal: paddingNum),
       child: Row(
@@ -212,7 +220,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  ///构建文件列表浏览
+  /// 构建文件列表浏览
   Widget _buildListItem(BuildContext context, MFile file) {
     Icon icon = Icon(Icons.file_present);
 
@@ -265,7 +273,7 @@ class Home extends StatelessWidget {
       },
     );
   }
-
+  /// 图片点击事件
   void _imageTap(BuildContext context, MFile file) {
     var image = FutureBuilder(
       future: _getImage(file),
@@ -313,7 +321,7 @@ class Home extends StatelessWidget {
           );
         });
   }
-
+  /// 获取缩略图
   Future<Response> _geThumbImage(String fileId) {
     if (_thumbCache[fileId] == null) {
       return Service.getThumb(fileId);
@@ -323,7 +331,7 @@ class Home extends StatelessWidget {
       return Future<Response>.value(response);
     }
   }
-
+  /// 获取图像
   Future<Response> _getImage(MFile file) async {
     if (_imageCache[file.id] == null) {
       String downloadUrl;
@@ -342,7 +350,7 @@ class Home extends StatelessWidget {
       return Future<Response>.value(response);
     }
   }
-
+  /// 构建网格项
   Widget _buildGridItem(BuildContext context, MFile file, int index) {
     Icon icon = Icon(Icons.file_present);
     var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
@@ -450,7 +458,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  //文件双击事件
+  /// 文件双击事件
   void _fileDoubleTap(BuildContext context, MFile file) {
     String date =
         file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
@@ -552,7 +560,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  //目录点击事件
+  /// 目录双击事件
   void _dirDoubleTap(file) {
     if (path == "/") {
       changePath(path + file.name);
