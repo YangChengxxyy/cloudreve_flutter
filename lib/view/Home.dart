@@ -6,7 +6,6 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:open_file/open_file.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -23,18 +22,24 @@ Map<String, Uint8List> _imageCache = {};
 class Home extends StatelessWidget {
   /// 修改path函数
   ChangeStringCallBack changePath;
+
   /// 修改进度函数
   ChangeDoubleCallBack changeProgressNum;
+
   /// 路径
   String path;
   // 访问文件数据
   Future<Response> fileResp;
+
   /// 进度
   double progressNum = -1;
+
   /// 刷新函数
   RefreshCallBack refresh;
+
   /// 类型
   Mode mode;
+
   /// 外间距
   double paddingNum = 10;
 
@@ -47,6 +52,7 @@ class Home extends StatelessWidget {
     required this.refresh,
     required this.mode,
   });
+
   /// 刷新函数
   Future<Null> _refresh(BuildContext context) {
     return Future.delayed(Duration(seconds: 1), () {
@@ -273,6 +279,7 @@ class Home extends StatelessWidget {
       },
     );
   }
+
   /// 图片点击事件
   void _imageTap(BuildContext context, MFile file) {
     var image = FutureBuilder(
@@ -304,23 +311,25 @@ class Home extends StatelessWidget {
     );
 
     showDialog(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.zero,
-            insetPadding: EdgeInsets.zero,
-            backgroundColor: Colors.black26,
-            content: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: ConstrainedBox(
-                child: image,
-                constraints: BoxConstraints.expand(),
-              ),
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.black26,
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: ConstrainedBox(
+              child: image,
+              constraints: BoxConstraints.expand(),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
+
   /// 获取缩略图
   Future<Response> _geThumbImage(String fileId) {
     if (_thumbCache[fileId] == null) {
@@ -331,6 +340,7 @@ class Home extends StatelessWidget {
       return Future<Response>.value(response);
     }
   }
+
   /// 获取图像
   Future<Response> _getImage(MFile file) async {
     if (_imageCache[file.id] == null) {
@@ -350,6 +360,7 @@ class Home extends StatelessWidget {
       return Future<Response>.value(response);
     }
   }
+
   /// 构建网格项
   Widget _buildGridItem(BuildContext context, MFile file, int index) {
     Icon icon = Icon(Icons.file_present);
@@ -570,4 +581,3 @@ class Home extends StatelessWidget {
     refresh(true);
   }
 }
-

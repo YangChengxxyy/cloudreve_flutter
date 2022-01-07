@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 class MainApp extends StatefulWidget {
   /// 用户数据
   late UserData _userData;
+
   /// 存储信息
   late Storage _storage;
 
@@ -211,7 +212,6 @@ class _MainAppState extends State<MainApp> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-
             DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
@@ -249,10 +249,10 @@ class _MainAppState extends State<MainApp> {
                         }
                       },
                     ),
-                    Text(_userData.nickname,style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black45
-                    ),)
+                    Text(
+                      _userData.nickname,
+                      style: TextStyle(fontSize: 20, color: Colors.black45),
+                    )
                   ],
                 )),
             ListTile(
@@ -285,8 +285,8 @@ class _MainAppState extends State<MainApp> {
               leading: Icon(Icons.share),
               textColor: Colors.grey,
               title: Text("我的分享"),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return Share();
                 }));
               },
@@ -294,19 +294,19 @@ class _MainAppState extends State<MainApp> {
             ListTile(
               leading: Icon(Icons.cloud_download),
               textColor: Colors.grey,
-              title: Text("离线下载"),onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return Offline();
-              }));
-            },
-
+              title: Text("离线下载"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Offline();
+                }));
+              },
             ),
             ListTile(
               leading: Icon(Icons.phonelink),
               textColor: Colors.grey,
               title: Text("WebDav"),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return WebDav();
                 }));
               },
@@ -315,8 +315,8 @@ class _MainAppState extends State<MainApp> {
               leading: Icon(Icons.assignment),
               textColor: Colors.grey,
               title: Text("任务队列"),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return Task();
                 }));
               },
