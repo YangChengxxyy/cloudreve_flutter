@@ -12,39 +12,14 @@ class LoginApp extends StatefulWidget {
   State<LoginApp> createState() => _LoginAppState();
 }
 
-class _LoginAppState extends State<LoginApp> {
-  _onLoginBtnClick(UserData userData, Storage storage) {
-    Navigator.of(context).pushAndRemoveUntil(
-        new MaterialPageRoute(
-          builder: (context) => new MainApp(
-            userData: userData,
-            storage: storage,
-          ),
-        ),
-        (route) => route == null);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("登录Cloudreve"),
-      ),
-      body: LoginBody(
-        onLoginBtnClick: _onLoginBtnClick,
-      ),
-    );
-  }
-}
-
 class LoginBody extends StatelessWidget {
   void Function(UserData userData, Storage storage) onLoginBtnClick;
 
-  LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _pwdController = new TextEditingController();
+  LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -174,5 +149,30 @@ class LoginBody extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _LoginAppState extends State<LoginApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("登录Cloudreve"),
+      ),
+      body: LoginBody(
+        onLoginBtnClick: _onLoginBtnClick,
+      ),
+    );
+  }
+
+  _onLoginBtnClick(UserData userData, Storage storage) {
+    Navigator.of(context).pushAndRemoveUntil(
+        new MaterialPageRoute(
+          builder: (context) => new MainApp(
+            userData: userData,
+            storage: storage,
+          ),
+        ),
+        (route) => route == null);
   }
 }

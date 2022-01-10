@@ -1,5 +1,5 @@
-import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +17,12 @@ class RegisterApp extends StatelessWidget {
 }
 
 class RegisterBody extends StatelessWidget {
-  RegisterBody({Key? key});
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _pwdController = new TextEditingController();
   TextEditingController _pwdController2 = new TextEditingController();
+  RegisterBody({Key? key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,25 +1,31 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
-import 'package:open_file/open_file.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:toast/toast.dart';
 
-typedef void ChangeStringCallBack(String newValue);
-typedef void ChangeDoubleCallBack(double newValue);
-typedef void RefreshCallBack(bool b);
-
-enum Mode { list, grid }
-
-Map<String, Uint8List> _thumbCache = {};
 Map<String, String> _downloadUrlCache = {};
 Map<String, Uint8List> _imageCache = {};
+Map<String, Uint8List> _thumbCache = {};
+
+typedef void ChangeDoubleCallBack(double newValue);
+typedef void ChangeStringCallBack(String newValue);
+typedef void RefreshCallBack(bool b);
 
 class Home extends StatelessWidget {
+  /// 上次返回时间
+  int _lastBack = -1;
+
+  ///默认下载路径
+  String downPath = "/storage/emulated/0/Download/";
+
   /// 修改path函数
   ChangeStringCallBack changePath;
 
@@ -28,7 +34,8 @@ class Home extends StatelessWidget {
 
   /// 路径
   String path;
-  // 访问文件数据
+
+  /// 访问文件数据
   Future<Response> fileResp;
 
   /// 进度
@@ -43,6 +50,12 @@ class Home extends StatelessWidget {
   /// 外间距
   double paddingNum = 10;
 
+  final imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
+  final pdfRex = RegExp(r".*\.(pdf)");
+  final wordRegex = RegExp(r".*\.(doc|docx)");
+  final zipRegex = RegExp(r".*\.(zip|rar|7z)");
+  final apkRegex = RegExp(r".*\.(apk)");
+
   Home({
     required this.changePath,
     required this.path,
@@ -52,19 +65,6 @@ class Home extends StatelessWidget {
     required this.refresh,
     required this.mode,
   });
-
-  /// 刷新函数
-  Future<Null> _refresh(BuildContext context) {
-    return Future.delayed(Duration(seconds: 1), () {
-      // 延迟1s完成刷新
-      refresh(true);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("刷新完成"),
-        ),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,8 @@ class Home extends StatelessWidget {
       ),
     );
 
-    return FutureBuilder(
+    return WillPopScope(
+      child: FutureBuilder(
         future: fileResp,
         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
           if (snapshot.hasData) {
@@ -185,191 +186,45 @@ class Home extends StatelessWidget {
           } else {
             return Center(child: Text("加载中"));
           }
-        });
-  }
-
-  /// 构建头部
-  Widget _buildHead(BuildContext context) {
-    List<String> paths1 = path.split("/");
-    List<Widget> buttons = <Widget>[];
-    paths1[0] = "/";
-
-    var paths2 = paths1.where((e) {
-      return e != "";
-    }).toList();
-
-    for (int i = 0; i < paths2.length; i++) {
-      var button = ElevatedButton(
-          onPressed: () {
-            if (i == 0) {
-              changePath("/");
-            } else {
-              String before = "/";
-              for (int j = 1; j <= i; j++) {
-                if (j == i) {
-                  before += paths2[j];
-                } else {
-                  before += paths2[j] + "/";
-                }
-              }
-              changePath(before);
-            }
-            refresh(true);
-          },
-          child: Text(paths2[i]));
-      buttons.add(button);
-    }
-
-    return ButtonBar(
-      alignment: MainAxisAlignment.start,
-      children: buttons,
-    );
-  }
-
-  /// 构建文件列表浏览
-  Widget _buildListItem(BuildContext context, MFile file) {
-    Icon icon = Icon(Icons.file_present);
-
-    var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
-    var pdfRex = RegExp(r".*\.(pdf)");
-    var wordRegex = RegExp(r".*\.(doc|docx)");
-    var zipRegex = RegExp(r".*\.(zip|rar|7z)");
-    var apkRegex = RegExp(r".*\.(apk)");
-
-    if (file.type == "dir") {
-      icon = Icon(Icons.folder);
-    } else {
-      if (imageRex.hasMatch(file.name)) {
-        icon = Icon(Icons.image);
-      } else if (pdfRex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.picture_as_pdf,
-          color: Colors.red,
-        );
-      } else if (zipRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.archive);
-      } else if (wordRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.book);
-      } else if (apkRegex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.android,
-          color: Colors.green,
-        );
-      }
-    }
-
-    return InkWell(
-      child: Card(
-        child: ListTile(
-          leading: icon,
-          title: Text(file.name),
-        ),
+        },
       ),
-      onTap: () {
-        if (imageRex.hasMatch(file.name)) {
-          _imageTap(context, file);
-        }
-      },
-      onDoubleTap: () {
-        if (file.type == "file") {
-          _fileDoubleTap(context, file);
-        } else {
-          _dirDoubleTap(file);
-        }
-      },
-    );
-  }
-
-  /// 图片点击事件
-  void _imageTap(BuildContext context, MFile file) {
-    var image = FutureBuilder(
-      future: _getImage(file),
-      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-        if (snapshot.hasData) {
-          if (_imageCache[file.id] == null) {
-            _imageCache[file.id] = snapshot.data!.data as Uint8List;
+      onWillPop: () async {
+        print(path);
+        if (path == "/") {
+          if (_lastBack == -1) {
+            Toast.show("再次点击返回", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            return false;
+          } else {
+            int now = DateTime.now().millisecondsSinceEpoch;
+            if (now - _lastBack >= 1000) {
+              _lastBack = now;
+              return false;
+            } else {
+              return true;
+            }
           }
-          return Container(
-            child: PhotoView(
-              imageProvider: Image.memory(
-                snapshot.data!.data,
-                fit: BoxFit.contain,
-              ).image,
-            ),
-          );
         } else {
-          return Container(
-            child: SizedBox(
-              child: CircularProgressIndicator(),
-              height: 44.0,
-              width: 44.0,
-            ),
-            alignment: Alignment.center,
-          );
+          List<String> paths1 = path.split("/");
+          paths1[0] = "/";
+          var paths2 = paths1.where((e) {
+            return e != "";
+          }).toList();
+          for (int i = 0; i < paths2.length - 1; i++) {
+            String before = "/";
+            before += paths2[i];
+            changePath(before);
+            refresh(true);
+          }
+          return false;
         }
       },
     );
-
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          insetPadding: EdgeInsets.zero,
-          backgroundColor: Colors.black26,
-          content: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: ConstrainedBox(
-              child: image,
-              constraints: BoxConstraints.expand(),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  /// 获取缩略图
-  Future<Response> _geThumbImage(String fileId) {
-    if (_thumbCache[fileId] == null) {
-      return Service.getThumb(fileId);
-    } else {
-      Response response = Response(requestOptions: RequestOptions(path: ""));
-      response.data = _thumbCache[fileId];
-      return Future<Response>.value(response);
-    }
-  }
-
-  /// 获取图像
-  Future<Response> _getImage(MFile file) async {
-    if (_imageCache[file.id] == null) {
-      String downloadUrl;
-      if (_downloadUrlCache[file.id] == null) {
-        Response getUrlResp = await Service.getDownloadUrl(file.id);
-        downloadUrl = getUrlResp.data['data'].toString();
-        _downloadUrlCache[file.id] = downloadUrl;
-      } else {
-        downloadUrl = _downloadUrlCache[file.id]!;
-      }
-      return HttpUtil.dio
-          .get(downloadUrl, options: Options(responseType: ResponseType.bytes));
-    } else {
-      Response response = Response(requestOptions: RequestOptions(path: ""));
-      response.data = _imageCache[file.id];
-      return Future<Response>.value(response);
-    }
   }
 
   /// 构建网格项
   Widget _buildGridItem(BuildContext context, MFile file, int index) {
     Icon icon = Icon(Icons.file_present);
-    var imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
-    var pdfRex = RegExp(r".*\.(pdf)");
-    var wordRegex = RegExp(r".*\.(doc|docx)");
-    var zipRegex = RegExp(r".*\.(zip|rar|7z)");
-    var apkRegex = RegExp(r".*\.(apk)");
-
     bool isImage = false;
 
     if (file.type == "dir") {
@@ -469,6 +324,102 @@ class Home extends StatelessWidget {
     );
   }
 
+  /// 构建头部
+  Widget _buildHead(BuildContext context) {
+    List<String> paths1 = path.split("/");
+    List<Widget> buttons = <Widget>[];
+    paths1[0] = "/";
+
+    var paths2 = paths1.where((e) {
+      return e != "";
+    }).toList();
+
+    for (int i = 0; i < paths2.length; i++) {
+      var button = ElevatedButton(
+          onPressed: () {
+            if (i == 0) {
+              changePath("/");
+            } else {
+              String before = "/";
+              for (int j = 1; j <= i; j++) {
+                if (j == i) {
+                  before += paths2[j];
+                } else {
+                  before += paths2[j] + "/";
+                }
+              }
+              changePath(before);
+            }
+            refresh(true);
+          },
+          child: Text(paths2[i]));
+      buttons.add(button);
+    }
+
+    return ButtonBar(
+      alignment: MainAxisAlignment.start,
+      children: buttons,
+    );
+  }
+
+  /// 构建文件列表浏览
+  Widget _buildListItem(BuildContext context, MFile file) {
+    Icon icon = Icon(Icons.file_present);
+
+    if (file.type == "dir") {
+      icon = Icon(Icons.folder);
+    } else {
+      if (imageRex.hasMatch(file.name)) {
+        icon = Icon(Icons.image);
+      } else if (pdfRex.hasMatch(file.name)) {
+        icon = Icon(
+          Icons.picture_as_pdf,
+          color: Colors.red,
+        );
+      } else if (zipRegex.hasMatch(file.name)) {
+        icon = Icon(Icons.archive);
+      } else if (wordRegex.hasMatch(file.name)) {
+        icon = Icon(Icons.book);
+      } else if (apkRegex.hasMatch(file.name)) {
+        icon = Icon(
+          Icons.android,
+          color: Colors.green,
+        );
+      }
+    }
+
+    return InkWell(
+      child: Card(
+        child: ListTile(
+          leading: icon,
+          title: Text(file.name),
+        ),
+      ),
+      onTap: () {
+        if (imageRex.hasMatch(file.name)) {
+          _imageTap(context, file);
+        }
+      },
+      onDoubleTap: () {
+        if (file.type == "file") {
+          _fileDoubleTap(context, file);
+        } else {
+          _dirDoubleTap(file);
+        }
+      },
+    );
+  }
+
+  /// 目录双击事件
+  void _dirDoubleTap(file) {
+    if (path == "/") {
+      changePath(path + file.name);
+    } else {
+      changePath(path + "/" + file.name);
+    }
+    refresh(true);
+  }
+
   /// 文件双击事件
   void _fileDoubleTap(BuildContext context, MFile file) {
     String date =
@@ -498,16 +449,13 @@ class Home extends StatelessWidget {
             TextButton(
               child: const Text('打开'),
               onPressed: () async {
-                Response response = await Service.getDownloadUrl(file.id);
-                String url = response.data['data'].toString();
-                Dio dio = Dio();
-                try {
-                  Navigator.pop(_);
-                  String downPath = "/storage/emulated/0/Download/";
-                  response = await dio.download(url, downPath + file.name,
-                      onReceiveProgress: (process, total) {});
-                  if (response.statusCode == 200) {
-                    refresh(true);
+                if (imageRex.hasMatch(file.name)) {
+                  _imageTap(context, file);
+                } else {
+                  File f = File(downPath + file.name);
+                  var exist = await f.exists();
+                  if (exist) {
+                    Navigator.pop(_);
                     final _result = await OpenFile.open(downPath + file.name);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -515,44 +463,73 @@ class Home extends StatelessWidget {
                       ),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("下载失败"),
-                      ),
-                    );
+                    Response response = await Service.getDownloadUrl(file.id);
+                    String url = response.data['data'].toString();
+                    Dio dio = Dio();
+                    try {
+                      Navigator.pop(_);
+                      response = await dio.download(url, downPath + file.name,
+                          onReceiveProgress: (process, total) {});
+                      if (response.statusCode == 200) {
+                        refresh(true);
+                        final _result =
+                            await OpenFile.open(downPath + file.name);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(_result.message),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("打开失败"),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      return print(e);
+                    }
                   }
-                } catch (e) {
-                  return print(e);
                 }
               },
             ),
             TextButton(
               child: const Text('下载'),
               onPressed: () async {
-                Response response = await Service.getDownloadUrl(file.id);
-                String url = response.data['data'].toString();
-                Dio dio = Dio();
-                try {
+                File f = File(downPath + file.name);
+                var exist = await f.exists();
+                if (exist) {
                   Navigator.pop(_);
-                  String downPath = "/storage/emulated/0/Download/";
-                  response = await dio.download(url, downPath + file.name,
-                      onReceiveProgress: (process, total) {
-                    changeProgressNum(process / total);
-                  });
-                  if (response.statusCode == 200) {
-                    String snackString = '下载至:' + downPath + file.name;
-                    changeProgressNum(-1);
-                    refresh(true);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(snackString),
-                      ),
-                    );
-                  } else {
-                    throw Exception('接口出错');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("文件已存在"),
+                    ),
+                  );
+                } else {
+                  Response response = await Service.getDownloadUrl(file.id);
+                  String url = response.data['data'].toString();
+                  Dio dio = Dio();
+                  try {
+                    Navigator.pop(_);
+                    response = await dio.download(url, downPath + file.name,
+                        onReceiveProgress: (process, total) {
+                      changeProgressNum(process / total);
+                    });
+                    if (response.statusCode == 200) {
+                      String snackString = '下载至:' + downPath + file.name;
+                      changeProgressNum(-1);
+                      refresh(true);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(snackString),
+                        ),
+                      );
+                    } else {
+                      throw Exception('接口出错');
+                    }
+                  } catch (e) {
+                    return print(e);
                   }
-                } catch (e) {
-                  return print(e);
                 }
               },
             ),
@@ -571,13 +548,99 @@ class Home extends StatelessWidget {
     );
   }
 
-  /// 目录双击事件
-  void _dirDoubleTap(file) {
-    if (path == "/") {
-      changePath(path + file.name);
+  /// 获取缩略图
+  Future<Response> _geThumbImage(String fileId) async {
+    if (_thumbCache[fileId] == null) {
+      return Service.getThumb(fileId);
     } else {
-      changePath(path + "/" + file.name);
+      Response response = Response(requestOptions: RequestOptions(path: ""));
+      response.data = _thumbCache[fileId];
+      return response;
     }
-    refresh(true);
+  }
+
+  /// 获取图像
+  Future<Response> _getImage(MFile file) async {
+    if (_imageCache[file.id] == null) {
+      String downloadUrl;
+      if (_downloadUrlCache[file.id] == null) {
+        Response getUrlResp = await Service.getDownloadUrl(file.id);
+        downloadUrl = getUrlResp.data['data'].toString();
+        _downloadUrlCache[file.id] = downloadUrl;
+      } else {
+        downloadUrl = _downloadUrlCache[file.id]!;
+      }
+      return HttpUtil.dio
+          .get(downloadUrl, options: Options(responseType: ResponseType.bytes));
+    } else {
+      Response response = Response(requestOptions: RequestOptions(path: ""));
+      response.data = _imageCache[file.id];
+      return response;
+    }
+  }
+
+  /// 图片点击事件
+  void _imageTap(BuildContext context, MFile file) {
+    var image = FutureBuilder(
+      future: _getImage(file),
+      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+        if (snapshot.hasData) {
+          if (_imageCache[file.id] == null) {
+            _imageCache[file.id] = snapshot.data!.data as Uint8List;
+          }
+          return Container(
+            child: PhotoView(
+              imageProvider: Image.memory(
+                snapshot.data!.data,
+                fit: BoxFit.contain,
+              ).image,
+            ),
+          );
+        } else {
+          return Container(
+            child: SizedBox(
+              child: CircularProgressIndicator(),
+              height: 44.0,
+              width: 44.0,
+            ),
+            alignment: Alignment.center,
+          );
+        }
+      },
+    );
+
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.black26,
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: ConstrainedBox(
+              child: image,
+              constraints: BoxConstraints.expand(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// 刷新函数
+  Future<Null> _refresh(BuildContext context) {
+    return Future.delayed(Duration(seconds: 1), () {
+      // 延迟1s完成刷新
+      refresh(true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("刷新完成"),
+        ),
+      );
+    });
   }
 }
+
+enum Mode { list, grid }

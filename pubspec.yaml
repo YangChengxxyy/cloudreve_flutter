@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.6
   photo_view: ^0.13.0
   open_file: ^3.2.1
+  toast: ^0.1.5
 
 
 dev_dependencies:

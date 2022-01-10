@@ -6,11 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class WebDav extends StatelessWidget {
-  /// 获取webdav数据
-  Future<Response> _getWebDavAccounts() {
-    return Service.webdav();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,5 +72,10 @@ class WebDav extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// 获取webdav数据
+  Future<Response> _getWebDavAccounts() {
+    return Service.webdav();
   }
 }

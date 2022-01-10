@@ -1,8 +1,8 @@
-import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
@@ -15,45 +15,33 @@ void main() {
   runApp(MyApp());
 }
 
+class LoadingApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.only(top: 206),
+          alignment: Alignment.topCenter,
+          // 设置图片为圆形
+          child: ClipOval(
+            child: Image.asset(
+              "assets/logo.png",
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
   MyApp({Key? key}) : super(key: key);
-
-  Future<Widget> _future() async {
-    bool status = await Permission.storage.isGranted;
-    HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
-
-    if (!status) {
-      await Permission.storage.request().isGranted;
-    }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    if (prefs.getBool("isLogin") != null) {
-      String username = prefs.getString("username")!;
-      String password = prefs.getString("password")!;
-
-      //重新登录刷新登录信息
-      Response loginResp = await Service.session(username, password);
-      Response storageResp = await Service.storage();
-
-      LoginResult loginResult = LoginResult.fromJson(loginResp.data);
-      Storage storage = Storage.fromJson(storageResp.data['data']);
-      if (loginResult.code == 0) {
-        return Future.value(
-          MainApp(
-            userData: loginResult.data,
-            storage: storage,
-          ),
-        );
-      } else {
-        prefs.clear();
-        return Future.value((LoginApp()));
-      }
-    } else {
-      return Future.value((LoginApp()));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,27 +71,37 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
 
-class LoadingApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.only(top: 206),
-          alignment: Alignment.topCenter,
-          // 设置图片为圆形
-          child: ClipOval(
-            child: Image.asset(
-              "assets/logo.png",
-              height: 100,
-              width: 100,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
-    );
+  Future<Widget> _future() async {
+    bool status = await Permission.storage.isGranted;
+    HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
+
+    if (!status) {
+      await Permission.storage.request().isGranted;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getBool("isLogin") != null) {
+      String username = prefs.getString("username")!;
+      String password = prefs.getString("password")!;
+
+      //重新登录刷新登录信息
+      Response loginResp = await Service.session(username, password);
+      Response storageResp = await Service.storage();
+
+      LoginResult loginResult = LoginResult.fromJson(loginResp.data);
+      Storage storage = Storage.fromJson(storageResp.data['data']);
+      if (loginResult.code == 0) {
+        return MainApp(
+          userData: loginResult.data,
+          storage: storage,
+        );
+      } else {
+        prefs.clear();
+        return LoginApp();
+      }
+    } else {
+      return LoginApp();
+    }
   }
 }

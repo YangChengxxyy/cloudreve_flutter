@@ -1,5 +1,5 @@
-import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
+import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
@@ -31,129 +31,36 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   int _selectedIndex = 0;
+
+  /// 当前路径
   String _path = "/";
+
+  /// 下载进度现在只支持单个
   double _processNum = -1;
 
+  /// 访问后台的文件列表
   Future<Response>? _fileResp;
+
+  /// 记录刷新时间 减少刷新时间
   int _lastRequest = -1;
 
+  /// 列表模式
   Mode _mode = Mode.grid;
+
+  /// 用户数据
   late UserData _userData;
+
+  /// 用户存储信息
   Storage _storage = new Storage(0, 100, 100);
+
+  TextEditingController _newFoldController = new TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   _MainAppState(UserData userData, Storage storage) {
     _userData = userData;
     _storage = storage;
   }
-
-  void _refreshFileList(bool immediately) async {
-    if (immediately) {
-      _lastRequest = DateTime.now().millisecondsSinceEpoch;
-      setState(() {
-        _fileResp = Service.directory(_path);
-      });
-      _storage = Storage.fromJson((await Service.storage()).data['data']);
-    } else {
-      int now = DateTime.now().millisecondsSinceEpoch;
-      if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
-        _lastRequest = DateTime.now().millisecondsSinceEpoch;
-        setState(() {
-          _fileResp = Service.directory(_path);
-        });
-        _storage = Storage.fromJson((await Service.storage()).data['data']);
-      }
-    }
-  }
-
-  TextEditingController _newFoldController = new TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _newFold() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("新建目录"),
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  if ((_formKey.currentState as FormState).validate()) {
-                    Response res = await Service.addDirectory(
-                        {"path": _path + "/" + _newFoldController.text.trim()});
-                    if (res.statusCode == 200) {
-                      Navigator.of(context).pop(true);
-                      _newFoldController.text = "";
-                      _refreshFileList(true);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("新建目录成功"),
-                        ),
-                      );
-                    }
-                  }
-                },
-                child: Text("创建"))
-          ],
-          content: Form(
-            key: _formKey,
-            child: TextFormField(
-              controller: _newFoldController,
-              decoration:
-                  InputDecoration(labelText: "文件夹名称", icon: Icon(Icons.folder)),
-              validator: (v) {
-                if (v == null) {
-                  return null;
-                }
-                return v.trim().length > 0 ? null : "文件夹名称不得为空";
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _uploadFile() async {
-    var result = await FilePicker.platform.pickFiles(withReadStream: true);
-    if (result != null) {
-      var file = result.files.first;
-
-      Response res = await Service.uploadFile(file, _path, (process, total) {
-        setState(() {
-          _processNum = process / total;
-        });
-      });
-
-      if (res.statusCode == 200) {
-        String text;
-        if (_path == '/') {
-          text = "上传成功:$_path${file.name}";
-        } else {
-          text = "上传成功:$_path/${file.name}";
-        }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(text),
-          ),
-        );
-        setState(() {
-          _processNum = -1;
-        });
-        _refreshFileList(true);
-      }
-    }
-  }
-
-  Future<Response> _getAvatar() {
-    return Service.avatar(_userData.id);
-  }
-
   @override
   Widget build(BuildContext context) {
     _refreshFileList(false);
@@ -365,5 +272,111 @@ class _MainAppState extends State<MainApp> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  Future<Response> _getAvatar() {
+    return Service.avatar(_userData.id);
+  }
+
+  void _newFold() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("新建目录"),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  if ((_formKey.currentState as FormState).validate()) {
+                    Response res = await Service.addDirectory(
+                        {"path": _path + "/" + _newFoldController.text.trim()});
+                    if (res.statusCode == 200) {
+                      Navigator.of(context).pop(true);
+                      _newFoldController.text = "";
+                      _refreshFileList(true);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("新建目录成功"),
+                        ),
+                      );
+                    }
+                  }
+                },
+                child: Text("创建"))
+          ],
+          content: Form(
+            key: _formKey,
+            child: TextFormField(
+              controller: _newFoldController,
+              decoration:
+                  InputDecoration(labelText: "文件夹名称", icon: Icon(Icons.folder)),
+              validator: (v) {
+                if (v == null) {
+                  return null;
+                }
+                return v.trim().length > 0 ? null : "文件夹名称不得为空";
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  /// 刷新文件列表[immediately]表示是否强制
+  void _refreshFileList(bool immediately) async {
+    if (immediately) {
+      _lastRequest = DateTime.now().millisecondsSinceEpoch;
+      setState(() {
+        _fileResp = Service.directory(_path);
+      });
+      _storage = Storage.fromJson((await Service.storage()).data['data']);
+    } else {
+      int now = DateTime.now().millisecondsSinceEpoch;
+      if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
+        _lastRequest = DateTime.now().millisecondsSinceEpoch;
+        setState(() {
+          _fileResp = Service.directory(_path);
+        });
+        _storage = Storage.fromJson((await Service.storage()).data['data']);
+      }
+    }
+  }
+
+  void _uploadFile() async {
+    var result = await FilePicker.platform.pickFiles(withReadStream: true);
+    if (result != null) {
+      var file = result.files.first;
+
+      Response res = await Service.uploadFile(file, _path, (process, total) {
+        setState(() {
+          _processNum = process / total;
+        });
+      });
+
+      if (res.statusCode == 200) {
+        String text;
+        if (_path == '/') {
+          text = "上传成功:$_path${file.name}";
+        } else {
+          text = "上传成功:$_path/${file.name}";
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(text),
+          ),
+        );
+        setState(() {
+          _processNum = -1;
+        });
+        _refreshFileList(true);
+      }
+    }
   }
 }
