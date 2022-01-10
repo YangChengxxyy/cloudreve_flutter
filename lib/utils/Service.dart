@@ -24,6 +24,11 @@ class Service {
     });
   }
 
+  /// 退出登录
+  static Future<Response> deleteSession() {
+    return HttpUtil.dio.delete("/api/v3/user/session");
+  }
+
   /// 通过当前路径[path]获取文件列表
   static Future<Response> directory(String path) {
     return HttpUtil.dio.get('/api/v3/directory$path');

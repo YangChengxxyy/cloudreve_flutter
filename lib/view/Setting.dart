@@ -1,5 +1,6 @@
 import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +21,7 @@ class _SettingState extends State<Setting> {
               leading: Icon(Icons.logout),
               title: Text('退出登录'),
               onTap: () async {
-                await HttpUtil.dio.delete("/api/v3/user/session");
+                await Service.deleteSession();
 
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await prefs.clear();
