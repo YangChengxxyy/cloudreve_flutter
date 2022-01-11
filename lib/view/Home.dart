@@ -7,9 +7,9 @@ import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_file/open_file.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:toast/toast.dart';
 
 Map<String, String> _downloadUrlCache = {};
 Map<String, Uint8List> _imageCache = {};
@@ -179,10 +179,11 @@ class Home extends StatelessWidget {
               }
 
               return ListView.builder(
-                  itemCount: widgetList.length,
-                  itemBuilder: (context, index) {
-                    return widgetList[index];
-                  });
+                itemCount: widgetList.length,
+                itemBuilder: (context, index) {
+                  return widgetList[index];
+                },
+              );
             }
           } else {
             return Center(child: Text("加载中"));
@@ -190,11 +191,17 @@ class Home extends StatelessWidget {
         },
       ),
       onWillPop: () async {
-        print(path);
         if (path == "/") {
           if (_lastBack == -1) {
-            Toast.show("再次点击返回", context,
-                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            Fluttertoast.showToast(
+                msg: "再次滑动返回",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            _lastBack = DateTime.now().microsecondsSinceEpoch;
             return false;
           } else {
             int now = DateTime.now().millisecondsSinceEpoch;
@@ -211,12 +218,12 @@ class Home extends StatelessWidget {
           var paths2 = paths1.where((e) {
             return e != "";
           }).toList();
-          for (int i = 0; i < paths2.length - 1; i++) {
-            String before = "/";
+          String before = "/";
+          for (int i = 1; i < paths2.length - 1; i++) {
             before += paths2[i];
-            changePath(before);
-            refresh(true);
           }
+          changePath(before);
+          refresh(true);
           return false;
         }
       },
@@ -344,23 +351,24 @@ class Home extends StatelessWidget {
 
     for (int i = 0; i < paths2.length; i++) {
       var button = ElevatedButton(
-          onPressed: () {
-            if (i == 0) {
-              changePath("/");
-            } else {
-              String before = "/";
-              for (int j = 1; j <= i; j++) {
-                if (j == i) {
-                  before += paths2[j];
-                } else {
-                  before += paths2[j] + "/";
-                }
+        onPressed: () {
+          if (i == 0) {
+            changePath("/");
+          } else {
+            String before = "/";
+            for (int j = 1; j <= i; j++) {
+              if (j == i) {
+                before += paths2[j];
+              } else {
+                before += paths2[j] + "/";
               }
-              changePath(before);
             }
-            refresh(true);
-          },
-          child: Text(paths2[i]));
+            changePath(before);
+          }
+          refresh(true);
+        },
+        child: Text(paths2[i]),
+      );
       buttons.add(button);
     }
 
@@ -425,7 +433,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  /// 目录双击事件
+  /// 目录单击事件
   void _dirTap(file) {
     if (path == "/") {
       changePath(path + file.name);
@@ -719,4 +727,3 @@ class Home extends StatelessWidget {
     }
   }
 }
-
