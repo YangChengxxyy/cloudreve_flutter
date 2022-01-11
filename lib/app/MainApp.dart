@@ -136,7 +136,7 @@ class _MainAppState extends State<MainApp> {
                     if (f1.type == "dir" && f2.type == "file") {
                       return -9007199254740992;
                     }
-                    return f2.getFormatDate().compareTo(f1.getFormatDate());
+                    return -f1.getFormatDate().compareTo(f2.getFormatDate());
                   },
                   child: Text('最新'),
                 ),
@@ -154,7 +154,7 @@ class _MainAppState extends State<MainApp> {
                     if (f1.type == "dir" && f2.type == "file") {
                       return -9007199254740992;
                     }
-                    return f1.size.compareTo(f2.size);
+                    return -f1.size.compareTo(f2.size);
                   },
                   child: Text('最小'),
                 ),
