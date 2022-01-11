@@ -15,6 +15,7 @@ Map<String, String> _downloadUrlCache = {};
 Map<String, Uint8List> _imageCache = {};
 Map<String, Uint8List> _thumbCache = {};
 
+enum Mode { list, grid }
 typedef void ChangeDoubleCallBack(double newValue);
 typedef void ChangeStringCallBack(String newValue);
 typedef void RefreshCallBack(bool b);
@@ -310,15 +311,22 @@ class Home extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (imageRex.hasMatch(file.name)) {
-          _imageTap(context, file);
+        if (file.type == "file") {
+          if (imageRex.hasMatch(file.name)) {
+            _imageTap(context, file);
+          } else {
+            _openFileButtonTap(context, null, file);
+          }
+        } else {
+          _dirTap(file);
         }
       },
-      onDoubleTap: () {
+      onDoubleTap: () {},
+      onLongPress: () {
         if (file.type == "file") {
-          _fileDoubleTap(context, file);
+          _fileLongPress(context, file);
         } else {
-          _dirDoubleTap(file);
+          _dirLongPress(context, file);
         }
       },
     );
@@ -396,22 +404,29 @@ class Home extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (imageRex.hasMatch(file.name)) {
-          _imageTap(context, file);
+        if (file.type == "file") {
+          if (imageRex.hasMatch(file.name)) {
+            _imageTap(context, file);
+          } else {
+            _openFileButtonTap(context, null, file);
+          }
+        } else {
+          _dirTap(file);
         }
       },
-      onDoubleTap: () {
+      onDoubleTap: () {},
+      onLongPress: () {
         if (file.type == "file") {
-          _fileDoubleTap(context, file);
+          _fileLongPress(context, file);
         } else {
-          _dirDoubleTap(file);
+          _dirLongPress(context, file);
         }
       },
     );
   }
 
   /// 目录双击事件
-  void _dirDoubleTap(file) {
+  void _dirTap(file) {
     if (path == "/") {
       changePath(path + file.name);
     } else {
@@ -420,8 +435,8 @@ class Home extends StatelessWidget {
     refresh(true);
   }
 
-  /// 文件双击事件
-  void _fileDoubleTap(BuildContext context, MFile file) {
+  /// 目录长按事件
+  void _dirLongPress(BuildContext context, MFile file) {
     String date =
         file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
 
@@ -433,7 +448,7 @@ class Home extends StatelessWidget {
             TextButton(
               child: Text("删除"),
               onPressed: () async {
-                Response delRes = await Service.deleteItem([], file.id);
+                Response delRes = await Service.deleteItem([file.id], []);
                 if (delRes.data['code'] == 0) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -446,91 +461,56 @@ class Home extends StatelessWidget {
                 }
               },
             ),
+          ],
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("文件夹名:\t\t${file.name}"),
+              Text("上传时间:\t\t$date")
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// 文件长按事件
+  void _fileLongPress(BuildContext context, MFile file) {
+    String date =
+        file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
+
+    showDialog(
+      context: context,
+      builder: (dirtyContext) {
+        return AlertDialog(
+          actions: <Widget>[
+            TextButton(
+              child: Text("删除"),
+              onPressed: () async {
+                Response delRes = await Service.deleteItem([], [file.id]);
+                if (delRes.data['code'] == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("删除成功"),
+                    ),
+                  );
+                  Navigator.pop(dirtyContext);
+                  changePath(path);
+                  refresh(true);
+                }
+              },
+            ),
             TextButton(
               child: const Text('打开'),
               onPressed: () async {
-                if (imageRex.hasMatch(file.name)) {
-                  _imageTap(context, file);
-                } else {
-                  File f = File(downPath + file.name);
-                  var exist = await f.exists();
-                  if (exist) {
-                    Navigator.pop(_);
-                    final _result = await OpenFile.open(downPath + file.name);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(_result.message),
-                      ),
-                    );
-                  } else {
-                    Response response = await Service.getDownloadUrl(file.id);
-                    String url = response.data['data'].toString();
-                    Dio dio = Dio();
-                    try {
-                      Navigator.pop(_);
-                      response = await dio.download(url, downPath + file.name,
-                          onReceiveProgress: (process, total) {});
-                      if (response.statusCode == 200) {
-                        refresh(true);
-                        final _result =
-                            await OpenFile.open(downPath + file.name);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(_result.message),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("打开失败"),
-                          ),
-                        );
-                      }
-                    } catch (e) {
-                      return print(e);
-                    }
-                  }
-                }
+                _openFileButtonTap(context, dirtyContext, file);
               },
             ),
             TextButton(
               child: const Text('下载'),
               onPressed: () async {
-                File f = File(downPath + file.name);
-                var exist = await f.exists();
-                if (exist) {
-                  Navigator.pop(_);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("文件已存在"),
-                    ),
-                  );
-                } else {
-                  Response response = await Service.getDownloadUrl(file.id);
-                  String url = response.data['data'].toString();
-                  Dio dio = Dio();
-                  try {
-                    Navigator.pop(_);
-                    response = await dio.download(url, downPath + file.name,
-                        onReceiveProgress: (process, total) {
-                      changeProgressNum(process / total);
-                    });
-                    if (response.statusCode == 200) {
-                      String snackString = '下载至:' + downPath + file.name;
-                      changeProgressNum(-1);
-                      refresh(true);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(snackString),
-                        ),
-                      );
-                    } else {
-                      throw Exception('接口出错');
-                    }
-                  } catch (e) {
-                    return print(e);
-                  }
-                }
+                _downloadButtonTap(context, dirtyContext, file);
               },
             ),
           ],
@@ -631,16 +611,112 @@ class Home extends StatelessWidget {
 
   /// 刷新函数
   Future<Null> _refresh(BuildContext context) {
-    return Future.delayed(Duration(seconds: 1), () {
-      // 延迟1s完成刷新
-      refresh(true);
+    return Future.delayed(
+      Duration(seconds: 1),
+      () {
+        // 延迟1s完成刷新
+        refresh(true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("刷新完成"),
+          ),
+        );
+      },
+    );
+  }
+
+  /// 下载按钮点击
+  void _downloadButtonTap(
+      BuildContext context, BuildContext? dialogContext, MFile file) async {
+    File f = File(downPath + file.name);
+    var exist = await f.exists();
+    if (exist) {
+      if (dialogContext != null) {
+        Navigator.pop(dialogContext);
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("刷新完成"),
+          content: Text("文件已存在"),
         ),
       );
-    });
+    } else {
+      Response response = await Service.getDownloadUrl(file.id);
+      String url = response.data['data'].toString();
+      Dio dio = Dio();
+      try {
+        if (dialogContext != null) {
+          Navigator.pop(dialogContext);
+        }
+        response = await dio.download(url, downPath + file.name,
+            onReceiveProgress: (process, total) {
+          changeProgressNum(process / total);
+        });
+        if (response.statusCode == 200) {
+          String snackString = '下载至:' + downPath + file.name;
+          changeProgressNum(-1);
+          refresh(true);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(snackString),
+            ),
+          );
+        } else {
+          throw Exception('接口出错');
+        }
+      } catch (e) {
+        return print(e);
+      }
+    }
+  }
+
+  /// 打开按钮点击
+  void _openFileButtonTap(
+      BuildContext context, BuildContext? dialogContext, MFile file) async {
+    if (imageRex.hasMatch(file.name)) {
+      _imageTap(context, file);
+    } else {
+      File f = File(downPath + file.name);
+      var exist = await f.exists();
+      if (exist) {
+        if (dialogContext != null) {
+          Navigator.pop(dialogContext);
+        }
+        final _result = await OpenFile.open(downPath + file.name);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_result.message),
+          ),
+        );
+      } else {
+        Response response = await Service.getDownloadUrl(file.id);
+        String url = response.data['data'].toString();
+        Dio dio = Dio();
+        try {
+          if (dialogContext != null) {
+            Navigator.pop(dialogContext);
+          }
+          response = await dio.download(url, downPath + file.name,
+              onReceiveProgress: (process, total) {});
+          if (response.statusCode == 200) {
+            refresh(true);
+            final _result = await OpenFile.open(downPath + file.name);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(_result.message),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("打开失败"),
+              ),
+            );
+          }
+        } catch (e) {
+          return print(e);
+        }
+      }
+    }
   }
 }
 
-enum Mode { list, grid }

@@ -16,11 +16,11 @@ class Service {
         options: Options(responseType: ResponseType.bytes));
   }
 
-  /// 通过[fileId]删除文件
-  static Future<Response> deleteItem(List<String> dirs, String fileId) async {
+  /// 通过[fileId][dirs]删除文件或目录
+  static Future<Response> deleteItem(List<String> dirs, List<String> fileId) async {
     return HttpUtil.dio.delete("/api/v3/object", data: {
       "dirs": dirs,
-      "items": [fileId]
+      "items": fileId
     });
   }
 
