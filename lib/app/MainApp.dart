@@ -55,7 +55,10 @@ class _MainAppState extends State<MainApp> {
 
   /// 文件排序比较函数
   int Function(MFile, MFile) _compare = (f1, f2) {
-    return f1.size.compareTo(f2.size);
+    if (f1.type == "dir" && f2.type == "file") {
+      return -9007199254740992;
+    }
+    return f1.name.compareTo(f2.name);
   };
 
   TextEditingController _newFoldController = new TextEditingController();
@@ -103,36 +106,54 @@ class _MainAppState extends State<MainApp> {
               return <PopupMenuEntry<int Function(MFile, MFile)>>[
                 PopupMenuItem<int Function(MFile, MFile)>(
                   value: (f1, f2) {
+                    if (f1.type == "dir" && f2.type == "file") {
+                      return -9007199254740992;
+                    }
                     return f1.name.compareTo(f2.name);
                   },
                   child: Text('A-Z'),
                 ),
                 PopupMenuItem<int Function(MFile, MFile)>(
                   value: (f1, f2) {
+                    if (f1.type == "dir" && f2.type == "file") {
+                      return -9007199254740992;
+                    }
                     return f2.name.compareTo(f1.name);
                   },
                   child: Text('Z-A'),
                 ),
                 PopupMenuItem<int Function(MFile, MFile)>(
                   value: (f1, f2) {
+                    if (f1.type == "dir" && f2.type == "file") {
+                      return -9007199254740992;
+                    }
                     return f1.getFormatDate().compareTo(f2.getFormatDate());
                   },
                   child: Text('最早'),
                 ),
                 PopupMenuItem<int Function(MFile, MFile)>(
                   value: (f1, f2) {
+                    if (f1.type == "dir" && f2.type == "file") {
+                      return -9007199254740992;
+                    }
                     return f2.getFormatDate().compareTo(f1.getFormatDate());
                   },
                   child: Text('最新'),
                 ),
                 PopupMenuItem<int Function(MFile, MFile)>(
                   value: (f1, f2) {
+                    if (f1.type == "dir" && f2.type == "file") {
+                      return -9007199254740992;
+                    }
                     return f2.size.compareTo(f1.size);
                   },
                   child: Text('最大'),
                 ),
                 PopupMenuItem<int Function(MFile, MFile)>(
                   value: (f1, f2) {
+                    if (f1.type == "dir" && f2.type == "file") {
+                      return -9007199254740992;
+                    }
                     return f1.size.compareTo(f2.size);
                   },
                   child: Text('最小'),
