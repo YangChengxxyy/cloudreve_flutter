@@ -95,59 +95,60 @@ class RegisterBody extends StatelessWidget {
                     alignment: Alignment.center,
                     padding: EdgeInsets.only(top: 30),
                     child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            style: ButtonStyle(),
-                            onPressed: () async {
-                              if ((_formKey.currentState as FormState)
-                                  .validate()) {
-                                //验证通过提交数据
-                                Response registerResp = await Service.register(
-                                    _emailController.text, _pwdController.text);
-                                LoginResult loginState =
-                                    LoginResult.fromJson(registerResp.data);
-                                if (loginState.code == 203) {
-                                  _emailController.clear();
-                                  _pwdController.clear();
-                                  _pwdController2.clear();
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return AlertDialog(
-                                          title: Text(
-                                            "提示",
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ButtonStyle(),
+                        onPressed: () async {
+                          if ((_formKey.currentState as FormState).validate()) {
+                            //验证通过提交数据
+                            Response registerResp = await Service.register(
+                                _emailController.text, _pwdController.text);
+                            LoginResult loginResult =
+                                LoginResult.fromJson(registerResp.data);
+                            if (loginResult.code == 203) {
+                              _emailController.clear();
+                              _pwdController.clear();
+                              _pwdController2.clear();
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "提示",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                    new MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          new LoginApp(),
+                                                    ),
+                                                    (route) => route == null);
+                                          },
+                                          child: Text("OK"))
+                                    ],
+                                    content: new SingleChildScrollView(
+                                      child: new ListBody(
+                                        children: <Widget>[
+                                          new Text(
+                                            '请访问邮箱点击激活按钮',
+                                            style:
+                                                TextStyle(color: Colors.blue),
                                           ),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pushAndRemoveUntil(
-                                                          new MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                new LoginApp(),
-                                                          ),
-                                                          (route) =>
-                                                              route == null);
-                                                },
-                                                child: Text("OK"))
-                                          ],
-                                          content: new SingleChildScrollView(
-                                            child: new ListBody(
-                                              children: <Widget>[
-                                                new Text(
-                                                  '请访问邮箱点击激活按钮',
-                                                  style: TextStyle(
-                                                      color: Colors.blue),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      });
-                                }
-                              }
-                            },
-                            child: Text("注册"))),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          }
+                        },
+                        child: Text("注册"),
+                      ),
+                    ),
                   ),
                   Container(
                     alignment: Alignment.centerLeft,

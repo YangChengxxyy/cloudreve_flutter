@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
       Storage storage = Storage.fromJson(storageResp.data['data']);
       if (loginResult.code == 0) {
         return MainApp(
-          userData: loginResult.data,
+          userData: loginResult.data!,
           storage: storage,
         );
       } else {

@@ -98,7 +98,7 @@ class LoginBody extends StatelessWidget {
                               prefs.setString(
                                   "username", _emailController.text);
                               prefs.setString("password", _pwdController.text);
-                              onLoginBtnClick(loginResult.data, storage);
+                              onLoginBtnClick(loginResult.data!, storage);
                             } else {
                               _pwdController.clear();
                               showDialog(

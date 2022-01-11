@@ -2,12 +2,12 @@ class LoginResult {
   LoginResult(this.code, this.data, this.msg);
 
   late int code;
-  late UserData data;
+  late UserData? data;
   late String msg;
 
   LoginResult.fromJson(Map<String, dynamic> map) {
     code = map['code'];
-    data = UserData.fromJson(map['data']);
+    data = map['data'] != null ? UserData.fromJson(map['data']) : null;
     msg = map['msg'];
   }
 }
@@ -58,8 +58,7 @@ class Policy {
   late String upUrl;
   late bool allowSource;
 
-  Policy(this.saveType, this.maxSize, this.upUrl,
-      this.allowSource);
+  Policy(this.saveType, this.maxSize, this.upUrl, this.allowSource);
 
   Policy.fromJson(Map<String, dynamic> json) {
     saveType = json['saveType'];
