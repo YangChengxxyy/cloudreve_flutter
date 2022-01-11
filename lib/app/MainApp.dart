@@ -330,26 +330,22 @@ class _MainAppState extends State<MainApp> {
         onTap: _onItemTapped,
       ),
       floatingActionButton: FloatingActionButton(
-        child: PopupMenuButton<int>(
+        child: PopupMenuButton<void Function()>(
           offset: Offset(0, -118),
-          onSelected: (i) async {
-            if (i == 1) {
-              _uploadFile();
-            } else if (i == 2) {
-              _newFold();
-            }
+          onSelected: (fun) async {
+            fun();
           },
           icon: Icon(
             Icons.add,
           ),
           itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem<int>(
-                value: 1,
+            return <PopupMenuEntry<void Function()>>[
+              PopupMenuItem<void Function()>(
+                value: _uploadFile,
                 child: Text('上传文件'),
               ),
-              PopupMenuItem<int>(
-                value: 2,
+              PopupMenuItem<void Function()>(
+                value: _newFold,
                 child: Text('新建目录'),
               ),
             ];
