@@ -53,6 +53,11 @@ class _MainAppState extends State<MainApp> {
   /// 用户存储信息
   Storage _storage = new Storage(0, 100, 100);
 
+  /// 文件排序比较函数
+  int Function(MFile, MFile) _compare = (f1, f2) {
+    return f1.size.compareTo(f2.size);
+  };
+
   TextEditingController _newFoldController = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -89,30 +94,57 @@ class _MainAppState extends State<MainApp> {
                 }
               },
               icon: icon),
-          PopupMenuButton<int>(
-            onSelected: (i) async {
-              if (i == 1) {
-                _uploadFile();
-              } else if (i == 2) {
-                _newFold();
-              }
-            },
+          PopupMenuButton<int Function(MFile, MFile)>(
+            offset: Offset(0, kToolbarHeight),
             icon: Icon(
-              Icons.add,
+              Icons.sort_by_alpha,
             ),
             itemBuilder: (context) {
-              return <PopupMenuEntry<int>>[
-                PopupMenuItem<int>(
-                  value: 1,
-                  child: Text('上传文件'),
+              return <PopupMenuEntry<int Function(MFile, MFile)>>[
+                PopupMenuItem<int Function(MFile, MFile)>(
+                  value: (f1, f2) {
+                    return f1.name.compareTo(f2.name);
+                  },
+                  child: Text('A-Z'),
                 ),
-                PopupMenuItem<int>(
-                  value: 2,
-                  child: Text('新建目录'),
+                PopupMenuItem<int Function(MFile, MFile)>(
+                  value: (f1, f2) {
+                    return f2.name.compareTo(f1.name);
+                  },
+                  child: Text('Z-A'),
+                ),
+                PopupMenuItem<int Function(MFile, MFile)>(
+                  value: (f1, f2) {
+                    return f1.getFormatDate().compareTo(f2.getFormatDate());
+                  },
+                  child: Text('最早'),
+                ),
+                PopupMenuItem<int Function(MFile, MFile)>(
+                  value: (f1, f2) {
+                    return f2.getFormatDate().compareTo(f1.getFormatDate());
+                  },
+                  child: Text('最新'),
+                ),
+                PopupMenuItem<int Function(MFile, MFile)>(
+                  value: (f1, f2) {
+                    return f2.size.compareTo(f1.size);
+                  },
+                  child: Text('最大'),
+                ),
+                PopupMenuItem<int Function(MFile, MFile)>(
+                  value: (f1, f2) {
+                    return f1.size.compareTo(f2.size);
+                  },
+                  child: Text('最小'),
                 ),
               ];
             },
-          )
+            onSelected: (c) async {
+              this.setState(() {
+                _compare = c;
+              });
+            },
+          ),
         ],
       ),
       drawer: Drawer(
@@ -250,6 +282,7 @@ class _MainAppState extends State<MainApp> {
                   _processNum = newNum;
                 });
               },
+              compare: _compare,
             ),
             Setting()
           ],
@@ -271,6 +304,34 @@ class _MainAppState extends State<MainApp> {
         selectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
+      floatingActionButton: FloatingActionButton(
+        child: PopupMenuButton<int>(
+          offset: Offset(0, -118),
+          onSelected: (i) async {
+            if (i == 1) {
+              _uploadFile();
+            } else if (i == 2) {
+              _newFold();
+            }
+          },
+          icon: Icon(
+            Icons.add,
+          ),
+          itemBuilder: (context) {
+            return <PopupMenuEntry<int>>[
+              PopupMenuItem<int>(
+                value: 1,
+                child: Text('上传文件'),
+              ),
+              PopupMenuItem<int>(
+                value: 2,
+                child: Text('新建目录'),
+              ),
+            ];
+          },
+        ),
+        onPressed: () => {},
+      ),
     );
   }
 
@@ -286,23 +347,24 @@ class _MainAppState extends State<MainApp> {
           title: Text("新建目录"),
           actions: [
             TextButton(
-                onPressed: () async {
-                  if ((_formKey.currentState as FormState).validate()) {
-                    Response res = await Service.addDirectory(
-                        {"path": _path + "/" + _newFoldController.text.trim()});
-                    if (res.statusCode == 200) {
-                      Navigator.of(context).pop(true);
-                      _newFoldController.text = "";
-                      _refreshFileList(true);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("新建目录成功"),
-                        ),
-                      );
-                    }
+              onPressed: () async {
+                if ((_formKey.currentState as FormState).validate()) {
+                  Response res = await Service.addDirectory(
+                      {"path": _path + "/" + _newFoldController.text.trim()});
+                  if (res.statusCode == 200) {
+                    Navigator.of(context).pop(true);
+                    _newFoldController.text = "";
+                    _refreshFileList(true);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("新建目录成功"),
+                      ),
+                    );
                   }
-                },
-                child: Text("创建"))
+                }
+              },
+              child: Text("创建"),
+            )
           ],
           content: Form(
             key: _formKey,
@@ -329,7 +391,7 @@ class _MainAppState extends State<MainApp> {
     });
   }
 
-  /// 刷新文件列表[immediately]表示是否强制
+  /// 刷新文件列表 [immediately]表示是否强制
   void _refreshFileList(bool immediately) async {
     if (immediately) {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;

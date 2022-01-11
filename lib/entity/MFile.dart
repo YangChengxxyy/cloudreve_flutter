@@ -19,7 +19,12 @@ class MFile {
     this.type = map["type"];
   }
 
-  static List<MFile> getFileList(List<dynamic> list) {
+  String getFormatDate() {
+    return date.substring(0, 10) + " " + date.substring(11, 11 + 8);
+  }
+
+  static List<MFile> getFileList(List<dynamic> list,
+      [int Function(MFile, MFile)? compare]) {
     var fileList = <MFile>[];
     for (var item in list) {
       if (item is Map<String, dynamic>) {
@@ -27,13 +32,15 @@ class MFile {
         fileList.add(file);
       }
     }
-
+    if (compare != null) {
+      fileList.sort(compare);
+    }
     return fileList;
   }
 
   static final sizeList = <String>["B", "KB", "MB", "GB"];
 
-  static String getFileSize(double B,int after){
+  static String getFileSize(double B, int after) {
     int index = 0;
     while (B > 1024) {
       B /= 1024;

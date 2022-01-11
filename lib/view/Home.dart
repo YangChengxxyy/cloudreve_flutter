@@ -33,6 +33,9 @@ class Home extends StatelessWidget {
   /// 修改进度函数
   ChangeDoubleCallBack changeProgressNum;
 
+  /// 文件排序比较函数
+  int Function(MFile, MFile)? compare;
+
   /// 路径
   String path;
 
@@ -57,15 +60,15 @@ class Home extends StatelessWidget {
   final zipRegex = RegExp(r".*\.(zip|rar|7z)");
   final apkRegex = RegExp(r".*\.(apk)");
 
-  Home({
-    required this.changePath,
-    required this.path,
-    required this.progressNum,
-    required this.changeProgressNum,
-    required this.fileResp,
-    required this.refresh,
-    required this.mode,
-  });
+  Home(
+      {required this.changePath,
+      required this.path,
+      required this.progressNum,
+      required this.changeProgressNum,
+      required this.fileResp,
+      required this.refresh,
+      required this.mode,
+      this.compare});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +108,7 @@ class Home extends StatelessWidget {
             if (data != null) {
               var objects = data['objects'];
 
-              var fileList = MFile.getFileList(objects);
+              var fileList = MFile.getFileList(objects, compare);
 
               List<Widget> widgetList = [];
 
@@ -445,9 +448,6 @@ class Home extends StatelessWidget {
 
   /// 目录长按事件
   void _dirLongPress(BuildContext context, MFile file) {
-    String date =
-        file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
-
     showDialog(
       context: context,
       builder: (_) {
@@ -475,7 +475,7 @@ class Home extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text("文件夹名:\t\t${file.name}"),
-              Text("上传时间:\t\t$date")
+              Text("上传时间:\t\t${file.getFormatDate()}")
             ],
           ),
         );
@@ -485,9 +485,6 @@ class Home extends StatelessWidget {
 
   /// 文件长按事件
   void _fileLongPress(BuildContext context, MFile file) {
-    String date =
-        file.date.substring(0, 10) + " " + file.date.substring(11, 11 + 8);
-
     showDialog(
       context: context,
       builder: (dirtyContext) {
@@ -528,7 +525,7 @@ class Home extends StatelessWidget {
             children: <Widget>[
               Text("文件名:\t\t${file.name}"),
               Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble(), 1)}"),
-              Text("上传时间:\t\t$date")
+              Text("上传时间:\t\t${file.getFormatDate()}")
             ],
           ),
         );
