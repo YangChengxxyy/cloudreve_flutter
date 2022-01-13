@@ -3,17 +3,15 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cloudreve/entity/MFile.dart';
-import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 
 Map<String, String> _downloadUrlCache = {};
-Map<String, Uint8List> _imageCache = {};
-Map<String, Uint8List> _thumbCache = {};
 
 enum Mode { list, grid }
 typedef void ChangeDoubleCallBack(double newValue);
@@ -24,7 +22,7 @@ class Home extends StatelessWidget {
   /// 上次返回时间
   int _lastBack = -1;
 
-  ///默认下载路径
+  /// 默认下载路径
   String downPath = "/storage/emulated/0/Download/";
 
   /// 修改path函数
@@ -269,15 +267,12 @@ class Home extends StatelessWidget {
     } else {
       headImage = FutureBuilder(
         future: _geThumbImage(file.id),
-        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
           if (snapshot.hasData) {
-            if (_thumbCache[file.id] == null) {
-              _thumbCache[file.id] = snapshot.data!.data as Uint8List;
-            }
             return Container(
               child: ConstrainedBox(
                 child: Image.memory(
-                  snapshot.data!.data,
+                  snapshot.data!,
                   fit: BoxFit.cover,
                 ),
                 constraints: BoxConstraints.expand(),
@@ -534,49 +529,53 @@ class Home extends StatelessWidget {
   }
 
   /// 获取缩略图
-  Future<Response> _geThumbImage(String fileId) async {
-    if (_thumbCache[fileId] == null) {
-      return Service.getThumb(fileId);
+  Future<Uint8List> _geThumbImage(String fileId) async {
+    String cachePath = (await getTemporaryDirectory()).path + "/";
+    String thumbPath = cachePath + "thumb-" + fileId;
+    File file = new File(thumbPath);
+    if (file.existsSync()) {
+      return file.readAsBytesSync();
     } else {
-      Response response = Response(requestOptions: RequestOptions(path: ""));
-      response.data = _thumbCache[fileId];
-      return response;
+      Uint8List thumb = (await Service.getThumb(fileId)).data;
+      final file = await new File(thumbPath).create();
+      file.writeAsBytesSync(thumb);
+      return thumb;
     }
   }
 
   /// 获取图像
-  Future<Response> _getImage(MFile file) async {
-    if (_imageCache[file.id] == null) {
-      String downloadUrl;
-      if (_downloadUrlCache[file.id] == null) {
-        Response getUrlResp = await Service.getDownloadUrl(file.id);
-        downloadUrl = getUrlResp.data['data'].toString();
-        _downloadUrlCache[file.id] = downloadUrl;
-      } else {
-        downloadUrl = _downloadUrlCache[file.id]!;
-      }
-      return HttpUtil.dio
-          .get(downloadUrl, options: Options(responseType: ResponseType.bytes));
+  Future<Uint8List> _getImage(String fileId) async {
+    String cachePath = (await getTemporaryDirectory()).path + "/";
+    String imagePath = cachePath + "image-" + fileId;
+    File file = new File(imagePath);
+    if (file.existsSync()) {
+      return file.readAsBytesSync();
     } else {
-      Response response = Response(requestOptions: RequestOptions(path: ""));
-      response.data = _imageCache[file.id];
-      return response;
+      String? downloadUrl;
+      if (_downloadUrlCache[fileId] == null) {
+        Response getUrlResp = await Service.getDownloadUrl(fileId);
+        downloadUrl = getUrlResp.data['data'].toString();
+        _downloadUrlCache[fileId] = downloadUrl;
+      } else {
+        downloadUrl = _downloadUrlCache[fileId]!;
+      }
+      Uint8List image = (await Service.getImage(downloadUrl)).data;
+      final file = await new File(imagePath).create();
+      file.writeAsBytesSync(image);
+      return image;
     }
   }
 
   /// 图片点击事件
   void _imageTap(BuildContext context, MFile file) {
     var image = FutureBuilder(
-      future: _getImage(file),
-      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+      future: _getImage(file.id),
+      builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         if (snapshot.hasData) {
-          if (_imageCache[file.id] == null) {
-            _imageCache[file.id] = snapshot.data!.data as Uint8List;
-          }
           return Container(
             child: PhotoView(
               imageProvider: Image.memory(
-                snapshot.data!.data,
+                snapshot.data!,
                 fit: BoxFit.contain,
               ).image,
             ),
@@ -680,13 +679,14 @@ class Home extends StatelessWidget {
     if (imageRex.hasMatch(file.name)) {
       _imageTap(context, file);
     } else {
-      File f = File(downPath + file.name);
+      String tempPath = (await getTemporaryDirectory()).path + "/";
+      File f = File(tempPath + file.name);
       var exist = await f.exists();
       if (exist) {
         if (dialogContext != null) {
           Navigator.pop(dialogContext);
         }
-        final _result = await OpenFile.open(downPath + file.name);
+        final _result = await OpenFile.open(tempPath + file.name);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(_result.message),
@@ -700,11 +700,10 @@ class Home extends StatelessWidget {
           if (dialogContext != null) {
             Navigator.pop(dialogContext);
           }
-          response = await dio.download(url, downPath + file.name,
-              onReceiveProgress: (process, total) {});
+          response = await dio.download(url, tempPath + file.name);
           if (response.statusCode == 200) {
             refresh(true);
-            final _result = await OpenFile.open(downPath + file.name);
+            final _result = await OpenFile.open(tempPath + file.name);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(_result.message),

@@ -17,11 +17,10 @@ class Service {
   }
 
   /// 通过[fileId][dirs]删除文件或目录
-  static Future<Response> deleteItem(List<String> dirs, List<String> fileId) async {
-    return HttpUtil.dio.delete("/api/v3/object", data: {
-      "dirs": dirs,
-      "items": fileId
-    });
+  static Future<Response> deleteItem(
+      List<String> dirs, List<String> fileId) async {
+    return HttpUtil.dio
+        .delete("/api/v3/object", data: {"dirs": dirs, "items": fileId});
   }
 
   /// 退出登录
@@ -36,7 +35,13 @@ class Service {
 
   /// 通过[fileId]获取下载路径
   static Future<Response> getDownloadUrl(String fileId) async {
-    return await HttpUtil.dio.put("/api/v3/file/download/$fileId");
+    return HttpUtil.dio.put("/api/v3/file/download/$fileId");
+  }
+
+  /// 通过
+  static Future<Response> getImage(String downloadUrl) async {
+    return HttpUtil.dio
+          .get(downloadUrl, options: Options(responseType: ResponseType.bytes));
   }
 
   /// 通过[fileId]获取缩略图
