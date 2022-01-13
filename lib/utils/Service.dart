@@ -16,7 +16,7 @@ class Service {
         options: Options(responseType: ResponseType.bytes));
   }
 
-  /// 通过[fileId][dirs]删除文件或目录
+  /// 通过[fileId]或者[dirs]删除文件或目录
   static Future<Response> deleteItem(
       List<String> dirs, List<String> fileId) async {
     return HttpUtil.dio
