@@ -38,7 +38,7 @@ class Service {
     return HttpUtil.dio.put("/api/v3/file/download/$fileId");
   }
 
-  /// 通过
+  /// 通过[downloadUrl]获取图片
   static Future<Response> getImage(String downloadUrl) async {
     return HttpUtil.dio
           .get(downloadUrl, options: Options(responseType: ResponseType.bytes));
