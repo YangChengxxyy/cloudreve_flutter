@@ -1,11 +1,9 @@
-import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/SettingData.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Setting extends StatelessWidget {
   late UserData _userData;
