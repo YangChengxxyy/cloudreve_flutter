@@ -1,3 +1,4 @@
+import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
@@ -11,6 +12,7 @@ import 'package:cloudreve/view/WebDav.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainApp extends StatefulWidget {
   /// 用户数据
@@ -115,249 +117,270 @@ class _MainAppState extends State<MainApp> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cloudreve'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                if (_mode == Mode.list) {
-                  setState(() {
-                    _mode = Mode.grid;
-                  });
-                } else {
-                  setState(() {
-                    _mode = Mode.list;
-                  });
-                }
+        appBar: AppBar(
+          title: const Text('Cloudreve'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  if (_mode == Mode.list) {
+                    setState(() {
+                      _mode = Mode.grid;
+                    });
+                  } else {
+                    setState(() {
+                      _mode = Mode.list;
+                    });
+                  }
+                },
+                icon: icon),
+            PopupMenuButton<int Function(MFile, MFile)>(
+              initialValue: _compare,
+              icon: Icon(
+                Icons.sort_by_alpha,
+              ),
+              itemBuilder: (context) {
+                return <PopupMenuEntry<int Function(MFile, MFile)>>[
+                  PopupMenuItem<int Function(MFile, MFile)>(
+                    value: _compares[0],
+                    child: Text('A-Z'),
+                  ),
+                  PopupMenuItem<int Function(MFile, MFile)>(
+                    value: _compares[1],
+                    child: Text('Z-A'),
+                  ),
+                  PopupMenuItem<int Function(MFile, MFile)>(
+                    value: _compares[2],
+                    child: Text('最早'),
+                  ),
+                  PopupMenuItem<int Function(MFile, MFile)>(
+                    value: _compares[3],
+                    child: Text('最新'),
+                  ),
+                  PopupMenuItem<int Function(MFile, MFile)>(
+                    value: _compares[4],
+                    child: Text('最小'),
+                  ),
+                  PopupMenuItem<int Function(MFile, MFile)>(
+                    value: _compares[5],
+                    child: Text('最大'),
+                  ),
+                ];
               },
-              icon: icon),
-          PopupMenuButton<int Function(MFile, MFile)>(
-            initialValue: _compare,
-            icon: Icon(
-              Icons.sort_by_alpha,
+              onSelected: (c) async {
+                this.setState(() {
+                  _compare = c;
+                });
+              },
             ),
-            itemBuilder: (context) {
-              return <PopupMenuEntry<int Function(MFile, MFile)>>[
-                PopupMenuItem<int Function(MFile, MFile)>(
-                  value: _compares[0],
-                  child: Text('A-Z'),
-                ),
-                PopupMenuItem<int Function(MFile, MFile)>(
-                  value: _compares[1],
-                  child: Text('Z-A'),
-                ),
-                PopupMenuItem<int Function(MFile, MFile)>(
-                  value: _compares[2],
-                  child: Text('最早'),
-                ),
-                PopupMenuItem<int Function(MFile, MFile)>(
-                  value: _compares[3],
-                  child: Text('最新'),
-                ),
-                PopupMenuItem<int Function(MFile, MFile)>(
-                  value: _compares[4],
-                  child: Text('最小'),
-                ),
-                PopupMenuItem<int Function(MFile, MFile)>(
-                  value: _compares[5],
-                  child: Text('最大'),
-                ),
-              ];
-            },
-            onSelected: (c) async {
-              this.setState(() {
-                _compare = c;
-              });
-            },
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Column(
+          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FutureBuilder(
+                        future: _getAvatar(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return Container(
+                              alignment: Alignment.topCenter,
+                              padding: EdgeInsets.only(bottom: 15),
+                              child: ClipOval(
+                                child: Image.memory(
+                                  snapshot.data!.data,
+                                  fit: BoxFit.cover,
+                                  width: 75,
+                                  height: 75,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              child: SizedBox(
+                                child: CircularProgressIndicator(),
+                                height: 50.0,
+                                width: 50.0,
+                              ),
+                              alignment: Alignment.center,
+                              height: 75,
+                              width: 75,
+                            );
+                          }
+                        },
+                      ),
+                      Text(
+                        _userData.nickname,
+                        style: TextStyle(fontSize: 20, color: Colors.black45),
+                      )
+                    ],
+                  )),
+              ListTile(
+                leading: Icon(Icons.storage),
+                textColor: Colors.grey,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    FutureBuilder(
-                      future: _getAvatar(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return Container(
-                            alignment: Alignment.topCenter,
-                            padding: EdgeInsets.only(bottom: 15),
-                            child: ClipOval(
-                              child: Image.memory(
-                                snapshot.data!.data,
-                                fit: BoxFit.cover,
-                                width: 75,
-                                height: 75,
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container(
-                            child: SizedBox(
-                              child: CircularProgressIndicator(),
-                              height: 50.0,
-                              width: 50.0,
-                            ),
-                            alignment: Alignment.center,
-                            height: 75,
-                            width: 75,
-                          );
-                        }
-                      },
+                    Text(
+                      "存储空间",
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: LinearProgressIndicator(
+                        value: (_storage.used.toDouble() /
+                            _storage.total.toDouble()),
+                        backgroundColor: Colors.grey,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      ),
                     ),
                     Text(
-                      _userData.nickname,
-                      style: TextStyle(fontSize: 20, color: Colors.black45),
+                      "${MFile.getFileSize(_storage.used.toDouble(), 1)}/${MFile.getFileSize(_storage.total.toDouble(), 1)}",
                     )
                   ],
-                )),
-            ListTile(
-              leading: Icon(Icons.storage),
-              textColor: Colors.grey,
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "存储空间",
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: LinearProgressIndicator(
-                      value: (_storage.used.toDouble() /
-                          _storage.total.toDouble()),
-                      backgroundColor: Colors.grey,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    ),
-                  ),
-                  Text(
-                    "${MFile.getFileSize(_storage.used.toDouble(), 1)}/${MFile.getFileSize(_storage.total.toDouble(), 1)}",
-                  )
-                ],
+                ),
               ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.share),
+                textColor: Colors.grey,
+                title: Text("我的分享"),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Share();
+                  }));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.cloud_download),
+                textColor: Colors.grey,
+                title: Text("离线下载"),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Offline();
+                  }));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.phonelink),
+                textColor: Colors.grey,
+                title: Text("WebDav"),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WebDav();
+                  }));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.assignment),
+                textColor: Colors.grey,
+                title: Text("任务队列"),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Task();
+                  }));
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.logout),
+                textColor: Colors.grey,
+                title: Text('退出登录'),
+                onTap: () async {
+                  await deleteSession();
+
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.clear();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      new MaterialPageRoute(
+                          builder: (context) => new LoginApp()),
+                      (route) => route == null);
+                },
+              ),
+            ],
+          ),
+        ),
+        body: Center(
+          child: IndexedStack(
+            children: <Widget>[
+              Home(
+                mode: _mode,
+                refresh: _refreshFileList,
+                progressNum: _processNum,
+                path: _path,
+                fileResp: _fileResp!,
+                changePath: (String newPath) {
+                  setState(() {
+                    _path = newPath;
+                  });
+                },
+                changeProgressNum: (double newNum) {
+                  setState(() {
+                    _processNum = newNum;
+                  });
+                },
+                compare: _compare,
+              ),
+              Setting(
+                userData: _userData,
+              )
+            ],
+            index: _selectedIndex,
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: '首页',
             ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.share),
-              textColor: Colors.grey,
-              title: Text("我的分享"),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Share();
-                }));
-              },
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: '设置',
             ),
-            ListTile(
-              leading: Icon(Icons.cloud_download),
-              textColor: Colors.grey,
-              title: Text("离线下载"),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Offline();
-                }));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.phonelink),
-              textColor: Colors.grey,
-              title: Text("WebDav"),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return WebDav();
-                }));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.assignment),
-              textColor: Colors.grey,
-              title: Text("任务队列"),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Task();
-                }));
-              },
-            )
           ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blue,
+          onTap: _onItemTapped,
         ),
-      ),
-      body: Center(
-        child: IndexedStack(
-          children: <Widget>[
-            Home(
-              mode: _mode,
-              refresh: _refreshFileList,
-              progressNum: _processNum,
-              path: _path,
-              fileResp: _fileResp!,
-              changePath: (String newPath) {
-                setState(() {
-                  _path = newPath;
-                });
-              },
-              changeProgressNum: (double newNum) {
-                setState(() {
-                  _processNum = newNum;
-                });
-              },
-              compare: _compare,
-            ),
-            Setting()
-          ],
-          index: _selectedIndex,
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '首页',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '设置',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: PopupMenuButton<void Function()>(
-          offset: Offset(0, -118),
-          onSelected: (fun) async {
-            fun();
-          },
-          icon: Icon(
-            Icons.add,
-          ),
-          itemBuilder: (context) {
-            return <PopupMenuEntry<void Function()>>[
-              PopupMenuItem<void Function()>(
-                value: _uploadFile,
-                child: Text('上传文件'),
-              ),
-              PopupMenuItem<void Function()>(
-                value: _newFold,
-                child: Text('新建目录'),
-              ),
-            ];
-          },
-        ),
-        onPressed: () => {},
-      ),
-    );
+        floatingActionButton: _selectedIndex == 0
+            ? FloatingActionButton(
+                child: PopupMenuButton<void Function()>(
+                  offset: Offset(0, -118),
+                  onSelected: (fun) async {
+                    fun();
+                  },
+                  icon: Icon(
+                    Icons.add,
+                  ),
+                  itemBuilder: (context) {
+                    return <PopupMenuEntry<void Function()>>[
+                      PopupMenuItem<void Function()>(
+                        value: _uploadFile,
+                        child: Text('上传文件'),
+                      ),
+                      PopupMenuItem<void Function()>(
+                        value: _newFold,
+                        child: Text('新建目录'),
+                      ),
+                    ];
+                  },
+                ),
+                onPressed: () => {},
+              )
+            : null);
   }
 
   Future<Response> _getAvatar() {
-    return Service.avatar(_userData.id);
+    return avatar(_userData.id);
   }
 
   void _newFold() {
@@ -370,7 +393,7 @@ class _MainAppState extends State<MainApp> {
             TextButton(
               onPressed: () async {
                 if ((_formKey.currentState as FormState).validate()) {
-                  Response res = await Service.addDirectory(
+                  Response res = await addDirectory(
                       {"path": _path + "/" + _newFoldController.text.trim()});
                   if (res.statusCode == 200) {
                     Navigator.of(context).pop(true);
@@ -417,17 +440,17 @@ class _MainAppState extends State<MainApp> {
     if (immediately) {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;
       setState(() {
-        _fileResp = Service.directory(_path);
+        _fileResp = directory(_path);
       });
-      _storage = Storage.fromJson((await Service.storage()).data['data']);
+      _storage = Storage.fromJson((await storage()).data['data']);
     } else {
       int now = DateTime.now().millisecondsSinceEpoch;
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
         _lastRequest = DateTime.now().millisecondsSinceEpoch;
         setState(() {
-          _fileResp = Service.directory(_path);
+          _fileResp = directory(_path);
         });
-        _storage = Storage.fromJson((await Service.storage()).data['data']);
+        _storage = Storage.fromJson((await storage()).data['data']);
       }
     }
   }
@@ -437,7 +460,7 @@ class _MainAppState extends State<MainApp> {
     if (result != null) {
       var file = result.files.first;
 
-      Response res = await Service.uploadFile(file, _path, (process, total) {
+      Response res = await uploadFile(file, _path, (process, total) {
         setState(() {
           _processNum = process / total;
         });

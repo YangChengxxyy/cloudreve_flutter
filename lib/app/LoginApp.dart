@@ -84,13 +84,13 @@ class LoginBody extends StatelessWidget {
                         onPressed: () async {
                           if ((_formKey.currentState as FormState).validate()) {
                             //验证通过提交数据
-                            Response logResp = await Service.session(
+                            Response logResp = await session(
                                 _emailController.text, _pwdController.text);
                             LoginResult loginResult =
                                 LoginResult.fromJson(logResp.data);
                             if (loginResult.code == 0) {
-                              Response storageResp = await Service.storage();
-                              Storage storage =
+                              Response storageResp = await storage();
+                              Storage sto =
                                   Storage.fromJson(storageResp.data['data']);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
@@ -98,7 +98,7 @@ class LoginBody extends StatelessWidget {
                               prefs.setString(
                                   "username", _emailController.text);
                               prefs.setString("password", _pwdController.text);
-                              onLoginBtnClick(loginResult.data!, storage);
+                              onLoginBtnClick(loginResult.data!, sto);
                             } else {
                               _pwdController.clear();
                               showDialog(

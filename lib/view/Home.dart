@@ -451,7 +451,7 @@ class Home extends StatelessWidget {
             TextButton(
               child: Text("删除"),
               onPressed: () async {
-                Response delRes = await Service.deleteItem([file.id], []);
+                Response delRes = await deleteItem([file.id], []);
                 if (delRes.data['code'] == 0) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -488,7 +488,7 @@ class Home extends StatelessWidget {
             TextButton(
               child: Text("删除"),
               onPressed: () async {
-                Response delRes = await Service.deleteItem([], [file.id]);
+                Response delRes = await deleteItem([], [file.id]);
                 if (delRes.data['code'] == 0) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -536,7 +536,7 @@ class Home extends StatelessWidget {
     if (file.existsSync()) {
       return file.readAsBytesSync();
     } else {
-      Uint8List thumb = (await Service.getThumb(fileId)).data;
+      Uint8List thumb = (await getThumb(fileId)).data;
       final file = await new File(thumbPath).create();
       file.writeAsBytesSync(thumb);
       return thumb;
@@ -553,13 +553,13 @@ class Home extends StatelessWidget {
     } else {
       String? downloadUrl;
       if (_downloadUrlCache[fileId] == null) {
-        Response getUrlResp = await Service.getDownloadUrl(fileId);
+        Response getUrlResp = await getDownloadUrl(fileId);
         downloadUrl = getUrlResp.data['data'].toString();
         _downloadUrlCache[fileId] = downloadUrl;
       } else {
         downloadUrl = _downloadUrlCache[fileId]!;
       }
-      Uint8List image = (await Service.getImage(downloadUrl)).data;
+      Uint8List image = (await getImage(downloadUrl)).data;
       final file = await new File(imagePath).create();
       file.writeAsBytesSync(image);
       return image;
@@ -644,7 +644,7 @@ class Home extends StatelessWidget {
         ),
       );
     } else {
-      Response response = await Service.getDownloadUrl(file.id);
+      Response response = await getDownloadUrl(file.id);
       String url = response.data['data'].toString();
       Dio dio = Dio();
       try {
@@ -693,7 +693,7 @@ class Home extends StatelessWidget {
           ),
         );
       } else {
-        Response response = await Service.getDownloadUrl(file.id);
+        Response response = await getDownloadUrl(file.id);
         String url = response.data['data'].toString();
         Dio dio = Dio();
         try {

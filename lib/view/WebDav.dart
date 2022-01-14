@@ -14,7 +14,7 @@ class WebDav extends StatelessWidget {
       ),
       body: Container(
         child: FutureBuilder(
-          future: _getWebDavAccounts(),
+          future: webdav(),
           builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
             if (snapshot.hasData) {
               Accounts accounts = Accounts.fromJson(
@@ -72,10 +72,5 @@ class WebDav extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  /// 获取webdav数据
-  Future<Response> _getWebDavAccounts() {
-    return Service.webdav();
   }
 }

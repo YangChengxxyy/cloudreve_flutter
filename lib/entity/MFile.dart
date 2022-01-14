@@ -49,3 +49,7 @@ class MFile {
     return "${B.toStringAsFixed(after)}${sizeList[index]}";
   }
 }
+
+String getFormatDate(String date) {
+  return date.substring(0, 10) + " " + date.substring(11, 11 + 8);
+}

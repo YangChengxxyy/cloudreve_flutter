@@ -101,7 +101,7 @@ class RegisterBody extends StatelessWidget {
                         onPressed: () async {
                           if ((_formKey.currentState as FormState).validate()) {
                             //验证通过提交数据
-                            Response registerResp = await Service.register(
+                            Response registerResp = await register(
                                 _emailController.text, _pwdController.text);
                             LoginResult loginResult =
                                 LoginResult.fromJson(registerResp.data);
