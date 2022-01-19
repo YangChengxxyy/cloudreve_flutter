@@ -18,7 +18,7 @@ class MainApp extends StatefulWidget {
   /// 用户数据
   late UserData _userData;
 
-  /// 存储信息
+  /// 用户存储信息
   late Storage _storage;
 
   MainApp({Key? key, required UserData userData, required Storage storage})
@@ -28,7 +28,7 @@ class MainApp extends StatefulWidget {
   }
 
   @override
-  State<MainApp> createState() => _MainAppState(_userData, _storage);
+  State<MainApp> createState() => _MainAppState();
 }
 
 class _MainAppState extends State<MainApp> {
@@ -48,12 +48,6 @@ class _MainAppState extends State<MainApp> {
 
   /// 列表模式
   Mode _mode = Mode.grid;
-
-  /// 用户数据
-  late UserData _userData;
-
-  /// 用户存储信息
-  Storage _storage = new Storage(0, 100, 100);
 
   /// 文件排序比较函数
   int Function(MFile, MFile) _compare = _compares[0];
@@ -101,10 +95,6 @@ class _MainAppState extends State<MainApp> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  _MainAppState(UserData userData, Storage storage) {
-    _userData = userData;
-    _storage = storage;
-  }
   @override
   Widget build(BuildContext context) {
     _refreshFileList(false);
@@ -217,7 +207,7 @@ class _MainAppState extends State<MainApp> {
                         },
                       ),
                       Text(
-                        _userData.nickname,
+                        widget._userData.nickname,
                         style: TextStyle(fontSize: 20, color: Colors.black45),
                       )
                     ],
@@ -235,14 +225,14 @@ class _MainAppState extends State<MainApp> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 5),
                       child: LinearProgressIndicator(
-                        value: (_storage.used.toDouble() /
-                            _storage.total.toDouble()),
+                        value: (widget._storage.used.toDouble() /
+                            widget._storage.total.toDouble()),
                         backgroundColor: Colors.grey,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                       ),
                     ),
                     Text(
-                      "${MFile.getFileSize(_storage.used.toDouble(), 1)}/${MFile.getFileSize(_storage.total.toDouble(), 1)}",
+                      "${MFile.getFileSize(widget._storage.used.toDouble(), 1)}/${MFile.getFileSize(widget._storage.total.toDouble(), 1)}",
                     )
                   ],
                 ),
@@ -330,7 +320,7 @@ class _MainAppState extends State<MainApp> {
                 compare: _compare,
               ),
               Setting(
-                userData: _userData,
+                userData: widget._userData,
               )
             ],
             index: _selectedIndex,
@@ -380,7 +370,7 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<Response> _getAvatar() {
-    return avatar(_userData.id);
+    return avatar(widget._userData.id);
   }
 
   void _newFold() {
@@ -442,7 +432,7 @@ class _MainAppState extends State<MainApp> {
       setState(() {
         _fileResp = directory(_path);
       });
-      _storage = Storage.fromJson((await storage()).data['data']);
+      widget._storage = Storage.fromJson((await storage()).data['data']);
     } else {
       int now = DateTime.now().millisecondsSinceEpoch;
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
@@ -450,7 +440,7 @@ class _MainAppState extends State<MainApp> {
         setState(() {
           _fileResp = directory(_path);
         });
-        _storage = Storage.fromJson((await storage()).data['data']);
+        widget._storage = Storage.fromJson((await storage()).data['data']);
       }
     }
   }
