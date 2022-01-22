@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
@@ -50,45 +52,45 @@ class _MainAppState extends State<MainApp> {
   Mode _mode = Mode.grid;
 
   /// 文件排序比较函数
-  int Function(MFile, MFile) _compare = _compares[0];
+  CompareFunction _compare = _compareFunctions[0];
 
-  static final _compares = <int Function(MFile, MFile)>[
-    (f1, f2) {
+  static final _compareFunctions = <CompareFunction>[
+    new CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f1.name.compareTo(f2.name);
-    },
-    (f1, f2) {
+    }, 'A-Z'),
+    new CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f2.name.compareTo(f1.name);
-    },
-    (f1, f2) {
+    }, 'Z-A'),
+    new CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f1.getFormatDate().compareTo(f2.getFormatDate());
-    },
-    (f1, f2) {
+    }, '最早'),
+    new CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f2.getFormatDate().compareTo(f1.getFormatDate());
-    },
-    (f1, f2) {
+    }, '最新'),
+    new CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f1.size.compareTo(f2.size);
-    },
-    (f1, f2) {
+    }, '最大'),
+    new CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f2.size.compareTo(f1.size);
-    },
+    }, '最小'),
   ];
 
   @override
@@ -121,38 +123,18 @@ class _MainAppState extends State<MainApp> {
                     },
                     icon: icon,
                   ),
-                  PopupMenuButton<int Function(MFile, MFile)>(
+                  PopupMenuButton<CompareFunction>(
                     initialValue: _compare,
                     icon: Icon(
                       Icons.sort_by_alpha,
                     ),
                     itemBuilder: (context) {
-                      return <PopupMenuEntry<int Function(MFile, MFile)>>[
-                        PopupMenuItem<int Function(MFile, MFile)>(
-                          value: _compares[0],
-                          child: Text('A-Z'),
-                        ),
-                        PopupMenuItem<int Function(MFile, MFile)>(
-                          value: _compares[1],
-                          child: Text('Z-A'),
-                        ),
-                        PopupMenuItem<int Function(MFile, MFile)>(
-                          value: _compares[2],
-                          child: Text('最早'),
-                        ),
-                        PopupMenuItem<int Function(MFile, MFile)>(
-                          value: _compares[3],
-                          child: Text('最新'),
-                        ),
-                        PopupMenuItem<int Function(MFile, MFile)>(
-                          value: _compares[4],
-                          child: Text('最小'),
-                        ),
-                        PopupMenuItem<int Function(MFile, MFile)>(
-                          value: _compares[5],
-                          child: Text('最大'),
-                        ),
-                      ];
+                      return _compareFunctions.map((e) {
+                        return PopupMenuItem<CompareFunction>(
+                          value: e,
+                          child: Text(e.name),
+                        );
+                      }).toList();
                     },
                     onSelected: (c) async {
                       this.setState(() {
@@ -318,7 +300,7 @@ class _MainAppState extends State<MainApp> {
                     _processNum = newNum;
                   });
                 },
-                compare: _compare,
+                compare: _compare.fun,
               ),
               Setting(
                 userData: widget._userData,
@@ -480,4 +462,10 @@ class _MainAppState extends State<MainApp> {
       }
     }
   }
+}
+
+class CompareFunction {
+  int Function(MFile, MFile) fun;
+  String name;
+  CompareFunction(this.fun, this.name);
 }
