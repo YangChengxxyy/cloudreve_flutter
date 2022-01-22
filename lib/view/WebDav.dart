@@ -25,16 +25,23 @@ class WebDav extends StatelessWidget {
                   cells: [
                     DataCell(Text(value.name)),
                     DataCell(
-                      Row(children: [
-                        Text(value.password.substring(0, 10) + "..."),
-                        TextButton(
-                          onPressed: () {
-                            Clipboard.setData(
-                                ClipboardData(text: value.password));
-                          },
-                          child: Text("复制"),
-                        )
-                      ]),
+                      Row(
+                        children: [
+                          Text(value.password.substring(0, 10) + "..."),
+                          TextButton(
+                            onPressed: () {
+                              Clipboard.setData(
+                                  ClipboardData(text: value.password));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("复制成功"),
+                                ),
+                              );
+                            },
+                            child: Text("复制"),
+                          )
+                        ],
+                      ),
                     ),
                     DataCell(Text(value.root)),
                     DataCell(Text(value.createdAt.substring(0, 10))),

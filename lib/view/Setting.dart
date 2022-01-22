@@ -1,7 +1,7 @@
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
-import 'package:cloudreve/view/SettingData.dart';
+import 'package:cloudreve/entity/SettingData.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -47,28 +47,36 @@ class Setting extends StatelessWidget {
                   ),
                   onTap: () {},
                 ),
-                Divider(),
+                Divider(
+                  height: 0,
+                ),
                 ListTile(
                   leading: Icon(Icons.account_box),
                   title: Text('昵称'),
                   trailing: Text(_userData.nickname),
                   onTap: () {},
                 ),
-                Divider(),
+                Divider(
+                  height: 0,
+                ),
                 ListTile(
                   leading: Icon(Icons.email),
                   title: Text("Email"),
                   trailing: Text(_userData.userName),
                   onTap: () {},
                 ),
-                Divider(),
+                Divider(
+                  height: 0,
+                ),
                 ListTile(
                   leading: Icon(Icons.group),
                   title: Text('用户组'),
                   trailing: Text(_userData.group!.name),
                   onTap: () {},
                 ),
-                Divider(),
+                Divider(
+                  height: 0,
+                ),
                 ListTile(
                   leading: Icon(Icons.calendar_today),
                   title: Text("注册时间"),

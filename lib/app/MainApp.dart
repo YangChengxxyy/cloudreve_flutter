@@ -91,10 +91,6 @@ class _MainAppState extends State<MainApp> {
     },
   ];
 
-  TextEditingController _newFoldController = new TextEditingController();
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     _refreshFileList(false);
@@ -109,109 +105,112 @@ class _MainAppState extends State<MainApp> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Cloudreve'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  if (_mode == Mode.list) {
-                    setState(() {
-                      _mode = Mode.grid;
-                    });
-                  } else {
-                    setState(() {
-                      _mode = Mode.list;
-                    });
-                  }
-                },
-                icon: icon),
-            PopupMenuButton<int Function(MFile, MFile)>(
-              initialValue: _compare,
-              icon: Icon(
-                Icons.sort_by_alpha,
-              ),
-              itemBuilder: (context) {
-                return <PopupMenuEntry<int Function(MFile, MFile)>>[
-                  PopupMenuItem<int Function(MFile, MFile)>(
-                    value: _compares[0],
-                    child: Text('A-Z'),
+          actions: _selectedIndex == 0
+              ? [
+                  IconButton(
+                    onPressed: () {
+                      if (_mode == Mode.list) {
+                        setState(() {
+                          _mode = Mode.grid;
+                        });
+                      } else {
+                        setState(() {
+                          _mode = Mode.list;
+                        });
+                      }
+                    },
+                    icon: icon,
                   ),
-                  PopupMenuItem<int Function(MFile, MFile)>(
-                    value: _compares[1],
-                    child: Text('Z-A'),
+                  PopupMenuButton<int Function(MFile, MFile)>(
+                    initialValue: _compare,
+                    icon: Icon(
+                      Icons.sort_by_alpha,
+                    ),
+                    itemBuilder: (context) {
+                      return <PopupMenuEntry<int Function(MFile, MFile)>>[
+                        PopupMenuItem<int Function(MFile, MFile)>(
+                          value: _compares[0],
+                          child: Text('A-Z'),
+                        ),
+                        PopupMenuItem<int Function(MFile, MFile)>(
+                          value: _compares[1],
+                          child: Text('Z-A'),
+                        ),
+                        PopupMenuItem<int Function(MFile, MFile)>(
+                          value: _compares[2],
+                          child: Text('最早'),
+                        ),
+                        PopupMenuItem<int Function(MFile, MFile)>(
+                          value: _compares[3],
+                          child: Text('最新'),
+                        ),
+                        PopupMenuItem<int Function(MFile, MFile)>(
+                          value: _compares[4],
+                          child: Text('最小'),
+                        ),
+                        PopupMenuItem<int Function(MFile, MFile)>(
+                          value: _compares[5],
+                          child: Text('最大'),
+                        ),
+                      ];
+                    },
+                    onSelected: (c) async {
+                      this.setState(() {
+                        _compare = c;
+                      });
+                    },
                   ),
-                  PopupMenuItem<int Function(MFile, MFile)>(
-                    value: _compares[2],
-                    child: Text('最早'),
-                  ),
-                  PopupMenuItem<int Function(MFile, MFile)>(
-                    value: _compares[3],
-                    child: Text('最新'),
-                  ),
-                  PopupMenuItem<int Function(MFile, MFile)>(
-                    value: _compares[4],
-                    child: Text('最小'),
-                  ),
-                  PopupMenuItem<int Function(MFile, MFile)>(
-                    value: _compares[5],
-                    child: Text('最大'),
-                  ),
-                ];
-              },
-              onSelected: (c) async {
-                this.setState(() {
-                  _compare = c;
-                });
-              },
-            ),
-          ],
+                ]
+              : null,
         ),
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FutureBuilder(
-                        future: _getAvatar(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                              alignment: Alignment.topCenter,
-                              padding: EdgeInsets.only(bottom: 15),
-                              child: ClipOval(
-                                child: Image.memory(
-                                  snapshot.data!.data,
-                                  fit: BoxFit.cover,
-                                  width: 75,
-                                  height: 75,
-                                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FutureBuilder(
+                      future: _getAvatar(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(
+                            alignment: Alignment.topCenter,
+                            padding: EdgeInsets.only(bottom: 15),
+                            child: ClipOval(
+                              child: Image.memory(
+                                snapshot.data!.data,
+                                fit: BoxFit.cover,
+                                width: 75,
+                                height: 75,
                               ),
-                            );
-                          } else {
-                            return Container(
-                              child: SizedBox(
-                                child: CircularProgressIndicator(),
-                                height: 50.0,
-                                width: 50.0,
-                              ),
-                              alignment: Alignment.center,
-                              height: 75,
-                              width: 75,
-                            );
-                          }
-                        },
-                      ),
-                      Text(
-                        widget._userData.nickname,
-                        style: TextStyle(fontSize: 20, color: Colors.black45),
-                      )
-                    ],
-                  )),
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            child: SizedBox(
+                              child: CircularProgressIndicator(),
+                              height: 50.0,
+                              width: 50.0,
+                            ),
+                            alignment: Alignment.center,
+                            height: 75,
+                            width: 75,
+                          );
+                        }
+                      },
+                    ),
+                    Text(
+                      widget._userData.nickname,
+                      style: TextStyle(fontSize: 20, color: Colors.black45),
+                    )
+                  ],
+                ),
+              ),
               ListTile(
                 leading: Icon(Icons.storage),
                 textColor: Colors.grey,
@@ -278,7 +277,9 @@ class _MainAppState extends State<MainApp> {
                   }));
                 },
               ),
-              Divider(),
+              Divider(
+                height: 0,
+              ),
               ListTile(
                 leading: Icon(Icons.logout),
                 textColor: Colors.grey,
@@ -374,6 +375,10 @@ class _MainAppState extends State<MainApp> {
   }
 
   void _newFold() {
+    final _newFoldController = new TextEditingController();
+
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     showDialog(
       context: context,
       builder: (context) {
@@ -382,7 +387,7 @@ class _MainAppState extends State<MainApp> {
           actions: [
             TextButton(
               onPressed: () async {
-                if ((_formKey.currentState as FormState).validate()) {
+                if ((_formKey.currentState!).validate()) {
                   Response res = await addDirectory(
                       {"path": _path + "/" + _newFoldController.text.trim()});
                   if (res.statusCode == 200) {
