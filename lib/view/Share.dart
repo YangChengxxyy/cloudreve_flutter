@@ -12,4 +12,8 @@ class Share extends StatelessWidget {
       ),
     );
   }
+
+  Widget? _buildItem(){
+
+  }
 }

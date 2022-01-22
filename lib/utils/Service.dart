@@ -100,7 +100,7 @@ Future<Response> setting() {
   return HttpUtil.dio.get("/api/v3/user/setting");
 }
 
-Future<Response> share(
+Future<Response> newShare(
     {required String fileId,
     required bool isDir,
     required String password,
@@ -115,4 +115,10 @@ Future<Response> share(
     "downloads": downloads,
     "expive": expive
   });
+}
+
+Future<Response> getShare(
+    {int page = 1, required String order, required String orderBy}) {
+  return HttpUtil.dio.get("/api/v3/share",
+      queryParameters: {"page": page, "order": order, "order_by": orderBy});
 }

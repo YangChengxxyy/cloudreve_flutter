@@ -239,7 +239,7 @@ class _ShareDialgState extends State<ShareDialg> {
               TextButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    Response response = await share(
+                    Response response = await newShare(
                         fileId: widget._file.id,
                         isDir: widget._file.type == "dir",
                         password: _isPassword ? _passwordController.text : "",

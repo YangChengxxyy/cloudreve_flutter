@@ -448,8 +448,9 @@ class Home extends StatelessWidget {
       builder: (dialogContext) {
         return AlertDialog(
           actions: <Widget>[
-            TextButton(
-              child: Text("删除"),
+            IconButton(
+              icon: Icon(Icons.delete),
+              color: Colors.grey,
               onPressed: () async {
                 Response delRes = await deleteItem([file.id], []);
                 if (delRes.data['code'] == 0) {
@@ -464,8 +465,9 @@ class Home extends StatelessWidget {
                 }
               },
             ),
-            TextButton(
-              child: const Text("分享"),
+            IconButton(
+              icon: Icon(Icons.share),
+              color: Colors.grey,
               onPressed: () {
                 _showShareDialog(dialogContext, file);
               },
@@ -491,43 +493,43 @@ class Home extends StatelessWidget {
       builder: (dialogContext) {
         return AlertDialog(
           actions: [
-            ButtonBar(
-              children: [
-                TextButton(
-                  child: Text("删除"),
-                  onPressed: () async {
-                    Response delRes = await deleteItem([], [file.id]);
-                    if (delRes.data['code'] == 0) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("删除成功"),
-                        ),
-                      );
-                      Navigator.pop(dialogContext);
-                      changePath(path);
-                      refresh(true);
-                    }
-                  },
-                ),
-                TextButton(
-                  child: const Text("分享"),
-                  onPressed: () {
-                    _showShareDialog(dialogContext, file);
-                  },
-                ),
-                TextButton(
-                  child: const Text('打开'),
-                  onPressed: () async {
-                    _openFileButtonTap(context, dialogContext, file);
-                  },
-                ),
-                TextButton(
-                  child: const Text('下载'),
-                  onPressed: () async {
-                    _downloadButtonTap(context, dialogContext, file);
-                  },
-                ),
-              ],
+            IconButton(
+              icon: Icon(Icons.delete),
+              color: Colors.grey,
+              onPressed: () async {
+                Response delRes = await deleteItem([], [file.id]);
+                if (delRes.data['code'] == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("删除成功"),
+                    ),
+                  );
+                  Navigator.pop(dialogContext);
+                  changePath(path);
+                  refresh(true);
+                }
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.share),
+              color: Colors.grey,
+              onPressed: () {
+                _showShareDialog(dialogContext, file);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.open_in_new),
+              color: Colors.grey,
+              onPressed: () async {
+                _openFileButtonTap(context, dialogContext, file);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.download),
+              color: Colors.grey,
+              onPressed: () async {
+                _downloadButtonTap(context, dialogContext, file);
+              },
             ),
           ],
           content: Column(
@@ -752,5 +754,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
