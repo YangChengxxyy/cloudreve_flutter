@@ -99,3 +99,20 @@ Future<Response> webdav() {
 Future<Response> setting() {
   return HttpUtil.dio.get("/api/v3/user/setting");
 }
+
+Future<Response> share(
+    {required String fileId,
+    required bool isDir,
+    required String password,
+    required bool preview,
+    required int downloads,
+    required int expive}) {
+  return HttpUtil.dio.post("/api/v3/share", data: {
+    "id": fileId,
+    "is_dir": isDir,
+    "password": password,
+    "preview": preview,
+    "downloads": downloads,
+    "expive": expive
+  });
+}
