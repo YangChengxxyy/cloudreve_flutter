@@ -111,7 +111,10 @@ class Home extends StatelessWidget {
               List<Widget> widgetList = [];
 
               widgetList.add(head);
-              widgetList.add(Divider(color: Colors.blue));
+              widgetList.add(Divider(
+                color: Colors.blue,
+                height: 0,
+              ));
 
               if (progressNum != -1) {
                 widgetList.insert(0, _progressBar);
@@ -469,7 +472,7 @@ class Home extends StatelessWidget {
               icon: Icon(Icons.share),
               color: Colors.grey,
               onPressed: () {
-                _showShareDialog(dialogContext, file);
+                _shareButtonTap(dialogContext, file);
               },
             ),
           ],
@@ -514,7 +517,7 @@ class Home extends StatelessWidget {
               icon: Icon(Icons.share),
               color: Colors.grey,
               onPressed: () {
-                _showShareDialog(dialogContext, file);
+                _shareButtonTap(dialogContext, file);
               },
             ),
             IconButton(
@@ -741,7 +744,7 @@ class Home extends StatelessWidget {
     }
   }
 
-  void _showShareDialog(BuildContext parentFatherContext, MFile file) {
+  void _shareButtonTap(BuildContext parentFatherContext, MFile file) {
     showDialog(
       context: parentFatherContext,
       builder: (dialogContext) {
