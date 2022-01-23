@@ -122,3 +122,13 @@ Future<Response> getShare(
   return HttpUtil.dio.get("/api/v3/share",
       queryParameters: {"page": page, "order": order, "order_by": orderBy});
 }
+
+Future<Response> editShare(String key,
+    {required String prop, required dynamic value}) {
+  return HttpUtil.dio
+      .patch("/api/v3/share/$key", data: {"prop": prop, "value": value});
+}
+
+Future<Response> deleteShare(String key) {
+  return HttpUtil.dio.delete("/api/v3/share/$key");
+}

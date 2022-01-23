@@ -18,6 +18,12 @@ typedef void ChangeDoubleCallBack(double newValue);
 typedef void ChangeStringCallBack(String newValue);
 typedef void RefreshCallBack(bool b);
 
+final imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
+final pdfRex = RegExp(r".*\.(pdf)");
+final wordRegex = RegExp(r".*\.(doc|docx)");
+final zipRegex = RegExp(r".*\.(zip|rar|7z)");
+final apkRegex = RegExp(r".*\.(apk)");
+
 class Home extends StatelessWidget {
   /// 上次返回时间
   int _lastBack = -1;
@@ -51,12 +57,6 @@ class Home extends StatelessWidget {
 
   /// 外间距
   double paddingNum = 10;
-
-  final imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
-  final pdfRex = RegExp(r".*\.(pdf)");
-  final wordRegex = RegExp(r".*\.(doc|docx)");
-  final zipRegex = RegExp(r".*\.(zip|rar|7z)");
-  final apkRegex = RegExp(r".*\.(apk)");
 
   Home(
       {required this.changePath,
@@ -240,10 +240,16 @@ class Home extends StatelessWidget {
     bool isImage = false;
 
     if (file.type == "dir") {
-      icon = Icon(Icons.folder, color: Colors.grey);
+      icon = Icon(
+        Icons.folder,
+        color: Colors.grey,
+      );
     } else {
       if (imageRex.hasMatch(file.name)) {
-        icon = Icon(Icons.image, color: Colors.grey);
+        icon = Icon(
+          Icons.image,
+          color: Colors.grey,
+        );
         isImage = true;
       } else if (pdfRex.hasMatch(file.name)) {
         icon = Icon(
@@ -251,9 +257,15 @@ class Home extends StatelessWidget {
           color: Colors.red,
         );
       } else if (zipRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.archive, color: Colors.grey);
+        icon = Icon(
+          Icons.archive,
+          color: Colors.grey,
+        );
       } else if (wordRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.book, color: Colors.grey);
+        icon = Icon(
+          Icons.book,
+          color: Colors.grey,
+        );
       } else if (apkRegex.hasMatch(file.name)) {
         icon = Icon(
           Icons.android,
@@ -453,6 +465,7 @@ class Home extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.delete),
+              tooltip: "删除",
               color: Colors.grey,
               onPressed: () async {
                 Response delRes = await deleteItem([file.id], []);
@@ -470,6 +483,7 @@ class Home extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.share),
+              tooltip: "分享",
               color: Colors.grey,
               onPressed: () {
                 _shareButtonTap(dialogContext, file);
@@ -499,6 +513,7 @@ class Home extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.delete),
               color: Colors.grey,
+              tooltip: "删除",
               onPressed: () async {
                 Response delRes = await deleteItem([], [file.id]);
                 if (delRes.data['code'] == 0) {
@@ -515,6 +530,7 @@ class Home extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.share),
+              tooltip: "分享",
               color: Colors.grey,
               onPressed: () {
                 _shareButtonTap(dialogContext, file);
@@ -522,6 +538,7 @@ class Home extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.open_in_new),
+              tooltip: "打开",
               color: Colors.grey,
               onPressed: () async {
                 _openFileButtonTap(context, dialogContext, file);
@@ -529,6 +546,7 @@ class Home extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.download),
+              tooltip: "下载",
               color: Colors.grey,
               onPressed: () async {
                 _downloadButtonTap(context, dialogContext, file);

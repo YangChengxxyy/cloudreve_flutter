@@ -39,6 +39,8 @@ dependencies:
   photo_view: ^0.13.0
   open_file: ^3.2.1
   fluttertoast: ^8.0.8
+  url_launcher: ^6.0.18
+  flutter_spinkit: ^5.1.0
 
 
 dev_dependencies:

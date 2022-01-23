@@ -122,9 +122,11 @@ class _MainAppState extends State<MainApp> {
                       }
                     },
                     icon: icon,
+                    tooltip: "切换显示模式",
                   ),
                   PopupMenuButton<CompareFunction>(
                     initialValue: _compare,
+                    tooltip: "排序方式",
                     icon: Icon(
                       Icons.sort_by_alpha,
                     ),
@@ -229,16 +231,16 @@ class _MainAppState extends State<MainApp> {
                   }));
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.cloud_download),
-                textColor: Colors.grey,
-                title: Text("离线下载"),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Offline();
-                  }));
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.cloud_download),
+              //   textColor: Colors.grey,
+              //   title: Text("离线下载"),
+              //   onTap: () {
+              //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+              //       return Offline();
+              //     }));
+              //   },
+              // ),
               ListTile(
                 leading: Icon(Icons.phonelink),
                 textColor: Colors.grey,
@@ -249,16 +251,16 @@ class _MainAppState extends State<MainApp> {
                   }));
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.assignment),
-                textColor: Colors.grey,
-                title: Text("任务队列"),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Task();
-                  }));
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.assignment),
+              //   textColor: Colors.grey,
+              //   title: Text("任务队列"),
+              //   onTap: () {
+              //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+              //       return Task();
+              //     }));
+              //   },
+              // ),
               Divider(
                 height: 0,
               ),
@@ -327,6 +329,7 @@ class _MainAppState extends State<MainApp> {
         floatingActionButton: _selectedIndex == 0
             ? FloatingActionButton(
                 child: PopupMenuButton<void Function()>(
+                  tooltip: "上传",
                   offset: Offset(0, -118),
                   onSelected: (fun) async {
                     fun();

@@ -1,10 +1,10 @@
-class Share {
+class ShareData {
   late List<Items> items;
   late int total;
 
-  Share(this.items, this.total);
+  ShareData(this.items, this.total);
 
-  Share.fromJson(Map<String, dynamic> json) {
+  ShareData.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
