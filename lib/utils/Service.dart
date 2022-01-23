@@ -132,3 +132,15 @@ Future<Response> editShare(String key,
 Future<Response> deleteShare(String key) {
   return HttpUtil.dio.delete("/api/v3/share/$key");
 }
+
+Future<Response> renameObjects(
+    String newName, List<String> dirs, List<String> items) {
+  return HttpUtil.dio.post("/api/v3/object/rename", data: {
+    "action": "rename",
+    "new_name": newName,
+    "src": {
+      "dirs": dirs,
+      "items": items,
+    },
+  });
+}

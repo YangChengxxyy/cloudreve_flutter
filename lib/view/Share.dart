@@ -228,7 +228,7 @@ class _ShareState extends State<Share> {
             _orderBy = _orderBy;
           });
         },
-        icon: Icon(Icons.remove_red_eye),
+        icon: Icon(Icons.visibility),
         color: Colors.grey[700],
         tooltip: "禁止预览",
       ));

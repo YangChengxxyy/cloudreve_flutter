@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloudreve/dialog/RenameDialog.dart';
 import 'package:cloudreve/dialog/ShareDialog.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
@@ -14,9 +15,6 @@ import 'package:photo_view/photo_view.dart';
 Map<String, String> _downloadUrlCache = {};
 
 enum Mode { list, grid }
-typedef void ChangeDoubleCallBack(double newValue);
-typedef void ChangeStringCallBack(String newValue);
-typedef void RefreshCallBack(bool b);
 
 final imageRex = RegExp(r".*\.(jpg|gif|bmp|png|jpeg)");
 final pdfRex = RegExp(r".*\.(pdf)");
@@ -32,10 +30,10 @@ class Home extends StatelessWidget {
   String downPath = "/storage/emulated/0/Download/";
 
   /// 修改path函数
-  ChangeStringCallBack changePath;
+  void Function(String) changePath;
 
   /// 修改进度函数
-  ChangeDoubleCallBack changeProgressNum;
+  void Function(double) changeProgressNum;
 
   /// 文件排序比较函数
   int Function(MFile, MFile)? compare;
@@ -50,7 +48,7 @@ class Home extends StatelessWidget {
   double progressNum = -1;
 
   /// 刷新函数
-  RefreshCallBack refresh;
+  void Function(bool) refresh;
 
   /// 类型
   Mode mode;
@@ -335,7 +333,7 @@ class Home extends StatelessWidget {
           if (imageRex.hasMatch(file.name)) {
             _imageTap(context, file);
           } else {
-            _openFileButtonTap(context, null, file);
+            _openFileButtonTap(context, file);
           }
         } else {
           _dirTap(file);
@@ -429,7 +427,7 @@ class Home extends StatelessWidget {
           if (imageRex.hasMatch(file.name)) {
             _imageTap(context, file);
           } else {
-            _openFileButtonTap(context, null, file);
+            _openFileButtonTap(context, file);
           }
         } else {
           _dirTap(file);
@@ -482,6 +480,16 @@ class Home extends StatelessWidget {
               },
             ),
             IconButton(
+              icon: Icon(
+                Icons.border_color,
+              ),
+              color: Colors.grey,
+              tooltip: "重命名",
+              onPressed: () {
+                _renameButtonTap(context, dialogContext, file);
+              },
+            ),
+            IconButton(
               icon: Icon(Icons.share),
               tooltip: "分享",
               color: Colors.grey,
@@ -529,19 +537,21 @@ class Home extends StatelessWidget {
               },
             ),
             IconButton(
+              icon: Icon(
+                Icons.border_color,
+              ),
+              color: Colors.grey,
+              tooltip: "重命名",
+              onPressed: () {
+                _renameButtonTap(context, dialogContext, file);
+              },
+            ),
+            IconButton(
               icon: Icon(Icons.share),
               tooltip: "分享",
               color: Colors.grey,
               onPressed: () {
                 _shareButtonTap(dialogContext, file);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.open_in_new),
-              tooltip: "打开",
-              color: Colors.grey,
-              onPressed: () async {
-                _openFileButtonTap(context, dialogContext, file);
               },
             ),
             IconButton(
@@ -714,7 +724,7 @@ class Home extends StatelessWidget {
 
   /// 打开按钮点击
   void _openFileButtonTap(
-      BuildContext context, BuildContext? dialogContext, MFile file) async {
+      BuildContext context, MFile file) async {
     if (imageRex.hasMatch(file.name)) {
       _imageTap(context, file);
     } else {
@@ -722,9 +732,6 @@ class Home extends StatelessWidget {
       File f = File(tempPath + file.name);
       var exist = await f.exists();
       if (exist) {
-        if (dialogContext != null) {
-          Navigator.pop(dialogContext);
-        }
         final _result = await OpenFile.open(tempPath + file.name);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -736,9 +743,6 @@ class Home extends StatelessWidget {
         String url = response.data['data'].toString();
         Dio dio = Dio();
         try {
-          if (dialogContext != null) {
-            Navigator.pop(dialogContext);
-          }
           response = await dio.download(url, tempPath + file.name);
           if (response.statusCode == 200) {
             refresh(true);
@@ -770,6 +774,20 @@ class Home extends StatelessWidget {
           fatherContext: dialogContext,
           parentFatherContext: parentFatherContext,
           file: file,
+        );
+      },
+    );
+  }
+
+  void _renameButtonTap(
+      BuildContext context, BuildContext fatherContext, MFile file) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return RenameDialog(
+          file,
+          fatherContext,
+          () => refresh(true),
         );
       },
     );
