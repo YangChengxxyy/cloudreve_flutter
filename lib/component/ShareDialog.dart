@@ -196,53 +196,55 @@ class _ShareDialgState extends State<ShareDialg> {
             children: [
               TextButton(
                 onPressed: () async {
-                  if (_isPassword && _formKey.currentState!.validate()) {
-                    Response response = await newShare(
-                        fileId: widget._file.id,
-                        isDir: widget._file.type == "dir",
-                        password: _isPassword ? _passwordController.text : "",
-                        preview: _isPreview,
-                        downloads: _isExpive ? _downloads : -1,
-                        expive: _expive.seconds);
-                    if (response.data["code"] == 0) {
-                      Navigator.pop(widget._fatherContext);
-                      Navigator.pop(widget._parentFatherContext);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("分享成功"),
-                        ),
-                      );
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext lastContext) {
-                          return AlertDialog(
-                            title: Text("分享成功"),
-                            content: SelectableText(
-                              response.data["data"].toString(),
-                              autofocus: true,
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Clipboard.setData(
-                                    ClipboardData(
-                                      text: response.data["data"].toString(),
-                                    ),
-                                  );
-                                  Navigator.pop(lastContext);
-                                  ScaffoldMessenger.of(lastContext)
-                                      .showSnackBar(
-                                    SnackBar(
-                                      content: Text("复制成功"),
-                                    ),
-                                  );
-                                },
-                                child: Text("复制"),
+                  if (_isPassword) {
+                    if (_formKey.currentState!.validate()) {
+                      Response response = await newShare(
+                          fileId: widget._file.id,
+                          isDir: widget._file.type == "dir",
+                          password: _isPassword ? _passwordController.text : "",
+                          preview: _isPreview,
+                          downloads: _isExpive ? _downloads : -1,
+                          expive: _expive.seconds);
+                      if (response.data["code"] == 0) {
+                        Navigator.pop(widget._fatherContext);
+                        Navigator.pop(widget._parentFatherContext);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("分享成功"),
+                          ),
+                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext lastContext) {
+                            return AlertDialog(
+                              title: Text("分享成功"),
+                              content: SelectableText(
+                                response.data["data"].toString(),
+                                autofocus: true,
                               ),
-                            ],
-                          );
-                        },
-                      );
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                      ClipboardData(
+                                        text: response.data["data"].toString(),
+                                      ),
+                                    );
+                                    Navigator.pop(lastContext);
+                                    ScaffoldMessenger.of(lastContext)
+                                        .showSnackBar(
+                                      SnackBar(
+                                        content: Text("复制成功"),
+                                      ),
+                                    );
+                                  },
+                                  child: Text("复制"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     }
                   } else {
                     Response response = await newShare(
