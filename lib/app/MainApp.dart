@@ -1,5 +1,5 @@
-
 import 'package:cloudreve/app/LoginApp.dart';
+import 'package:cloudreve/component/CustomSearchDelegate.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
@@ -15,19 +15,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MainApp extends StatefulWidget {
   /// 用户数据
-  late UserData _userData;
+  late UserData userData;
 
   /// 用户存储信息
-  late Storage _storage;
+  late Storage storage;
 
-  MainApp({Key? key, required UserData userData, required Storage storage})
-      : super(key: key) {
-    _userData = userData;
-    _storage = storage;
-  }
+  MainApp({Key? key, required this.userData, required this.storage})
+      : super(key: key);
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  State<MainApp> createState() =>
+      _MainAppState(userData: userData, storage: storage);
 }
 
 class _MainAppState extends State<MainApp> {
@@ -40,7 +38,7 @@ class _MainAppState extends State<MainApp> {
   double _processNum = -1;
 
   /// 访问后台的文件列表
-  Future<Response>? _fileResp;
+  late Future<Response> _fileResp;
 
   /// 记录刷新时间 减少刷新时间
   int _lastRequest = -1;
@@ -48,8 +46,24 @@ class _MainAppState extends State<MainApp> {
   /// 列表模式
   Mode _mode = Mode.grid;
 
+  /// 用户数据
+  late UserData _userData;
+
+  /// 用户存储信息
+  late Storage _storage;
+
   /// 文件排序比较函数
   CompareFunction _compare = _compareFunctions[0];
+
+  MFile? _openFile;
+
+  bool? _open = false;
+
+  _MainAppState({required UserData userData, required Storage storage}) {
+    _userData = userData;
+    _storage = storage;
+    _fileResp = directory(_path);
+  }
 
   static final _compareFunctions = <CompareFunction>[
     new CompareFunction((f1, f2) {
@@ -92,7 +106,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    _refreshFileList(false);
+    _refresh(false);
 
     Icon icon = Icon(Icons.list);
     if (_mode == Mode.list) {
@@ -106,6 +120,21 @@ class _MainAppState extends State<MainApp> {
           title: const Text('Cloudreve'),
           actions: _selectedIndex == 0
               ? [
+                  IconButton(
+                    onPressed: () {
+                      showSearch(
+                        context: context,
+                        delegate: CustomSearchDelegate(resultCallback: (file) {
+                          setState(() {
+                            _openFile = file;
+                          });
+                        }),
+                        useRootNavigator: true,
+                      );
+                    },
+                    icon: Icon(Icons.search),
+                    tooltip: "搜索",
+                  ),
                   IconButton(
                     onPressed: () {
                       if (_mode == Mode.list) {
@@ -186,7 +215,7 @@ class _MainAppState extends State<MainApp> {
                       },
                     ),
                     Text(
-                      widget._userData.nickname,
+                      _userData.nickname,
                       style: TextStyle(fontSize: 20, color: Colors.black45),
                     )
                   ],
@@ -205,14 +234,14 @@ class _MainAppState extends State<MainApp> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 5),
                       child: LinearProgressIndicator(
-                        value: (widget._storage.used.toDouble() /
-                            widget._storage.total.toDouble()),
+                        value: (_storage.used.toDouble() /
+                            _storage.total.toDouble()),
                         backgroundColor: Colors.grey,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                       ),
                     ),
                     Text(
-                      "${MFile.getFileSize(widget._storage.used.toDouble(), 1)}/${MFile.getFileSize(widget._storage.total.toDouble(), 1)}",
+                      "${MFile.getFileSize(_storage.used.toDouble(), 1)}/${MFile.getFileSize(_storage.total.toDouble(), 1)}",
                     )
                   ],
                 ),
@@ -228,16 +257,6 @@ class _MainAppState extends State<MainApp> {
                   }));
                 },
               ),
-              // ListTile(
-              //   leading: Icon(Icons.cloud_download),
-              //   textColor: Colors.grey,
-              //   title: Text("离线下载"),
-              //   onTap: () {
-              //     Navigator.push(context, MaterialPageRoute(builder: (context) {
-              //       return Offline();
-              //     }));
-              //   },
-              // ),
               ListTile(
                 leading: Icon(Icons.phonelink),
                 textColor: Colors.grey,
@@ -248,16 +267,6 @@ class _MainAppState extends State<MainApp> {
                   }));
                 },
               ),
-              // ListTile(
-              //   leading: Icon(Icons.assignment),
-              //   textColor: Colors.grey,
-              //   title: Text("任务队列"),
-              //   onTap: () {
-              //     Navigator.push(context, MaterialPageRoute(builder: (context) {
-              //       return Task();
-              //     }));
-              //   },
-              // ),
               Divider(
                 height: 0,
               ),
@@ -285,10 +294,10 @@ class _MainAppState extends State<MainApp> {
             children: <Widget>[
               Home(
                 mode: _mode,
-                refresh: _refreshFileList,
+                refresh: _refresh,
                 progressNum: _processNum,
                 path: _path,
-                fileResp: _fileResp!,
+                fileResp: _fileResp,
                 changePath: (String newPath) {
                   setState(() {
                     _path = newPath;
@@ -300,9 +309,15 @@ class _MainAppState extends State<MainApp> {
                   });
                 },
                 compare: _compare.fun,
+                openFile: _openFile,
+                setOpenFile: (file) {
+                  setState(() {
+                    _openFile = file;
+                  });
+                },
               ),
               Setting(
-                userData: widget._userData,
+                userData: _userData,
               )
             ],
             index: _selectedIndex,
@@ -353,7 +368,7 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<Response> _getAvatar() {
-    return avatar(widget._userData.id);
+    return avatar(_userData.id);
   }
 
   void _newFold() {
@@ -375,7 +390,7 @@ class _MainAppState extends State<MainApp> {
                   if (res.statusCode == 200) {
                     Navigator.of(context).pop(true);
                     _newFoldController.text = "";
-                    _refreshFileList(true);
+                    _refresh(true);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("新建目录成功"),
@@ -412,22 +427,46 @@ class _MainAppState extends State<MainApp> {
     });
   }
 
-  /// 刷新文件列表 [immediately]表示是否强制
-  void _refreshFileList(bool immediately) async {
+  /// 刷新 [immediately]表示是否强制
+  void _refresh(bool immediately) async {
     if (immediately) {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String username = prefs.getString("username")!;
+      String password = prefs.getString("password")!;
+      Response loginResp = await session(username, password);
+      Response storageResp = await getStorage();
+
+      UserData userData = UserData.fromJson(loginResp.data['data']);
+      Storage storage = Storage.fromJson(storageResp.data['data']);
+      var fileResp = directory(_path);
+
       setState(() {
-        _fileResp = directory(_path);
+        _fileResp = fileResp;
+        _storage = storage;
+        _userData = userData;
       });
-      widget._storage = Storage.fromJson((await storage()).data['data']);
     } else {
       int now = DateTime.now().millisecondsSinceEpoch;
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
         _lastRequest = DateTime.now().millisecondsSinceEpoch;
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String username = prefs.getString("username")!;
+        String password = prefs.getString("password")!;
+        Response loginResp = await session(username, password);
+        Response storageResp = await getStorage();
+
+        UserData userData = UserData.fromJson(loginResp.data['data']);
+        Storage storage = Storage.fromJson(storageResp.data['data']);
+        var fileResp = directory(_path);
+
         setState(() {
-          _fileResp = directory(_path);
+          _fileResp = fileResp;
+          _storage = storage;
+          _userData = userData;
         });
-        widget._storage = Storage.fromJson((await storage()).data['data']);
       }
     }
   }
@@ -458,7 +497,7 @@ class _MainAppState extends State<MainApp> {
         setState(() {
           _processNum = -1;
         });
-        _refreshFileList(true);
+        _refresh(true);
       }
     }
   }

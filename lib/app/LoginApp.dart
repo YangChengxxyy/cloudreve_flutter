@@ -89,7 +89,7 @@ class LoginBody extends StatelessWidget {
                             LoginResult loginResult =
                                 LoginResult.fromJson(logResp.data);
                             if (loginResult.code == 0) {
-                              Response storageResp = await storage();
+                              Response storageResp = await getStorage();
                               Storage sto =
                                   Storage.fromJson(storageResp.data['data']);
                               SharedPreferences prefs =

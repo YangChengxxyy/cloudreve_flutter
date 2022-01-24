@@ -65,7 +65,7 @@ Future<Response> session(String userName, String password) {
 }
 
 /// 获取用户容量
-Future<Response> storage() {
+Future<Response> getStorage() {
   return HttpUtil.dio.get("/api/v3/user/storage");
 }
 
@@ -143,4 +143,8 @@ Future<Response> renameObjects(
       "items": items,
     },
   });
+}
+
+Future<Response> search(String keyword) {
+  return HttpUtil.dio.get("/api/v3/file/search/keywords/$keyword");
 }

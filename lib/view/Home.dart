@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloudreve/dialog/RenameDialog.dart';
-import 'package:cloudreve/dialog/ShareDialog.dart';
+import 'package:cloudreve/component/RenameDialog.dart';
+import 'package:cloudreve/component/ShareDialog.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
@@ -23,12 +23,6 @@ final zipRegex = RegExp(r".*\.(zip|rar|7z)");
 final apkRegex = RegExp(r".*\.(apk)");
 
 class Home extends StatelessWidget {
-  /// 上次返回时间
-  int _lastBack = -1;
-
-  /// 默认下载路径
-  String downPath = "/storage/emulated/0/Download/";
-
   /// 修改path函数
   void Function(String) changePath;
 
@@ -56,18 +50,43 @@ class Home extends StatelessWidget {
   /// 外间距
   double paddingNum = 10;
 
-  Home(
-      {required this.changePath,
-      required this.path,
-      required this.progressNum,
-      required this.changeProgressNum,
-      required this.fileResp,
-      required this.refresh,
-      required this.mode,
-      this.compare});
+  MFile? openFile;
+
+  late void Function(MFile? file) setOpenFile;
+
+  Home({
+    required this.changePath,
+    required this.path,
+    required this.progressNum,
+    required this.changeProgressNum,
+    required this.fileResp,
+    required this.refresh,
+    required this.mode,
+    this.compare,
+    this.openFile,
+    required this.setOpenFile,
+  });
+
+  /// 上次返回时间
+  int _lastBack = -1;
+
+  /// 默认下载路径
+  final String downPath = "/storage/emulated/0/Download/";
 
   @override
   Widget build(BuildContext context) {
+    if (openFile != null) {
+      Future.delayed(Duration(seconds: 1), () {
+        _fileLongPress(
+          context,
+          openFile!,
+          open: true,
+          del: false,
+        );
+        setOpenFile(null);
+      });
+    }
+
     /// 进度条
     Widget _progressBar = Container(
       padding: EdgeInsets.symmetric(horizontal: paddingNum),
@@ -512,55 +531,86 @@ class Home extends StatelessWidget {
   }
 
   /// 文件长按事件
-  void _fileLongPress(BuildContext context, MFile file) {
+  void _fileLongPress(
+    BuildContext context,
+    MFile file, {
+    bool del = true,
+    bool rename = true,
+    bool share = true,
+    bool open = false,
+    bool download = true,
+  }) {
     showDialog(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
           actions: [
-            IconButton(
-              icon: Icon(Icons.delete),
-              color: Colors.grey,
-              tooltip: "删除",
-              onPressed: () async {
-                Response delRes = await deleteItem([], [file.id]);
-                if (delRes.data['code'] == 0) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("删除成功"),
-                    ),
-                  );
-                  Navigator.pop(dialogContext);
-                  changePath(path);
-                  refresh(true);
-                }
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.border_color,
+            Offstage(
+              offstage: !del,
+              child: IconButton(
+                icon: Icon(Icons.delete),
+                color: Colors.grey,
+                tooltip: "删除",
+                onPressed: () async {
+                  Response delRes = await deleteItem([], [file.id]);
+                  if (delRes.data['code'] == 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("删除成功"),
+                      ),
+                    );
+                    Navigator.pop(dialogContext);
+                    changePath(path);
+                    refresh(true);
+                  }
+                },
               ),
-              color: Colors.grey,
-              tooltip: "重命名",
-              onPressed: () {
-                _renameButtonTap(context, dialogContext, file);
-              },
             ),
-            IconButton(
-              icon: Icon(Icons.share),
-              tooltip: "分享",
-              color: Colors.grey,
-              onPressed: () {
-                _shareButtonTap(dialogContext, file);
-              },
+            Offstage(
+              offstage: !rename,
+              child: IconButton(
+                icon: Icon(
+                  Icons.border_color,
+                ),
+                color: Colors.grey,
+                tooltip: "重命名",
+                onPressed: () {
+                  _renameButtonTap(context, dialogContext, file);
+                },
+              ),
             ),
-            IconButton(
-              icon: Icon(Icons.download),
-              tooltip: "下载",
-              color: Colors.grey,
-              onPressed: () async {
-                _downloadButtonTap(context, dialogContext, file);
-              },
+            Offstage(
+              offstage: !share,
+              child: IconButton(
+                icon: Icon(Icons.share),
+                tooltip: "分享",
+                color: Colors.grey,
+                onPressed: () {
+                  _shareButtonTap(dialogContext, file);
+                },
+              ),
+            ),
+            Offstage(
+              offstage: !open,
+              child: IconButton(
+                icon: Icon(Icons.open_in_new),
+                tooltip: "打开",
+                color: Colors.grey,
+                onPressed: () {
+                  _openFileButtonTap(context, file);
+                },
+              ),
+            ),
+            Offstage(
+              offstage: !download,
+              child: IconButton(
+                icon: Icon(Icons.download),
+                tooltip: "下载",
+                color: Colors.grey,
+                onPressed: () async {
+                  _downloadButtonTap(context, dialogContext, file);
+                },
+              ),
             ),
           ],
           content: Column(
@@ -723,9 +773,12 @@ class Home extends StatelessWidget {
   }
 
   /// 打开按钮点击
-  void _openFileButtonTap(
-      BuildContext context, MFile file) async {
+  void _openFileButtonTap(BuildContext context, MFile file,
+      [BuildContext? dialogContext]) async {
     if (imageRex.hasMatch(file.name)) {
+      if (dialogContext != null) {
+        Navigator.pop(dialogContext);
+      }
       _imageTap(context, file);
     } else {
       String tempPath = (await getTemporaryDirectory()).path + "/";
@@ -733,6 +786,9 @@ class Home extends StatelessWidget {
       var exist = await f.exists();
       if (exist) {
         final _result = await OpenFile.open(tempPath + file.name);
+        if (dialogContext != null) {
+          Navigator.pop(dialogContext);
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(_result.message),
@@ -747,12 +803,18 @@ class Home extends StatelessWidget {
           if (response.statusCode == 200) {
             refresh(true);
             final _result = await OpenFile.open(tempPath + file.name);
+            if (dialogContext != null) {
+              Navigator.pop(dialogContext);
+            }
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(_result.message),
               ),
             );
           } else {
+            if (dialogContext != null) {
+              Navigator.pop(dialogContext);
+            }
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("打开失败"),

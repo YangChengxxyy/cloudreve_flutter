@@ -87,14 +87,14 @@ class MyApp extends StatelessWidget {
 
       //重新登录刷新登录信息
       Response loginResp = await session(username, password);
-      Response storageResp = await storage();
+      Response storageResp = await getStorage();
 
       LoginResult loginResult = LoginResult.fromJson(loginResp.data);
-      Storage sto = Storage.fromJson(storageResp.data['data']);
+      Storage storage = Storage.fromJson(storageResp.data['data']);
       if (loginResult.code == 0) {
         return MainApp(
           userData: loginResult.data!,
-          storage: sto,
+          storage: storage,
         );
       } else {
         prefs.clear();

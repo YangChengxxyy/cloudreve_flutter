@@ -12,8 +12,8 @@ class HttpUtil {
 
   static BaseOptions normalOption = BaseOptions(
     baseUrl: baseUrl,
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
+    connectTimeout: 10000,
+    receiveTimeout: 10000,
   );
   static Dio dio = Dio(normalOption);
 
