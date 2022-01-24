@@ -53,186 +53,144 @@ class _ShareDialgState extends State<ShareDialg> {
 
   @override
   Widget build(BuildContext context) {
-    var list = <Widget>[Divider()];
-    if (_isPassword) {
-      list.addAll([
-        CheckboxListTile(
-          value: _isPassword,
-          title: Row(
-            children: [
-              Icon(Icons.lock_outline),
-              Text("使用密码保护"),
-            ],
-          ),
-          onChanged: (value) {
-            setState(() {
-              _isPassword = value!;
-            });
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: TextFormField(
-            controller: _passwordController,
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: true,
-            autofocus: false,
-            decoration: InputDecoration(
-              labelText: "分享密码",
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-              ),
-              isDense: true,
-            ),
-            validator: (v) {
-              if (v == null) {
-                return null;
-              }
-              return v.trim().length > 0 ? null : "分享密码不能为空";
-            },
-          ),
-        ),
-      ]);
-    } else {
-      list.add(
-        CheckboxListTile(
-          value: _isPassword,
-          title: Row(
-            children: [
-              Icon(Icons.lock_outline),
-              Text("使用密码保护"),
-            ],
-          ),
-          onChanged: (value) {
-            setState(() {
-              _isPassword = value!;
-            });
-          },
-        ),
-      );
-    }
-
-    if (_isExpive) {
-      list.addAll([
-        CheckboxListTile(
-          value: _isExpive,
-          title: Row(
-            children: [
-              Icon(Icons.timer),
-              Text("自动过期"),
-            ],
-          ),
-          onChanged: (value) {
-            setState(() {
-              _isExpive = value!;
-            });
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: PopupMenuButton<int>(
-                  initialValue: _downloads,
-                  child: Row(
-                    children: [
-                      Text('$_downloads次'),
-                      Icon(Icons.arrow_drop_down_rounded),
-                    ],
-                  ),
-                  itemBuilder: (context) {
-                    return _countList.map((count) {
-                      return PopupMenuItem<int>(
-                        value: count,
-                        child: Text("$count次"),
-                      );
-                    }).toList();
-                  },
-                  onSelected: (c) async {
-                    this.setState(() {
-                      _downloads = c;
-                    });
-                  },
-                ),
-              ),
-              Text("或者"),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: PopupMenuButton<TimeString>(
-                  initialValue: _expive,
-                  child: Row(
-                    children: [
-                      Text(_expive.name),
-                      Icon(Icons.arrow_drop_down_rounded),
-                    ],
-                  ),
-                  itemBuilder: (context) {
-                    return _timeList.map((time) {
-                      return PopupMenuItem<TimeString>(
-                        value: time,
-                        child: Text(time.name),
-                      );
-                    }).toList();
-                  },
-                  onSelected: (t) async {
-                    this.setState(() {
-                      _expive = t;
-                    });
-                  },
-                ),
-              ),
-              Text("后过期")
-            ],
-          ),
-        ),
-      ]);
-    } else {
-      list.add(
-        CheckboxListTile(
-          value: _isExpive,
-          title: Row(
-            children: [
-              Icon(Icons.timer),
-              Text("自动过期"),
-            ],
-          ),
-          onChanged: (value) {
-            setState(() {
-              _isExpive = value!;
-            });
-          },
-        ),
-      );
-    }
-    list.add(
-      CheckboxListTile(
-        value: _isPreview,
-        title: Row(
-          children: [
-            Icon(Icons.remove_red_eye_outlined),
-            Text("允许预览"),
-          ],
-        ),
-        onChanged: (value) {
-          setState(() {
-            _isPreview = value!;
-          });
-        },
-      ),
-    );
-
     return Form(
       key: _formKey,
       child: SimpleDialog(
         title: Text("创建分享链接"),
         contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         children: [
-          ...list,
+          CheckboxListTile(
+            value: _isPassword,
+            title: Row(
+              children: [
+                Icon(Icons.lock_outline),
+                Text("使用密码保护"),
+              ],
+            ),
+            onChanged: (value) {
+              setState(() {
+                _isPassword = value!;
+              });
+            },
+          ),
+          Offstage(
+            offstage: !_isPassword,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: TextFormField(
+                controller: _passwordController,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                autofocus: false,
+                decoration: InputDecoration(
+                  labelText: "分享密码",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  isDense: true,
+                ),
+                validator: (v) {
+                  if (v == null) {
+                    return null;
+                  }
+                  return v.trim().length > 0 ? null : "分享密码不能为空";
+                },
+              ),
+            ),
+          ),
+          CheckboxListTile(
+            value: _isExpive,
+            title: Row(
+              children: [
+                Icon(Icons.timer),
+                Text("自动过期"),
+              ],
+            ),
+            onChanged: (value) {
+              setState(() {
+                _isExpive = value!;
+              });
+            },
+          ),
+          Offstage(
+            offstage: !_isExpive,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: PopupMenuButton<int>(
+                      initialValue: _downloads,
+                      child: Row(
+                        children: [
+                          Text('$_downloads次'),
+                          Icon(Icons.arrow_drop_down_rounded),
+                        ],
+                      ),
+                      itemBuilder: (context) {
+                        return _countList.map((count) {
+                          return PopupMenuItem<int>(
+                            value: count,
+                            child: Text("$count次"),
+                          );
+                        }).toList();
+                      },
+                      onSelected: (c) async {
+                        this.setState(() {
+                          _downloads = c;
+                        });
+                      },
+                    ),
+                  ),
+                  Text("或者"),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: PopupMenuButton<TimeString>(
+                      initialValue: _expive,
+                      child: Row(
+                        children: [
+                          Text(_expive.name),
+                          Icon(Icons.arrow_drop_down_rounded),
+                        ],
+                      ),
+                      itemBuilder: (context) {
+                        return _timeList.map((time) {
+                          return PopupMenuItem<TimeString>(
+                            value: time,
+                            child: Text(time.name),
+                          );
+                        }).toList();
+                      },
+                      onSelected: (t) async {
+                        this.setState(() {
+                          _expive = t;
+                        });
+                      },
+                    ),
+                  ),
+                  Text("后过期")
+                ],
+              ),
+            ),
+          ),
+          CheckboxListTile(
+            value: _isPreview,
+            title: Row(
+              children: [
+                Icon(Icons.remove_red_eye_outlined),
+                Text("允许预览"),
+              ],
+            ),
+            onChanged: (value) {
+              setState(() {
+                _isPreview = value!;
+              });
+            },
+          ),
           ButtonBar(
             alignment: MainAxisAlignment.end,
             children: [
