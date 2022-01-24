@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 
 /// 新建目录
 Future<Response> addDirectory(dynamic data) {
@@ -147,4 +149,12 @@ Future<Response> renameObjects(
 
 Future<Response> search(String keyword) {
   return HttpUtil.dio.get("/api/v3/file/search/keywords/$keyword");
+}
+
+Future<Response> property(MFile file) {
+  return HttpUtil.dio
+      .get("/api/v3/object/property/${file.id}", queryParameters: {
+    "trace_root": true,
+    "is_folder": file.type == "dir",
+  });
 }

@@ -77,12 +77,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     if (openFile != null) {
       Future.delayed(Duration(seconds: 1), () {
-        _fileLongPress(
-          context,
-          openFile!,
-          open: true,
-          del: false,
-        );
+        _openFileButtonTap(context, openFile!);
         setOpenFile(null);
       });
     }

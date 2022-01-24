@@ -128,6 +128,11 @@ class _MainAppState extends State<MainApp> {
                           setState(() {
                             _openFile = file;
                           });
+                        }, gotoPath: (String path) {
+                          setState(() {
+                            _path = path;
+                          });
+                          _refresh(true);
                         }),
                         useRootNavigator: true,
                       );
