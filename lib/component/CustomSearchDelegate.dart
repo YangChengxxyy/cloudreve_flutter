@@ -10,7 +10,9 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   void Function(MFile) resultCallback;
   void Function(String path) gotoPath;
 
-  CustomSearchDelegate({required this.resultCallback, required this.gotoPath});
+  CustomSearchDelegate({required this.resultCallback, required this.gotoPath}) {
+    query = "";
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -79,29 +81,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   }
 
   Widget _buildItem(BuildContext context, MFile file) {
-    Icon icon = Icon(Icons.file_present);
-
-    if (file.type == "dir") {
-      icon = Icon(Icons.folder);
-    } else {
-      if (imageRex.hasMatch(file.name)) {
-        icon = Icon(Icons.image);
-      } else if (pdfRex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.picture_as_pdf,
-          color: Colors.red,
-        );
-      } else if (zipRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.archive);
-      } else if (wordRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.book);
-      } else if (apkRegex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.android,
-          color: Colors.green,
-        );
-      }
-    }
+    Icon icon = getIcon(file);
 
     return InkWell(
       child: Card(

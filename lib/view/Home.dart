@@ -21,6 +21,50 @@ final pdfRex = RegExp(r".*\.(pdf)");
 final wordRegex = RegExp(r".*\.(doc|docx)");
 final zipRegex = RegExp(r".*\.(zip|rar|7z)");
 final apkRegex = RegExp(r".*\.(apk)");
+final videoRegex = RegExp(r".*\.(avi|mp4|mpg|mpeg|mov|flv)");
+
+Icon getIcon(MFile file) {
+  if (file.type == "dir") {
+    return Icon(
+      Icons.folder,
+      color: Colors.grey,
+    );
+  } else {
+    if (imageRex.hasMatch(file.name)) {
+      return Icon(
+        Icons.image,
+        color: Colors.grey,
+      );
+    } else if (pdfRex.hasMatch(file.name)) {
+      return Icon(
+        Icons.picture_as_pdf,
+        color: Colors.red,
+      );
+    } else if (zipRegex.hasMatch(file.name)) {
+      return Icon(
+        Icons.archive,
+        color: Colors.grey,
+      );
+    } else if (wordRegex.hasMatch(file.name)) {
+      return Icon(
+        Icons.book,
+        color: Colors.grey,
+      );
+    } else if (apkRegex.hasMatch(file.name)) {
+      return Icon(
+        Icons.android,
+        color: Colors.green,
+      );
+    } else if (videoRegex.hasMatch(file.name)) {
+      return Icon(
+        Icons.video_call,
+        color: Colors.red,
+      );
+    } else {
+      return Icon(Icons.file_present);
+    }
+  }
+}
 
 class Home extends StatelessWidget {
   /// 修改path函数
@@ -248,48 +292,12 @@ class Home extends StatelessWidget {
 
   /// 构建网格项
   Widget _buildGridItem(BuildContext context, MFile file, int index) {
-    Icon icon = Icon(Icons.file_present);
-    bool isImage = false;
-
-    if (file.type == "dir") {
-      icon = Icon(
-        Icons.folder,
-        color: Colors.grey,
-      );
-    } else {
-      if (imageRex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.image,
-          color: Colors.grey,
-        );
-        isImage = true;
-      } else if (pdfRex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.picture_as_pdf,
-          color: Colors.red,
-        );
-      } else if (zipRegex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.archive,
-          color: Colors.grey,
-        );
-      } else if (wordRegex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.book,
-          color: Colors.grey,
-        );
-      } else if (apkRegex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.android,
-          color: Colors.green,
-        );
-      }
-    }
+    Icon icon = getIcon(file);
 
     double maxHeight = MediaQuery.of(context).size.width;
     double size = (maxHeight - paddingNum * 3) ~/ 2 - 62;
     Widget headImage;
-    if (!isImage) {
+    if (!imageRex.hasMatch(file.name)) {
       headImage = Container(height: size, child: icon);
     } else {
       headImage = FutureBuilder(
@@ -405,29 +413,7 @@ class Home extends StatelessWidget {
 
   /// 构建文件列表浏览
   Widget _buildListItem(BuildContext context, MFile file) {
-    Icon icon = Icon(Icons.file_present);
-
-    if (file.type == "dir") {
-      icon = Icon(Icons.folder);
-    } else {
-      if (imageRex.hasMatch(file.name)) {
-        icon = Icon(Icons.image);
-      } else if (pdfRex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.picture_as_pdf,
-          color: Colors.red,
-        );
-      } else if (zipRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.archive);
-      } else if (wordRegex.hasMatch(file.name)) {
-        icon = Icon(Icons.book);
-      } else if (apkRegex.hasMatch(file.name)) {
-        icon = Icon(
-          Icons.android,
-          color: Colors.green,
-        );
-      }
-    }
+    Icon icon = getIcon(file);
 
     return InkWell(
       child: Card(
