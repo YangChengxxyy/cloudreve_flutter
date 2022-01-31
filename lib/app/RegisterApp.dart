@@ -99,7 +99,7 @@ class RegisterBody extends StatelessWidget {
                       child: ElevatedButton(
                         style: ButtonStyle(),
                         onPressed: () async {
-                          if ((_formKey.currentState as FormState).validate()) {
+                          if ((_formKey.currentState!).validate()) {
                             //验证通过提交数据
                             Response registerResp = await register(
                                 _emailController.text, _pwdController.text);

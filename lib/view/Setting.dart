@@ -1,3 +1,4 @@
+import 'package:cloudreve/component/RenameNickDialog.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
@@ -6,10 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class Setting extends StatelessWidget {
-  late UserData _userData;
-  Setting({Key? key, required UserData userData}) {
-    _userData = userData;
-  }
+  UserData userData;
+  void Function(bool) refresh;
+  Setting({Key? key, required this.userData, required this.refresh});
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,16 @@ class Setting extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.account_box),
                   title: Text('昵称'),
-                  trailing: Text(_userData.nickname),
-                  onTap: () {},
+                  trailing: Text(userData.nickname),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return RenameNickDialog(
+                            nick: userData.nickname, refresh: refresh);
+                      },
+                    );
+                  },
                 ),
                 Divider(
                   height: 0,
@@ -62,7 +70,7 @@ class Setting extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.email),
                   title: Text("Email"),
-                  trailing: Text(_userData.userName),
+                  trailing: Text(userData.userName),
                   onTap: () {},
                 ),
                 Divider(
@@ -71,7 +79,7 @@ class Setting extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.group),
                   title: Text('用户组'),
-                  trailing: Text(_userData.group!.name),
+                  trailing: Text(userData.group!.name),
                   onTap: () {},
                 ),
                 Divider(
@@ -80,7 +88,7 @@ class Setting extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.calendar_today),
                   title: Text("注册时间"),
-                  trailing: Text(getFormatDate(_userData.createdAt)),
+                  trailing: Text(getFormatDate(userData.createdAt)),
                   onTap: () {},
                 ),
               ],

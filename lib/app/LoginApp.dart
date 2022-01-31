@@ -82,7 +82,7 @@ class LoginBody extends StatelessWidget {
                       child: ElevatedButton(
                         style: ButtonStyle(),
                         onPressed: () async {
-                          if ((_formKey.currentState as FormState).validate()) {
+                          if ((_formKey.currentState!).validate()) {
                             //验证通过提交数据
                             Response logResp = await session(
                                 _emailController.text, _pwdController.text);

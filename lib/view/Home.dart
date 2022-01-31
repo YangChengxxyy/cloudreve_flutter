@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloudreve/component/RenameDialog.dart';
+import 'package:cloudreve/component/RenameFileDialog.dart';
 import 'package:cloudreve/component/ShareDialog.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
@@ -827,7 +827,7 @@ class Home extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return RenameDialog(
+        return RenameFileDialog(
           file,
           fatherContext,
           () => refresh(true),

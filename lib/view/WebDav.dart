@@ -43,8 +43,14 @@ class WebDav extends StatelessWidget {
                         ],
                       ),
                     ),
-                    DataCell(Text(value.root)),
-                    DataCell(Text(value.createdAt.substring(0, 10))),
+                    DataCell(
+                      Text(value.root),
+                    ),
+                    DataCell(
+                      Text(
+                        value.createdAt.substring(0, 10),
+                      ),
+                    ),
                     // DataCell(
                     //   Icon(
                     //     Icons.delete,
@@ -61,11 +67,19 @@ class WebDav extends StatelessWidget {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: DataTable(columns: [
-                        DataColumn(label: Text("备注名")),
-                        DataColumn(label: Text("密码")),
-                        DataColumn(label: Text("根目录")),
-                        DataColumn(label: Text("创建时间")),
-                        // DataColumn(label: Text("操作")),
+                        DataColumn(
+                          label: Text("备注名"),
+                        ),
+                        DataColumn(
+                          label: Text("密码"),
+                        ),
+                        DataColumn(
+                          label: Text("根目录"),
+                        ),
+                        DataColumn(
+                          label: Text("创建时间"),
+                        ),
+                        // DataColumn(label: Text("操作"),),
                       ], rows: dataRows),
                     ),
                   ],

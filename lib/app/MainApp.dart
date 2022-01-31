@@ -323,6 +323,7 @@ class _MainAppState extends State<MainApp> {
               ),
               Setting(
                 userData: _userData,
+                refresh: _refresh,
               )
             ],
             index: _selectedIndex,
