@@ -117,6 +117,13 @@ Future<Response> setting() {
   return HttpUtil.dio.get("/api/v3/user/setting");
 }
 
+/// 新增分享
+/// [fileId]文件id
+/// [isDir]是否为目录
+/// [password]密码
+/// [preview]是否支持预览
+/// [downloads]下载次数
+/// [expive]过期秒数
 Future<Response> newShare(
     {required String fileId,
     required bool isDir,
@@ -137,6 +144,7 @@ Future<Response> newShare(
   );
 }
 
+/// 获取分享
 Future<Response> getShare(
     {int page = 1, required String order, required String orderBy}) {
   return HttpUtil.dio.get(
@@ -145,6 +153,10 @@ Future<Response> getShare(
   );
 }
 
+/// 编辑分享
+/// [key]分享key
+/// [prop]属性名
+/// [value]属性值
 Future<Response> editShare(String key,
     {required String prop, required dynamic value}) {
   return HttpUtil.dio.patch(
@@ -152,11 +164,15 @@ Future<Response> editShare(String key,
     data: {"prop": prop, "value": value},
   );
 }
-
+/// 删除分享
+/// [key]分享key
 Future<Response> deleteShare(String key) {
   return HttpUtil.dio.delete("/api/v3/share/$key");
 }
 
+/// 重命名文件
+/// [dirs]目录
+/// [items]文件
 Future<Response> renameObjects(
     String newName, List<String> dirs, List<String> items) {
   return HttpUtil.dio.post(
@@ -172,10 +188,12 @@ Future<Response> renameObjects(
   );
 }
 
+/// 搜索
 Future<Response> search(String keyword) {
   return HttpUtil.dio.get("/api/v3/file/search/keywords/$keyword");
 }
 
+/// 文件属性
 Future<Response> property(MFile file) {
   return HttpUtil.dio.get(
     "/api/v3/object/property/${file.id}",
@@ -186,6 +204,7 @@ Future<Response> property(MFile file) {
   );
 }
 
+///重命名
 Future<Response> renameNick(String newNick) {
   return HttpUtil.dio.patch(
     "/api/v3/user/setting/nick",
