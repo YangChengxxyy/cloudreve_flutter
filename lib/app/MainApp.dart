@@ -190,7 +190,7 @@ class _MainAppState extends State<MainApp> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FutureBuilder(
-                      future: _getAvatar(),
+                      future: avatar(_userData.id),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
                           return Container(
@@ -373,10 +373,6 @@ class _MainAppState extends State<MainApp> {
             : null);
   }
 
-  Future<Response> _getAvatar() {
-    return avatar(_userData.id);
-  }
-
   void _newFold() {
     final _newFoldController = new TextEditingController();
 
@@ -478,32 +474,25 @@ class _MainAppState extends State<MainApp> {
   }
 
   void _uploadFile() async {
-    var result = await FilePicker.platform.pickFiles(withReadStream: true);
+    var result = await FilePicker.platform
+        .pickFiles(withReadStream: true, allowMultiple: true);
     if (result != null) {
-      var file = result.files.first;
-
-      Response res = await uploadFile(file, _path, (process, total) {
-        setState(() {
-          _processNum = process / total;
-        });
-      });
-
-      if (res.statusCode == 200) {
-        String text;
-        if (_path == '/') {
-          text = "上传成功:$_path${file.name}";
-        } else {
-          text = "上传成功:$_path/${file.name}";
+      var files = result.files;
+      try {
+        for (var file in files) {
+          await uploadFile(file, _path);
         }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(text),
+            content: Text("上传成功"),
           ),
         );
-        setState(() {
-          _processNum = -1;
-        });
-        _refresh(true);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("上传失败"),
+          ),
+        );
       }
     }
   }

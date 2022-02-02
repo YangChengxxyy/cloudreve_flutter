@@ -4,6 +4,7 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/entity/SettingData.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class Setting extends StatelessWidget {
@@ -30,6 +31,101 @@ class Setting extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
+                  leading: FutureBuilder(
+                    future: avatar(userData.id),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ClipOval(
+                          child: Image.memory(
+                            snapshot.data!.data,
+                            fit: BoxFit.cover,
+                            width: 32,
+                            height: 32,
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          child: CircularProgressIndicator(),
+                          height: 15.0,
+                          width: 15.0,
+                        );
+                      }
+                    },
+                  ),
+                  title: Text("头像"),
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (buildContext) {
+                        return AlertDialog(
+                          title: Text("修改头像"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                leading: Icon(
+                                  Icons.crop_original,
+                                  color: Colors.blue,
+                                ),
+                                title: Text("从文件上传"),
+                                onTap: () async {
+                                  var result =
+                                      await FilePicker.platform.pickFiles();
+                                  if (result != null) {
+                                    FormData formData = new FormData();
+                                    formData.files.add(
+                                      new MapEntry(
+                                        "avatar",
+                                        await MultipartFile.fromFile(
+                                          result.files.first.path.toString(),
+                                        ),
+                                      ),
+                                    );
+                                    Response response =
+                                        await setFileAsAvatar(formData);
+                                    if (response.data['msg'] == '') {
+                                      Navigator.pop(buildContext);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text("上传成功"),
+                                        ),
+                                      );
+                                      refresh(true);
+                                    }
+                                  }
+                                },
+                              ),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.fingerprint,
+                                  color: Colors.yellow,
+                                ),
+                                title: Text("使用 Gravatar 头像 "),
+                                onTap: () async {
+                                  Response response = await setAvatar();
+                                  if (response.data['msg'] == '') {
+                                    Navigator.pop(buildContext);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("设置成功"),
+                                      ),
+                                    );
+                                    refresh(true);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                Divider(
+                  height: 0,
+                ),
+                ListTile(
                   leading: Icon(Icons.contacts_rounded),
                   title: Text("UID"),
                   trailing: FutureBuilder(
@@ -45,7 +141,6 @@ class Setting extends StatelessWidget {
                       }
                     },
                   ),
-                  onTap: () {},
                 ),
                 Divider(
                   height: 0,

@@ -86,8 +86,8 @@ Future<Response> getStorage() {
 /// [file]具体文件
 /// [path]路径
 /// [onSendProgress]上传回调函数
-Future<Response> uploadFile(
-    PlatformFile file, String path, void Function(int, int) onSendProgress) {
+Future<Response> uploadFile(PlatformFile file, String path,
+    [void Function(int, int)? onSendProgress]) {
   var option = Options(
       method: "POST",
       contentType: "application/octet-stream",
@@ -102,7 +102,9 @@ Future<Response> uploadFile(
     options: option,
     data: file.readStream,
     onSendProgress: (process, total) {
-      onSendProgress(process, total);
+      if (onSendProgress != null) {
+        onSendProgress(process, total);
+      }
     },
   );
 }
@@ -164,6 +166,7 @@ Future<Response> editShare(String key,
     data: {"prop": prop, "value": value},
   );
 }
+
 /// 删除分享
 /// [key]分享key
 Future<Response> deleteShare(String key) {
@@ -211,5 +214,16 @@ Future<Response> renameNick(String newNick) {
     data: {
       "nick": newNick,
     },
+  );
+}
+
+Future<Response> setAvatar() {
+  return HttpUtil.dio.put("/api/v3/user/setting/avatar");
+}
+
+Future<Response> setFileAsAvatar(FormData formData) {
+  return HttpUtil.dio.post(
+    "/api/v3/user/setting/avatar",
+    data: formData,
   );
 }

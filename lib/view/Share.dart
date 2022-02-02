@@ -71,72 +71,77 @@ class _ShareState extends State<Share> {
           if (snapshot.hasData) {
             ShareData shareData = snapshot.data!;
             _shareData = shareData;
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: ListView(
-                children: shareData.items
-                    .map(
-                      (e) => Card(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(14),
-                                  child: _getIcon(e),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 4),
-                                      child: Text(
-                                        e.source.name,
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
+            return shareData.items.length == 0
+                ? Center(
+                    child: Text("暂无数据"),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: ListView(
+                      children: shareData.items
+                          .map(
+                            (e) => Card(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(14),
+                                        child: _getIcon(e),
                                       ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          getFormatDate(e.createDate),
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            color: Colors.grey[700],
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 4),
+                                            child: Text(
+                                              e.source.name,
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: e.remainDownloads == 1 ||
-                                                  e.expire < -1
-                                              ? const Text("已失效")
-                                              : const Text(""),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                          Row(
+                                            children: [
+                                              Text(
+                                                getFormatDate(e.createDate),
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                                child: e.remainDownloads == 1 ||
+                                                        e.expire < -1
+                                                    ? const Text("已失效")
+                                                    : const Text(""),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    height: 0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: _getButtomIcons(e),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Divider(
-                              height: 0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: _getButtomIcons(e),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            );
+                          )
+                          .toList(),
+                    ),
+                  );
           } else {
             return Center(
               child: Text("Loading……"),
