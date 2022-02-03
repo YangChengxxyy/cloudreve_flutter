@@ -7,10 +7,12 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Map<String, String> _downloadUrlCache = {};
 
@@ -98,6 +100,8 @@ class Home extends StatelessWidget {
 
   late void Function(MFile? file) setOpenFile;
 
+  FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+
   Home({
     required this.changePath,
     required this.path,
@@ -109,7 +113,15 @@ class Home extends StatelessWidget {
     this.compare,
     this.openFile,
     required this.setOpenFile,
-  });
+  }) {
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android =
+        new AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android: android, iOS: iOS);
+    flutterLocalNotificationsPlugin?.initialize(initSetttings,
+        onSelectNotification: _onSelectNotification);
+  }
 
   /// 上次返回时间
   int _lastBack = -1;
@@ -599,7 +611,7 @@ class Home extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text("文件名:\t\t${file.name}"),
-              Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble(), 1)}"),
+              Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble())}"),
               Text("上传时间:\t\t${file.getFormatDate()}")
             ],
           ),
@@ -731,13 +743,26 @@ class Home extends StatelessWidget {
         if (dialogContext != null) {
           Navigator.pop(dialogContext);
         }
+        int fileHashCode = file.hashCode;
         response = await dio.download(url, downPath + file.name,
-            onReceiveProgress: (process, total) {
-          changeProgressNum(process / total);
+            onReceiveProgress: (process, total) async {
+          double precent = process / total;
+          await _showDownloadNotification(
+            id: fileHashCode,
+            title: '下载 ${file.name}',
+            body: (precent * 100).toStringAsFixed(2) + "%",
+            payload: 'doing',
+          );
         });
         if (response.statusCode == 200) {
-          String snackString = '下载至:' + downPath + file.name;
-          changeProgressNum(-1);
+          await _showDownloadNotification(
+            id: fileHashCode,
+            title: '下载 ${file.name}',
+            body: '至:$downPath',
+            payload: 'done-$downPath',
+          );
+
+          String snackString = '下载至:$downPath${file.name}';
           refresh(true);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -834,5 +859,29 @@ class Home extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _onSelectNotification(String? payload) {
+    debugPrint("payload : $payload");
+    if (payload!.startsWith("done")) {
+      OpenFile.open(payload.substring(5));
+    }
+  }
+
+  Future<void> _showDownloadNotification(
+      {required int id,
+      required String title,
+      required String body,
+      String? payload}) async {
+    var android = new AndroidNotificationDetails(
+        'download channel id', 'download channel name',
+        playSound: false,
+        channelDescription: '文件下载',
+        priority: Priority.min,
+        importance: Importance.min);
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android: android, iOS: iOS);
+    await flutterLocalNotificationsPlugin?.show(id, title, body, platform,
+        payload: payload);
   }
 }

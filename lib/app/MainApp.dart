@@ -11,6 +11,7 @@ import 'package:cloudreve/view/WebDav.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainApp extends StatefulWidget {
@@ -63,6 +64,24 @@ class _MainAppState extends State<MainApp> {
     _userData = userData;
     _storage = storage;
     _fileResp = directory(_path);
+  }
+
+  FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+
+  @override
+  void initState() {
+    super.initState();
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android =
+        new AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android: android, iOS: iOS);
+    flutterLocalNotificationsPlugin?.initialize(initSetttings,
+        onSelectNotification: _onSelectNotification);
+  }
+
+  void _onSelectNotification(String? payload) {
+    debugPrint("payload : $payload");
   }
 
   static final _compareFunctions = <CompareFunction>[
@@ -246,7 +265,7 @@ class _MainAppState extends State<MainApp> {
                       ),
                     ),
                     Text(
-                      "${MFile.getFileSize(_storage.used.toDouble(), 1)}/${MFile.getFileSize(_storage.total.toDouble(), 1)}",
+                      "${MFile.getFileSize(_storage.used.toDouble())}/${MFile.getFileSize(_storage.total.toDouble())}",
                     )
                   ],
                 ),
@@ -480,13 +499,21 @@ class _MainAppState extends State<MainApp> {
       var files = result.files;
       try {
         for (var file in files) {
-          await uploadFile(file, _path);
+          int fileHashCode = file.hashCode;
+          await uploadFile(file, _path, (processs, total) async {
+            double precent = processs / total;
+            await _showUploadNotification(
+                id: fileHashCode,
+                title: '上传 ${file.name}',
+                body: (precent * 100).toStringAsFixed(2) + "%",
+                payload: 'doing');
+          });
+          await _showUploadNotification(
+              id: fileHashCode,
+              title: '上传 ${file.name}',
+              body: '至$_path',
+              payload: 'done');
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("上传成功"),
-          ),
-        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -495,6 +522,23 @@ class _MainAppState extends State<MainApp> {
         );
       }
     }
+  }
+
+  Future<void> _showUploadNotification(
+      {required int id,
+      required String title,
+      required String body,
+      String? payload}) async {
+    var android = new AndroidNotificationDetails(
+        'upload channel id', 'upload channel name',
+        playSound: false,
+        channelDescription: '文件上传',
+        priority: Priority.min,
+        importance: Importance.min);
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android: android, iOS: iOS);
+    await flutterLocalNotificationsPlugin?.show(id, title, body, platform,
+        payload: payload);
   }
 }
 

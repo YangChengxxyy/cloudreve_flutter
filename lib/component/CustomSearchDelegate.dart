@@ -182,7 +182,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text("文件名:\t\t${file.name}"),
-              Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble(), 1)}"),
+              Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble())}"),
               Text("上传时间:\t\t${file.getFormatDate()}"),
               FutureBuilder(
                 future: property(file),

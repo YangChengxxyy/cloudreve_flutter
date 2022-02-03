@@ -73,11 +73,15 @@ class MyApp extends StatelessWidget {
   }
 
   Future<Widget> _future() async {
-    bool status = await Permission.storage.isGranted;
+    bool storageStatus = await Permission.storage.isGranted;
+    bool notificationStatus = await Permission.notification.isDenied;
     HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
 
-    if (!status) {
+    if (!storageStatus) {
       await Permission.storage.request().isGranted;
+    }
+    if (!notificationStatus) {
+      await Permission.notification.request().isGranted;
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.0.8
   url_launcher: ^6.0.18
   flutter_spinkit: ^5.1.0
+  flutter_local_notifications: ^9.2.0
 
 
 dev_dependencies:

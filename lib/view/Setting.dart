@@ -59,6 +59,8 @@ class Setting extends StatelessWidget {
                       builder: (buildContext) {
                         return AlertDialog(
                           title: Text("修改头像"),
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(0, 20.0, 0, 24.0),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -92,6 +94,14 @@ class Setting extends StatelessWidget {
                                         ),
                                       );
                                       refresh(true);
+                                    } else {
+                                      Navigator.pop(buildContext);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(response.data['msg']),
+                                        ),
+                                      );
                                     }
                                   }
                                 },
@@ -166,7 +176,6 @@ class Setting extends StatelessWidget {
                   leading: Icon(Icons.email),
                   title: Text("Email"),
                   trailing: Text(userData.userName),
-                  onTap: () {},
                 ),
                 Divider(
                   height: 0,
@@ -175,7 +184,6 @@ class Setting extends StatelessWidget {
                   leading: Icon(Icons.group),
                   title: Text('用户组'),
                   trailing: Text(userData.group!.name),
-                  onTap: () {},
                 ),
                 Divider(
                   height: 0,
@@ -184,7 +192,6 @@ class Setting extends StatelessWidget {
                   leading: Icon(Icons.calendar_today),
                   title: Text("注册时间"),
                   trailing: Text(getFormatDate(userData.createdAt)),
-                  onTap: () {},
                 ),
               ],
             ),

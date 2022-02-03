@@ -5,8 +5,6 @@ import 'package:cloudreve/utils/GeneratePassword.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,75 +69,93 @@ class _ShareState extends State<Share> {
           if (snapshot.hasData) {
             ShareData shareData = snapshot.data!;
             _shareData = shareData;
-            return shareData.items.length == 0
+            return _shareData!.items.length == 0
                 ? Center(
                     child: Text("暂无数据"),
                   )
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: ListView(
-                      children: shareData.items
-                          .map(
-                            (e) => Card(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(14),
-                                        child: _getIcon(e),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 4),
-                                            child: Text(
-                                              e.source.name,
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                getFormatDate(e.createDate),
+                    child: NotificationListener(
+                      child: ListView(
+                        children: _shareData!.items
+                            .map(
+                              (e) => Card(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(14),
+                                          child: _getIcon(e),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 4),
+                                              child: Text(
+                                                e.source.name,
+                                                overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.start,
+                                                maxLines: 1,
                                                 style: TextStyle(
-                                                  color: Colors.grey[700],
+                                                  fontSize: 18,
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: e.remainDownloads == 1 ||
-                                                        e.expire < -1
-                                                    ? const Text("已失效")
-                                                    : const Text(""),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(
-                                    height: 0,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: _getButtomIcons(e),
-                                  ),
-                                ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  getFormatDate(e.createDate),
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                                  child:
+                                                      e.remainDownloads == 1 ||
+                                                              e.expire < -1
+                                                          ? const Text("已失效")
+                                                          : const Text(""),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      height: 0,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: _getButtomIcons(e),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
+                            )
+                            .toList(),
+                      ),
+                      onNotification: (notification) {
+                        switch (notification.runtimeType) {
+                          case OverscrollNotification:
+                            var noti = notification as OverscrollNotification;
+                            if (notification.metrics.pixels ==
+                                notification.metrics.maxScrollExtent) {
+                              debugPrint("di");
+                            }
+                            break;
+                        }
+                        return true;
+                      },
                     ),
                   );
           } else {

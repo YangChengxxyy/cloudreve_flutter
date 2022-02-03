@@ -97,10 +97,12 @@ Future<Response> uploadFile(PlatformFile file, String path,
         HttpHeaders.contentLengthHeader: file.size
       },
       sendTimeout: 100000);
+  CancelToken cancelToken = new CancelToken();
   return HttpUtil.dio.post(
     "/api/v3/file/upload",
     options: option,
     data: file.readStream,
+    cancelToken: cancelToken,
     onSendProgress: (process, total) {
       if (onSendProgress != null) {
         onSendProgress(process, total);
