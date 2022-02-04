@@ -12,7 +12,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 Map<String, String> _downloadUrlCache = {};
 
@@ -24,6 +23,8 @@ final wordRegex = RegExp(r".*\.(doc|docx)");
 final zipRegex = RegExp(r".*\.(zip|rar|7z)");
 final apkRegex = RegExp(r".*\.(apk)");
 final videoRegex = RegExp(r".*\.(avi|mp4|mpg|mpeg|mov|flv)");
+
+Map<int, CancelToken> downloadCancelTokenMap = {};
 
 Icon getIcon(MFile file) {
   if (file.type == "dir") {
@@ -115,12 +116,6 @@ class Home extends StatelessWidget {
     required this.setOpenFile,
   }) {
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    var android =
-        new AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
-    var iOS = new IOSInitializationSettings();
-    var initSetttings = new InitializationSettings(android: android, iOS: iOS);
-    flutterLocalNotificationsPlugin?.initialize(initSetttings,
-        onSelectNotification: _onSelectNotification);
   }
 
   /// 上次返回时间
@@ -739,41 +734,56 @@ class Home extends StatelessWidget {
       Response response = await getDownloadUrl(file.id);
       String url = response.data['data'].toString();
       Dio dio = Dio();
-      try {
-        if (dialogContext != null) {
-          Navigator.pop(dialogContext);
-        }
-        int fileHashCode = file.hashCode;
-        response = await dio.download(url, downPath + file.name,
-            onReceiveProgress: (process, total) async {
-          double precent = process / total;
+      if (dialogContext != null) {
+        Navigator.pop(dialogContext);
+      }
+      int fileHashCode = file.hashCode;
+      CancelToken cancelToken = new CancelToken();
+      downloadCancelTokenMap[fileHashCode] = cancelToken;
+      response = await dio.download(url, downPath + file.name,
+          cancelToken: cancelToken, onReceiveProgress: (process, total) async {
+        double precent = process / total;
+        await _showDownloadNotification(
+          id: fileHashCode,
+          title: '下载 ${file.name}',
+          body: (precent * 100).toStringAsFixed(2) + "%",
+          payload: 'download-doing-$fileHashCode',
+        );
+      }).catchError((err) async {
+        if (CancelToken.isCancel(err)) {
+          await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
           await _showDownloadNotification(
-            id: fileHashCode,
-            title: '下载 ${file.name}',
-            body: (precent * 100).toStringAsFixed(2) + "%",
-            payload: 'doing',
-          );
-        });
+              id: fileHashCode,
+              title: '下载 ${file.name}',
+              body: '已取消',
+              payload: 'download-cancel-$fileHashCode');
+        } else {
+          await _showDownloadNotification(
+              id: fileHashCode,
+              title: '下载 ${file.name}',
+              body: '下载出错',
+              payload: 'download-error-$fileHashCode');
+        }
+      });
+      try {
         if (response.statusCode == 200) {
+          await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
           await _showDownloadNotification(
             id: fileHashCode,
             title: '下载 ${file.name}',
             body: '至:$downPath',
-            payload: 'done-$downPath',
-          );
-
-          String snackString = '下载至:$downPath${file.name}';
-          refresh(true);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(snackString),
-            ),
+            payload: 'download-done-$downPath',
           );
         } else {
           throw Exception('接口出错');
         }
       } catch (e) {
-        return print(e);
+        await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+        await _showDownloadNotification(
+            id: fileHashCode,
+            title: '下载 ${file.name}',
+            body: '已取消',
+            payload: 'download-cancel-$fileHashCode');
       }
     }
   }
@@ -861,13 +871,6 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _onSelectNotification(String? payload) {
-    debugPrint("payload : $payload");
-    if (payload!.startsWith("done")) {
-      OpenFile.open(payload.substring(5));
-    }
-  }
-
   Future<void> _showDownloadNotification(
       {required int id,
       required String title,
@@ -881,7 +884,7 @@ class Home extends StatelessWidget {
         importance: Importance.min);
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
-    await flutterLocalNotificationsPlugin?.show(id, title, body, platform,
-        payload: payload);
+    await flutterLocalNotificationsPlugin!
+        .show(id, title, body, platform, payload: payload);
   }
 }

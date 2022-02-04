@@ -86,8 +86,8 @@ Future<Response> getStorage() {
 /// [file]具体文件
 /// [path]路径
 /// [onSendProgress]上传回调函数
-Future<Response> uploadFile(PlatformFile file, String path,
-    [void Function(int, int)? onSendProgress]) {
+Future<Response> uploadFile(PlatformFile file, String path,[CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress]) {
   var option = Options(
       method: "POST",
       contentType: "application/octet-stream",
@@ -97,7 +97,6 @@ Future<Response> uploadFile(PlatformFile file, String path,
         HttpHeaders.contentLengthHeader: file.size
       },
       sendTimeout: 100000);
-  CancelToken cancelToken = new CancelToken();
   return HttpUtil.dio.post(
     "/api/v3/file/upload",
     options: option,

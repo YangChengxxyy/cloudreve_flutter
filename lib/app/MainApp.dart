@@ -12,7 +12,10 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:open_file/open_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Map<int, CancelToken> uploadCancelTokenMap = {};
 
 class MainApp extends StatefulWidget {
   /// 用户数据
@@ -78,10 +81,6 @@ class _MainAppState extends State<MainApp> {
     var initSetttings = new InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin?.initialize(initSetttings,
         onSelectNotification: _onSelectNotification);
-  }
-
-  void _onSelectNotification(String? payload) {
-    debugPrint("payload : $payload");
   }
 
   static final _compareFunctions = <CompareFunction>[
@@ -497,29 +496,75 @@ class _MainAppState extends State<MainApp> {
         .pickFiles(withReadStream: true, allowMultiple: true);
     if (result != null) {
       var files = result.files;
-      try {
-        for (var file in files) {
-          int fileHashCode = file.hashCode;
-          await uploadFile(file, _path, (processs, total) async {
-            double precent = processs / total;
-            await _showUploadNotification(
-                id: fileHashCode,
-                title: '上传 ${file.name}',
-                body: (precent * 100).toStringAsFixed(2) + "%",
-                payload: 'doing');
-          });
+      for (var file in files) {
+        int fileHashCode = file.hashCode;
+        CancelToken cancelToken = new CancelToken();
+        uploadCancelTokenMap[fileHashCode] = cancelToken;
+        Response response =
+            await uploadFile(file, _path, cancelToken, (processs, total) async {
+          double precent = processs / total;
           await _showUploadNotification(
               id: fileHashCode,
               title: '上传 ${file.name}',
-              body: '至$_path',
-              payload: 'done');
+              body: (precent * 100).toStringAsFixed(2) + "%",
+              payload: 'upload-doing-$fileHashCode');
+        }).catchError((err) async {
+          if (CancelToken.isCancel(err)) {
+            await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+            await _showUploadNotification(
+                id: fileHashCode,
+                title: '上传 ${file.name}',
+                body: '已取消',
+                payload: 'upload-cancel-$fileHashCode');
+          } else {
+            await _showUploadNotification(
+                id: fileHashCode,
+                title: '上传 ${file.name}',
+                body: '上传出错',
+                payload: 'upload-error-$fileHashCode');
+          }
+        });
+        try {
+          if (response.statusCode == 200) {
+            await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+            await _showUploadNotification(
+                id: fileHashCode,
+                title: '上传 ${file.name}',
+                body: '至$_path',
+                payload: 'upload-done');
+            _refresh(true);
+          }
+        } catch (e) {
+          await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+          await _showUploadNotification(
+              id: fileHashCode,
+              title: '上传 ${file.name}',
+              body: '已取消',
+              payload: 'upload-cancel-$fileHashCode');
         }
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("上传失败"),
-          ),
-        );
+      }
+    }
+  }
+
+  void _onSelectNotification(String? payload) {
+    String s = payload!;
+    if (s.startsWith("download")) {
+      String downloadString = s.substring(9);
+      if (downloadString.startsWith("doing")) {
+        CancelToken cancelToken =
+            downloadCancelTokenMap[int.parse(downloadString.substring(6))]!;
+        cancelToken.cancel();
+        downloadCancelTokenMap.remove(int.parse(downloadString.substring(6)));
+      } else if (downloadString.startsWith("done")) {
+        OpenFile.open(downloadString.substring(5));
+      }
+    } else if (s.startsWith("upload")) {
+      String uploadString = s.substring(7);
+      if (uploadString.startsWith("doing")) {
+        CancelToken cancelToken =
+            uploadCancelTokenMap[int.parse(uploadString.substring(6))]!;
+        cancelToken.cancel();
+        uploadCancelTokenMap.remove(int.parse(uploadString.substring(6)));
       }
     }
   }
