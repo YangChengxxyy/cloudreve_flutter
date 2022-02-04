@@ -877,7 +877,7 @@ class Home extends StatelessWidget {
       required String body,
       String? payload}) async {
     var android = new AndroidNotificationDetails(
-        'download channel id', 'download channel name',
+        '文件下载', '文件下载通道',
         playSound: false,
         channelDescription: '文件下载',
         priority: Priority.min,

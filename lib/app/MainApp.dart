@@ -61,8 +61,6 @@ class _MainAppState extends State<MainApp> {
 
   MFile? _openFile;
 
-  bool? _open = false;
-
   _MainAppState({required UserData userData, required Storage storage}) {
     _userData = userData;
     _storage = storage;
@@ -497,52 +495,56 @@ class _MainAppState extends State<MainApp> {
     if (result != null) {
       var files = result.files;
       for (var file in files) {
-        int fileHashCode = file.hashCode;
-        CancelToken cancelToken = new CancelToken();
-        uploadCancelTokenMap[fileHashCode] = cancelToken;
-        Response response =
-            await uploadFile(file, _path, cancelToken, (processs, total) async {
-          double precent = processs / total;
-          await _showUploadNotification(
-              id: fileHashCode,
-              title: '上传 ${file.name}',
-              body: (precent * 100).toStringAsFixed(2) + "%",
-              payload: 'upload-doing-$fileHashCode');
-        }).catchError((err) async {
-          if (CancelToken.isCancel(err)) {
-            await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
-            await _showUploadNotification(
-                id: fileHashCode,
-                title: '上传 ${file.name}',
-                body: '已取消',
-                payload: 'upload-cancel-$fileHashCode');
-          } else {
-            await _showUploadNotification(
-                id: fileHashCode,
-                title: '上传 ${file.name}',
-                body: '上传出错',
-                payload: 'upload-error-$fileHashCode');
-          }
-        });
-        try {
-          if (response.statusCode == 200) {
-            await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
-            await _showUploadNotification(
-                id: fileHashCode,
-                title: '上传 ${file.name}',
-                body: '至$_path',
-                payload: 'upload-done');
-            _refresh(true);
-          }
-        } catch (e) {
-          await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
-          await _showUploadNotification(
-              id: fileHashCode,
-              title: '上传 ${file.name}',
-              body: '已取消',
-              payload: 'upload-cancel-$fileHashCode');
-        }
+        _uploadSingleFile(file);
       }
+    }
+  }
+
+  Future<void> _uploadSingleFile(PlatformFile file) async {
+    int fileHashCode = file.hashCode;
+    CancelToken cancelToken = new CancelToken();
+    uploadCancelTokenMap[fileHashCode] = cancelToken;
+    Response response =
+        await uploadFile(file, _path, cancelToken, (processs, total) async {
+      double precent = processs / total;
+      await _showUploadNotification(
+          id: fileHashCode,
+          title: '上传 ${file.name}',
+          body: (precent * 100).toStringAsFixed(2) + "%",
+          payload: 'upload-doing-$fileHashCode');
+    }).catchError((err) async {
+      if (CancelToken.isCancel(err)) {
+        await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+        await _showUploadNotification(
+            id: fileHashCode,
+            title: '上传 ${file.name}',
+            body: '已取消',
+            payload: 'upload-cancel-$fileHashCode');
+      } else {
+        await _showUploadNotification(
+            id: fileHashCode,
+            title: '上传 ${file.name}',
+            body: '上传出错',
+            payload: 'upload-error-$fileHashCode');
+      }
+    });
+    try {
+      if (response.statusCode == 200) {
+        await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+        await _showUploadNotification(
+            id: fileHashCode,
+            title: '上传 ${file.name}',
+            body: '至$_path',
+            payload: 'upload-done');
+        _refresh(true);
+      }
+    } catch (e) {
+      await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
+      await _showUploadNotification(
+          id: fileHashCode,
+          title: '上传 ${file.name}',
+          body: '已取消',
+          payload: 'upload-cancel-$fileHashCode');
     }
   }
 
@@ -556,6 +558,7 @@ class _MainAppState extends State<MainApp> {
         cancelToken.cancel();
         downloadCancelTokenMap.remove(int.parse(downloadString.substring(6)));
       } else if (downloadString.startsWith("done")) {
+        debugPrint(downloadString.substring(5));
         OpenFile.open(downloadString.substring(5));
       }
     } else if (s.startsWith("upload")) {
@@ -574,8 +577,7 @@ class _MainAppState extends State<MainApp> {
       required String title,
       required String body,
       String? payload}) async {
-    var android = new AndroidNotificationDetails(
-        'upload channel id', 'upload channel name',
+    var android = new AndroidNotificationDetails('文件上传', '文件上传通道',
         playSound: false,
         channelDescription: '文件上传',
         priority: Priority.min,
