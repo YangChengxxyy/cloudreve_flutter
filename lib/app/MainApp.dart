@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/component/CustomSearchDelegate.dart';
+import 'package:cloudreve/component/MDrawer.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
@@ -16,7 +15,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Map<int, CancelToken> uploadCancelTokenMap = {};
@@ -32,8 +30,7 @@ class MainApp extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MainApp> createState() =>
-      _MainAppState(userData: userData, storage: storage);
+  State<MainApp> createState() => _MainAppState();
 }
 
 class _MainAppState extends State<MainApp> {
@@ -54,20 +51,12 @@ class _MainAppState extends State<MainApp> {
   /// 列表模式
   Mode _mode = Mode.grid;
 
-  /// 用户数据
-  late UserData _userData;
-
-  /// 用户存储信息
-  late Storage _storage;
-
   /// 文件排序比较函数
   CompareFunction _compare = _compareFunctions[0];
 
   MFile? _openFile;
 
-  _MainAppState({required UserData userData, required Storage storage}) {
-    _userData = userData;
-    _storage = storage;
+  _MainAppState() {
     _fileResp = directory(_path);
   }
 
@@ -198,137 +187,9 @@ class _MainAppState extends State<MainApp> {
                 ]
               : null,
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FutureBuilder(
-                      future: avatar(_userData.id),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return Container(
-                            alignment: Alignment.topCenter,
-                            padding: EdgeInsets.only(bottom: 15),
-                            child: ClipOval(
-                              child: Image.memory(
-                                snapshot.data!.data,
-                                fit: BoxFit.cover,
-                                width: 75,
-                                height: 75,
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container(
-                            child: SizedBox(
-                              child: CircularProgressIndicator(),
-                              height: 50.0,
-                              width: 50.0,
-                            ),
-                            alignment: Alignment.center,
-                            height: 75,
-                            width: 75,
-                          );
-                        }
-                      },
-                    ),
-                    Text(
-                      _userData.nickname,
-                      style: TextStyle(fontSize: 20, color: Colors.black45),
-                    )
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.storage),
-                textColor: Colors.grey,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "存储空间",
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      child: LinearProgressIndicator(
-                        value: (_storage.used.toDouble() /
-                            _storage.total.toDouble()),
-                        backgroundColor: Colors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                      ),
-                    ),
-                    Text(
-                      "${MFile.getFileSize(_storage.used.toDouble())}/${MFile.getFileSize(_storage.total.toDouble())}",
-                    )
-                  ],
-                ),
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.share),
-                textColor: Colors.grey,
-                title: Text("我的分享"),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Share();
-                  }));
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.phonelink),
-                textColor: Colors.grey,
-                title: Text("WebDav"),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return WebDav();
-                  }));
-                },
-              ),
-              Divider(
-                height: 0,
-              ),
-              ListTile(
-                leading: Icon(Icons.clear_all),
-                textColor: Colors.grey,
-                title: Text("清除缓存"),
-                onTap: () async {
-                  await CacheUtil.clear();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("清除缓存完成"),
-                    ),
-                  );
-                },
-              ),
-              Divider(
-                height: 0,
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                textColor: Colors.grey,
-                title: Text('退出登录'),
-                onTap: () async {
-                  await deleteSession();
-
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.clear();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      new MaterialPageRoute(
-                          builder: (context) => new LoginApp()),
-                      (route) => route == null);
-                },
-              ),
-            ],
-          ),
+        drawer: MDrawer(
+          storage: widget.storage,
+          userData: widget.userData,
         ),
         body: Center(
           child: IndexedStack(
@@ -358,7 +219,7 @@ class _MainAppState extends State<MainApp> {
                 },
               ),
               Setting(
-                userData: _userData,
+                userData: widget.userData,
                 refresh: _refresh,
               )
             ],
@@ -482,8 +343,8 @@ class _MainAppState extends State<MainApp> {
 
       setState(() {
         _fileResp = fileResp;
-        _storage = storage;
-        _userData = userData;
+        widget.storage = storage;
+        widget.userData = userData;
       });
     } else {
       int now = DateTime.now().millisecondsSinceEpoch;
@@ -502,8 +363,8 @@ class _MainAppState extends State<MainApp> {
 
         setState(() {
           _fileResp = fileResp;
-          _storage = storage;
-          _userData = userData;
+          widget.storage = storage;
+          widget.userData = userData;
         });
       }
     }
