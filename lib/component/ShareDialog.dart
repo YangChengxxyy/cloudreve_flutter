@@ -211,6 +211,7 @@ class _ShareDialgState extends State<ShareDialg> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text("分享成功"),
+                            duration: Duration(seconds: 1),
                           ),
                         );
                         showDialog(
@@ -235,6 +236,7 @@ class _ShareDialgState extends State<ShareDialg> {
                                         .showSnackBar(
                                       SnackBar(
                                         content: Text("复制成功"),
+                                        duration: Duration(seconds: 1),
                                       ),
                                     );
                                   },

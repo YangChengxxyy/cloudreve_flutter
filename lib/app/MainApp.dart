@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/component/CustomSearchDelegate.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/utils/CacheUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
@@ -13,6 +16,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Map<int, CancelToken> uploadCancelTokenMap = {};
@@ -286,6 +290,22 @@ class _MainAppState extends State<MainApp> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return WebDav();
                   }));
+                },
+              ),
+              Divider(
+                height: 0,
+              ),
+              ListTile(
+                leading: Icon(Icons.clear_all),
+                textColor: Colors.grey,
+                title: Text("清除缓存"),
+                onTap: () async {
+                  await CacheUtil.clear();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("清除缓存完成"),
+                    ),
+                  );
                 },
               ),
               Divider(
