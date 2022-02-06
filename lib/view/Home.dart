@@ -71,16 +71,16 @@ Icon getIcon(MFile file) {
 
 class Home extends StatelessWidget {
   /// 修改path函数
-  void Function(String) changePath;
+  final void Function(String) changePath;
 
   /// 修改进度函数
-  void Function(double) changeProgressNum;
+  final void Function(double) changeProgressNum;
 
   /// 文件排序比较函数
-  int Function(MFile, MFile)? compare;
+  final int Function(MFile, MFile)? compare;
 
   /// 路径
-  String path;
+  final String path;
 
   /// 访问文件数据
   Future<Response> fileResp;
@@ -89,17 +89,17 @@ class Home extends StatelessWidget {
   double progressNum = -1;
 
   /// 刷新函数
-  void Function(bool) refresh;
+  final void Function(bool) refresh;
 
   /// 类型
-  Mode mode;
+  final Mode mode;
 
   /// 外间距
-  double paddingNum = 10;
+  final double paddingNum = 10;
 
   MFile? openFile;
 
-  late void Function(MFile? file) setOpenFile;
+  late final void Function(MFile? file) setOpenFile;
 
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
@@ -876,8 +876,7 @@ class Home extends StatelessWidget {
       required String title,
       required String body,
       String? payload}) async {
-    var android = new AndroidNotificationDetails(
-        '文件下载', '文件下载通道',
+    var android = new AndroidNotificationDetails('文件下载', '文件下载通道',
         playSound: false,
         channelDescription: '文件下载',
         priority: Priority.min,

@@ -8,8 +8,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class Setting extends StatelessWidget {
-  UserData userData;
-  void Function(bool) refresh;
+  final UserData userData;
+  final void Function(bool) refresh;
   Setting({Key? key, required this.userData, required this.refresh});
 
   @override

@@ -13,12 +13,11 @@ class LoginApp extends StatefulWidget {
 }
 
 class LoginBody extends StatelessWidget {
-  void Function(UserData userData, Storage storage) onLoginBtnClick;
-
+  final void Function(UserData userData, Storage storage) onLoginBtnClick;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _pwdController = new TextEditingController();
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _pwdController = new TextEditingController();
   LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
 
   @override

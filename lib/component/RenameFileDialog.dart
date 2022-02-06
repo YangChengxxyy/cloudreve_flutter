@@ -3,9 +3,9 @@ import 'package:cloudreve/utils/Service.dart';
 import 'package:flutter/material.dart';
 
 class RenameFileDialog extends StatefulWidget {
-  MFile file;
-  BuildContext fatherContext;
-  void Function() refresh;
+  final MFile file;
+  final BuildContext fatherContext;
+  final void Function() refresh;
   RenameFileDialog(this.file, this.fatherContext, this.refresh, {Key? key})
       : super(key: key);
 

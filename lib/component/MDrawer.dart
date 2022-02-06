@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MDrawer extends StatelessWidget {
-  UserData userData;
-  Storage storage;
+  final UserData userData;
+  final Storage storage;
 
   MDrawer({Key? key,required this.userData,required this.storage}) : super(key: key);
 

@@ -19,9 +19,9 @@ class RegisterApp extends StatelessWidget {
 class RegisterBody extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _pwdController = new TextEditingController();
-  TextEditingController _pwdController2 = new TextEditingController();
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _pwdController = new TextEditingController();
+  final TextEditingController _pwdController2 = new TextEditingController();
   RegisterBody({Key? key});
 
   @override

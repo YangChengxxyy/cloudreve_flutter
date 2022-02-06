@@ -2,8 +2,8 @@ import 'package:cloudreve/utils/Service.dart';
 import 'package:flutter/material.dart';
 
 class RenameNickDialog extends StatefulWidget {
-  String nick;
-  void Function(bool) refresh;
+  final String nick;
+  final void Function(bool) refresh;
   RenameNickDialog({
     Key? key,
     required this.nick,

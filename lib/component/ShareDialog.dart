@@ -3,13 +3,11 @@ import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class ShareDialg extends StatefulWidget {
-  late BuildContext _fatherContext;
-  late BuildContext _parentFatherContext;
-
-  late MFile _file;
+  late final BuildContext _fatherContext;
+  late final BuildContext _parentFatherContext;
+  late final MFile _file;
 
   ShareDialg(
       {Key? key,

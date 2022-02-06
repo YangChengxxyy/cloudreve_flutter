@@ -1,15 +1,11 @@
-import 'package:cloudreve/app/LoginApp.dart';
 import 'package:cloudreve/component/CustomSearchDelegate.dart';
 import 'package:cloudreve/component/MDrawer.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
-import 'package:cloudreve/utils/CacheUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
-import 'package:cloudreve/view/Share.dart';
-import 'package:cloudreve/view/WebDav.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +17,10 @@ Map<int, CancelToken> uploadCancelTokenMap = {};
 
 class MainApp extends StatefulWidget {
   /// 用户数据
-  late UserData userData;
+  late final UserData userData;
 
   /// 用户存储信息
-  late Storage storage;
+  late final Storage storage;
 
   MainApp({Key? key, required this.userData, required this.storage})
       : super(key: key);

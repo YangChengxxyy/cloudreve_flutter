@@ -148,8 +148,8 @@ class _ShareState extends State<Share> {
                         switch (notification.runtimeType) {
                           case OverscrollNotification:
                             var noti = notification as OverscrollNotification;
-                            if (notification.metrics.pixels ==
-                                notification.metrics.maxScrollExtent) {
+                            if (noti.metrics.pixels ==
+                                noti.metrics.maxScrollExtent) {
                               debugPrint("di");
                             }
                             break;
