@@ -17,10 +17,10 @@ Map<int, CancelToken> uploadCancelTokenMap = {};
 
 class MainApp extends StatefulWidget {
   /// 用户数据
-  late final UserData userData;
+  UserData userData;
 
   /// 用户存储信息
-  late final Storage storage;
+  Storage storage;
 
   MainApp({Key? key, required this.userData, required this.storage})
       : super(key: key);

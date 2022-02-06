@@ -99,7 +99,7 @@ class Home extends StatelessWidget {
 
   MFile? openFile;
 
-  late final void Function(MFile? file) setOpenFile;
+  final void Function(MFile? file) setOpenFile;
 
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
