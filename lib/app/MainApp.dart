@@ -435,7 +435,6 @@ class _MainAppState extends State<MainApp> {
         cancelToken.cancel();
         downloadCancelTokenMap.remove(int.parse(downloadString.substring(6)));
       } else if (downloadString.startsWith("done")) {
-        debugPrint(downloadString.substring(5));
         OpenFile.open(downloadString.substring(5));
       }
     } else if (s.startsWith("upload")) {

@@ -301,8 +301,8 @@ class Home extends StatelessWidget {
   Widget _buildGridItem(BuildContext context, MFile file, int index) {
     Icon icon = getIcon(file);
 
-    double maxHeight = MediaQuery.of(context).size.width;
-    double size = (maxHeight - paddingNum * 3) ~/ 2 - 62;
+    double maxWidth = MediaQuery.of(context).size.width;
+    double size = (maxWidth - paddingNum * 3) ~/ 2 - 62;
     Widget headImage;
     if (!imageRex.hasMatch(file.name)) {
       headImage = Container(height: size, child: icon);

@@ -85,7 +85,9 @@ class MyApp extends StatelessWidget {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getBool("isLogin") != null) {
+    if (prefs.getBool("isLogin") != null &&
+        prefs.getBool("isRemember") != null &&
+        (prefs.getBool("isRemember")!)) {
       String username = prefs.getString("username")!;
       String password = prefs.getString("password")!;
 

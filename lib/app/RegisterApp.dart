@@ -26,6 +26,8 @@ class RegisterBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxHeight = MediaQuery.of(context).size.height;
+
     return Form(
       key: _formKey,
       child: Center(
@@ -33,7 +35,8 @@ class RegisterBody extends StatelessWidget {
           itemCount: 1,
           itemBuilder: (context, index) {
             return Container(
-              margin: const EdgeInsets.only(top: 150, left: 40, right: 40),
+              margin:
+                  EdgeInsets.only(top: maxHeight * 0.2, left: 40, right: 40),
               child: Column(
                 children: [
                   Container(

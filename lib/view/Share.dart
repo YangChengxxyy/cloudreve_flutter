@@ -91,6 +91,7 @@ class _ShareState extends State<Share> {
                                           child: _getIcon(e),
                                         ),
                                         Column(
+                                          mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [

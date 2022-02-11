@@ -12,16 +12,38 @@ class LoginApp extends StatefulWidget {
   State<LoginApp> createState() => _LoginAppState();
 }
 
-class LoginBody extends StatelessWidget {
-  final void Function(UserData userData, Storage storage) onLoginBtnClick;
+class _LoginAppState extends State<LoginApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("登录Cloudreve"),
+      ),
+      body: LoginBody(),
+    );
+  }
+}
+
+class LoginBody extends StatefulWidget {
+  const LoginBody({Key? key}) : super(key: key);
+
+  @override
+  _LoginBodyState createState() => _LoginBodyState();
+}
+
+class _LoginBodyState extends State<LoginBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _pwdController = new TextEditingController();
-  LoginBody({Key? key, required this.onLoginBtnClick}) : super(key: key);
+
+  var _rememberSelected = false;
+
+  _LoginBodyState();
 
   @override
   Widget build(BuildContext context) {
+    double maxHeight = MediaQuery.of(context).size.height;
     return Form(
       key: _formKey,
       child: Center(
@@ -29,8 +51,10 @@ class LoginBody extends StatelessWidget {
           itemCount: 1,
           itemBuilder: (context, index) {
             return Container(
-              margin: const EdgeInsets.only(top: 150, left: 40, right: 40),
+              margin:
+                  EdgeInsets.only(top: maxHeight * 0.2, left: 40, right: 40),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     alignment: Alignment.topCenter,
@@ -49,7 +73,9 @@ class LoginBody extends StatelessWidget {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        labelText: "电子邮箱", icon: Icon(Icons.email)),
+                      labelText: "电子邮箱",
+                      icon: Icon(Icons.email),
+                    ),
                     validator: (v) {
                       if (v == null) {
                         return null;
@@ -62,7 +88,9 @@ class LoginBody extends StatelessWidget {
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     decoration: InputDecoration(
-                        labelText: "密码", icon: Icon(Icons.lock)),
+                      labelText: "密码",
+                      icon: Icon(Icons.lock),
+                    ),
                     validator: (v) {
                       if (v == null) {
                         return null;
@@ -71,6 +99,20 @@ class LoginBody extends StatelessWidget {
                       } else if (v.trim().length == 0) {
                         return "密码不能为空";
                       }
+                    },
+                  ),
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: _rememberSelected,
+                    secondary: Icon(Icons.remember_me),
+                    title: Text(
+                      "记住我",
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _rememberSelected = value == null ? false : value;
+                      });
                     },
                   ),
                   Container(
@@ -93,11 +135,12 @@ class LoginBody extends StatelessWidget {
                                   Storage.fromJson(storageResp.data['data']);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                              prefs.setBool("isRemember", _rememberSelected);
                               prefs.setBool("isLogin", true);
                               prefs.setString(
                                   "username", _emailController.text);
                               prefs.setString("password", _pwdController.text);
-                              onLoginBtnClick(loginResult.data!, sto);
+                              _onLoginBtnClick(loginResult.data!, sto);
                             } else {
                               _pwdController.clear();
                               showDialog(
@@ -146,20 +189,6 @@ class LoginBody extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _LoginAppState extends State<LoginApp> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("登录Cloudreve"),
-      ),
-      body: LoginBody(
-        onLoginBtnClick: _onLoginBtnClick,
       ),
     );
   }
