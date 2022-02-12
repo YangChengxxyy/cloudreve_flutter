@@ -151,7 +151,6 @@ class _ShareState extends State<Share> {
                             var noti = notification as OverscrollNotification;
                             if (noti.metrics.pixels ==
                                 noti.metrics.maxScrollExtent) {
-                              debugPrint("di");
                             }
                             break;
                         }

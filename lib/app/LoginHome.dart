@@ -1,5 +1,5 @@
-import 'package:cloudreve/app/MainApp.dart';
-import 'package:cloudreve/app/RegisterApp.dart';
+import 'package:cloudreve/app/MainHome.dart';
+import 'package:cloudreve/app/RegisterHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/Service.dart';
@@ -7,12 +7,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginApp extends StatefulWidget {
+class LoginHome extends StatefulWidget {
   @override
-  State<LoginApp> createState() => _LoginAppState();
+  State<LoginHome> createState() => _LoginHomeState();
 }
 
-class _LoginAppState extends State<LoginApp> {
+class _LoginHomeState extends State<LoginHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +175,7 @@ class _LoginBodyState extends State<LoginBody> {
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (_) {
-                          return RegisterApp();
+                          return RegisterHome();
                         }));
                       },
                       child: Text(
@@ -196,7 +196,7 @@ class _LoginBodyState extends State<LoginBody> {
   _onLoginBtnClick(UserData userData, Storage storage) {
     Navigator.of(context).pushAndRemoveUntil(
         new MaterialPageRoute(
-          builder: (context) => new MainApp(
+          builder: (context) => new MainHome(
             userData: userData,
             storage: storage,
           ),

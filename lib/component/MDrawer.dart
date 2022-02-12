@@ -1,4 +1,4 @@
-import 'package:cloudreve/app/LoginApp.dart';
+import 'package:cloudreve/app/LoginHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
@@ -139,7 +139,7 @@ class MDrawer extends StatelessWidget {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.clear();
               Navigator.of(context).pushAndRemoveUntil(
-                  new MaterialPageRoute(builder: (context) => new LoginApp()),
+                  new MaterialPageRoute(builder: (context) => new LoginHome()),
                   (route) => route == null);
             },
           ),

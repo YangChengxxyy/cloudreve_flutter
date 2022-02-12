@@ -3,16 +3,17 @@ import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'LoginApp.dart';
+import 'LoginHome.dart';
 
-class RegisterApp extends StatelessWidget {
+class RegisterHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("注册Cloudreve"),
-        ),
-        body: RegisterBody());
+      appBar: AppBar(
+        title: Text("注册Cloudreve"),
+      ),
+      body: RegisterBody(),
+    );
   }
 }
 
@@ -126,7 +127,7 @@ class RegisterBody extends StatelessWidget {
                                                 .pushAndRemoveUntil(
                                                     new MaterialPageRoute(
                                                       builder: (context) =>
-                                                          new LoginApp(),
+                                                          new LoginHome(),
                                                     ),
                                                     (route) => route == null);
                                           },

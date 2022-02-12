@@ -3,6 +3,7 @@ import 'package:cloudreve/component/MDrawer.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/utils/DarkModeProvider.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
@@ -11,25 +12,26 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file/open_file.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Map<int, CancelToken> uploadCancelTokenMap = {};
 
-class MainApp extends StatefulWidget {
+class MainHome extends StatefulWidget {
   /// 用户数据
   UserData userData;
 
   /// 用户存储信息
   Storage storage;
 
-  MainApp({Key? key, required this.userData, required this.storage})
+  MainHome({Key? key, required this.userData, required this.storage})
       : super(key: key);
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  State<MainHome> createState() => _MainHomeState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainHomeState extends State<MainHome> {
   int _selectedIndex = 0;
 
   /// 当前路径
@@ -52,7 +54,7 @@ class _MainAppState extends State<MainApp> {
 
   MFile? _openFile;
 
-  _MainAppState() {
+  _MainHomeState() {
     _fileResp = directory(_path);
   }
 
@@ -112,19 +114,51 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     _refresh(false);
-
-    Icon icon = Icon(Icons.list);
-    if (_mode == Mode.list) {
-      icon = Icon(Icons.list);
-    } else if (_mode == Mode.grid) {
-      icon = Icon(Icons.grid_4x4_outlined);
-    }
-
+    var darkMode = Provider.of<DarkModeProvider>(context).darkMode;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Cloudreve'),
           actions: _selectedIndex == 0
               ? [
+                  PopupMenuButton<DarkMode>(
+                    initialValue: darkMode,
+                    tooltip: "暗黑模式",
+                    icon: Builder(
+                      builder: (BuildContext context) {
+                        switch (darkMode) {
+                          case DarkMode.auto:
+                            return Icon(Icons.brightness_auto);
+                          case DarkMode.open:
+                            return Icon(Icons.brightness_low);
+                          case DarkMode.close:
+                            return Icon(Icons.brightness_high);
+                        }
+                      },
+                    ),
+                    itemBuilder: (context) {
+                      return DarkMode.values.map((e) {
+                        return PopupMenuItem<DarkMode>(
+                          value: e,
+                          child: Builder(
+                            builder: (BuildContext context) {
+                              switch (e) {
+                                case DarkMode.auto:
+                                  return Text("自动");
+                                case DarkMode.open:
+                                  return Text("暗黑");
+                                case DarkMode.close:
+                                  return Text("日间");
+                              }
+                            },
+                          ),
+                        );
+                      }).toList();
+                    },
+                    onSelected: (mode) {
+                      Provider.of<DarkModeProvider>(context, listen: false)
+                          .changeMode(mode);
+                    },
+                  ),
                   IconButton(
                     onPressed: () {
                       showSearch(
@@ -157,7 +191,17 @@ class _MainAppState extends State<MainApp> {
                         });
                       }
                     },
-                    icon: icon,
+                    icon: Builder(
+                      builder: (BuildContext context) {
+                        Icon icon = Icon(Icons.list);
+                        if (_mode == Mode.list) {
+                          icon = Icon(Icons.list);
+                        } else if (_mode == Mode.grid) {
+                          icon = Icon(Icons.grid_4x4_outlined);
+                        }
+                        return icon;
+                      },
+                    ),
                     tooltip: "切换显示模式",
                   ),
                   PopupMenuButton<CompareFunction>(
@@ -174,7 +218,7 @@ class _MainAppState extends State<MainApp> {
                         );
                       }).toList();
                     },
-                    onSelected: (c) async {
+                    onSelected: (c) {
                       this.setState(() {
                         _compare = c;
                       });
