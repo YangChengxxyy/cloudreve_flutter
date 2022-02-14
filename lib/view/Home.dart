@@ -316,6 +316,15 @@ class Home extends StatelessWidget {
                 child: Image.memory(
                   snapshot.data!,
                   fit: BoxFit.cover,
+                  errorBuilder:
+                      (BuildContext context, Object o, StackTrace? stackTrace) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [Icon(Icons.error), Text("图片格式有误")],
+                      ),
+                    );
+                  },
                 ),
                 constraints: BoxConstraints.expand(),
               ),

@@ -38,9 +38,19 @@ class MFile {
     return fileList;
   }
 
-  static final sizeList = <String>["B", "KB", "MB", "GB"];
+  static final sizeList = <String>[
+    "B",
+    "KB",
+    "MB",
+    "GB",
+    "TB",
+    "PB",
+    "EB",
+    "ZB",
+    "YB"
+  ];
 
-  static String getFileSize(double B,[ int after = 1]) {
+  static String getFileSize(double B, [int after = 1]) {
     int index = 0;
     while (B > 1024) {
       B /= 1024;

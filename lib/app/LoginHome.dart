@@ -37,7 +37,7 @@ class _LoginBodyState extends State<LoginBody> {
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _pwdController = new TextEditingController();
 
-  var _rememberSelected = false;
+  var _rememberSelected = true;
 
   _LoginBodyState();
 

@@ -92,8 +92,8 @@ Future<Response> uploadFile(PlatformFile file, String path,[CancelToken? cancelT
       method: "POST",
       contentType: "application/octet-stream",
       headers: {
-        "x-filename": Uri.encodeComponent(file.name),
-        "x-path": Uri.encodeComponent(path),
+        "x-cr-filename": Uri.encodeComponent(file.name),
+        "x-cr-path": Uri.encodeComponent(path),
         HttpHeaders.contentLengthHeader: file.size
       },
       sendTimeout: 100000);
