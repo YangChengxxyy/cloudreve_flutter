@@ -1,6 +1,7 @@
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Property.dart';
 import 'package:cloudreve/entity/Result.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:dio/dio.dart';
@@ -55,7 +56,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
             );
           } else {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: paddingNum),
               child: Scrollbar(
                 child: ListView.builder(
                   itemBuilder: (context, index) {

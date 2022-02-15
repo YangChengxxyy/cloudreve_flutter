@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloudreve/component/RenameFileDialog.dart';
 import 'package:cloudreve/component/ShareDialog.dart';
 import 'package:cloudreve/entity/MFile.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -93,9 +94,6 @@ class Home extends StatelessWidget {
 
   /// 类型
   final Mode mode;
-
-  /// 外间距
-  final double paddingNum = 10;
 
   MFile? openFile;
 

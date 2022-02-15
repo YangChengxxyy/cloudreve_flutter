@@ -6,6 +6,7 @@ import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,6 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<DarkModeProvider>(
         builder: (context, darkModeProvider, _) {
-          debugPrint(darkModeProvider.darkMode.toString());
           return darkModeProvider.darkMode == DarkMode.auto
               ? MaterialApp(
                   title: 'Cloudreve',
@@ -89,11 +89,12 @@ class MyApp extends StatelessWidget {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getBool("isLogin") != null &&
-        prefs.getBool("isRemember") != null &&
-        (prefs.getBool("isRemember")!)) {
-      String username = prefs.getString("username")!;
-      String password = prefs.getString("password")!;
+    if (prefs.getBool(isLoginKey) != null &&
+        prefs.getBool(isLoginKey)! &&
+        prefs.getBool(isRememberKey) != null &&
+        (prefs.getBool(isRememberKey)!)) {
+      String username = prefs.getString(usernameKey)!;
+      String password = prefs.getString(passwordKey)!;
 
       //重新登录刷新登录信息
       Response loginResp = await session(username, password);

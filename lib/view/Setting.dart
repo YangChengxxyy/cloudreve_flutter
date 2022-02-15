@@ -1,6 +1,7 @@
 import 'package:cloudreve/component/RenameNickDialog.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/entity/SettingData.dart';
 import 'package:dio/dio.dart';
@@ -15,7 +16,7 @@ class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: paddingNum),
       child: ListView(
         children: <Widget>[
           Container(

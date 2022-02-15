@@ -4,6 +4,7 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/CacheUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/view/Share.dart';
 import 'package:cloudreve/view/WebDav.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,8 @@ class MDrawer extends StatelessWidget {
   final UserData userData;
   final Storage storage;
 
-  MDrawer({Key? key,required this.userData,required this.storage}) : super(key: key);
+  MDrawer({Key? key, required this.userData, required this.storage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +137,12 @@ class MDrawer extends StatelessWidget {
             title: Text('退出登录'),
             onTap: () async {
               await deleteSession();
-
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.clear();
-              Navigator.of(context).pushAndRemoveUntil(
+              await prefs.setBool(isLoginKey, false);
+              await prefs.remove(usernameKey);
+              await prefs.remove(passwordKey);
+              Navigator.pushAndRemoveUntil(
+                  context,
                   new MaterialPageRoute(builder: (context) => new LoginHome()),
                   (route) => route == null);
             },

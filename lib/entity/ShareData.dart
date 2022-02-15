@@ -1,14 +1,14 @@
 class ShareData {
-  late List<Items> items;
+  late List<ShareItems> items;
   late int total;
 
   ShareData(this.items, this.total);
 
   ShareData.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
-      items = <Items>[];
+      items = <ShareItems>[];
       json['items'].forEach((v) {
-        items.add(new Items.fromJson(v));
+        items.add(new ShareItems.fromJson(v));
       });
     }
     total = json['total'];
@@ -24,7 +24,7 @@ class ShareData {
   }
 }
 
-class Items {
+class ShareItems {
   late String key;
   late bool isDir;
   late String password;
@@ -36,10 +36,10 @@ class Items {
   late bool preview;
   late Source source;
 
-  Items(this.key, this.isDir, this.password, this.createDate, this.downloads,
+  ShareItems(this.key, this.isDir, this.password, this.createDate, this.downloads,
       this.remainDownloads, this.views, this.expire, this.preview, this.source);
 
-  Items.fromJson(Map<String, dynamic> json) {
+  ShareItems.fromJson(Map<String, dynamic> json) {
     key = json['key'];
     isDir = json['is_dir'];
     password = json['password'];

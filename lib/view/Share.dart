@@ -2,10 +2,12 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Result.dart';
 import 'package:cloudreve/entity/ShareData.dart';
 import 'package:cloudreve/utils/GeneratePassword.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,6 +37,7 @@ class _ShareState extends State<Share> {
   @override
   Widget build(BuildContext context) {
     _getShare();
+    double maxWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text("我的分享"),
@@ -73,90 +76,104 @@ class _ShareState extends State<Share> {
                 ? Center(
                     child: Text("暂无数据"),
                   )
-                : Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: NotificationListener(
-                      child: ListView(
-                        children: _shareData!.items
-                            .map(
-                              (e) => Card(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.all(14),
-                                          child: _getIcon(e),
-                                        ),
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 4),
-                                              child: Text(
-                                                e.source.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.start,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  getFormatDate(e.createDate),
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                    color: Colors.grey[700],
+                : NotificationListener(
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(horizontal: paddingNum),
+                      children: _shareData!.items
+                          .map(
+                            (e) => Card(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(14),
+                                        child: _getIcon(e),
+                                      ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 4, 4, 4),
+                                                child: ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: maxWidth -
+                                                          leftIconSize -
+                                                          14 * 2 -
+                                                          paddingNum * 2 -
+                                                          8 -
+                                                          4),
+                                                  child: Text(
+                                                    e.source.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    textAlign: TextAlign.start,
+                                                    maxLines: 1,
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                                  child:
-                                                      e.remainDownloads == 1 ||
-                                                              e.expire < -1
-                                                          ? const Text("已失效")
-                                                          : const Text(""),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                getFormatDate(e.createDate),
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  color: Colors.grey[700],
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(
-                                      height: 0,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: _getButtomIcons(e),
-                                    ),
-                                  ],
-                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                                child: e.remainDownloads == 1 ||
+                                                        e.expire < -1
+                                                    ? const Text("已失效")
+                                                    : const Text(""),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    height: 0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: _getButtomIcons(e),
+                                  ),
+                                ],
                               ),
-                            )
-                            .toList(),
-                      ),
-                      onNotification: (notification) {
-                        switch (notification.runtimeType) {
-                          case OverscrollNotification:
-                            var noti = notification as OverscrollNotification;
-                            if (noti.metrics.pixels ==
-                                noti.metrics.maxScrollExtent) {
-                            }
-                            break;
-                        }
-                        return true;
-                      },
+                            ),
+                          )
+                          .toList(),
                     ),
+                    onNotification: (notification) {
+                      switch (notification.runtimeType) {
+                        case OverscrollNotification:
+                          var noti = notification as OverscrollNotification;
+                          if (noti.metrics.pixels ==
+                              noti.metrics.maxScrollExtent) {}
+                          break;
+                      }
+                      return true;
+                    },
                   );
           } else {
             return Center(
@@ -176,11 +193,11 @@ class _ShareState extends State<Share> {
     return shareData;
   }
 
-  List<Widget> _getButtomIcons(Items items) {
+  List<Widget> _getButtomIcons(ShareItems items) {
     var buttomList = <Widget>[
       IconButton(
         onPressed: () async {
-          await launch(HttpUtil.baseUrl + "/s/${items.key}");
+          await launch(HttpUtil.dio.options.baseUrl + "/s/${items.key}");
         },
         icon: Icon(Icons.open_in_new),
         color: Colors.grey[700],
@@ -280,49 +297,50 @@ class _ShareState extends State<Share> {
     return buttomList;
   }
 
-  static Icon _getIcon(Items items) {
-    double size = 44;
+  static double leftIconSize = 44;
+
+  static Icon _getIcon(ShareItems items) {
     Icon icon = Icon(
       Icons.file_present,
       color: Colors.grey,
-      size: size,
+      size: leftIconSize,
     );
     if (items.isDir) {
       icon = Icon(
         Icons.folder,
         color: Colors.pink,
-        size: size,
+        size: leftIconSize,
       );
     } else {
       if (imageRex.hasMatch(items.source.name)) {
         icon = Icon(
           Icons.image,
           color: Colors.red,
-          size: size,
+          size: leftIconSize,
         );
       } else if (pdfRex.hasMatch(items.source.name)) {
         icon = Icon(
           Icons.picture_as_pdf,
           color: Colors.red,
-          size: size,
+          size: leftIconSize,
         );
       } else if (zipRegex.hasMatch(items.source.name)) {
         icon = Icon(
           Icons.archive,
           color: Colors.grey,
-          size: size,
+          size: leftIconSize,
         );
       } else if (wordRegex.hasMatch(items.source.name)) {
         icon = Icon(
           Icons.book,
           color: Colors.grey,
-          size: size,
+          size: leftIconSize,
         );
       } else if (apkRegex.hasMatch(items.source.name)) {
         icon = Icon(
           Icons.android,
           color: Colors.green,
-          size: size,
+          size: leftIconSize,
         );
       }
     }

@@ -5,6 +5,7 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
 import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
 import 'package:dio/dio.dart';
@@ -327,7 +328,7 @@ class _MainHomeState extends State<MainHome> {
                   Response res = await addDirectory(
                       {"path": _path + "/" + _newFoldController.text.trim()});
                   if (res.statusCode == 200) {
-                    Navigator.of(context).pop(true);
+                    Navigator.pop(context);
                     _newFoldController.text = "";
                     _refresh(true);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -345,8 +346,10 @@ class _MainHomeState extends State<MainHome> {
             key: _formKey,
             child: TextFormField(
               controller: _newFoldController,
-              decoration:
-                  InputDecoration(labelText: "文件夹名称", icon: Icon(Icons.folder)),
+              decoration: InputDecoration(
+                labelText: "文件夹名称",
+                icon: Icon(Icons.folder),
+              ),
               validator: (v) {
                 if (v == null) {
                   return null;
@@ -372,8 +375,8 @@ class _MainHomeState extends State<MainHome> {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String username = prefs.getString("username")!;
-      String password = prefs.getString("password")!;
+      String username = prefs.getString(usernameKey)!;
+      String password = prefs.getString(passwordKey)!;
       Response loginResp = await session(username, password);
       Response storageResp = await getStorage();
 
@@ -392,8 +395,8 @@ class _MainHomeState extends State<MainHome> {
         _lastRequest = DateTime.now().millisecondsSinceEpoch;
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        String username = prefs.getString("username")!;
-        String password = prefs.getString("password")!;
+        String username = prefs.getString(usernameKey)!;
+        String password = prefs.getString(passwordKey)!;
         Response loginResp = await session(username, password);
         Response storageResp = await getStorage();
 

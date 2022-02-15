@@ -37,7 +37,7 @@ class RegisterBody extends StatelessWidget {
           itemBuilder: (context, index) {
             return Container(
               margin:
-                  EdgeInsets.only(top: maxHeight * 0.2, left: 40, right: 40),
+                  EdgeInsets.only(top: maxHeight * 0.15, left: 40, right: 40),
               child: Column(
                 children: [
                   Container(
@@ -123,13 +123,13 @@ class RegisterBody extends StatelessWidget {
                                     actions: [
                                       TextButton(
                                           onPressed: () {
-                                            Navigator.of(context)
-                                                .pushAndRemoveUntil(
-                                                    new MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          new LoginHome(),
-                                                    ),
-                                                    (route) => route == null);
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                new MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      new LoginHome(),
+                                                ),
+                                                (route) => route == null);
                                           },
                                           child: Text("OK"))
                                     ],

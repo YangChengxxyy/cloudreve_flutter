@@ -2,8 +2,14 @@ import 'package:cloudreve/app/MainHome.dart';
 import 'package:cloudreve/app/RegisterHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:dio/dio.dart';
+import 'package:direct_select_flutter/direct_select_container.dart';
+import 'package:direct_select_flutter/direct_select_item.dart';
+import 'package:direct_select_flutter/direct_select_list.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,20 +45,88 @@ class _LoginBodyState extends State<LoginBody> {
 
   var _rememberSelected = true;
 
-  _LoginBodyState();
+  var _baseUrl = HttpUtil.dio.options.baseUrl;
+
+  var _urlSelectedIndex = 0;
+
+  var _httpUrlRegExp =
+      new RegExp(r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$");
+
+  DirectSelectItem<SelectItem> _getDropDownMenuItem(SelectItem item) {
+    return DirectSelectItem<SelectItem>(
+      itemHeight: 56,
+      value: item,
+      itemBuilder: (context, value) {
+        return Row(
+          children: [
+            value.icon,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  value.title,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _getDslDecoration() {
+    return BoxDecoration(
+      border: BorderDirectional(
+        bottom: BorderSide(width: 1, color: Colors.black12),
+        top: BorderSide(width: 1, color: Colors.black12),
+      ),
+    );
+  }
+
+  var _cities = <SelectItem>[
+    new SelectItem(title: HttpUtil.dio.options.baseUrl, icon: Icon(Icons.http)),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _initUrls();
+  }
+
+  void _initUrls() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? urls = prefs.getStringList(otherUrlsKey);
+    int? index = prefs.getInt(selectedIndexKey);
+    if (urls != null) {
+      urls.forEach((e) {
+        _cities.add(new SelectItem(title: e, icon: Icon(Icons.http)));
+      });
+    }
+    setState(() {
+      _cities.add(new SelectItem(
+          title: "Add", icon: Icon(Icons.add), selectType: SelectType.add));
+      if (index != null) {
+        _urlSelectedIndex = index;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     double maxHeight = MediaQuery.of(context).size.height;
-    return Form(
-      key: _formKey,
-      child: Center(
+
+    return DirectSelectContainer(
+      child: Form(
+        key: _formKey,
         child: ListView.builder(
           itemCount: 1,
           itemBuilder: (context, index) {
             return Container(
               margin:
-                  EdgeInsets.only(top: maxHeight * 0.2, left: 40, right: 40),
+                  EdgeInsets.only(top: maxHeight * 0.15, left: 40, right: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,6 +142,56 @@ class _LoginBodyState extends State<LoginBody> {
                         fit: BoxFit.cover,
                       ),
                     ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DirectSelectList<SelectItem>(
+                          values: _cities,
+                          defaultItemIndex: _urlSelectedIndex,
+                          itemBuilder: (SelectItem value) =>
+                              _getDropDownMenuItem(value),
+                          focusedItemDecoration: _getDslDecoration(),
+                          onItemSelectedListener: (item, index, context) async {
+                            switch (item.selectType) {
+                              case SelectType.add:
+                                String? url = await _showAddUrl();
+                                if (url != null) {
+                                  setState(() {
+                                    _cities.insert(
+                                      _cities.length - 1,
+                                      new SelectItem(
+                                        title: url,
+                                        icon: Icon(Icons.http),
+                                      ),
+                                    );
+                                    _urlSelectedIndex = _cities.length - 2;
+                                  });
+                                  _addUrl(url);
+                                  _selectUrl(index);
+                                } else {
+                                  setState(() {
+                                    _urlSelectedIndex = _urlSelectedIndex;
+                                  });
+                                }
+                                break;
+                              case SelectType.none:
+                                _baseUrl = item.title;
+                                HttpUtil.dio.options.baseUrl = _baseUrl;
+                                _selectUrl(index);
+                                break;
+                            }
+                          },
+                          onUserTappedListener: () {
+                            debugPrint("usertap");
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () => _removeUrl(_urlSelectedIndex),
+                      ),
+                    ],
                   ),
                   TextFormField(
                     controller: _emailController,
@@ -135,11 +259,11 @@ class _LoginBodyState extends State<LoginBody> {
                                   Storage.fromJson(storageResp.data['data']);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              prefs.setBool("isRemember", _rememberSelected);
-                              prefs.setBool("isLogin", true);
+                              prefs.setBool(isRememberKey, _rememberSelected);
+                              prefs.setBool(isLoginKey, true);
                               prefs.setString(
-                                  "username", _emailController.text);
-                              prefs.setString("password", _pwdController.text);
+                                  usernameKey, _emailController.text);
+                              prefs.setString(passwordKey, _pwdController.text);
                               _onLoginBtnClick(loginResult.data!, sto);
                             } else {
                               _pwdController.clear();
@@ -194,7 +318,8 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   _onLoginBtnClick(UserData userData, Storage storage) {
-    Navigator.of(context).pushAndRemoveUntil(
+    Navigator.pushAndRemoveUntil(
+        context,
         new MaterialPageRoute(
           builder: (context) => new MainHome(
             userData: userData,
@@ -203,4 +328,92 @@ class _LoginBodyState extends State<LoginBody> {
         ),
         (route) => route == null);
   }
+
+  void _addUrl(String url) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? urls = prefs.getStringList(otherUrlsKey);
+    if (urls != null) {
+      urls.add(url);
+    } else {
+      urls = <String>[];
+      urls.add(url);
+    }
+    prefs.setStringList(otherUrlsKey, urls);
+  }
+
+  void _selectUrl(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(selectedIndexKey, index);
+  }
+
+  Future<String?> _showAddUrl() {
+    final _newUrlController = new TextEditingController();
+
+    final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("新增服务器"),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                if ((_formKey2.currentState!).validate()) {
+                  Navigator.pop<String>(context, _newUrlController.text);
+                }
+              },
+              child: Text("创建"),
+            )
+          ],
+          content: Form(
+            key: _formKey2,
+            child: TextFormField(
+              controller: _newUrlController,
+              decoration: InputDecoration(
+                labelText: "服务器地址",
+                icon: Icon(Icons.http),
+              ),
+              validator: (v) {
+                if (v == null) {
+                  return null;
+                } else if (v.trim().length > 0) {
+                  if (_httpUrlRegExp.hasMatch(v.trim())) {
+                    return null;
+                  } else {
+                    return "非法服务器地址";
+                  }
+                } else {
+                  return "服务器地址不得为空";
+                }
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _removeUrl(int urlSelectedIndex) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? urls = prefs.getStringList(otherUrlsKey);
+    int? index = prefs.getInt(selectedIndexKey);
+    if (urls != null) {
+      urls.forEach((e) {
+        _cities.add(new SelectItem(title: e, icon: Icon(Icons.http)));
+      });
+    }
+  }
 }
+
+class SelectItem {
+  String title;
+  Icon icon;
+  SelectType selectType;
+  SelectItem(
+      {required this.title,
+      required this.icon,
+      this.selectType = SelectType.none});
+}
+
+enum SelectType { none, add }

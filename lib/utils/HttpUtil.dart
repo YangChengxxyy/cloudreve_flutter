@@ -8,19 +8,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HttpUtil {
   static CookieJar cookieJar = CookieJar();
 
-  static String baseUrl = 'https://cloudreve.yycccloud.cn';
+  static String _baseUrl = 'https://cloudreve.yycccloud.cn';
 
-  static BaseOptions normalOption = BaseOptions(
-    baseUrl: baseUrl,
+  static BaseOptions _normalOption = BaseOptions(
+    baseUrl: _baseUrl,
     connectTimeout: 10000,
     receiveTimeout: 10000,
   );
-  static Dio dio = Dio(normalOption);
+  static Dio dio = Dio(_normalOption);
 
   static List<Dio> getCountDios(int count) {
     List<Dio> dios = [];
     for (int i = 0; i < count; i++) {
-      Dio dio = Dio(normalOption);
+      Dio dio = Dio(_normalOption);
       dio.interceptors.add(CookieManager(cookieJar));
       dios.add(dio);
     }
