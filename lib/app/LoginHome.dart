@@ -9,7 +9,6 @@ import 'package:dio/dio.dart';
 import 'package:direct_select_flutter/direct_select_container.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,7 +85,7 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  var _cities = <SelectItem>[
+  var _urls = <SelectItem>[
     new SelectItem(title: HttpUtil.dio.options.baseUrl, icon: Icon(Icons.http)),
   ];
 
@@ -98,15 +97,15 @@ class _LoginBodyState extends State<LoginBody> {
 
   void _initUrls() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? urls = prefs.getStringList(otherUrlsKey);
+    List<String>? urls = prefs.getStringList(urlsKey);
     int? index = prefs.getInt(selectedIndexKey);
     if (urls != null) {
       urls.forEach((e) {
-        _cities.add(new SelectItem(title: e, icon: Icon(Icons.http)));
+        _urls.add(new SelectItem(title: e, icon: Icon(Icons.http)));
       });
     }
     setState(() {
-      _cities.add(new SelectItem(
+      _urls.add(new SelectItem(
           title: "Add", icon: Icon(Icons.add), selectType: SelectType.add));
       if (index != null) {
         _urlSelectedIndex = index;
@@ -147,49 +146,53 @@ class _LoginBodyState extends State<LoginBody> {
                     children: [
                       Expanded(
                         child: DirectSelectList<SelectItem>(
-                          values: _cities,
-                          defaultItemIndex: _urlSelectedIndex,
-                          itemBuilder: (SelectItem value) =>
-                              _getDropDownMenuItem(value),
-                          focusedItemDecoration: _getDslDecoration(),
-                          onItemSelectedListener: (item, index, context) async {
-                            switch (item.selectType) {
-                              case SelectType.add:
-                                String? url = await _showAddUrl();
-                                if (url != null) {
-                                  setState(() {
-                                    _cities.insert(
-                                      _cities.length - 1,
-                                      new SelectItem(
-                                        title: url,
-                                        icon: Icon(Icons.http),
-                                      ),
-                                    );
-                                    _urlSelectedIndex = _cities.length - 2;
-                                  });
-                                  _addUrl(url);
+                            values: _urls,
+                            defaultItemIndex: _urlSelectedIndex,
+                            itemBuilder: (SelectItem value) =>
+                                _getDropDownMenuItem(value),
+                            focusedItemDecoration: _getDslDecoration(),
+                            onItemSelectedListener:
+                                (item, index, context) async {
+                              switch (item.selectType) {
+                                case SelectType.add:
+                                  String? url = await _showAddUrl();
+                                  if (url != null) {
+                                    setState(() {
+                                      _urls.insert(
+                                        _urls.length - 1,
+                                        new SelectItem(
+                                          title: url,
+                                          icon: Icon(Icons.http),
+                                        ),
+                                      );
+                                      _urlSelectedIndex = _urls.length - 2;
+                                    });
+                                    _addUrl(url);
+                                    _selectUrl(_urlSelectedIndex);
+                                  } else {
+                                    setState(() {
+                                      _urlSelectedIndex = _urlSelectedIndex;
+                                    });
+                                  }
+                                  break;
+                                case SelectType.none:
+                                  _baseUrl = item.title;
+                                  HttpUtil.dio.options.baseUrl = _baseUrl;
                                   _selectUrl(index);
-                                } else {
                                   setState(() {
-                                    _urlSelectedIndex = _urlSelectedIndex;
+                                    _urlSelectedIndex = index;
                                   });
-                                }
-                                break;
-                              case SelectType.none:
-                                _baseUrl = item.title;
-                                HttpUtil.dio.options.baseUrl = _baseUrl;
-                                _selectUrl(index);
-                                break;
-                            }
-                          },
-                          onUserTappedListener: () {
-                            debugPrint("usertap");
-                          },
-                        ),
+                                  break;
+                              }
+                              debugPrint(_urlSelectedIndex.toString());
+                            }),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () => _removeUrl(_urlSelectedIndex),
+                      Offstage(
+                        offstage: _urls.length == 2 || _urlSelectedIndex == 0,
+                        child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () => _removeUrl(),
+                        ),
                       ),
                     ],
                   ),
@@ -331,14 +334,14 @@ class _LoginBodyState extends State<LoginBody> {
 
   void _addUrl(String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? urls = prefs.getStringList(otherUrlsKey);
+    List<String>? urls = prefs.getStringList(urlsKey);
     if (urls != null) {
       urls.add(url);
     } else {
       urls = <String>[];
       urls.add(url);
     }
-    prefs.setStringList(otherUrlsKey, urls);
+    prefs.setStringList(urlsKey, urls);
   }
 
   void _selectUrl(int index) async {
@@ -347,7 +350,7 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   Future<String?> _showAddUrl() {
-    final _newUrlController = new TextEditingController();
+    final _newUrlController = new TextEditingController(text: "http://");
 
     final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 
@@ -394,15 +397,20 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  _removeUrl(int urlSelectedIndex) async {
+  _removeUrl() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? urls = prefs.getStringList(otherUrlsKey);
-    int? index = prefs.getInt(selectedIndexKey);
-    if (urls != null) {
-      urls.forEach((e) {
-        _cities.add(new SelectItem(title: e, icon: Icon(Icons.http)));
-      });
+    setState(() {
+      _urls.removeAt(_urlSelectedIndex);
+      if (_urlSelectedIndex == _urls.length - 1) {
+        _urlSelectedIndex--;
+      }
+    });
+    await prefs.setInt(selectedIndexKey, _urlSelectedIndex);
+    var urls = <String>[];
+    for (int i = 1; i < _urls.length - 1; i++) {
+      urls.add(_urls[i].title);
     }
+    await prefs.setStringList(urlsKey, urls);
   }
 }
 
