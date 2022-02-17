@@ -180,51 +180,44 @@ class Home extends StatelessWidget {
               if (progressNum != -1) {
                 widgetList.insert(0, _progressBar);
               }
-              switch (mode) {
-                case Mode.list:
-                  var item = Expanded(
-                    child: Scrollbar(
-                      child: RefreshIndicator(
-                        onRefresh: () {
-                          return _refresh(context);
-                        },
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return _buildListItem(context, fileList[index]);
-                          },
-                          itemCount: fileList.length,
-                        ),
-                      ),
+
+              var item = Expanded(
+                child: Scrollbar(
+                  child: RefreshIndicator(
+                    onRefresh: () {
+                      return _refresh(context);
+                    },
+                    child: Builder(
+                      builder: ((context) {
+                        switch (mode) {
+                          case Mode.list:
+                            return ListView.builder(
+                              itemBuilder: (context, index) {
+                                return _buildListItem(context, fileList[index]);
+                              },
+                              itemCount: fileList.length,
+                            );
+                          case Mode.grid:
+                            return GridView.builder(
+                              gridDelegate:
+                                  new SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, //Grid按两列显示
+                                mainAxisSpacing: paddingNum,
+                                crossAxisSpacing: 5.0,
+                              ),
+                              itemBuilder: (context, index) {
+                                return _buildGridItem(
+                                    context, fileList[index], index);
+                              },
+                              itemCount: fileList.length,
+                            );
+                        }
+                      }),
                     ),
-                  );
-                  widgetList.add(item);
-                  break;
-                case Mode.grid:
-                  var item = Expanded(
-                    child: Scrollbar(
-                      child: RefreshIndicator(
-                        onRefresh: () {
-                          return _refresh(context);
-                        },
-                        child: GridView.builder(
-                          gridDelegate:
-                              new SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, //Grid按两列显示
-                            mainAxisSpacing: paddingNum,
-                            crossAxisSpacing: 5.0,
-                          ),
-                          itemBuilder: (context, index) {
-                            return _buildGridItem(
-                                context, fileList[index], index);
-                          },
-                          itemCount: fileList.length,
-                        ),
-                      ),
-                    ),
-                  );
-                  widgetList.add(item);
-                  break;
-              }
+                  ),
+                ),
+              );
+              widgetList.add(item);
 
               return Container(
                 child: Column(
@@ -344,7 +337,7 @@ class Home extends StatelessWidget {
       );
     }
 
-    return InkWell(
+    return myInkWell(
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -364,25 +357,8 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        if (file.type == "file") {
-          if (imageRex.hasMatch(file.name)) {
-            _imageTap(context, file);
-          } else {
-            _openFileButtonTap(context, file);
-          }
-        } else {
-          _dirTap(file);
-        }
-      },
-      onDoubleTap: () {},
-      onLongPress: () {
-        if (file.type == "file") {
-          _fileLongPress(context, file);
-        } else {
-          _dirLongPress(context, file);
-        }
-      },
+      context: context,
+      file: file,
     );
   }
 
@@ -429,32 +405,15 @@ class Home extends StatelessWidget {
   Widget _buildListItem(BuildContext context, MFile file) {
     Icon icon = getIcon(file);
 
-    return InkWell(
+    return myInkWell(
       child: Card(
         child: ListTile(
           leading: icon,
           title: Text(file.name),
         ),
       ),
-      onTap: () {
-        if (file.type == "file") {
-          if (imageRex.hasMatch(file.name)) {
-            _imageTap(context, file);
-          } else {
-            _openFileButtonTap(context, file);
-          }
-        } else {
-          _dirTap(file);
-        }
-      },
-      onDoubleTap: () {},
-      onLongPress: () {
-        if (file.type == "file") {
-          _fileLongPress(context, file);
-        } else {
-          _dirLongPress(context, file);
-        }
-      },
+      context: context,
+      file: file,
     );
   }
 
@@ -624,10 +583,19 @@ class Home extends StatelessWidget {
 
   /// 获取缩略图
   Future<Uint8List> _geThumbImage(String fileId) async {
-    String cachePath = (await getTemporaryDirectory()).path + "/";
-    String thumbPath = cachePath + "thumb-" + fileId;
+    String cachePath = (await getTemporaryDirectory()).path;
+    String thumbPath = cachePath + cacheThumbPath + fileId;
     File file = new File(thumbPath);
     if (file.existsSync()) {
+      DateTime time = file.lastModifiedSync();
+      DateTime now = DateTime.now();
+      time = time.add(new Duration(days: 3));
+      if (time.isBefore(now)) {
+        Uint8List thumb = (await getThumb(fileId)).data;
+        final file = await new File(thumbPath).create();
+        file.writeAsBytesSync(thumb);
+        return thumb;
+      }
       return file.readAsBytesSync();
     } else {
       Uint8List thumb = (await getThumb(fileId)).data;
@@ -639,10 +607,27 @@ class Home extends StatelessWidget {
 
   /// 获取图像
   Future<Uint8List> _getImage(String fileId) async {
-    String cachePath = (await getTemporaryDirectory()).path + "/";
-    String imagePath = cachePath + "image-" + fileId;
+    String cachePath = (await getTemporaryDirectory()).path;
+    String imagePath = cachePath + cacheImagePath + fileId;
     File file = new File(imagePath);
     if (file.existsSync()) {
+      DateTime time = file.lastModifiedSync();
+      DateTime now = DateTime.now();
+      time = time.add(new Duration(days: 3));
+      if (time.isBefore(now)) {
+        String? downloadUrl;
+        if (_downloadUrlCache[fileId] == null) {
+          Response getUrlResp = await getDownloadUrl(fileId);
+          downloadUrl = getUrlResp.data['data'].toString();
+          _downloadUrlCache[fileId] = downloadUrl;
+        } else {
+          downloadUrl = _downloadUrlCache[fileId]!;
+        }
+        Uint8List image = (await getImage(downloadUrl)).data;
+        final file = await new File(imagePath).create();
+        file.writeAsBytesSync(image);
+        return image;
+      }
       return file.readAsBytesSync();
     } else {
       String? downloadUrl;
@@ -892,5 +877,33 @@ class Home extends StatelessWidget {
     var platform = new NotificationDetails(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin!
         .show(id, title, body, platform, payload: payload);
+  }
+
+  Widget myInkWell(
+      {required Widget child,
+      required MFile file,
+      required BuildContext context}) {
+    return InkWell(
+      child: child,
+      onTap: () {
+        if (file.type == "file") {
+          if (imageRex.hasMatch(file.name)) {
+            _imageTap(context, file);
+          } else {
+            _openFileButtonTap(context, file);
+          }
+        } else {
+          _dirTap(file);
+        }
+      },
+      onDoubleTap: () {},
+      onLongPress: () {
+        if (file.type == "file") {
+          _fileLongPress(context, file);
+        } else {
+          _dirLongPress(context, file);
+        }
+      },
+    );
   }
 }

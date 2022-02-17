@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloudreve/app/LoginHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
@@ -8,6 +11,7 @@ import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/view/Share.dart';
 import 'package:cloudreve/view/WebDav.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MDrawer extends StatelessWidget {
@@ -16,6 +20,29 @@ class MDrawer extends StatelessWidget {
 
   MDrawer({Key? key, required this.userData, required this.storage})
       : super(key: key);
+
+  Future<Uint8List> _avatar() async {
+    String cachePath = (await getTemporaryDirectory()).path;
+    String avatarPath = cachePath + cacheAvatarPath +"l-${userData.id}";
+    File file = new File(avatarPath);
+    if (file.existsSync()) {
+      DateTime time = file.lastModifiedSync();
+      DateTime now = DateTime.now();
+      time = time.add(new Duration(days: 3));
+      if (time.isBefore(now)) {
+        Uint8List data = (await avatar(userData.id, "l")).data;
+        final file = await new File(avatarPath).create();
+        file.writeAsBytesSync(data);
+        return data;
+      }
+      return file.readAsBytesSync();
+    } else {
+      Uint8List thumb = (await avatar(userData.id, "l")).data;
+      final file = await new File(avatarPath).create();
+      file.writeAsBytesSync(thumb);
+      return thumb;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +58,16 @@ class MDrawer extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FutureBuilder(
-                  future: avatar(userData.id),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  future: _avatar(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Uint8List> snapshot) {
                     if (snapshot.hasData) {
                       return Container(
                         alignment: Alignment.topCenter,
                         padding: EdgeInsets.only(bottom: 15),
                         child: ClipOval(
                           child: Image.memory(
-                            snapshot.data!.data,
+                            snapshot.data!,
                             fit: BoxFit.cover,
                             width: 75,
                             height: 75,

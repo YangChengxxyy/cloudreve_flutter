@@ -1,17 +1,45 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloudreve/component/RenameNickDialog.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
+import 'package:cloudreve/utils/CacheUtil.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/entity/SettingData.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Setting extends StatelessWidget {
   final UserData userData;
   final void Function(bool) refresh;
   Setting({Key? key, required this.userData, required this.refresh});
+
+  Future<Uint8List> _avatar() async {
+    String cachePath = (await getTemporaryDirectory()).path + "/";
+    String avatarPath = cachePath + cacheAvatarPath + "s-${userData.id}";
+    File file = new File(avatarPath);
+    if (file.existsSync()) {
+      DateTime time = file.lastModifiedSync();
+      DateTime now = DateTime.now();
+      time = time.add(new Duration(days: 3));
+      if (time.isBefore(now)) {
+        Uint8List data = (await avatar(userData.id, "s")).data;
+        final file = await new File(avatarPath).create();
+        file.writeAsBytesSync(data);
+        return data;
+      }
+      return file.readAsBytesSync();
+    } else {
+      Uint8List data = (await avatar(userData.id, "s")).data;
+      final file = await new File(avatarPath).create();
+      file.writeAsBytesSync(data);
+      return data;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +61,16 @@ class Setting extends StatelessWidget {
               children: [
                 ListTile(
                   leading: FutureBuilder(
-                    future: avatar(userData.id),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    future: _avatar(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Uint8List> snapshot) {
                       if (snapshot.hasData) {
                         return ClipOval(
                           child: Image.memory(
-                            snapshot.data!.data,
+                            snapshot.data!,
                             fit: BoxFit.cover,
-                            width: 32,
-                            height: 32,
+                            width: 24,
+                            height: 24,
                           ),
                         );
                       } else {
@@ -94,6 +123,7 @@ class Setting extends StatelessWidget {
                                           content: Text("上传成功"),
                                         ),
                                       );
+                                      CacheUtil.clear(cacheAvatarPath);
                                       refresh(true);
                                     } else {
                                       Navigator.pop(buildContext);

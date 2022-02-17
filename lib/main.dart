@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloudreve/app/LoadingHome.dart';
 import 'package:cloudreve/app/LoginHome.dart';
 import 'package:cloudreve/app/MainHome.dart';
@@ -10,6 +12,7 @@ import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,16 +81,28 @@ class MyApp extends StatelessWidget {
 
   Future<Widget> _future() async {
     bool storageStatus = await Permission.storage.isGranted;
-    bool notificationStatus = await Permission.notification.isDenied;
     HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
 
     if (!storageStatus) {
       await Permission.storage.request().isGranted;
     }
-    if (!notificationStatus) {
-      await Permission.notification.request().isGranted;
-    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    Directory temp = await getTemporaryDirectory();
+    Directory imageTemp = new Directory(temp.path+cacheImagePath);
+    Directory thumbTemp = new Directory(temp.path+cacheThumbPath);
+    Directory avatarTemp = new Directory(temp.path+cacheAvatarPath);
+    if(!imageTemp.existsSync()){
+      imageTemp.createSync();
+    }
+
+    if(!thumbTemp.existsSync()){
+      thumbTemp.createSync();
+    }
+
+    if(!avatarTemp.existsSync()){
+      avatarTemp.createSync();
+    }
 
     if (prefs.getBool(isLoginKey) != null &&
         prefs.getBool(isLoginKey)! &&
@@ -113,6 +128,6 @@ class MyApp extends StatelessWidget {
       }
     } else {
       return LoginHome();
-    }
+     }
   }
 }

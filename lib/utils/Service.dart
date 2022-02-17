@@ -11,9 +11,9 @@ Future<Response> addDirectory(dynamic data) {
 }
 
 /// 通过用户[id]获取头像缩略图
-Future<Response> avatar(String id) {
+Future<Response> avatar(String id,String size) {
   return HttpUtil.dio.get(
-    "/api/v3/user/avatar/$id/l",
+    "/api/v3/user/avatar/$id/$size",
     options: Options(responseType: ResponseType.bytes),
   );
 }
@@ -208,7 +208,7 @@ Future<Response> property(MFile file) {
   );
 }
 
-///重命名
+/// 重命名
 Future<Response> renameNick(String newNick) {
   return HttpUtil.dio.patch(
     "/api/v3/user/setting/nick",
@@ -217,11 +217,12 @@ Future<Response> renameNick(String newNick) {
     },
   );
 }
-
+/// 设置头像
 Future<Response> setAvatar() {
   return HttpUtil.dio.put("/api/v3/user/setting/avatar");
 }
 
+/// 设置头像
 Future<Response> setFileAsAvatar(FormData formData) {
   return HttpUtil.dio.post(
     "/api/v3/user/setting/avatar",

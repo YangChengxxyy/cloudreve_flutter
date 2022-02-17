@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
 
 /// 缓存管理类
-/// ./lib/utils/cache_util.dart
 class CacheUtil {
   /// 获取缓存大小
   static Future<int> total() async {
@@ -13,10 +13,11 @@ class CacheUtil {
   }
 
   /// 清除缓存
-  static Future<void> clear() async {
+  static Future<void> clear([String path = ""]) async {
     Directory tempDir = await getTemporaryDirectory();
     if (tempDir == null) return;
-    await _delete(tempDir);
+    Directory pathDir = new Directory(tempDir.path + path);
+    await _delete(pathDir);
   }
 
   /// 递归缓存目录，计算缓存大小
@@ -52,6 +53,13 @@ class CacheUtil {
       }
     } else {
       await file.delete();
+    }
+  }
+
+  static Future<void> deleteCache(String cachePath) async {
+    File cache = new File(cachePath);
+    if (cache.existsSync()) {
+      cache.deleteSync();
     }
   }
 }

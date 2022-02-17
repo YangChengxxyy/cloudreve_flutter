@@ -184,7 +184,6 @@ class _LoginBodyState extends State<LoginBody> {
                                   });
                                   break;
                               }
-                              debugPrint(_urlSelectedIndex.toString());
                             }),
                       ),
                       Offstage(

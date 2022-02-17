@@ -6,3 +6,7 @@ final String urlsKey = "otherUrls";
 final String selectedIndexKey = "selectedIndex";
 
 final double paddingNum = 10;
+
+final String cacheThumbPath = "/thumb/";
+final String cacheImagePath = "/image/";
+final String cacheAvatarPath = "/avatar/";
