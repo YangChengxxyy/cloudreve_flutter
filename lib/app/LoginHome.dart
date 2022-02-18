@@ -49,7 +49,7 @@ class _LoginBodyState extends State<LoginBody> {
   var _urlSelectedIndex = 0;
 
   var _httpUrlRegExp =
-      new RegExp(r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$");
+      new RegExp(r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?:?([0-9]{0,5})$");
 
   DirectSelectItem<SelectItem> _getDropDownMenuItem(SelectItem item) {
     return DirectSelectItem<SelectItem>(
@@ -146,45 +146,45 @@ class _LoginBodyState extends State<LoginBody> {
                     children: [
                       Expanded(
                         child: DirectSelectList<SelectItem>(
-                            values: _urls,
-                            defaultItemIndex: _urlSelectedIndex,
-                            itemBuilder: (SelectItem value) =>
-                                _getDropDownMenuItem(value),
-                            focusedItemDecoration: _getDslDecoration(),
-                            onItemSelectedListener:
-                                (item, index, context) async {
-                              switch (item.selectType) {
-                                case SelectType.add:
-                                  String? url = await _showAddUrl();
-                                  if (url != null) {
-                                    setState(() {
-                                      _urls.insert(
-                                        _urls.length - 1,
-                                        new SelectItem(
-                                          title: url,
-                                          icon: Icon(Icons.http),
-                                        ),
-                                      );
-                                      _urlSelectedIndex = _urls.length - 2;
-                                    });
-                                    _addUrl(url);
-                                    _selectUrl(_urlSelectedIndex);
-                                  } else {
-                                    setState(() {
-                                      _urlSelectedIndex = _urlSelectedIndex;
-                                    });
-                                  }
-                                  break;
-                                case SelectType.none:
-                                  _baseUrl = item.title;
-                                  HttpUtil.dio.options.baseUrl = _baseUrl;
-                                  _selectUrl(index);
+                          values: _urls,
+                          defaultItemIndex: _urlSelectedIndex,
+                          itemBuilder: (SelectItem value) =>
+                              _getDropDownMenuItem(value),
+                          focusedItemDecoration: _getDslDecoration(),
+                          onItemSelectedListener: (item, index, context) async {
+                            switch (item.selectType) {
+                              case SelectType.add:
+                                String? url = await _showAddUrl();
+                                if (url != null) {
                                   setState(() {
-                                    _urlSelectedIndex = index;
+                                    _urls.insert(
+                                      _urls.length - 1,
+                                      new SelectItem(
+                                        title: url,
+                                        icon: Icon(Icons.http),
+                                      ),
+                                    );
+                                    _urlSelectedIndex = _urls.length - 2;
                                   });
-                                  break;
-                              }
-                            }),
+                                  _addUrl(url);
+                                  _selectUrl(_urlSelectedIndex);
+                                } else {
+                                  setState(() {
+                                    _urlSelectedIndex = _urlSelectedIndex;
+                                  });
+                                }
+                                break;
+                              case SelectType.none:
+                                _baseUrl = item.title;
+                                HttpUtil.dio.options.baseUrl = _baseUrl;
+                                _selectUrl(index);
+                                setState(() {
+                                  _urlSelectedIndex = index;
+                                });
+                                break;
+                            }
+                          },
+                        ),
                       ),
                       Offstage(
                         offstage: _urls.length == 2 || _urlSelectedIndex == 0,
