@@ -48,8 +48,8 @@ class _LoginBodyState extends State<LoginBody> {
 
   var _urlSelectedIndex = 0;
 
-  var _httpUrlRegExp =
-      new RegExp(r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?:?([0-9]{0,5})$");
+  var _httpUrlRegExp = new RegExp(
+      r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?:?([0-9]{0,5})$");
 
   DirectSelectItem<SelectItem> _getDropDownMenuItem(SelectItem item) {
     return DirectSelectItem<SelectItem>(
@@ -76,7 +76,7 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  _getDslDecoration() {
+  BoxDecoration _getDslDecoration() {
     return BoxDecoration(
       border: BorderDirectional(
         bottom: BorderSide(width: 1, color: Colors.black12),
@@ -319,7 +319,7 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  _onLoginBtnClick(UserData userData, Storage storage) {
+  void _onLoginBtnClick(UserData userData, Storage storage) {
     Navigator.pushAndRemoveUntil(
         context,
         new MaterialPageRoute(
@@ -396,7 +396,7 @@ class _LoginBodyState extends State<LoginBody> {
     );
   }
 
-  _removeUrl() async {
+  void _removeUrl() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _urls.removeAt(_urlSelectedIndex);

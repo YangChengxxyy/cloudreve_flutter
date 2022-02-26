@@ -156,7 +156,7 @@ class _ShareState extends State<Share> {
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
-                                    children: _getButtomIcons(e),
+                                    children: _getButtonIcons(e),
                                   ),
                                 ],
                               ),
@@ -193,8 +193,8 @@ class _ShareState extends State<Share> {
     return shareData;
   }
 
-  List<Widget> _getButtomIcons(ShareItems items) {
-    var buttomList = <Widget>[
+  List<Widget> _getButtonIcons(ShareItems items) {
+    var buttonList = <Widget>[
       IconButton(
         onPressed: () async {
           await launch(HttpUtil.dio.options.baseUrl + "/s/${items.key}");
@@ -205,7 +205,7 @@ class _ShareState extends State<Share> {
       ),
     ];
     if (items.password == "") {
-      buttomList.add(IconButton(
+      buttonList.add(IconButton(
         onPressed: () async {
           await editShare(items.key,
               prop: "password", value: generatePassword(6, isSpecial: false));
@@ -218,7 +218,7 @@ class _ShareState extends State<Share> {
         tooltip: "变更为私密分享",
       ));
     } else {
-      buttomList.add(IconButton(
+      buttonList.add(IconButton(
         onPressed: () async {
           await editShare(items.key, prop: "password", value: "");
           setState(() {
@@ -229,29 +229,30 @@ class _ShareState extends State<Share> {
         color: Colors.grey[700],
         tooltip: "变更为公开分享",
       ));
-      buttomList.add(IconButton(
+      buttonList.add(IconButton(
         onPressed: () {
           showDialog(
-              context: context,
-              builder: (BuildContext dialogContext) {
-                return AlertDialog(
-                  title: Text("分享密码"),
-                  content: Text(items.password),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Clipboard.setData(
-                          ClipboardData(
-                            text: items.password,
-                          ),
-                        );
-                        Navigator.pop(dialogContext);
-                      },
-                      child: Text("复制"),
-                    ),
-                  ],
-                );
-              });
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return AlertDialog(
+                title: Text("分享密码"),
+                content: Text(items.password),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: items.password,
+                        ),
+                      );
+                      Navigator.pop(dialogContext);
+                    },
+                    child: Text("复制"),
+                  ),
+                ],
+              );
+            },
+          );
         },
         icon: Icon(Icons.vpn_key),
         color: Colors.grey[700],
@@ -259,7 +260,7 @@ class _ShareState extends State<Share> {
       ));
     }
     if (items.preview) {
-      buttomList.add(IconButton(
+      buttonList.add(IconButton(
         onPressed: () async {
           await editShare(items.key, prop: "preview_enabled", value: false);
           setState(() {
@@ -271,7 +272,7 @@ class _ShareState extends State<Share> {
         tooltip: "禁止预览",
       ));
     } else {
-      buttomList.add(IconButton(
+      buttonList.add(IconButton(
         onPressed: () async {
           await editShare(items.key, prop: "preview_enabled", value: true);
           setState(() {
@@ -283,7 +284,7 @@ class _ShareState extends State<Share> {
         tooltip: "允许预览",
       ));
     }
-    buttomList.add(IconButton(
+    buttonList.add(IconButton(
       onPressed: () async {
         await deleteShare(items.key);
         setState(() {
@@ -294,7 +295,7 @@ class _ShareState extends State<Share> {
       color: Colors.grey[700],
       tooltip: "取消分享",
     ));
-    return buttomList;
+    return buttonList;
   }
 
   static double leftIconSize = 44;

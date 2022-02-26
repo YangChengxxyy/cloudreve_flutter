@@ -164,7 +164,7 @@ Future<Response> editShare(String key,
     {required String prop, required dynamic value}) {
   return HttpUtil.dio.patch(
     "/api/v3/share/$key",
-    data: {"prop": prop, "value": value},
+    data: {"prop": prop, "value": value.toString()},
   );
 }
 

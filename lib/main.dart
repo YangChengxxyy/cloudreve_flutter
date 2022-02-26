@@ -6,9 +6,9 @@ import 'package:cloudreve/app/MainHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
+import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
-import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
@@ -80,36 +80,39 @@ class MyApp extends StatelessWidget {
   }
 
   Future<Widget> _future() async {
-    bool storageStatus = await Permission.storage.isGranted;
     HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
-
+    bool nonfictionStatus = await Permission.notification.isGranted;
+    if (!nonfictionStatus) {
+      await Permission.notification.request().isGranted;
+    }
+    bool storageStatus = await Permission.storage.isGranted;
     if (!storageStatus) {
       await Permission.storage.request().isGranted;
     }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences pres = await SharedPreferences.getInstance();
 
     Directory temp = await getTemporaryDirectory();
-    Directory imageTemp = new Directory(temp.path+cacheImagePath);
-    Directory thumbTemp = new Directory(temp.path+cacheThumbPath);
-    Directory avatarTemp = new Directory(temp.path+cacheAvatarPath);
-    if(!imageTemp.existsSync()){
+    Directory imageTemp = new Directory(temp.path + cacheImagePath);
+    Directory thumbTemp = new Directory(temp.path + cacheThumbPath);
+    Directory avatarTemp = new Directory(temp.path + cacheAvatarPath);
+    if (!imageTemp.existsSync()) {
       imageTemp.createSync();
     }
 
-    if(!thumbTemp.existsSync()){
+    if (!thumbTemp.existsSync()) {
       thumbTemp.createSync();
     }
 
-    if(!avatarTemp.existsSync()){
+    if (!avatarTemp.existsSync()) {
       avatarTemp.createSync();
     }
 
-    if (prefs.getBool(isLoginKey) != null &&
-        prefs.getBool(isLoginKey)! &&
-        prefs.getBool(isRememberKey) != null &&
-        (prefs.getBool(isRememberKey)!)) {
-      String username = prefs.getString(usernameKey)!;
-      String password = prefs.getString(passwordKey)!;
+    if (pres.getBool(isLoginKey) != null &&
+        pres.getBool(isLoginKey)! &&
+        pres.getBool(isRememberKey) != null &&
+        (pres.getBool(isRememberKey)!)) {
+      String username = pres.getString(usernameKey)!;
+      String password = pres.getString(passwordKey)!;
 
       //重新登录刷新登录信息
       Response loginResp = await session(username, password);
@@ -123,11 +126,11 @@ class MyApp extends StatelessWidget {
           storage: storage,
         );
       } else {
-        prefs.clear();
+        pres.clear();
         return LoginHome();
       }
     } else {
       return LoginHome();
-     }
+    }
   }
 }

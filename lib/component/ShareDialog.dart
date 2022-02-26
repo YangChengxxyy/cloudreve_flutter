@@ -4,12 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ShareDialg extends StatefulWidget {
+class ShareDialog extends StatefulWidget {
   late final BuildContext _fatherContext;
   late final BuildContext _parentFatherContext;
   late final MFile _file;
 
-  ShareDialg(
+  ShareDialog(
       {Key? key,
       required BuildContext fatherContext,
       required BuildContext parentFatherContext,
@@ -21,10 +21,10 @@ class ShareDialg extends StatefulWidget {
   }
 
   @override
-  _ShareDialgState createState() => _ShareDialgState();
+  _ShareDialogState createState() => _ShareDialogState();
 }
 
-class _ShareDialgState extends State<ShareDialg> {
+class _ShareDialogState extends State<ShareDialog> {
   final _passwordController = new TextEditingController();
 
   bool _isPassword = false;

@@ -74,9 +74,6 @@ class Home extends StatelessWidget {
   /// 修改path函数
   final void Function(String) changePath;
 
-  /// 修改进度函数
-  final void Function(double) changeProgressNum;
-
   /// 文件排序比较函数
   final int Function(MFile, MFile)? compare;
 
@@ -85,9 +82,6 @@ class Home extends StatelessWidget {
 
   /// 访问文件数据
   Future<Response> fileResp;
-
-  /// 进度
-  double progressNum = -1;
 
   /// 刷新函数
   final void Function(bool) refresh;
@@ -104,8 +98,6 @@ class Home extends StatelessWidget {
   Home({
     required this.changePath,
     required this.path,
-    required this.progressNum,
-    required this.changeProgressNum,
     required this.fileResp,
     required this.refresh,
     required this.mode,
@@ -131,32 +123,6 @@ class Home extends StatelessWidget {
       });
     }
 
-    /// 进度条
-    Widget _progressBar = Container(
-      padding: EdgeInsets.symmetric(horizontal: paddingNum),
-      child: Row(
-        children: [
-          Expanded(
-            child: LinearProgressIndicator(
-              value: progressNum,
-              backgroundColor: Colors.grey,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10),
-            child: Text((progressNum * 100).toStringAsFixed(1) + "%"),
-          ),
-          // Container(
-          //     padding: EdgeInsets.only(left: 10),
-          //     child: TextButton(
-          //       child: Text("Cancel"),
-          //       onPressed: () {},
-          //     ))
-        ],
-      ),
-    );
-
     return WillPopScope(
       child: FutureBuilder(
         future: fileResp,
@@ -176,10 +142,6 @@ class Home extends StatelessWidget {
                 color: Colors.blue,
                 height: 0,
               ));
-
-              if (progressNum != -1) {
-                widgetList.insert(0, _progressBar);
-              }
 
               var item = Expanded(
                 child: Scrollbar(
@@ -231,10 +193,6 @@ class Home extends StatelessWidget {
                 Divider(color: Colors.blue),
                 Center(child: Text("暂无数据"))
               ];
-
-              if (progressNum != -1) {
-                widgetList.insert(0, _progressBar);
-              }
 
               return ListView.builder(
                 itemCount: widgetList.length,
@@ -840,7 +798,7 @@ class Home extends StatelessWidget {
     showDialog(
       context: parentFatherContext,
       builder: (dialogContext) {
-        return ShareDialg(
+        return ShareDialog(
           fatherContext: dialogContext,
           parentFatherContext: parentFatherContext,
           file: file,

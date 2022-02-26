@@ -4,8 +4,8 @@ import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
-import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
+import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
 import 'package:dio/dio.dart';
@@ -37,9 +37,6 @@ class _MainHomeState extends State<MainHome> {
 
   /// 当前路径
   String _path = "/";
-
-  /// 下载进度现在只支持单个
-  double _processNum = -1;
 
   /// 访问后台的文件列表
   late Future<Response> _fileResp;
@@ -238,17 +235,11 @@ class _MainHomeState extends State<MainHome> {
               Home(
                 mode: _mode,
                 refresh: _refresh,
-                progressNum: _processNum,
                 path: _path,
                 fileResp: _fileResp,
                 changePath: (String newPath) {
                   setState(() {
                     _path = newPath;
-                  });
-                },
-                changeProgressNum: (double newNum) {
-                  setState(() {
-                    _processNum = newNum;
                   });
                 },
                 compare: _compare.fun,
@@ -429,12 +420,12 @@ class _MainHomeState extends State<MainHome> {
     CancelToken cancelToken = new CancelToken();
     uploadCancelTokenMap[fileHashCode] = cancelToken;
     Response response =
-        await uploadFile(file, _path, cancelToken, (processs, total) async {
-      double precent = processs / total;
+        await uploadFile(file, _path, cancelToken, (process, total) async {
+      double percent = process / total;
       await _showUploadNotification(
           id: fileHashCode,
           title: '上传 ${file.name}',
-          body: (precent * 100).toStringAsFixed(2) + "%",
+          body: (percent * 100).toStringAsFixed(2) + "%",
           payload: 'upload-doing-$fileHashCode');
     }).catchError((err) async {
       if (CancelToken.isCancel(err)) {
