@@ -167,6 +167,7 @@ class _LoginBodyState extends State<LoginBody> {
                                     _urlSelectedIndex = _urls.length - 2;
                                   });
                                   _addUrl(url);
+                                  HttpUtil.dio.options.baseUrl = url;
                                   _selectUrl(_urlSelectedIndex);
                                 } else {
                                   setState(() {
@@ -176,7 +177,7 @@ class _LoginBodyState extends State<LoginBody> {
                                 break;
                               case SelectType.none:
                                 _baseUrl = item.title;
-                                HttpUtil.dio.options.baseUrl = _baseUrl;
+                                HttpUtil.dio.options.baseUrl = item.title;
                                 _selectUrl(index);
                                 setState(() {
                                   _urlSelectedIndex = index;

@@ -23,24 +23,32 @@ class MDrawer extends StatelessWidget {
 
   Future<Uint8List> _avatar() async {
     String cachePath = (await getTemporaryDirectory()).path;
-    String avatarPath = cachePath + cacheAvatarPath +"l-${userData.id}";
+    String avatarPath = cachePath + cacheAvatarPath + "l-${userData.id}";
     File file = new File(avatarPath);
     if (file.existsSync()) {
       DateTime time = file.lastModifiedSync();
       DateTime now = DateTime.now();
       time = time.add(new Duration(days: 3));
       if (time.isBefore(now)) {
+        try {
+          Uint8List data = (await avatar(userData.id, "l")).data;
+          final file = await new File(avatarPath).create();
+          file.writeAsBytesSync(data);
+          return data;
+        } catch (e) {
+          return new Uint8List.fromList([1]);
+        }
+      }
+      return file.readAsBytesSync();
+    } else {
+      try {
         Uint8List data = (await avatar(userData.id, "l")).data;
         final file = await new File(avatarPath).create();
         file.writeAsBytesSync(data);
         return data;
+      } catch (e) {
+        return new Uint8List.fromList([1]);
       }
-      return file.readAsBytesSync();
-    } else {
-      Uint8List thumb = (await avatar(userData.id, "l")).data;
-      final file = await new File(avatarPath).create();
-      file.writeAsBytesSync(thumb);
-      return thumb;
     }
   }
 
@@ -60,7 +68,7 @@ class MDrawer extends StatelessWidget {
                 FutureBuilder(
                   future: _avatar(),
                   builder: (BuildContext context,
-                      AsyncSnapshot<Uint8List> snapshot) {
+                      AsyncSnapshot<Uint8List?> snapshot) {
                     if (snapshot.hasData) {
                       return Container(
                         alignment: Alignment.topCenter,
@@ -71,6 +79,14 @@ class MDrawer extends StatelessWidget {
                             fit: BoxFit.cover,
                             width: 75,
                             height: 75,
+                            errorBuilder: (BuildContext context, Object o,
+                                StackTrace? stackTrace) {
+                              return Icon(
+                                Icons.person,
+                                size: 75,
+                                color: Colors.black45,
+                              );
+                            },
                           ),
                         ),
                       );

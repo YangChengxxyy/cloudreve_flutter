@@ -16,16 +16,6 @@ class HttpUtil {
     receiveTimeout: 10000,
   );
   static Dio dio = Dio(_normalOption);
-
-  static List<Dio> getCountDios(int count) {
-    List<Dio> dios = [];
-    for (int i = 0; i < count; i++) {
-      Dio dio = Dio(_normalOption);
-      dio.interceptors.add(CookieManager(cookieJar));
-      dios.add(dio);
-    }
-    return dios;
-  }
 }
 
 class GetCookieInterceptor extends CookieManager {

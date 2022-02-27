@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
   }
 
   Future<Widget> _future() async {
-    HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
+    HttpUtil.dio.interceptors.add(new CookieManager(HttpUtil.cookieJar));
     bool nonfictionStatus = await Permission.notification.isGranted;
     if (!nonfictionStatus) {
       await Permission.notification.request().isGranted;
@@ -113,6 +113,14 @@ class MyApp extends StatelessWidget {
         (pres.getBool(isRememberKey)!)) {
       String username = pres.getString(usernameKey)!;
       String password = pres.getString(passwordKey)!;
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String>? urls = prefs.getStringList(urlsKey);
+      int? index = prefs.getInt(selectedIndexKey);
+
+      if (urls != null && index != null && index != 0) {
+        HttpUtil.dio.options.baseUrl = urls[index - 1];
+      }
 
       //重新登录刷新登录信息
       Response loginResp = await session(username, password);

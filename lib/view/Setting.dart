@@ -27,17 +27,25 @@ class Setting extends StatelessWidget {
       DateTime now = DateTime.now();
       time = time.add(new Duration(days: 3));
       if (time.isBefore(now)) {
+        try {
+          Uint8List data = (await avatar(userData.id, "s")).data;
+          final file = await new File(avatarPath).create();
+          file.writeAsBytesSync(data);
+          return data;
+        } catch (e) {
+          return new Uint8List.fromList([1]);
+        }
+      }
+      return file.readAsBytesSync();
+    } else {
+      try {
         Uint8List data = (await avatar(userData.id, "s")).data;
         final file = await new File(avatarPath).create();
         file.writeAsBytesSync(data);
         return data;
+      } catch (e) {
+        return new Uint8List.fromList([1]);
       }
-      return file.readAsBytesSync();
-    } else {
-      Uint8List data = (await avatar(userData.id, "s")).data;
-      final file = await new File(avatarPath).create();
-      file.writeAsBytesSync(data);
-      return data;
     }
   }
 
@@ -71,13 +79,19 @@ class Setting extends StatelessWidget {
                             fit: BoxFit.cover,
                             width: 24,
                             height: 24,
+                            errorBuilder: (BuildContext context, Object o,
+                                StackTrace? stackTrace) {
+                              return Icon(
+                                Icons.person,
+                              );
+                            },
                           ),
                         );
                       } else {
                         return SizedBox(
                           child: CircularProgressIndicator(),
-                          height: 15.0,
-                          width: 15.0,
+                          height: 24.0,
+                          width: 24.0,
                         );
                       }
                     },
