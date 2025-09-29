@@ -105,7 +105,7 @@ class Home extends StatelessWidget {
     this.openFile,
     required this.setOpenFile,
   }) {
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   }
 
   /// 上次返回时间
@@ -162,7 +162,7 @@ class Home extends StatelessWidget {
                           case Mode.grid:
                             return GridView.builder(
                               gridDelegate:
-                                  new SliverGridDelegateWithFixedCrossAxisCount(
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, //Grid按两列显示
                                 mainAxisSpacing: paddingNum,
                                 crossAxisSpacing: 5.0,
@@ -543,21 +543,21 @@ class Home extends StatelessWidget {
   Future<Uint8List> _geThumbImage(String fileId) async {
     String cachePath = (await getTemporaryDirectory()).path;
     String thumbPath = cachePath + cacheThumbPath + fileId;
-    File file = new File(thumbPath);
+    File file = File(thumbPath);
     if (file.existsSync()) {
       DateTime time = file.lastModifiedSync();
       DateTime now = DateTime.now();
-      time = time.add(new Duration(days: 3));
+      time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
         Uint8List thumb = (await getThumb(fileId)).data;
-        final file = await new File(thumbPath).create();
+        final file = await File(thumbPath).create();
         file.writeAsBytesSync(thumb);
         return thumb;
       }
       return file.readAsBytesSync();
     } else {
       Uint8List thumb = (await getThumb(fileId)).data;
-      final file = await new File(thumbPath).create();
+      final file = await File(thumbPath).create();
       file.writeAsBytesSync(thumb);
       return thumb;
     }
@@ -567,11 +567,11 @@ class Home extends StatelessWidget {
   Future<Uint8List> _getImage(String fileId) async {
     String cachePath = (await getTemporaryDirectory()).path;
     String imagePath = cachePath + cacheImagePath + fileId;
-    File file = new File(imagePath);
+    File file = File(imagePath);
     if (file.existsSync()) {
       DateTime time = file.lastModifiedSync();
       DateTime now = DateTime.now();
-      time = time.add(new Duration(days: 3));
+      time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
         String? downloadUrl;
         if (_downloadUrlCache[fileId] == null) {
@@ -582,7 +582,7 @@ class Home extends StatelessWidget {
           downloadUrl = _downloadUrlCache[fileId]!;
         }
         Uint8List image = (await getImage(downloadUrl)).data;
-        final file = await new File(imagePath).create();
+        final file = await File(imagePath).create();
         file.writeAsBytesSync(image);
         return image;
       }
@@ -597,7 +597,7 @@ class Home extends StatelessWidget {
         downloadUrl = _downloadUrlCache[fileId]!;
       }
       Uint8List image = (await getImage(downloadUrl)).data;
-      final file = await new File(imagePath).create();
+      final file = await File(imagePath).create();
       file.writeAsBytesSync(image);
       return image;
     }
@@ -688,7 +688,7 @@ class Home extends StatelessWidget {
         Navigator.pop(dialogContext);
       }
       int fileHashCode = file.hashCode;
-      CancelToken cancelToken = new CancelToken();
+      CancelToken cancelToken = CancelToken();
       downloadCancelTokenMap[fileHashCode] = cancelToken;
       response = await dio.download(url, downPath + file.name,
           cancelToken: cancelToken, onReceiveProgress: (process, total) async {
@@ -826,13 +826,13 @@ class Home extends StatelessWidget {
       required String title,
       required String body,
       String? payload}) async {
-    var android = new AndroidNotificationDetails('文件下载', '文件下载通道',
+    var android = AndroidNotificationDetails('文件下载', '文件下载通道',
         playSound: false,
         channelDescription: '文件下载',
         priority: Priority.min,
         importance: Importance.min);
-    var iOS = new IOSNotificationDetails();
-    var platform = new NotificationDetails(android: android, iOS: iOS);
+    var iOS = DarwinNotificationDetails();
+    var platform = NotificationDetails(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin!
         .show(id, title, body, platform, payload: payload);
   }

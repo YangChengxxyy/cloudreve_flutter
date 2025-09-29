@@ -26,12 +26,12 @@ class _ShareState extends State<Share> {
   ShareData? _shareData;
 
   static final List<ShareOrderBy> shareOrderByList = <ShareOrderBy>[
-    new ShareOrderBy("DESC", "created_at", "创建日期由晚到早"),
-    new ShareOrderBy("ASC", "created_at", "创建日期由早到晚"),
-    new ShareOrderBy("DESC", "downloads", "下载次数由大到小"),
-    new ShareOrderBy("ASC", "downloads", "下载次数由小到大"),
-    new ShareOrderBy("DESC", "views", "浏览次数由大到小"),
-    new ShareOrderBy("ASC", "views", "浏览次数由小到大"),
+    ShareOrderBy("DESC", "created_at", "创建日期由晚到早"),
+    ShareOrderBy("ASC", "created_at", "创建日期由早到晚"),
+    ShareOrderBy("DESC", "downloads", "下载次数由大到小"),
+    ShareOrderBy("ASC", "downloads", "下载次数由小到大"),
+    ShareOrderBy("DESC", "views", "浏览次数由大到小"),
+    ShareOrderBy("ASC", "views", "浏览次数由小到大"),
   ];
 
   @override

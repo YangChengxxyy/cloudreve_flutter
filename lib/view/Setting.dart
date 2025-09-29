@@ -21,30 +21,30 @@ class Setting extends StatelessWidget {
   Future<Uint8List> _avatar() async {
     String cachePath = (await getTemporaryDirectory()).path + "/";
     String avatarPath = cachePath + cacheAvatarPath + "s-${userData.id}";
-    File file = new File(avatarPath);
+    File file = File(avatarPath);
     if (file.existsSync()) {
       DateTime time = file.lastModifiedSync();
       DateTime now = DateTime.now();
-      time = time.add(new Duration(days: 3));
+      time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
         try {
           Uint8List data = (await avatar(userData.id, "s")).data;
-          final file = await new File(avatarPath).create();
+          final file = await File(avatarPath).create();
           file.writeAsBytesSync(data);
           return data;
         } catch (e) {
-          return new Uint8List.fromList([1]);
+          return Uint8List.fromList([1]);
         }
       }
       return file.readAsBytesSync();
     } else {
       try {
         Uint8List data = (await avatar(userData.id, "s")).data;
-        final file = await new File(avatarPath).create();
+        final file = await File(avatarPath).create();
         file.writeAsBytesSync(data);
         return data;
       } catch (e) {
-        return new Uint8List.fromList([1]);
+        return Uint8List.fromList([1]);
       }
     }
   }
@@ -118,9 +118,9 @@ class Setting extends StatelessWidget {
                                   var result =
                                       await FilePicker.platform.pickFiles();
                                   if (result != null) {
-                                    FormData formData = new FormData();
+                                    FormData formData = FormData();
                                     formData.files.add(
-                                      new MapEntry(
+                                      MapEntry(
                                         "avatar",
                                         await MultipartFile.fromFile(
                                           result.files.first.path.toString(),

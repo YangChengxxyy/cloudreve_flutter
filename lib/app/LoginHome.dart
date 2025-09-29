@@ -39,8 +39,8 @@ class LoginBody extends StatefulWidget {
 class _LoginBodyState extends State<LoginBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _pwdController = new TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
 
   var _rememberSelected = true;
 
@@ -48,7 +48,7 @@ class _LoginBodyState extends State<LoginBody> {
 
   var _urlSelectedIndex = 0;
 
-  var _httpUrlRegExp = new RegExp(
+  var _httpUrlRegExp = RegExp(
       r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?:?([0-9]{0,5})$");
 
   DirectSelectItem<SelectItem> _getDropDownMenuItem(SelectItem item) {
@@ -86,7 +86,7 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   var _urls = <SelectItem>[
-    new SelectItem(title: HttpUtil.dio.options.baseUrl, icon: Icon(Icons.http)),
+    SelectItem(title: HttpUtil.dio.options.baseUrl, icon: Icon(Icons.http)),
   ];
 
   @override
@@ -101,11 +101,11 @@ class _LoginBodyState extends State<LoginBody> {
     int? index = prefs.getInt(selectedIndexKey);
     if (urls != null) {
       urls.forEach((e) {
-        _urls.add(new SelectItem(title: e, icon: Icon(Icons.http)));
+        _urls.add(SelectItem(title: e, icon: Icon(Icons.http)));
       });
     }
     setState(() {
-      _urls.add(new SelectItem(
+      _urls.add(SelectItem(
           title: "Add", icon: Icon(Icons.add), selectType: SelectType.add));
       if (index != null) {
         _urlSelectedIndex = index;
@@ -159,7 +159,7 @@ class _LoginBodyState extends State<LoginBody> {
                                   setState(() {
                                     _urls.insert(
                                       _urls.length - 1,
-                                      new SelectItem(
+                                      SelectItem(
                                         title: url,
                                         icon: Icon(Icons.http),
                                       ),
@@ -323,8 +323,8 @@ class _LoginBodyState extends State<LoginBody> {
   void _onLoginBtnClick(UserData userData, Storage storage) {
     Navigator.pushAndRemoveUntil(
         context,
-        new MaterialPageRoute(
-          builder: (context) => new MainHome(
+        MaterialPageRoute(
+          builder: (context) => MainHome(
             userData: userData,
             storage: storage,
           ),
@@ -350,7 +350,7 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   Future<String?> _showAddUrl() {
-    final _newUrlController = new TextEditingController(text: "http://");
+    final _newUrlController = TextEditingController(text: "http://");
 
     final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 

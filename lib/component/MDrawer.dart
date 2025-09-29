@@ -24,30 +24,30 @@ class MDrawer extends StatelessWidget {
   Future<Uint8List> _avatar() async {
     String cachePath = (await getTemporaryDirectory()).path;
     String avatarPath = cachePath + cacheAvatarPath + "l-${userData.id}";
-    File file = new File(avatarPath);
+    File file = File(avatarPath);
     if (file.existsSync()) {
       DateTime time = file.lastModifiedSync();
       DateTime now = DateTime.now();
-      time = time.add(new Duration(days: 3));
+      time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
         try {
           Uint8List data = (await avatar(userData.id, "l")).data;
-          final file = await new File(avatarPath).create();
+          final file = await File(avatarPath).create();
           file.writeAsBytesSync(data);
           return data;
         } catch (e) {
-          return new Uint8List.fromList([1]);
+          return Uint8List.fromList([1]);
         }
       }
       return file.readAsBytesSync();
     } else {
       try {
         Uint8List data = (await avatar(userData.id, "l")).data;
-        final file = await new File(avatarPath).create();
+        final file = await File(avatarPath).create();
         file.writeAsBytesSync(data);
         return data;
       } catch (e) {
-        return new Uint8List.fromList([1]);
+        return Uint8List.fromList([1]);
       }
     }
   }
@@ -187,7 +187,7 @@ class MDrawer extends StatelessWidget {
               await prefs.remove(passwordKey);
               Navigator.pushAndRemoveUntil(
                   context,
-                  new MaterialPageRoute(builder: (context) => new LoginHome()),
+                  MaterialPageRoute(builder: (context) => LoginHome()),
                   (route) => route == null);
             },
           ),

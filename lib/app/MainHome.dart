@@ -61,47 +61,47 @@ class _MainHomeState extends State<MainHome> {
   @override
   void initState() {
     super.initState();
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var android =
-        new AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
-    var iOS = new IOSInitializationSettings();
-    var initSetttings = new InitializationSettings(android: android, iOS: iOS);
+        AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
+    var iOS = DarwinInitializationSettings();
+    var initSetttings = InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin?.initialize(initSetttings,
-        onSelectNotification: _onSelectNotification);
+        onDidReceiveNotificationResponse: _onSelectNotification);
   }
 
   static final _compareFunctions = <CompareFunction>[
-    new CompareFunction((f1, f2) {
+    CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f1.name.compareTo(f2.name);
     }, 'A-Z'),
-    new CompareFunction((f1, f2) {
+    CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f2.name.compareTo(f1.name);
     }, 'Z-A'),
-    new CompareFunction((f1, f2) {
+    CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f1.getFormatDate().compareTo(f2.getFormatDate());
     }, '最早'),
-    new CompareFunction((f1, f2) {
+    CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f2.getFormatDate().compareTo(f1.getFormatDate());
     }, '最新'),
-    new CompareFunction((f1, f2) {
+    CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
       return f1.size.compareTo(f2.size);
     }, '最大'),
-    new CompareFunction((f1, f2) {
+    CompareFunction((f1, f2) {
       if (f1.type == "dir" && f2.type == "file") {
         return -9007199254740992;
       }
@@ -303,7 +303,7 @@ class _MainHomeState extends State<MainHome> {
   }
 
   void _newFold() {
-    final _newFoldController = new TextEditingController();
+    final _newFoldController = TextEditingController();
 
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -417,7 +417,7 @@ class _MainHomeState extends State<MainHome> {
 
   Future<void> _uploadSingleFile(PlatformFile file) async {
     int fileHashCode = file.hashCode;
-    CancelToken cancelToken = new CancelToken();
+    CancelToken cancelToken = CancelToken();
     uploadCancelTokenMap[fileHashCode] = cancelToken;
     Response response =
         await uploadFile(file, _path, cancelToken, (process, total) async {
@@ -463,8 +463,8 @@ class _MainHomeState extends State<MainHome> {
     }
   }
 
-  void _onSelectNotification(String? payload) {
-    String s = payload!;
+  void _onSelectNotification(NotificationResponse notificationResponse) {
+    String s = notificationResponse.payload!;
     if (s.startsWith("download")) {
       String downloadString = s.substring(9);
       if (downloadString.startsWith("doing")) {
@@ -491,13 +491,13 @@ class _MainHomeState extends State<MainHome> {
       required String title,
       required String body,
       String? payload}) async {
-    var android = new AndroidNotificationDetails('文件上传', '文件上传通道',
+    var android = AndroidNotificationDetails('文件上传', '文件上传通道',
         playSound: false,
         channelDescription: '文件上传',
         priority: Priority.min,
         importance: Importance.min);
-    var iOS = new IOSNotificationDetails();
-    var platform = new NotificationDetails(android: android, iOS: iOS);
+    var iOS = DarwinNotificationDetails();
+    var platform = NotificationDetails(android: android, iOS: iOS);
     await flutterLocalNotificationsPlugin?.show(id, title, body, platform,
         payload: payload);
   }

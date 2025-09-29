@@ -25,7 +25,7 @@ class ShareDialog extends StatefulWidget {
 }
 
 class _ShareDialogState extends State<ShareDialog> {
-  final _passwordController = new TextEditingController();
+  final _passwordController = TextEditingController();
 
   bool _isPassword = false;
 

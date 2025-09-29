@@ -20,9 +20,9 @@ class RegisterHome extends StatelessWidget {
 class RegisterBody extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _pwdController = new TextEditingController();
-  final TextEditingController _pwdController2 = new TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
+  final TextEditingController _pwdController2 = TextEditingController();
   RegisterBody({Key? key});
 
   @override
@@ -125,18 +125,18 @@ class RegisterBody extends StatelessWidget {
                                           onPressed: () {
                                             Navigator.pushAndRemoveUntil(
                                                 context,
-                                                new MaterialPageRoute(
+                                                MaterialPageRoute(
                                                   builder: (context) =>
-                                                      new LoginHome(),
+                                                      LoginHome(),
                                                 ),
                                                 (route) => route == null);
                                           },
                                           child: Text("OK"))
                                     ],
-                                    content: new SingleChildScrollView(
-                                      child: new ListBody(
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
                                         children: <Widget>[
-                                          new Text(
+                                          Text(
                                             '请访问邮箱点击激活按钮',
                                             style:
                                                 TextStyle(color: Colors.blue),

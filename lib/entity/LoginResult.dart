@@ -47,8 +47,8 @@ class UserData {
     preferredTheme = json['preferred_theme'];
     anonymous = json['anonymous'];
     policy =
-        json['policy'] != null ? new Policy.fromJson(json['policy']) : null;
-    group = json['group'] != null ? new Group.fromJson(json['group']) : null;
+        json['policy'] != null ? Policy.fromJson(json['policy']) : null;
+    group = json['group'] != null ? Group.fromJson(json['group']) : null;
   }
 }
 
@@ -100,7 +100,7 @@ class Group {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['allowShare'] = this.allowShare;

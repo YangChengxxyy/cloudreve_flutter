@@ -8,14 +8,14 @@ class ShareData {
     if (json['items'] != null) {
       items = <ShareItems>[];
       json['items'].forEach((v) {
-        items.add(new ShareItems.fromJson(v));
+        items.add(ShareItems.fromJson(v));
       });
     }
     total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.items != null) {
       data['items'] = this.items.map((v) => v.toJson()).toList();
     }
@@ -49,11 +49,11 @@ class ShareItems {
     views = json['views'];
     expire = json['expire'];
     preview = json['preview'];
-    source = new Source.fromJson(json['source']);
+    source = Source.fromJson(json['source']);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['key'] = this.key;
     data['is_dir'] = this.isDir;
     data['password'] = this.password;
@@ -82,7 +82,7 @@ class Source {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = this.name;
     data['size'] = this.size;
     return data;

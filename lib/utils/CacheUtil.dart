@@ -16,7 +16,7 @@ class CacheUtil {
   static Future<void> clear([String path = ""]) async {
     Directory tempDir = await getTemporaryDirectory();
     if (tempDir == null) return;
-    Directory pathDir = new Directory(tempDir.path + path);
+    Directory pathDir = Directory(tempDir.path + path);
     await _delete(pathDir);
   }
 
@@ -57,7 +57,7 @@ class CacheUtil {
   }
 
   static Future<void> deleteCache(String cachePath) async {
-    File cache = new File(cachePath);
+    File cache = File(cachePath);
     if (cache.existsSync()) {
       cache.deleteSync();
     }
