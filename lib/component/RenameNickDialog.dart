@@ -17,7 +17,7 @@ class RenameNickDialog extends StatefulWidget {
 class _RenameNickDialogState extends State<RenameNickDialog> {
   @override
   Widget build(BuildContext context) {
-    final _newNickController = new TextEditingController(text: widget.nick);
+    final _newNickController = TextEditingController(text: widget.nick);
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     return AlertDialog(

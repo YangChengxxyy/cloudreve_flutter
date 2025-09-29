@@ -96,7 +96,7 @@ Future<Response> uploadFile(PlatformFile file, String path,[CancelToken? cancelT
         "x-cr-path": Uri.encodeComponent(path),
         HttpHeaders.contentLengthHeader: file.size
       },
-      sendTimeout: 100000);
+      sendTimeout: const Duration(seconds: 100));
   return HttpUtil.dio.post(
     "/api/v3/file/upload",
     options: option,

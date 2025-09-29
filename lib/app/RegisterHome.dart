@@ -20,9 +20,9 @@ class RegisterHome extends StatelessWidget {
 class RegisterBody extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _pwdController = new TextEditingController();
-  final TextEditingController _pwdController2 = new TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
+  final TextEditingController _pwdController2 = TextEditingController();
   RegisterBody({Key? key});
 
   @override
@@ -62,7 +62,7 @@ class RegisterBody extends StatelessWidget {
                       if (v == null) {
                         return null;
                       }
-                      return v.trim().length > 0 ? null : "电子邮箱不能为空";
+                      return v.trim().isNotEmpty ? null : "电子邮箱不能为空";
                     },
                   ),
                   TextFormField(
@@ -74,11 +74,14 @@ class RegisterBody extends StatelessWidget {
                     validator: (v) {
                       if (v == null) {
                         return null;
-                      } else if (v.trim().length < 6) {
-                        return "密码过短";
-                      } else if (v.trim().length == 0) {
+                      }
+                      if (v.trim().isEmpty) {
                         return "密码不能为空";
                       }
+                      if (v.trim().length < 6) {
+                        return "密码过短";
+                      }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -90,9 +93,14 @@ class RegisterBody extends StatelessWidget {
                     validator: (v) {
                       if (v == null) {
                         return null;
-                      } else if (v != _pwdController.text) {
+                      }
+                      if (v.trim().isEmpty) {
+                        return "确认密码不得为空";
+                      }
+                      if (v != _pwdController.text) {
                         return "两次密码不一致";
                       }
+                      return null;
                     },
                   ),
                   Container(
@@ -125,18 +133,18 @@ class RegisterBody extends StatelessWidget {
                                           onPressed: () {
                                             Navigator.pushAndRemoveUntil(
                                                 context,
-                                                new MaterialPageRoute(
+                                                MaterialPageRoute(
                                                   builder: (context) =>
-                                                      new LoginHome(),
+                                                      LoginHome(),
                                                 ),
-                                                (route) => route == null);
+                                                (route) => false);
                                           },
                                           child: Text("OK"))
                                     ],
-                                    content: new SingleChildScrollView(
-                                      child: new ListBody(
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
                                         children: <Widget>[
-                                          new Text(
+                                          Text(
                                             '请访问邮箱点击激活按钮',
                                             style:
                                                 TextStyle(color: Colors.blue),

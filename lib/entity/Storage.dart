@@ -12,7 +12,7 @@ class Storage {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['used'] = this.used;
     data['free'] = this.free;
     data['total'] = this.total;

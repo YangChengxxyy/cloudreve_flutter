@@ -7,7 +7,6 @@ import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,12 +25,12 @@ class _ShareState extends State<Share> {
   ShareData? _shareData;
 
   static final List<ShareOrderBy> shareOrderByList = <ShareOrderBy>[
-    new ShareOrderBy("DESC", "created_at", "创建日期由晚到早"),
-    new ShareOrderBy("ASC", "created_at", "创建日期由早到晚"),
-    new ShareOrderBy("DESC", "downloads", "下载次数由大到小"),
-    new ShareOrderBy("ASC", "downloads", "下载次数由小到大"),
-    new ShareOrderBy("DESC", "views", "浏览次数由大到小"),
-    new ShareOrderBy("ASC", "views", "浏览次数由小到大"),
+    ShareOrderBy("DESC", "created_at", "创建日期由晚到早"),
+    ShareOrderBy("ASC", "created_at", "创建日期由早到晚"),
+    ShareOrderBy("DESC", "downloads", "下载次数由大到小"),
+    ShareOrderBy("ASC", "downloads", "下载次数由小到大"),
+    ShareOrderBy("DESC", "views", "浏览次数由大到小"),
+    ShareOrderBy("ASC", "views", "浏览次数由小到大"),
   ];
 
   @override
@@ -197,7 +196,17 @@ class _ShareState extends State<Share> {
     var buttonList = <Widget>[
       IconButton(
         onPressed: () async {
-          await launch(HttpUtil.dio.options.baseUrl + "/s/${items.key}");
+          final shareUri =
+              Uri.parse('${HttpUtil.dio.options.baseUrl}/s/${items.key}');
+          final launched = await launchUrl(
+            shareUri,
+            mode: LaunchMode.externalApplication,
+          );
+          if (!launched && mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('无法打开分享链接')),
+            );
+          }
         },
         icon: Icon(Icons.open_in_new),
         color: Colors.grey[700],

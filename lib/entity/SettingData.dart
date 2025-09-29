@@ -21,7 +21,7 @@ class SettingData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['homepage'] = this.homepage;
     data['prefer_theme'] = this.preferTheme;
     data['themes'] = this.themes;

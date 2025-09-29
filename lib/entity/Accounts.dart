@@ -6,7 +6,7 @@ class Accounts {
   Accounts.fromJson(Map<String, dynamic> json) {
     if (json['accounts'] != null) {
       json['accounts'].forEach((v) {
-        accounts.add(new Account.fromJson(v));
+        accounts.add(Account.fromJson(v));
       });
     }
   }

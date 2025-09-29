@@ -5,21 +5,19 @@ class ShareData {
   ShareData(this.items, this.total);
 
   ShareData.fromJson(Map<String, dynamic> json) {
+    items = <ShareItems>[];
     if (json['items'] != null) {
-      items = <ShareItems>[];
       json['items'].forEach((v) {
-        items.add(new ShareItems.fromJson(v));
+        items.add(ShareItems.fromJson(v));
       });
     }
     total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.items != null) {
-      data['items'] = this.items.map((v) => v.toJson()).toList();
-    }
-    data['total'] = this.total;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['items'] = items.map((v) => v.toJson()).toList();
+    data['total'] = total;
     return data;
   }
 }
@@ -49,23 +47,21 @@ class ShareItems {
     views = json['views'];
     expire = json['expire'];
     preview = json['preview'];
-    source = new Source.fromJson(json['source']);
+    source = Source.fromJson(json['source']);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['is_dir'] = this.isDir;
-    data['password'] = this.password;
-    data['create_date'] = this.createDate;
-    data['downloads'] = this.downloads;
-    data['remain_downloads'] = this.remainDownloads;
-    data['views'] = this.views;
-    data['expire'] = this.expire;
-    data['preview'] = this.preview;
-    if (this.source != null) {
-      data['source'] = this.source.toJson();
-    }
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key'] = key;
+    data['is_dir'] = isDir;
+    data['password'] = password;
+    data['create_date'] = createDate;
+    data['downloads'] = downloads;
+    data['remain_downloads'] = remainDownloads;
+    data['views'] = views;
+    data['expire'] = expire;
+    data['preview'] = preview;
+    data['source'] = source.toJson();
     return data;
   }
 }
@@ -82,9 +78,9 @@ class Source {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['size'] = this.size;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['size'] = size;
     return data;
   }
 }

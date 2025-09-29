@@ -17,7 +17,7 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
   @override
   Widget build(BuildContext context) {
     final _newFileController =
-        new TextEditingController(text: widget.file.name);
+        TextEditingController(text: widget.file.name);
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     return AlertDialog(

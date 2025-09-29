@@ -39,16 +39,14 @@ class LoginBody extends StatefulWidget {
 class _LoginBodyState extends State<LoginBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _pwdController = new TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwdController = TextEditingController();
 
   var _rememberSelected = true;
 
-  var _baseUrl = HttpUtil.dio.options.baseUrl;
-
   var _urlSelectedIndex = 0;
 
-  var _httpUrlRegExp = new RegExp(
+  var _httpUrlRegExp = RegExp(
       r"^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?:?([0-9]{0,5})$");
 
   DirectSelectItem<SelectItem> _getDropDownMenuItem(SelectItem item) {
@@ -86,7 +84,7 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   var _urls = <SelectItem>[
-    new SelectItem(title: HttpUtil.dio.options.baseUrl, icon: Icon(Icons.http)),
+    SelectItem(title: HttpUtil.dio.options.baseUrl, icon: Icon(Icons.http)),
   ];
 
   @override
@@ -100,12 +98,12 @@ class _LoginBodyState extends State<LoginBody> {
     List<String>? urls = prefs.getStringList(urlsKey);
     int? index = prefs.getInt(selectedIndexKey);
     if (urls != null) {
-      urls.forEach((e) {
-        _urls.add(new SelectItem(title: e, icon: Icon(Icons.http)));
-      });
+      for (final e in urls) {
+        _urls.add(SelectItem(title: e, icon: Icon(Icons.http)));
+      }
     }
     setState(() {
-      _urls.add(new SelectItem(
+      _urls.add(SelectItem(
           title: "Add", icon: Icon(Icons.add), selectType: SelectType.add));
       if (index != null) {
         _urlSelectedIndex = index;
@@ -159,7 +157,7 @@ class _LoginBodyState extends State<LoginBody> {
                                   setState(() {
                                     _urls.insert(
                                       _urls.length - 1,
-                                      new SelectItem(
+                                      SelectItem(
                                         title: url,
                                         icon: Icon(Icons.http),
                                       ),
@@ -169,14 +167,9 @@ class _LoginBodyState extends State<LoginBody> {
                                   _addUrl(url);
                                   HttpUtil.dio.options.baseUrl = url;
                                   _selectUrl(_urlSelectedIndex);
-                                } else {
-                                  setState(() {
-                                    _urlSelectedIndex = _urlSelectedIndex;
-                                  });
                                 }
                                 break;
                               case SelectType.none:
-                                _baseUrl = item.title;
                                 HttpUtil.dio.options.baseUrl = item.title;
                                 _selectUrl(index);
                                 setState(() {
@@ -207,7 +200,7 @@ class _LoginBodyState extends State<LoginBody> {
                       if (v == null) {
                         return null;
                       }
-                      return v.trim().length > 0 ? null : "电子邮箱不能为空";
+                      return v.trim().isNotEmpty ? null : "电子邮箱不能为空";
                     },
                   ),
                   TextFormField(
@@ -221,11 +214,14 @@ class _LoginBodyState extends State<LoginBody> {
                     validator: (v) {
                       if (v == null) {
                         return null;
-                      } else if (v.trim().length < 6) {
-                        return "密码过短";
-                      } else if (v.trim().length == 0) {
+                      }
+                      if (v.trim().isEmpty) {
                         return "密码不能为空";
                       }
+                      if (v.trim().length < 6) {
+                        return "密码过短";
+                      }
+                      return null;
                     },
                   ),
                   CheckboxListTile(
@@ -323,13 +319,13 @@ class _LoginBodyState extends State<LoginBody> {
   void _onLoginBtnClick(UserData userData, Storage storage) {
     Navigator.pushAndRemoveUntil(
         context,
-        new MaterialPageRoute(
-          builder: (context) => new MainHome(
+        MaterialPageRoute(
+          builder: (context) => MainHome(
             userData: userData,
             storage: storage,
           ),
         ),
-        (route) => route == null);
+        (route) => false);
   }
 
   void _addUrl(String url) async {
@@ -350,7 +346,7 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   Future<String?> _showAddUrl() {
-    final _newUrlController = new TextEditingController(text: "http://");
+    final _newUrlController = TextEditingController(text: "http://");
 
     final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 
@@ -380,15 +376,15 @@ class _LoginBodyState extends State<LoginBody> {
               validator: (v) {
                 if (v == null) {
                   return null;
-                } else if (v.trim().length > 0) {
-                  if (_httpUrlRegExp.hasMatch(v.trim())) {
-                    return null;
-                  } else {
-                    return "非法服务器地址";
-                  }
-                } else {
+                }
+                final value = v.trim();
+                if (value.isEmpty) {
                   return "服务器地址不得为空";
                 }
+                if (_httpUrlRegExp.hasMatch(value)) {
+                  return null;
+                }
+                return "非法服务器地址";
               },
             ),
           ),

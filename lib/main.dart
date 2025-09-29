@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
   }
 
   Future<Widget> _future() async {
-    HttpUtil.dio.interceptors.add(new CookieManager(HttpUtil.cookieJar));
+    HttpUtil.dio.interceptors.add(CookieManager(HttpUtil.cookieJar));
     bool nonfictionStatus = await Permission.notification.isGranted;
     if (!nonfictionStatus) {
       await Permission.notification.request().isGranted;
@@ -92,9 +92,9 @@ class MyApp extends StatelessWidget {
     SharedPreferences pres = await SharedPreferences.getInstance();
 
     Directory temp = await getTemporaryDirectory();
-    Directory imageTemp = new Directory(temp.path + cacheImagePath);
-    Directory thumbTemp = new Directory(temp.path + cacheThumbPath);
-    Directory avatarTemp = new Directory(temp.path + cacheAvatarPath);
+    Directory imageTemp = Directory(temp.path + cacheImagePath);
+    Directory thumbTemp = Directory(temp.path + cacheThumbPath);
+    Directory avatarTemp = Directory(temp.path + cacheAvatarPath);
     if (!imageTemp.existsSync()) {
       imageTemp.createSync();
     }
