@@ -7,7 +7,6 @@ import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -197,7 +196,17 @@ class _ShareState extends State<Share> {
     var buttonList = <Widget>[
       IconButton(
         onPressed: () async {
-          await launch(HttpUtil.dio.options.baseUrl + "/s/${items.key}");
+          final shareUri =
+              Uri.parse('${HttpUtil.dio.options.baseUrl}/s/${items.key}');
+          final launched = await launchUrl(
+            shareUri,
+            mode: LaunchMode.externalApplication,
+          );
+          if (!launched && mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('无法打开分享链接')),
+            );
+          }
         },
         icon: Icon(Icons.open_in_new),
         color: Colors.grey[700],

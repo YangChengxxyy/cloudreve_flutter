@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloudreve/component/CustomSearchDelegate.dart';
 import 'package:cloudreve/component/MDrawer.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
@@ -20,12 +22,12 @@ Map<int, CancelToken> uploadCancelTokenMap = {};
 
 class MainHome extends StatefulWidget {
   /// 用户数据
-  UserData userData;
+  final UserData userData;
 
   /// 用户存储信息
-  Storage storage;
+  final Storage storage;
 
-  MainHome({Key? key, required this.userData, required this.storage})
+  const MainHome({Key? key, required this.userData, required this.storage})
       : super(key: key);
 
   @override
@@ -52,6 +54,9 @@ class _MainHomeState extends State<MainHome> {
 
   MFile? _openFile;
 
+  late Storage _storage;
+  late UserData _userData;
+
   _MainHomeState() {
     _fileResp = directory(_path);
   }
@@ -61,6 +66,8 @@ class _MainHomeState extends State<MainHome> {
   @override
   void initState() {
     super.initState();
+    _storage = widget.storage;
+    _userData = widget.userData;
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var android =
         AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
@@ -226,8 +233,8 @@ class _MainHomeState extends State<MainHome> {
               : null,
         ),
         drawer: MDrawer(
-          storage: widget.storage,
-          userData: widget.userData,
+          storage: _storage,
+          userData: _userData,
         ),
         body: Center(
           child: IndexedStack(
@@ -251,7 +258,7 @@ class _MainHomeState extends State<MainHome> {
                 },
               ),
               Setting(
-                userData: widget.userData,
+                userData: _userData,
                 refresh: _refresh,
               )
             ],
@@ -377,8 +384,8 @@ class _MainHomeState extends State<MainHome> {
 
       setState(() {
         _fileResp = fileResp;
-        widget.storage = storage;
-        widget.userData = userData;
+        _storage = storage;
+        _userData = userData;
       });
     } else {
       int now = DateTime.now().millisecondsSinceEpoch;
@@ -397,8 +404,8 @@ class _MainHomeState extends State<MainHome> {
 
         setState(() {
           _fileResp = fileResp;
-          widget.storage = storage;
-          widget.userData = userData;
+          _storage = storage;
+          _userData = userData;
         });
       }
     }
@@ -419,30 +426,43 @@ class _MainHomeState extends State<MainHome> {
     int fileHashCode = file.hashCode;
     CancelToken cancelToken = CancelToken();
     uploadCancelTokenMap[fileHashCode] = cancelToken;
-    Response response =
-        await uploadFile(file, _path, cancelToken, (process, total) async {
-      double percent = process / total;
-      await _showUploadNotification(
+    Response response;
+    try {
+      response = await uploadFile(
+        file,
+        _path,
+        cancelToken,
+        (process, total) {
+          final percent = process / total;
+          unawaited(
+            _showUploadNotification(
+              id: fileHashCode,
+              title: '上传 ${file.name}',
+              body: (percent * 100).toStringAsFixed(2) + "%",
+              payload: 'upload-doing-$fileHashCode',
+            ),
+          );
+        },
+      );
+    } on DioException catch (err) {
+      if (err.type == DioExceptionType.cancel) {
+        await flutterLocalNotificationsPlugin?.cancel(fileHashCode);
+        await _showUploadNotification(
           id: fileHashCode,
           title: '上传 ${file.name}',
-          body: (percent * 100).toStringAsFixed(2) + "%",
-          payload: 'upload-doing-$fileHashCode');
-    }).catchError((err) async {
-      if (CancelToken.isCancel(err)) {
-        await flutterLocalNotificationsPlugin!.cancel(fileHashCode);
-        await _showUploadNotification(
-            id: fileHashCode,
-            title: '上传 ${file.name}',
-            body: '已取消',
-            payload: 'upload-cancel-$fileHashCode');
+          body: '已取消',
+          payload: 'upload-cancel-$fileHashCode',
+        );
       } else {
         await _showUploadNotification(
-            id: fileHashCode,
-            title: '上传 ${file.name}',
-            body: '上传出错',
-            payload: 'upload-error-$fileHashCode');
+          id: fileHashCode,
+          title: '上传 ${file.name}',
+          body: '上传出错',
+          payload: 'upload-error-$fileHashCode',
+        );
       }
-    });
+      return;
+    }
     try {
       if (response.statusCode == 200) {
         await flutterLocalNotificationsPlugin!.cancel(fileHashCode);

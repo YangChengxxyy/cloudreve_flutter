@@ -186,9 +186,10 @@ class MDrawer extends StatelessWidget {
               await prefs.remove(usernameKey);
               await prefs.remove(passwordKey);
               Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginHome()),
-                  (route) => route == null);
+                context,
+                MaterialPageRoute(builder: (context) => LoginHome()),
+                (route) => false,
+              );
             },
           ),
         ],

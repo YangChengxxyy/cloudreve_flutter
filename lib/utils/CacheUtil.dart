@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
 
 /// 缓存管理类
@@ -7,7 +6,6 @@ class CacheUtil {
   /// 获取缓存大小
   static Future<int> total() async {
     Directory tempDir = await getTemporaryDirectory();
-    if (tempDir == null) return 0;
     int total = await _reduce(tempDir);
     return total;
   }
@@ -15,7 +13,6 @@ class CacheUtil {
   /// 清除缓存
   static Future<void> clear([String path = ""]) async {
     Directory tempDir = await getTemporaryDirectory();
-    if (tempDir == null) return;
     Directory pathDir = Directory(tempDir.path + path);
     await _delete(pathDir);
   }
@@ -34,9 +31,11 @@ class CacheUtil {
 
       int total = 0;
 
-      if (children != null && children.isNotEmpty)
-        for (final FileSystemEntity child in children)
+      if (children.isNotEmpty) {
+        for (final FileSystemEntity child in children) {
           total += await _reduce(child);
+        }
+      }
 
       return total;
     }

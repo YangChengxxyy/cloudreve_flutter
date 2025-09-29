@@ -189,11 +189,10 @@ class _ShareDialogState extends State<ShareDialog> {
               });
             },
           ),
-          ButtonBar(
-            alignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () async {
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () async {
                   if (_isPassword) {
                     if (_formKey.currentState!.validate()) {
                       Response response = await newShare(
@@ -295,10 +294,9 @@ class _ShareDialogState extends State<ShareDialog> {
                       );
                     }
                   }
-                },
-                child: Text("确定"),
-              ),
-            ],
+              },
+              child: Text("确定"),
+            ),
           )
         ],
       ),

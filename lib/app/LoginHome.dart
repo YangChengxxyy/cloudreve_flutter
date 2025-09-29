@@ -44,8 +44,6 @@ class _LoginBodyState extends State<LoginBody> {
 
   var _rememberSelected = true;
 
-  var _baseUrl = HttpUtil.dio.options.baseUrl;
-
   var _urlSelectedIndex = 0;
 
   var _httpUrlRegExp = RegExp(
@@ -100,9 +98,9 @@ class _LoginBodyState extends State<LoginBody> {
     List<String>? urls = prefs.getStringList(urlsKey);
     int? index = prefs.getInt(selectedIndexKey);
     if (urls != null) {
-      urls.forEach((e) {
+      for (final e in urls) {
         _urls.add(SelectItem(title: e, icon: Icon(Icons.http)));
-      });
+      }
     }
     setState(() {
       _urls.add(SelectItem(
@@ -169,14 +167,9 @@ class _LoginBodyState extends State<LoginBody> {
                                   _addUrl(url);
                                   HttpUtil.dio.options.baseUrl = url;
                                   _selectUrl(_urlSelectedIndex);
-                                } else {
-                                  setState(() {
-                                    _urlSelectedIndex = _urlSelectedIndex;
-                                  });
                                 }
                                 break;
                               case SelectType.none:
-                                _baseUrl = item.title;
                                 HttpUtil.dio.options.baseUrl = item.title;
                                 _selectUrl(index);
                                 setState(() {
@@ -207,7 +200,7 @@ class _LoginBodyState extends State<LoginBody> {
                       if (v == null) {
                         return null;
                       }
-                      return v.trim().length > 0 ? null : "电子邮箱不能为空";
+                      return v.trim().isNotEmpty ? null : "电子邮箱不能为空";
                     },
                   ),
                   TextFormField(
@@ -221,11 +214,14 @@ class _LoginBodyState extends State<LoginBody> {
                     validator: (v) {
                       if (v == null) {
                         return null;
-                      } else if (v.trim().length < 6) {
-                        return "密码过短";
-                      } else if (v.trim().length == 0) {
+                      }
+                      if (v.trim().isEmpty) {
                         return "密码不能为空";
                       }
+                      if (v.trim().length < 6) {
+                        return "密码过短";
+                      }
+                      return null;
                     },
                   ),
                   CheckboxListTile(
@@ -329,7 +325,7 @@ class _LoginBodyState extends State<LoginBody> {
             storage: storage,
           ),
         ),
-        (route) => route == null);
+        (route) => false);
   }
 
   void _addUrl(String url) async {
@@ -380,15 +376,15 @@ class _LoginBodyState extends State<LoginBody> {
               validator: (v) {
                 if (v == null) {
                   return null;
-                } else if (v.trim().length > 0) {
-                  if (_httpUrlRegExp.hasMatch(v.trim())) {
-                    return null;
-                  } else {
-                    return "非法服务器地址";
-                  }
-                } else {
+                }
+                final value = v.trim();
+                if (value.isEmpty) {
                   return "服务器地址不得为空";
                 }
+                if (_httpUrlRegExp.hasMatch(value)) {
+                  return null;
+                }
+                return "非法服务器地址";
               },
             ),
           ),
