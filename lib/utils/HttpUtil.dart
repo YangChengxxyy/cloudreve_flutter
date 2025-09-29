@@ -12,8 +12,8 @@ class HttpUtil {
 
   static BaseOptions _normalOption = BaseOptions(
     baseUrl: _baseUrl,
-    connectTimeout: 10000,
-    receiveTimeout: 10000,
+    connectTimeout: const Duration(milliseconds: 10000),
+    receiveTimeout: const Duration(milliseconds: 10000),
   );
   static Dio dio = Dio(_normalOption);
 }
@@ -22,16 +22,17 @@ class GetCookieInterceptor extends CookieManager {
   GetCookieInterceptor(CookieJar cookieJar) : super(cookieJar);
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    var cookies = response.headers[HttpHeaders.setCookieHeader];
-    if (cookies != null) {
-      _saveCookie(cookies[0]);
+  Future<void> onResponse(
+      Response<dynamic> response, ResponseInterceptorHandler handler) async {
+    final cookies = response.headers[HttpHeaders.setCookieHeader];
+    if (cookies != null && cookies.isNotEmpty) {
+      await _saveCookie(cookies[0]);
     }
     handler.next(response);
   }
 
-  void _saveCookie(String cookie) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(HttpHeaders.cookieHeader, cookie.toString());
+  Future<void> _saveCookie(String cookie) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(HttpHeaders.cookieHeader, cookie.toString());
   }
 }
