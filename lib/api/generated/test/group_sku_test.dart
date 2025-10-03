@@ -1,0 +1,53 @@
+import 'package:test/test.dart';
+import 'package:cloudreve_api_client/cloudreve_api_client.dart';
+
+// tests for GroupSKU
+void main() {
+  final instance = GroupSKUBuilder();
+  // TODO add properties to the builder and call build()
+
+  group(GroupSKU, () {
+    // UUID of the membership SKU.
+    // String id
+    test('to test the property `id`', () async {
+      // TODO
+    });
+
+    // Name of the membership SKU.
+    // String name
+    test('to test the property `name`', () async {
+      // TODO
+    });
+
+    // Valid duration of the membership SKU.
+    // int time
+    test('to test the property `time`', () async {
+      // TODO
+    });
+
+    // Price in minimum currency unit.
+    // int price
+    test('to test the property `price`', () async {
+      // TODO
+    });
+
+    // Chip text.
+    // String chip
+    test('to test the property `chip`', () async {
+      // TODO
+    });
+
+    // Price in points. Empty value indicate paying with points is disabled.
+    // int points
+    test('to test the property `points`', () async {
+      // TODO
+    });
+
+    // Description texts.
+    // BuiltList<String> des
+    test('to test the property `des`', () async {
+      // TODO
+    });
+
+  });
+}
