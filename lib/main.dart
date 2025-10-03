@@ -127,7 +127,12 @@ class MyApp extends StatelessWidget {
       Response storageResp = await getStorage();
 
       LoginResult loginResult = LoginResult.fromJson(loginResp.data);
-      Storage storage = Storage.fromJson(storageResp.data['data']);
+      Storage storage;
+      if (storageResp.data != null && storageResp.data['data'] != null) {
+        storage = Storage.fromJson(storageResp.data['data']);
+      } else {
+        storage = Storage(0, 0, 0);
+      }
       if (loginResult.code == 0) {
         return MainHome(
           userData: loginResult.data!,

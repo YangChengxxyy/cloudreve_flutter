@@ -124,7 +124,7 @@ class MDrawer extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 5),
                   child: LinearProgressIndicator(
-                    value: (storage.used.toDouble() / storage.total.toDouble()),
+                    value: storage.total > 0 ? (storage.used.toDouble() / storage.total.toDouble()) : 0.0,
                     backgroundColor: Colors.grey,
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                   ),
