@@ -379,7 +379,12 @@ class _MainHomeState extends State<MainHome> {
       Response storageResp = await getStorage();
 
       UserData userData = UserData.fromJson(loginResp.data['data']);
-      Storage storage = Storage.fromJson(storageResp.data['data']);
+      Storage storage;
+      if (storageResp.data != null && storageResp.data['data'] != null) {
+        storage = Storage.fromJson(storageResp.data['data']);
+      } else {
+        storage = Storage(0, 0, 0);
+      }
       var fileResp = directory(_path);
 
       setState(() {
@@ -399,7 +404,12 @@ class _MainHomeState extends State<MainHome> {
         Response storageResp = await getStorage();
 
         UserData userData = UserData.fromJson(loginResp.data['data']);
-        Storage storage = Storage.fromJson(storageResp.data['data']);
+        Storage storage;
+        if (storageResp.data != null && storageResp.data['data'] != null) {
+          storage = Storage.fromJson(storageResp.data['data']);
+        } else {
+          storage = Storage(0, 0, 0);
+        }
         var fileResp = directory(_path);
 
         setState(() {

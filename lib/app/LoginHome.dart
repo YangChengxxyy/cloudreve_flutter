@@ -254,8 +254,12 @@ class _LoginBodyState extends State<LoginBody> {
                                 LoginResult.fromJson(logResp.data);
                             if (loginResult.code == 0) {
                               Response storageResp = await getStorage();
-                              Storage sto =
-                                  Storage.fromJson(storageResp.data['data']);
+                              Storage sto;
+                              if (storageResp.data != null && storageResp.data['data'] != null) {
+                                sto = Storage.fromJson(storageResp.data['data']);
+                              } else {
+                                sto = Storage(0, 0, 0);
+                              }
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setBool(isRememberKey, _rememberSelected);
