@@ -123,14 +123,15 @@ class MyApp extends StatelessWidget {
       }
 
       //重新登录刷新登录信息
-      Response loginResp = await session(username, password);
-      Response storageResp = await getStorage();
-
-      LoginResult loginResult = LoginResult.fromJson(loginResp.data);
-      Storage storage = Storage.fromJson(storageResp.data['data']);
-      if (loginResult.code == 0) {
+      LoginResult loginResult = await session(username, password);
+      final storageResp = await getStorage();
+      final storageData = storageResp?.data;
+      Storage storage = storageData != null
+          ? Storage.fromApi(storageData)
+          : Storage(0, 0, 0);
+      if (loginResult.isSuccess && loginResult.data != null) {
         return MainHome(
-          userData: loginResult.data!,
+          userData: loginResult.data!.user,
           storage: storage,
         );
       } else {

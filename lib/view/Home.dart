@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloudreve/api/generated/lib/cloudreve_api_client.dart'
+    as cloudreve_api;
 import 'package:cloudreve/component/RenameFileDialog.dart';
 import 'package:cloudreve/component/ShareDialog.dart';
 import 'package:cloudreve/entity/MFile.dart';
@@ -82,7 +84,7 @@ class Home extends StatefulWidget {
   final String path;
 
   /// 访问文件数据
-  final Future<Response> fileResp;
+  final Future<cloudreve_api.FileGet200Response?> fileResp;
 
   /// 刷新函数
   final void Function(bool) refresh;
@@ -127,7 +129,7 @@ class _HomeState extends State<Home> {
 
   String get _path => widget.path;
   Mode get _mode => widget.mode;
-  Future<Response> get _fileResp => widget.fileResp;
+  Future<cloudreve_api.FileGet200Response?> get _fileResp => widget.fileResp;
   void Function(String) get _changePath => widget.changePath;
   void Function(bool) get _refreshCallback => widget.refresh;
   int Function(MFile, MFile)? get _compare => widget.compare;
@@ -157,16 +159,27 @@ class _HomeState extends State<Home> {
           Navigator.of(context).pop();
         }
       },
-      child: FutureBuilder(
+      child: FutureBuilder<cloudreve_api.FileGet200Response?>(
         future: _fileResp,
-        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-          if (snapshot.hasData) {
-            var data = snapshot.data!.data['data'];
-            var head = _buildHead(context, path);
-            if (data != null) {
-              var objects = data['objects'];
+        builder: (BuildContext context,
+            AsyncSnapshot<cloudreve_api.FileGet200Response?> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("加载失败"));
+          }
+          if (snapshot.hasData && snapshot.data != null) {
+            final response = snapshot.data!;
+            if (response.code != 0) {
+              return Center(child: Text(response.msg ?? "加载失败"));
+            }
+            final head = _buildHead(context, path);
+            final objects = response.data.files;
 
-              var fileList = MFile.getFileList(objects, compare);
+            if (objects.isNotEmpty) {
+              final fileList =
+                  objects.map(MFile.fromFileResponse).toList(growable: true);
+              if (compare != null) {
+                fileList.sort(compare);
+              }
 
               List<Widget> widgetList = [];
 
@@ -234,9 +247,8 @@ class _HomeState extends State<Home> {
                 },
               );
             }
-          } else {
-            return Center(child: Text("加载中"));
           }
+          return Center(child: Text("加载中"));
         },
       ),
     );
@@ -871,8 +883,8 @@ class _HomeState extends State<Home> {
         importance: Importance.min);
     var iOS = DarwinNotificationDetails();
     var platform = NotificationDetails(android: android, iOS: iOS);
-    await _flutterLocalNotificationsPlugin
-        .show(id, title, body, platform, payload: payload);
+    await _flutterLocalNotificationsPlugin.show(id, title, body, platform,
+        payload: payload);
   }
 
   Widget myInkWell(

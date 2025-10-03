@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloudreve_api_client/cloudreve_api_client.dart'
+    as cloudreve_api;
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -16,6 +18,49 @@ class HttpUtil {
     receiveTimeout: const Duration(milliseconds: 10000),
   );
   static Dio dio = Dio(_normalOption);
+
+  static String? _accessToken;
+  static DateTime? _accessTokenExpiresAt;
+  static String? _refreshToken;
+  static DateTime? _refreshTokenExpiresAt;
+  static cloudreve_api.CloudreveApiClient? _apiClient;
+
+  static cloudreve_api.CloudreveApiClient get apiClient {
+    _apiClient ??= cloudreve_api.CloudreveApiClient(
+      dio: dio,
+      serializers: cloudreve_api.standardSerializers,
+    );
+    return _apiClient!;
+  }
+
+  static void updateAuthToken({
+    required String accessToken,
+    required DateTime accessExpires,
+    required String refreshToken,
+    required DateTime refreshExpires,
+  }) {
+    _accessToken = accessToken;
+    _accessTokenExpiresAt = accessExpires;
+    _refreshToken = refreshToken;
+    _refreshTokenExpiresAt = refreshExpires;
+    dio.options.headers['Authorization'] = 'Bearer $accessToken';
+  }
+
+  static void clearAuthToken() {
+    _accessToken = null;
+    _accessTokenExpiresAt = null;
+    _refreshToken = null;
+    _refreshTokenExpiresAt = null;
+    dio.options.headers.remove('Authorization');
+  }
+
+  static String? get accessToken => _accessToken;
+
+  static DateTime? get accessTokenExpiresAt => _accessTokenExpiresAt;
+
+  static String? get refreshToken => _refreshToken;
+
+  static DateTime? get refreshTokenExpiresAt => _refreshTokenExpiresAt;
 }
 
 class GetCookieInterceptor extends CookieManager {

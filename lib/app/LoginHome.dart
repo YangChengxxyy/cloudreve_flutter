@@ -166,11 +166,13 @@ class _LoginBodyState extends State<LoginBody> {
                                   });
                                   _addUrl(url);
                                   HttpUtil.dio.options.baseUrl = url;
+                                  HttpUtil.clearAuthToken();
                                   _selectUrl(_urlSelectedIndex);
                                 }
                                 break;
                               case SelectType.none:
                                 HttpUtil.dio.options.baseUrl = item.title;
+                                HttpUtil.clearAuthToken();
                                 _selectUrl(index);
                                 setState(() {
                                   _urlSelectedIndex = index;
@@ -247,15 +249,18 @@ class _LoginBodyState extends State<LoginBody> {
                         style: ButtonStyle(),
                         onPressed: () async {
                           if ((_formKey.currentState!).validate()) {
-                            //验证通过提交数据
-                            Response logResp = await session(
-                                _emailController.text, _pwdController.text);
-                            LoginResult loginResult =
-                                LoginResult.fromJson(logResp.data);
-                            if (loginResult.code == 0) {
-                              Response storageResp = await getStorage();
-                              Storage sto =
-                                  Storage.fromJson(storageResp.data['data']);
+                            final loginResult = await session(
+                              _emailController.text,
+                              _pwdController.text,
+                            );
+
+                            if (loginResult.isSuccess &&
+                                loginResult.data != null) {
+                              final storageResp = await getStorage();
+                              final storageData = storageResp?.data;
+                              final Storage sto = storageData != null
+                                  ? Storage.fromApi(storageData)
+                                  : Storage(0, 0, 0);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setBool(isRememberKey, _rememberSelected);
@@ -263,7 +268,7 @@ class _LoginBodyState extends State<LoginBody> {
                               prefs.setString(
                                   usernameKey, _emailController.text);
                               prefs.setString(passwordKey, _pwdController.text);
-                              _onLoginBtnClick(loginResult.data!, sto);
+                              _onLoginBtnClick(loginResult.data!.user, sto);
                             } else {
                               _pwdController.clear();
                               showDialog(
@@ -277,7 +282,7 @@ class _LoginBodyState extends State<LoginBody> {
                                       child: ListBody(
                                         children: <Widget>[
                                           Text(
-                                            logResp.data['msg'],
+                                            loginResult.msg ?? '登录失败',
                                             style: TextStyle(color: Colors.red),
                                           ),
                                         ],

@@ -4,6 +4,8 @@ import 'package:cloudreve/entity/Result.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
+import 'package:cloudreve_api_client/cloudreve_api_client.dart'
+    as cloudreve_api;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -44,13 +46,26 @@ class CustomSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<cloudreve_api.FileGet200Response?>(
       future: search(query),
-      builder: (BuildContext _, AsyncSnapshot<Response> snapshot) {
-        if (snapshot.hasData) {
-          Response response = snapshot.data!;
-          var fileList = MFile.getFileList(response.data['data']["objects"]);
-          if (fileList.length == 0) {
+      builder: (BuildContext _,
+          AsyncSnapshot<cloudreve_api.FileGet200Response?> snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text("搜索失败"),
+          );
+        }
+        if (snapshot.hasData && snapshot.data != null) {
+          final response = snapshot.data!;
+          if (response.code != 0) {
+            return Center(
+              child: Text(response.msg ?? "搜索失败"),
+            );
+          }
+          final files = response.data.files;
+          final fileList =
+              files.map(MFile.fromFileResponse).toList(growable: false);
+          if (fileList.isEmpty) {
             return Center(
               child: Text("没有结果"),
             );
@@ -67,11 +82,10 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               ),
             );
           }
-        } else {
-          return Center(
-            child: Text("loading……"),
-          );
         }
+        return Center(
+          child: Text("loading……"),
+        );
       },
     );
   }

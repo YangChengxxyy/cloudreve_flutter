@@ -10,6 +10,8 @@ import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
+import 'package:cloudreve_api_client/cloudreve_api_client.dart'
+    as cloudreve_api;
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,7 @@ class _MainHomeState extends State<MainHome> {
   String _path = "/";
 
   /// 访问后台的文件列表
-  late Future<Response> _fileResp;
+  late Future<cloudreve_api.FileGet200Response?> _fileResp;
 
   /// 记录刷新时间 减少刷新时间
   int _lastRequest = -1;
@@ -323,15 +325,21 @@ class _MainHomeState extends State<MainHome> {
             TextButton(
               onPressed: () async {
                 if ((_formKey.currentState!).validate()) {
-                  Response res = await addDirectory(
+                  final res = await addDirectory(
                       {"path": _path + "/" + _newFoldController.text.trim()});
-                  if (res.statusCode == 200) {
+                  if (res != null && res.code == 0) {
                     Navigator.pop(context);
                     _newFoldController.text = "";
                     _refresh(true);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("新建目录成功"),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(res?.msg ?? "新建目录失败"),
                       ),
                     );
                   }
@@ -375,11 +383,15 @@ class _MainHomeState extends State<MainHome> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String username = prefs.getString(usernameKey)!;
       String password = prefs.getString(passwordKey)!;
-      Response loginResp = await session(username, password);
-      Response storageResp = await getStorage();
+      final loginResult = await session(username, password);
+      final storageResp = await getStorage();
+      final storageData = storageResp?.data;
 
-      UserData userData = UserData.fromJson(loginResp.data['data']);
-      Storage storage = Storage.fromJson(storageResp.data['data']);
+      final Storage storage = storageData != null
+          ? Storage.fromApi(storageData)
+          : _storage;
+      final UserData userData =
+          loginResult.data != null ? loginResult.data!.user : _userData;
       var fileResp = directory(_path);
 
       setState(() {
@@ -395,11 +407,15 @@ class _MainHomeState extends State<MainHome> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String username = prefs.getString(usernameKey)!;
         String password = prefs.getString(passwordKey)!;
-        Response loginResp = await session(username, password);
-        Response storageResp = await getStorage();
+        final loginResult = await session(username, password);
+        final storageResp = await getStorage();
+        final storageData = storageResp?.data;
 
-        UserData userData = UserData.fromJson(loginResp.data['data']);
-        Storage storage = Storage.fromJson(storageResp.data['data']);
+        final Storage storage = storageData != null
+            ? Storage.fromApi(storageData)
+            : _storage;
+        final UserData userData =
+            loginResult.data != null ? loginResult.data!.user : _userData;
         var fileResp = directory(_path);
 
         setState(() {

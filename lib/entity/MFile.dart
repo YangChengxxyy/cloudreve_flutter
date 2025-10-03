@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:cloudreve_api_client/cloudreve_api_client.dart'
+    as cloudreve_api;
+
 class MFile {
   MFile(
       this.date, this.id, this.name, this.path, this.pic, this.size, this.type);
@@ -10,17 +15,46 @@ class MFile {
   late String type;
 
   MFile.fromJson(Map<String, dynamic> map) {
-    this.date = map["date"];
-    this.id = map["id"];
-    this.name = map["name"];
-    this.path = map["path"];
-    this.pic = map["pic"];
-    this.size = map["size"];
-    this.type = map["type"];
+    date = map['updated_at']?.toString() ?? map['created_at']?.toString() ?? '';
+    id = (map['id'] ?? '').toString();
+    name = map['name']?.toString() ?? '';
+    path = map['path']?.toString() ?? '';
+    pic = map['metadata']?.toString() ?? '';
+    size = _toInt(map['size']);
+    type = map['type'] == 1 ? 'dir' : 'file';
+  }
+
+  factory MFile.fromFileResponse(cloudreve_api.FileResponse file) {
+    final metadataMap = file.metadata.asMap();
+    return MFile(
+      file.updatedAt.toIso8601String(),
+      file.id,
+      file.name,
+      file.path,
+      metadataMap.isEmpty ? '' : jsonEncode(metadataMap),
+      file.size,
+      file.type == cloudreve_api.FileResponseTypeEnum.number1 ? 'dir' : 'file',
+    );
+  }
+
+  static int _toInt(dynamic value) {
+    if (value is int) {
+      return value;
+    }
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    if (value is double) {
+      return value.toInt();
+    }
+    return 0;
   }
 
   String getFormatDate() {
-    return date.substring(0, 10) + " " + date.substring(11, 11 + 8);
+    if (date.length >= 19) {
+      return date.substring(0, 10) + " " + date.substring(11, 19);
+    }
+    return date;
   }
 
   static List<MFile> getFileList(List<dynamic> list,
@@ -61,5 +95,8 @@ class MFile {
 }
 
 String getFormatDate(String date) {
-  return date.substring(0, 10) + " " + date.substring(11, 11 + 8);
+  if (date.length >= 19) {
+    return date.substring(0, 10) + " " + date.substring(11, 19);
+  }
+  return date;
 }
