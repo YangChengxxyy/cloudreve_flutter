@@ -4,14 +4,12 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:cloudreve_api_client/src/model/group_list_get200_response.dart';
 
 class GroupApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -31,7 +29,7 @@ class GroupApi {
   ///
   /// Returns a [Future] containing a [Response] with a [GroupListGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<GroupListGet200Response>> groupListGet({ 
+  Future<Response<GroupListGet200Response>> groupListGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -64,11 +62,12 @@ class GroupApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(GroupListGet200Response),
-      ) as GroupListGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(GroupListGet200Response),
+            ) as GroupListGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -90,5 +89,4 @@ class GroupApi {
       extra: _response.extra,
     );
   }
-
 }

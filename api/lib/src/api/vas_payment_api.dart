@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -14,7 +13,6 @@ import 'package:cloudreve_api_client/src/model/vas_payment_put_request.dart';
 import 'package:cloudreve_api_client/src/model/vas_payment_status_id_trade_no_get200_response.dart';
 
 class VASPaymentApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -25,7 +23,7 @@ class VASPaymentApi {
   /// Create a payment for given product.
   ///
   /// Parameters:
-  /// * [vasPaymentPutRequest] 
+  /// * [vasPaymentPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -35,7 +33,7 @@ class VASPaymentApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasPaymentPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasPaymentPut200Response>> vasPaymentPut({ 
+  Future<Response<VasPaymentPut200Response>> vasPaymentPut({
     VasPaymentPutRequest? vasPaymentPutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -62,11 +60,12 @@ class VASPaymentApi {
 
     try {
       const _type = FullType(VasPaymentPutRequest);
-      _bodyData = vasPaymentPutRequest == null ? null : _serializers.serialize(vasPaymentPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = vasPaymentPutRequest == null
+          ? null
+          : _serializers.serialize(vasPaymentPutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -89,11 +88,12 @@ class VASPaymentApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasPaymentPut200Response),
-      ) as VasPaymentPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(VasPaymentPut200Response),
+            ) as VasPaymentPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -117,7 +117,7 @@ class VASPaymentApi {
   }
 
   /// Get payment status
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the payment.
@@ -131,7 +131,8 @@ class VASPaymentApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasPaymentStatusIdTradeNoGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasPaymentStatusIdTradeNoGet200Response>> vasPaymentStatusIdTradeNoGet({ 
+  Future<Response<VasPaymentStatusIdTradeNoGet200Response>>
+      vasPaymentStatusIdTradeNoGet({
     required String id,
     required String tradeNo,
     CancelToken? cancelToken,
@@ -141,7 +142,15 @@ class VASPaymentApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/payment/status/{id}/{trade_no}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString()).replaceAll('{' r'trade_no' '}', encodeQueryParameter(_serializers, tradeNo, const FullType(String)).toString());
+    final _path = r'/vas/payment/status/{id}/{trade_no}'
+        .replaceAll(
+            '{' r'id' '}',
+            encodeQueryParameter(_serializers, id, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'trade_no' '}',
+            encodeQueryParameter(_serializers, tradeNo, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -166,11 +175,13 @@ class VASPaymentApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasPaymentStatusIdTradeNoGet200Response),
-      ) as VasPaymentStatusIdTradeNoGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(VasPaymentStatusIdTradeNoGet200Response),
+            ) as VasPaymentStatusIdTradeNoGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -192,5 +203,4 @@ class VASPaymentApi {
       extra: _response.extra,
     );
   }
-
 }

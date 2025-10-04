@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -14,7 +13,6 @@ import 'package:cloudreve_api_client/src/model/file_permission_post200_response.
 import 'package:cloudreve_api_client/src/model/file_permission_post_request.dart';
 
 class FilePermissionApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -25,7 +23,7 @@ class FilePermissionApi {
   /// Clear existing permission setting of target files, whose permission settings will be inherited from parent after this action. Only owner of the file or administrators can perform this action.
   ///
   /// Parameters:
-  /// * [filePermissionDeleteRequest] 
+  /// * [filePermissionDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -35,7 +33,7 @@ class FilePermissionApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePermissionDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePermissionDelete200Response>> filePermissionDelete({ 
+  Future<Response<FilePermissionDelete200Response>> filePermissionDelete({
     FilePermissionDeleteRequest? filePermissionDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -62,11 +60,13 @@ class FilePermissionApi {
 
     try {
       const _type = FullType(FilePermissionDeleteRequest);
-      _bodyData = filePermissionDeleteRequest == null ? null : _serializers.serialize(filePermissionDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePermissionDeleteRequest == null
+          ? null
+          : _serializers.serialize(filePermissionDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -89,11 +89,12 @@ class FilePermissionApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePermissionDelete200Response),
-      ) as FilePermissionDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePermissionDelete200Response),
+            ) as FilePermissionDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -120,7 +121,7 @@ class FilePermissionApi {
   /// Set file permissions. Only owner of the file or administrators can perform this action.
   ///
   /// Parameters:
-  /// * [filePermissionPostRequest] 
+  /// * [filePermissionPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -130,7 +131,7 @@ class FilePermissionApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePermissionPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePermissionPost200Response>> filePermissionPost({ 
+  Future<Response<FilePermissionPost200Response>> filePermissionPost({
     FilePermissionPostRequest? filePermissionPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -157,11 +158,13 @@ class FilePermissionApi {
 
     try {
       const _type = FullType(FilePermissionPostRequest);
-      _bodyData = filePermissionPostRequest == null ? null : _serializers.serialize(filePermissionPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePermissionPostRequest == null
+          ? null
+          : _serializers.serialize(filePermissionPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -184,11 +187,12 @@ class FilePermissionApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePermissionPost200Response),
-      ) as FilePermissionPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePermissionPost200Response),
+            ) as FilePermissionPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -210,5 +214,4 @@ class FilePermissionApi {
       extra: _response.extra,
     );
   }
-
 }

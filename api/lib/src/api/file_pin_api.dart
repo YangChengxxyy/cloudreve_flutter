@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -12,7 +11,6 @@ import 'package:cloudreve_api_client/src/model/file_pin_put200_response.dart';
 import 'package:cloudreve_api_client/src/model/pin_file_service.dart';
 
 class FilePinApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -23,7 +21,7 @@ class FilePinApi {
   /// Remove a pinned URI from user&#39;s sidebar.
   ///
   /// Parameters:
-  /// * [pinFileService] 
+  /// * [pinFileService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -33,7 +31,7 @@ class FilePinApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePinPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePinPut200Response>> filePinDelete({ 
+  Future<Response<FilePinPut200Response>> filePinDelete({
     PinFileService? pinFileService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -60,11 +58,12 @@ class FilePinApi {
 
     try {
       const _type = FullType(PinFileService);
-      _bodyData = pinFileService == null ? null : _serializers.serialize(pinFileService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = pinFileService == null
+          ? null
+          : _serializers.serialize(pinFileService, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -87,11 +86,12 @@ class FilePinApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePinPut200Response),
-      ) as FilePinPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePinPut200Response),
+            ) as FilePinPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -118,7 +118,7 @@ class FilePinApi {
   /// Pin a [URI](https://docs.cloudreve.org/api/file-uri) to user&#39;s sidebar.
   ///
   /// Parameters:
-  /// * [pinFileService] 
+  /// * [pinFileService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -128,7 +128,7 @@ class FilePinApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePinPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePinPut200Response>> filePinPut({ 
+  Future<Response<FilePinPut200Response>> filePinPut({
     PinFileService? pinFileService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -155,11 +155,12 @@ class FilePinApi {
 
     try {
       const _type = FullType(PinFileService);
-      _bodyData = pinFileService == null ? null : _serializers.serialize(pinFileService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = pinFileService == null
+          ? null
+          : _serializers.serialize(pinFileService, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -182,11 +183,12 @@ class FilePinApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePinPut200Response),
-      ) as FilePinPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePinPut200Response),
+            ) as FilePinPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -208,5 +210,4 @@ class FilePinApi {
       extra: _response.extra,
     );
   }
-
 }

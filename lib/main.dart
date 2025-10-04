@@ -9,7 +9,6 @@ import 'package:cloudreve/utils/DarkModeProvider.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/cloudreve_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';

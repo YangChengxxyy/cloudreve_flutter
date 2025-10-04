@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -12,7 +11,6 @@ import 'package:cloudreve_api_client/src/api_util.dart';
 import 'package:cloudreve_api_client/src/model/session_prepare_get200_response.dart';
 
 class SessionApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -33,7 +31,7 @@ class SessionApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionPrepareGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionPrepareGet200Response>> sessionPrepareGet({ 
+  Future<Response<SessionPrepareGet200Response>> sessionPrepareGet({
     required String email,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -56,7 +54,8 @@ class SessionApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'email': encodeQueryParameter(_serializers, email, const FullType(String)),
+      r'email':
+          encodeQueryParameter(_serializers, email, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -72,11 +71,12 @@ class SessionApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionPrepareGet200Response),
-      ) as SessionPrepareGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionPrepareGet200Response),
+            ) as SessionPrepareGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -98,5 +98,4 @@ class SessionApi {
       extra: _response.extra,
     );
   }
-
 }

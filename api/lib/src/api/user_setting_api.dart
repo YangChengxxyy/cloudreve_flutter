@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -17,7 +16,6 @@ import 'package:cloudreve_api_client/src/model/user_setting_patch_request.dart';
 import 'package:cloudreve_api_client/src/model/user_setting_policies_get200_response.dart';
 
 class UserSettingApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -37,7 +35,7 @@ class UserSettingApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSetting2faGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSetting2faGet200Response>> userSetting2faGet({ 
+  Future<Response<UserSetting2faGet200Response>> userSetting2faGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -70,11 +68,12 @@ class UserSettingApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSetting2faGet200Response),
-      ) as UserSetting2faGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSetting2faGet200Response),
+            ) as UserSetting2faGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -101,7 +100,7 @@ class UserSettingApi {
   /// Behaviour of this method depends on the request body:  * If requerst body is empty, the user profile pciture will set to using Gravatar. * If request body is not empty, and &#x60;Content-Length&#x60; &gt; &#x60;0&#x60;, the body will be parsed as image file, and used as the new profile picture.
   ///
   /// Parameters:
-  /// * [body] 
+  /// * [body]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -111,7 +110,7 @@ class UserSettingApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingAvatarPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingAvatarPut200Response>> userSettingAvatarPut({ 
+  Future<Response<UserSettingAvatarPut200Response>> userSettingAvatarPut({
     MultipartFile? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -138,10 +137,9 @@ class UserSettingApi {
 
     try {
       _bodyData = body?.finalize();
-
-    } catch(error, stackTrace) {
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -164,11 +162,12 @@ class UserSettingApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingAvatarPut200Response),
-      ) as UserSettingAvatarPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingAvatarPut200Response),
+            ) as UserSettingAvatarPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -192,7 +191,7 @@ class UserSettingApi {
   }
 
   /// Get preferences
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -204,7 +203,7 @@ class UserSettingApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingGet200Response>> userSettingGet({ 
+  Future<Response<UserSettingGet200Response>> userSettingGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -237,11 +236,12 @@ class UserSettingApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingGet200Response),
-      ) as UserSettingGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingGet200Response),
+            ) as UserSettingGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -277,7 +277,7 @@ class UserSettingApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingNodesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingNodesGet200Response>> userSettingNodesGet({ 
+  Future<Response<UserSettingNodesGet200Response>> userSettingNodesGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -310,11 +310,12 @@ class UserSettingApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingNodesGet200Response),
-      ) as UserSettingNodesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingNodesGet200Response),
+            ) as UserSettingNodesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -341,7 +342,7 @@ class UserSettingApi {
   /// Only non-null fields in request body will be updated.
   ///
   /// Parameters:
-  /// * [userSettingPatchRequest] 
+  /// * [userSettingPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -351,7 +352,7 @@ class UserSettingApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingPatch200Response>> userSettingPatch({ 
+  Future<Response<UserSettingPatch200Response>> userSettingPatch({
     UserSettingPatchRequest? userSettingPatchRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -378,11 +379,13 @@ class UserSettingApi {
 
     try {
       const _type = FullType(UserSettingPatchRequest);
-      _bodyData = userSettingPatchRequest == null ? null : _serializers.serialize(userSettingPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userSettingPatchRequest == null
+          ? null
+          : _serializers.serialize(userSettingPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -405,11 +408,12 @@ class UserSettingApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingPatch200Response),
-      ) as UserSettingPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingPatch200Response),
+            ) as UserSettingPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -445,7 +449,7 @@ class UserSettingApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingPoliciesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingPoliciesGet200Response>> userSettingPoliciesGet({ 
+  Future<Response<UserSettingPoliciesGet200Response>> userSettingPoliciesGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -478,11 +482,12 @@ class UserSettingApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingPoliciesGet200Response),
-      ) as UserSettingPoliciesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingPoliciesGet200Response),
+            ) as UserSettingPoliciesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -504,5 +509,4 @@ class UserSettingApi {
       extra: _response.extra,
     );
   }
-
 }

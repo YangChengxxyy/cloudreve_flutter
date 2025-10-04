@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -16,7 +15,6 @@ import 'package:cloudreve_api_client/src/model/file_upload_put_request.dart';
 import 'package:cloudreve_api_client/src/model/file_upload_session_id_index_post200_response.dart';
 
 class FileUploadApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -28,7 +26,7 @@ class FileUploadApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileUploadDeleteRequest] 
+  /// * [fileUploadDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -38,7 +36,7 @@ class FileUploadApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUploadDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUploadDelete200Response>> fileUploadDelete({ 
+  Future<Response<FileUploadDelete200Response>> fileUploadDelete({
     String? xCrPurchaseTicket,
     FileUploadDeleteRequest? fileUploadDeleteRequest,
     CancelToken? cancelToken,
@@ -52,7 +50,8 @@ class FileUploadApi {
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -67,11 +66,13 @@ class FileUploadApi {
 
     try {
       const _type = FullType(FileUploadDeleteRequest);
-      _bodyData = fileUploadDeleteRequest == null ? null : _serializers.serialize(fileUploadDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileUploadDeleteRequest == null
+          ? null
+          : _serializers.serialize(fileUploadDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -94,11 +95,12 @@ class FileUploadApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUploadDelete200Response),
-      ) as FileUploadDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileUploadDelete200Response),
+            ) as FileUploadDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -126,7 +128,7 @@ class FileUploadApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileUploadPutRequest] 
+  /// * [fileUploadPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -136,7 +138,7 @@ class FileUploadApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUploadPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUploadPut200Response>> fileUploadPut({ 
+  Future<Response<FileUploadPut200Response>> fileUploadPut({
     String? xCrPurchaseTicket,
     FileUploadPutRequest? fileUploadPutRequest,
     CancelToken? cancelToken,
@@ -150,7 +152,8 @@ class FileUploadApi {
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -165,11 +168,12 @@ class FileUploadApi {
 
     try {
       const _type = FullType(FileUploadPutRequest);
-      _bodyData = fileUploadPutRequest == null ? null : _serializers.serialize(fileUploadPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileUploadPutRequest == null
+          ? null
+          : _serializers.serialize(fileUploadPutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -192,11 +196,12 @@ class FileUploadApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUploadPut200Response),
-      ) as FileUploadPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileUploadPut200Response),
+            ) as FileUploadPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -227,7 +232,7 @@ class FileUploadApi {
   /// * [index] - Index of the chunk, starting from `0`.
   /// * [contentLength] - Size of current chunk. Must match with the `chunk_size` in the upload session, except the last chunk.
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [body] 
+  /// * [body]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -237,7 +242,8 @@ class FileUploadApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUploadSessionIdIndexPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUploadSessionIdIndexPost200Response>> fileUploadSessionIdIndexPost({ 
+  Future<Response<FileUploadSessionIdIndexPost200Response>>
+      fileUploadSessionIdIndexPost({
     required String sessionId,
     required int index,
     required int contentLength,
@@ -250,12 +256,22 @@ class FileUploadApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/file/upload/{sessionId}/{index}'.replaceAll('{' r'sessionId' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'index' '}', encodeQueryParameter(_serializers, index, const FullType(int)).toString());
+    final _path = r'/file/upload/{sessionId}/{index}'
+        .replaceAll(
+            '{' r'sessionId' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'index' '}',
+            encodeQueryParameter(_serializers, index, const FullType(int))
+                .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
         r'Content-Length': contentLength,
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -270,10 +286,9 @@ class FileUploadApi {
 
     try {
       _bodyData = body?.finalize();
-
-    } catch(error, stackTrace) {
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -296,11 +311,13 @@ class FileUploadApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUploadSessionIdIndexPost200Response),
-      ) as FileUploadSessionIdIndexPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(FileUploadSessionIdIndexPost200Response),
+            ) as FileUploadSessionIdIndexPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -322,5 +339,4 @@ class FileUploadApi {
       extra: _response.extra,
     );
   }
-
 }

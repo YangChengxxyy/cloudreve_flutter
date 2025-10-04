@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -16,7 +15,6 @@ import 'package:cloudreve_api_client/src/model/devices_dav_id_patch200_response.
 import 'package:cloudreve_api_client/src/model/devices_dav_put200_response.dart';
 
 class WebDAVApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -38,7 +36,7 @@ class WebDAVApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavGet200Response>> devicesDavGet({ 
+  Future<Response<DevicesDavGet200Response>> devicesDavGet({
     required int pageSize,
     String? nextPageToken,
     CancelToken? cancelToken,
@@ -62,8 +60,11 @@ class WebDAVApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -79,11 +80,12 @@ class WebDAVApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavGet200Response),
-      ) as DevicesDavGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavGet200Response),
+            ) as DevicesDavGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -107,7 +109,7 @@ class WebDAVApi {
   }
 
   /// Delete account
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the existing WebDAV account.
@@ -120,7 +122,7 @@ class WebDAVApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavIdDelete200Response>> devicesDavIdDelete({ 
+  Future<Response<DevicesDavIdDelete200Response>> devicesDavIdDelete({
     required String id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -129,7 +131,10 @@ class WebDAVApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/devices/dav/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/devices/dav/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -154,11 +159,12 @@ class WebDAVApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavIdDelete200Response),
-      ) as DevicesDavIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavIdDelete200Response),
+            ) as DevicesDavIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -182,11 +188,11 @@ class WebDAVApi {
   }
 
   /// Update account
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the existing WebDAV account.
-  /// * [createDavAccountService] 
+  /// * [createDavAccountService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -196,7 +202,7 @@ class WebDAVApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavIdPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavIdPatch200Response>> devicesDavIdPatch({ 
+  Future<Response<DevicesDavIdPatch200Response>> devicesDavIdPatch({
     required String id,
     CreateDavAccountService? createDavAccountService,
     CancelToken? cancelToken,
@@ -206,7 +212,10 @@ class WebDAVApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/devices/dav/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/devices/dav/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -224,11 +233,13 @@ class WebDAVApi {
 
     try {
       const _type = FullType(CreateDavAccountService);
-      _bodyData = createDavAccountService == null ? null : _serializers.serialize(createDavAccountService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = createDavAccountService == null
+          ? null
+          : _serializers.serialize(createDavAccountService,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -251,11 +262,12 @@ class WebDAVApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavIdPatch200Response),
-      ) as DevicesDavIdPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavIdPatch200Response),
+            ) as DevicesDavIdPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -282,7 +294,7 @@ class WebDAVApi {
   /// Create a new WebDAV account.
   ///
   /// Parameters:
-  /// * [createDavAccountService] 
+  /// * [createDavAccountService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -292,7 +304,7 @@ class WebDAVApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavPut200Response>> devicesDavPut({ 
+  Future<Response<DevicesDavPut200Response>> devicesDavPut({
     CreateDavAccountService? createDavAccountService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -319,11 +331,13 @@ class WebDAVApi {
 
     try {
       const _type = FullType(CreateDavAccountService);
-      _bodyData = createDavAccountService == null ? null : _serializers.serialize(createDavAccountService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = createDavAccountService == null
+          ? null
+          : _serializers.serialize(createDavAccountService,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -346,11 +360,12 @@ class WebDAVApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavPut200Response),
-      ) as DevicesDavPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavPut200Response),
+            ) as DevicesDavPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -372,5 +387,4 @@ class WebDAVApi {
       extra: _response.extra,
     );
   }
-
 }

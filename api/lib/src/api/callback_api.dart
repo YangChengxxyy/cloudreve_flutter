@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -12,7 +11,6 @@ import 'package:cloudreve_api_client/src/api_util.dart';
 import 'package:cloudreve_api_client/src/model/callback_cos_session_id_key_get200_response.dart';
 
 class CallbackApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -34,7 +32,8 @@ class CallbackApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackCosSessionIdKeyGet({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackCosSessionIdKeyGet({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -44,7 +43,16 @@ class CallbackApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/cos/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/cos/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -69,11 +77,13 @@ class CallbackApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -111,7 +121,8 @@ class CallbackApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackObsSessionIdKeyPost({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackObsSessionIdKeyPost({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -121,7 +132,16 @@ class CallbackApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/obs/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/obs/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -146,11 +166,13 @@ class CallbackApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -188,7 +210,8 @@ class CallbackApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackOnedriveSessionIdKeyPost({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackOnedriveSessionIdKeyPost({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -198,7 +221,16 @@ class CallbackApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/onedrive/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/onedrive/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -223,11 +255,13 @@ class CallbackApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -265,7 +299,8 @@ class CallbackApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackS3SessionIdKeyGet({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackS3SessionIdKeyGet({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -275,7 +310,16 @@ class CallbackApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/s3/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/s3/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -300,11 +344,13 @@ class CallbackApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -326,5 +372,4 @@ class CallbackApi {
       extra: _response.extra,
     );
   }
-
 }

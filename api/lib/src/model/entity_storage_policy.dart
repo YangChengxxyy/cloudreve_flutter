@@ -27,34 +27,37 @@ part 'entity_storage_policy.g.dart';
 /// * [children] - Child storage policies, only presented if policy type equals `load_balance`.
 /// * [chunkConcurrency] - Number of threads to use for concurrent chunk uploading.
 @BuiltValue()
-abstract class EntityStoragePolicy implements Built<EntityStoragePolicy, EntityStoragePolicyBuilder> {
+abstract class EntityStoragePolicy
+    implements Built<EntityStoragePolicy, EntityStoragePolicyBuilder> {
   /// Any Of [StoragePolicy]
   AnyOf get anyOf;
 
   EntityStoragePolicy._();
 
-  factory EntityStoragePolicy([void updates(EntityStoragePolicyBuilder b)]) = _$EntityStoragePolicy;
+  factory EntityStoragePolicy([void updates(EntityStoragePolicyBuilder b)]) =
+      _$EntityStoragePolicy;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(EntityStoragePolicyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<EntityStoragePolicy> get serializer => _$EntityStoragePolicySerializer();
+  static Serializer<EntityStoragePolicy> get serializer =>
+      _$EntityStoragePolicySerializer();
 }
 
-class _$EntityStoragePolicySerializer implements PrimitiveSerializer<EntityStoragePolicy> {
+class _$EntityStoragePolicySerializer
+    implements PrimitiveSerializer<EntityStoragePolicy> {
   @override
-  final Iterable<Type> types = const [EntityStoragePolicy, _$EntityStoragePolicy];
+  final Iterable<Type> types = const [
+    EntityStoragePolicy,
+    _$EntityStoragePolicy
+  ];
 
   @override
   final String wireName = r'EntityStoragePolicy';
 
   Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    EntityStoragePolicy object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-  }
+      Serializers serializers, EntityStoragePolicy object) sync* {}
 
   @override
   Object serialize(
@@ -63,7 +66,9 @@ class _$EntityStoragePolicySerializer implements PrimitiveSerializer<EntityStora
     FullType specifiedType = FullType.unspecified,
   }) {
     final anyOf = object.anyOf;
-    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    return serializers.serialize(anyOf,
+        specifiedType: FullType(
+            AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
   }
 
   @override
@@ -74,54 +79,80 @@ class _$EntityStoragePolicySerializer implements PrimitiveSerializer<EntityStora
   }) {
     final result = EntityStoragePolicyBuilder();
     Object? anyOfDataSrc;
-    final targetType = const FullType(AnyOf, [FullType(StoragePolicy), FullType(StoragePolicy), ]);
+    final targetType = const FullType(AnyOf, [
+      FullType(StoragePolicy),
+      FullType(StoragePolicy),
+    ]);
     anyOfDataSrc = serialized;
-    result.anyOf = serializers.deserialize(anyOfDataSrc, specifiedType: targetType) as AnyOf;
+    result.anyOf = serializers.deserialize(anyOfDataSrc,
+        specifiedType: targetType) as AnyOf;
     return result.build();
   }
 }
 
 class EntityStoragePolicyTypeEnum extends EnumClass {
-
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'local')
-  static const EntityStoragePolicyTypeEnum local = _$entityStoragePolicyTypeEnum_local;
+  static const EntityStoragePolicyTypeEnum local =
+      _$entityStoragePolicyTypeEnum_local;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'qiniu')
-  static const EntityStoragePolicyTypeEnum qiniu = _$entityStoragePolicyTypeEnum_qiniu;
+  static const EntityStoragePolicyTypeEnum qiniu =
+      _$entityStoragePolicyTypeEnum_qiniu;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'upyun')
-  static const EntityStoragePolicyTypeEnum upyun = _$entityStoragePolicyTypeEnum_upyun;
+  static const EntityStoragePolicyTypeEnum upyun =
+      _$entityStoragePolicyTypeEnum_upyun;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'oss')
-  static const EntityStoragePolicyTypeEnum oss = _$entityStoragePolicyTypeEnum_oss;
+  static const EntityStoragePolicyTypeEnum oss =
+      _$entityStoragePolicyTypeEnum_oss;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'cos')
-  static const EntityStoragePolicyTypeEnum cos = _$entityStoragePolicyTypeEnum_cos;
+  static const EntityStoragePolicyTypeEnum cos =
+      _$entityStoragePolicyTypeEnum_cos;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r's3')
-  static const EntityStoragePolicyTypeEnum s3 = _$entityStoragePolicyTypeEnum_s3;
+  static const EntityStoragePolicyTypeEnum s3 =
+      _$entityStoragePolicyTypeEnum_s3;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'onedrive')
-  static const EntityStoragePolicyTypeEnum onedrive = _$entityStoragePolicyTypeEnum_onedrive;
+  static const EntityStoragePolicyTypeEnum onedrive =
+      _$entityStoragePolicyTypeEnum_onedrive;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'remote')
-  static const EntityStoragePolicyTypeEnum remote = _$entityStoragePolicyTypeEnum_remote;
+  static const EntityStoragePolicyTypeEnum remote =
+      _$entityStoragePolicyTypeEnum_remote;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'obs')
-  static const EntityStoragePolicyTypeEnum obs = _$entityStoragePolicyTypeEnum_obs;
+  static const EntityStoragePolicyTypeEnum obs =
+      _$entityStoragePolicyTypeEnum_obs;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'load_balance')
-  static const EntityStoragePolicyTypeEnum loadBalance = _$entityStoragePolicyTypeEnum_loadBalance;
+  static const EntityStoragePolicyTypeEnum loadBalance =
+      _$entityStoragePolicyTypeEnum_loadBalance;
+
   /// Storage provider type.
   @BuiltValueEnumConst(wireName: r'ks3')
-  static const EntityStoragePolicyTypeEnum ks3 = _$entityStoragePolicyTypeEnum_ks3;
+  static const EntityStoragePolicyTypeEnum ks3 =
+      _$entityStoragePolicyTypeEnum_ks3;
 
-  static Serializer<EntityStoragePolicyTypeEnum> get serializer => _$entityStoragePolicyTypeEnumSerializer;
+  static Serializer<EntityStoragePolicyTypeEnum> get serializer =>
+      _$entityStoragePolicyTypeEnumSerializer;
 
-  const EntityStoragePolicyTypeEnum._(String name): super(name);
+  const EntityStoragePolicyTypeEnum._(String name) : super(name);
 
-  static BuiltSet<EntityStoragePolicyTypeEnum> get values => _$entityStoragePolicyTypeEnumValues;
-  static EntityStoragePolicyTypeEnum valueOf(String name) => _$entityStoragePolicyTypeEnumValueOf(name);
+  static BuiltSet<EntityStoragePolicyTypeEnum> get values =>
+      _$entityStoragePolicyTypeEnumValues;
+  static EntityStoragePolicyTypeEnum valueOf(String name) =>
+      _$entityStoragePolicyTypeEnumValueOf(name);
 }
-

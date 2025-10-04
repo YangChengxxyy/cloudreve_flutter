@@ -8,7 +8,6 @@ import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:built_value/json_object.dart';
 import 'package:cloudreve_api_client/src/api_util.dart';
 import 'package:cloudreve_api_client/src/model/callback_cos_session_id_key_get200_response.dart';
 import 'package:cloudreve_api_client/src/model/file_lock_delete200_response.dart';
@@ -37,7 +36,6 @@ import 'package:cloudreve_api_client/src/model/user_reset_user_id_patch_request.
 import 'package:cloudreve_api_client/src/model/user_shares_user_id_get200_response.dart';
 
 class AuthNoneApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -59,7 +57,8 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackCosSessionIdKeyGet({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackCosSessionIdKeyGet({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -69,7 +68,16 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/cos/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/cos/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -94,11 +102,13 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -136,7 +146,8 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackObsSessionIdKeyPost({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackObsSessionIdKeyPost({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -146,7 +157,16 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/obs/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/obs/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -171,11 +191,13 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -213,7 +235,8 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackOnedriveSessionIdKeyPost({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackOnedriveSessionIdKeyPost({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -223,7 +246,16 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/onedrive/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/onedrive/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -248,11 +280,13 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -290,7 +324,8 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CallbackCosSessionIdKeyGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CallbackCosSessionIdKeyGet200Response>> callbackS3SessionIdKeyGet({ 
+  Future<Response<CallbackCosSessionIdKeyGet200Response>>
+      callbackS3SessionIdKeyGet({
     required String sessionId,
     required String key,
     CancelToken? cancelToken,
@@ -300,7 +335,16 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/callback/s3/{session_id}/{key}'.replaceAll('{' r'session_id' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
+    final _path = r'/callback/s3/{session_id}/{key}'
+        .replaceAll(
+            '{' r'session_id' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'key' '}',
+            encodeQueryParameter(_serializers, key, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -325,11 +369,13 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(CallbackCosSessionIdKeyGet200Response),
-      ) as CallbackCosSessionIdKeyGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(CallbackCosSessionIdKeyGet200Response),
+            ) as CallbackCosSessionIdKeyGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -356,7 +402,7 @@ class AuthNoneApi {
   /// If a file is locked by other user/application, file mutation might fail with errors like below:  &#x60;&#x60;&#x60;json {     \&quot;code\&quot;: 40073,     \&quot;data\&quot;: [         {             \&quot;path\&quot;: \&quot;cloudreve://my/newdfox.docx\&quot;,             \&quot;token\&quot;: \&quot;cool-lock0a4b4f68\&quot;,             \&quot;owner\&quot;: {                 \&quot;owner\&quot;: \&quot;bnUn\&quot;,                 \&quot;application\&quot;: {                     \&quot;type\&quot;: \&quot;viewer\&quot;,                     \&quot;viewer_id\&quot;: \&quot;af01b85b-f57d-46d2-8ad6-1d9b96548e78\&quot;                 }             },             \&quot;type\&quot;: 0         }     ],     \&quot;msg\&quot;: \&quot;Lock conflict\&quot;,     \&quot;error\&quot;: \&quot;conflict with locked resource: \\\&quot;cloudreve://my/newdfox.docx\\\&quot;\&quot;,     \&quot;correlation_id\&quot;: \&quot;64210cda-5bd1-4fe1-9102-77b86f768395\&quot; } &#x60;&#x60;&#x60; The lock token &#x60;cool-lock0a4b4f68&#x60; in above example is only visable to file owners. This method can be used to force unlock files if the file owners wish to do so.
   ///
   /// Parameters:
-  /// * [fileLockDeleteRequest] 
+  /// * [fileLockDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -366,7 +412,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileLockDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileLockDelete200Response>> fileLockDelete({ 
+  Future<Response<FileLockDelete200Response>> fileLockDelete({
     FileLockDeleteRequest? fileLockDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -393,11 +439,12 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(FileLockDeleteRequest);
-      _bodyData = fileLockDeleteRequest == null ? null : _serializers.serialize(fileLockDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileLockDeleteRequest == null
+          ? null
+          : _serializers.serialize(fileLockDeleteRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -420,11 +467,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileLockDelete200Response),
-      ) as FileLockDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileLockDelete200Response),
+            ) as FileLockDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -448,10 +496,10 @@ class AuthNoneApi {
   }
 
   /// Finish Passkey sign-in
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [sessionAuthnPostRequest] 
+  /// * [sessionAuthnPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -461,7 +509,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionAuthnPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionAuthnPost200Response>> sessionAuthnPost({ 
+  Future<Response<SessionAuthnPost200Response>> sessionAuthnPost({
     SessionAuthnPostRequest? sessionAuthnPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -488,11 +536,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(SessionAuthnPostRequest);
-      _bodyData = sessionAuthnPostRequest == null ? null : _serializers.serialize(sessionAuthnPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionAuthnPostRequest == null
+          ? null
+          : _serializers.serialize(sessionAuthnPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -515,11 +565,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionAuthnPost200Response),
-      ) as SessionAuthnPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionAuthnPost200Response),
+            ) as SessionAuthnPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -555,7 +606,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionAuthnPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionAuthnPut200Response>> sessionAuthnPut({ 
+  Future<Response<SessionAuthnPut200Response>> sessionAuthnPut({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -588,11 +639,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionAuthnPut200Response),
-      ) as SessionAuthnPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionAuthnPut200Response),
+            ) as SessionAuthnPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -619,7 +671,7 @@ class AuthNoneApi {
   /// After user sign in via the URL obtained from [Prepare OpenID Sign-in](https://cloudrevev4.apifox.cn/prepare-openid-sign-in-289505034e0.md), request this to notify Cloudreve the result.
   ///
   /// Parameters:
-  /// * [sessionOpenidPostRequest] 
+  /// * [sessionOpenidPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -629,7 +681,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionOpenidPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionOpenidPost200Response>> sessionOpenidPost({ 
+  Future<Response<SessionOpenidPost200Response>> sessionOpenidPost({
     SessionOpenidPostRequest? sessionOpenidPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -656,11 +708,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(SessionOpenidPostRequest);
-      _bodyData = sessionOpenidPostRequest == null ? null : _serializers.serialize(sessionOpenidPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionOpenidPostRequest == null
+          ? null
+          : _serializers.serialize(sessionOpenidPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -683,11 +737,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionOpenidPost200Response),
-      ) as SessionOpenidPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionOpenidPost200Response),
+            ) as SessionOpenidPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -724,7 +779,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionPrepareGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionPrepareGet200Response>> sessionPrepareGet({ 
+  Future<Response<SessionPrepareGet200Response>> sessionPrepareGet({
     required String email,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -747,7 +802,8 @@ class AuthNoneApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'email': encodeQueryParameter(_serializers, email, const FullType(String)),
+      r'email':
+          encodeQueryParameter(_serializers, email, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -763,11 +819,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionPrepareGet200Response),
-      ) as SessionPrepareGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionPrepareGet200Response),
+            ) as SessionPrepareGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -794,7 +851,7 @@ class AuthNoneApi {
   /// After [Password Login](https://cloudrevev4.apifox.cn/password-sign-in-289490586e0.md), if 2FA is required, this API is used to finish 2FA challenge and obtain a pair of token.
   ///
   /// Parameters:
-  /// * [sessionToken2faPostRequest] 
+  /// * [sessionToken2faPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -804,7 +861,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionToken2faPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionToken2faPost200Response>> sessionToken2faPost({ 
+  Future<Response<SessionToken2faPost200Response>> sessionToken2faPost({
     SessionToken2faPostRequest? sessionToken2faPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -831,11 +888,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(SessionToken2faPostRequest);
-      _bodyData = sessionToken2faPostRequest == null ? null : _serializers.serialize(sessionToken2faPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionToken2faPostRequest == null
+          ? null
+          : _serializers.serialize(sessionToken2faPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -858,11 +917,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionToken2faPost200Response),
-      ) as SessionToken2faPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionToken2faPost200Response),
+            ) as SessionToken2faPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -889,7 +949,7 @@ class AuthNoneApi {
   /// Sign out current session and revoke the refresh token. All refresh tokens issued from the root token will be revoked. For SSO sign in sessions, this method also give the redirect URL from SSO side to sign out its session.
   ///
   /// Parameters:
-  /// * [sessionTokenDeleteRequest] 
+  /// * [sessionTokenDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -899,7 +959,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionTokenDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionTokenDelete200Response>> sessionTokenDelete({ 
+  Future<Response<SessionTokenDelete200Response>> sessionTokenDelete({
     SessionTokenDeleteRequest? sessionTokenDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -926,11 +986,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(SessionTokenDeleteRequest);
-      _bodyData = sessionTokenDeleteRequest == null ? null : _serializers.serialize(sessionTokenDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionTokenDeleteRequest == null
+          ? null
+          : _serializers.serialize(sessionTokenDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -953,11 +1015,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionTokenDelete200Response),
-      ) as SessionTokenDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionTokenDelete200Response),
+            ) as SessionTokenDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -981,10 +1044,10 @@ class AuthNoneApi {
   }
 
   /// Password sign-in
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [sessionTokenPostRequest] 
+  /// * [sessionTokenPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -994,7 +1057,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionTokenPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionTokenPost200Response>> sessionTokenPost({ 
+  Future<Response<SessionTokenPost200Response>> sessionTokenPost({
     SessionTokenPostRequest? sessionTokenPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1021,11 +1084,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(SessionTokenPostRequest);
-      _bodyData = sessionTokenPostRequest == null ? null : _serializers.serialize(sessionTokenPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionTokenPostRequest == null
+          ? null
+          : _serializers.serialize(sessionTokenPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1048,11 +1113,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionTokenPost200Response),
-      ) as SessionTokenPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionTokenPost200Response),
+            ) as SessionTokenPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1079,7 +1145,7 @@ class AuthNoneApi {
   /// Refresh access token with a valid refresh token.
   ///
   /// Parameters:
-  /// * [sessionTokenDeleteRequest] 
+  /// * [sessionTokenDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1089,7 +1155,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionTokenRefreshPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionTokenRefreshPost200Response>> sessionTokenRefreshPost({ 
+  Future<Response<SessionTokenRefreshPost200Response>> sessionTokenRefreshPost({
     SessionTokenDeleteRequest? sessionTokenDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1116,11 +1182,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(SessionTokenDeleteRequest);
-      _bodyData = sessionTokenDeleteRequest == null ? null : _serializers.serialize(sessionTokenDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionTokenDeleteRequest == null
+          ? null
+          : _serializers.serialize(sessionTokenDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1143,11 +1211,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionTokenRefreshPost200Response),
-      ) as SessionTokenRefreshPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionTokenRefreshPost200Response),
+            ) as SessionTokenRefreshPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1183,7 +1252,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteCaptchaGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteCaptchaGet200Response>> siteCaptchaGet({ 
+  Future<Response<SiteCaptchaGet200Response>> siteCaptchaGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1216,11 +1285,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteCaptchaGet200Response),
-      ) as SiteCaptchaGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteCaptchaGet200Response),
+            ) as SiteCaptchaGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1256,7 +1326,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SitePingGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SitePingGet200Response>> sitePingGet({ 
+  Future<Response<SitePingGet200Response>> sitePingGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1289,11 +1359,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SitePingGet200Response),
-      ) as SitePingGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SitePingGet200Response),
+            ) as SitePingGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1331,7 +1402,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [JsonObject] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<JsonObject>> userAvatarUserIdGet({ 
+  Future<Response<JsonObject>> userAvatarUserIdGet({
     required String userId,
     bool? nocache,
     CancelToken? cancelToken,
@@ -1341,7 +1412,10 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/avatar/{user_id}'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/user/avatar/{user_id}'.replaceAll(
+        '{' r'user_id' '}',
+        encodeQueryParameter(_serializers, userId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1355,7 +1429,9 @@ class AuthNoneApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (nocache != null) r'nocache': encodeQueryParameter(_serializers, nocache, const FullType(bool)),
+      if (nocache != null)
+        r'nocache':
+            encodeQueryParameter(_serializers, nocache, const FullType(bool)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1371,11 +1447,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(JsonObject),
-      ) as JsonObject;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(JsonObject),
+            ) as JsonObject;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1399,10 +1476,10 @@ class AuthNoneApi {
   }
 
   /// Sign up
-  /// Create a new account from given email and password. 
+  /// Create a new account from given email and password.
   ///
   /// Parameters:
-  /// * [userPostRequest] 
+  /// * [userPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1412,7 +1489,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserPost200Response>> userPost({ 
+  Future<Response<UserPost200Response>> userPost({
     UserPostRequest? userPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1439,11 +1516,12 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(UserPostRequest);
-      _bodyData = userPostRequest == null ? null : _serializers.serialize(userPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userPostRequest == null
+          ? null
+          : _serializers.serialize(userPostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1466,11 +1544,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserPost200Response),
-      ) as UserPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserPost200Response),
+            ) as UserPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1497,7 +1576,7 @@ class AuthNoneApi {
   /// Send a email for an existing account to reset the password.
   ///
   /// Parameters:
-  /// * [userResetPostRequest] 
+  /// * [userResetPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1507,7 +1586,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserResetPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserResetPost200Response>> userResetPost({ 
+  Future<Response<UserResetPost200Response>> userResetPost({
     UserResetPostRequest? userResetPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1534,11 +1613,12 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(UserResetPostRequest);
-      _bodyData = userResetPostRequest == null ? null : _serializers.serialize(userResetPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userResetPostRequest == null
+          ? null
+          : _serializers.serialize(userResetPostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1561,11 +1641,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserResetPost200Response),
-      ) as UserResetPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserResetPost200Response),
+            ) as UserResetPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1592,8 +1673,8 @@ class AuthNoneApi {
   /// Reset account password using the &#x60;secret&#x60; included in the temp URl from the Email sent by [Send reset password email](https://cloudrevev4.apifox.cn/send-reset-password-email-289518969e0.md).
   ///
   /// Parameters:
-  /// * [userId] - 
-  /// * [userResetUserIdPatchRequest] 
+  /// * [userId] -
+  /// * [userResetUserIdPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1603,7 +1684,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserResetUserIdPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserResetUserIdPatch200Response>> userResetUserIdPatch({ 
+  Future<Response<UserResetUserIdPatch200Response>> userResetUserIdPatch({
     required String userId,
     UserResetUserIdPatchRequest? userResetUserIdPatchRequest,
     CancelToken? cancelToken,
@@ -1613,7 +1694,10 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/reset/{user_id}'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/user/reset/{user_id}'.replaceAll(
+        '{' r'user_id' '}',
+        encodeQueryParameter(_serializers, userId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -1631,11 +1715,13 @@ class AuthNoneApi {
 
     try {
       const _type = FullType(UserResetUserIdPatchRequest);
-      _bodyData = userResetUserIdPatchRequest == null ? null : _serializers.serialize(userResetUserIdPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userResetUserIdPatchRequest == null
+          ? null
+          : _serializers.serialize(userResetUserIdPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1658,11 +1744,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserResetUserIdPatch200Response),
-      ) as UserResetUserIdPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserResetUserIdPatch200Response),
+            ) as UserResetUserIdPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1692,7 +1779,7 @@ class AuthNoneApi {
   /// * [userId] - ID of the user.
   /// * [pageSize] - Page size.
   /// * [orderBy] - Field name for ordering.
-  /// * [orderDirection] - 
+  /// * [orderDirection] -
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -1703,7 +1790,7 @@ class AuthNoneApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSharesUserIdGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSharesUserIdGet200Response>> userSharesUserIdGet({ 
+  Future<Response<UserSharesUserIdGet200Response>> userSharesUserIdGet({
     required String userId,
     required int pageSize,
     String? orderBy = 'id',
@@ -1716,7 +1803,10 @@ class AuthNoneApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/shares/{user-id}'.replaceAll('{' r'user-id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/user/shares/{user-id}'.replaceAll(
+        '{' r'user-id' '}',
+        encodeQueryParameter(_serializers, userId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1730,10 +1820,17 @@ class AuthNoneApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (orderBy != null) r'order_by': encodeQueryParameter(_serializers, orderBy, const FullType(String)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (orderBy != null)
+        r'order_by':
+            encodeQueryParameter(_serializers, orderBy, const FullType(String)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1749,11 +1846,12 @@ class AuthNoneApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSharesUserIdGet200Response),
-      ) as UserSharesUserIdGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSharesUserIdGet200Response),
+            ) as UserSharesUserIdGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1775,5 +1873,4 @@ class AuthNoneApi {
       extra: _response.extra,
     );
   }
-
 }

@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -16,7 +15,6 @@ import 'package:cloudreve_api_client/src/model/workflow_download_task_id_patch20
 import 'package:cloudreve_api_client/src/model/workflow_download_task_id_patch_request.dart';
 
 class WorkflowRemoteDownloadApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -27,7 +25,7 @@ class WorkflowRemoteDownloadApi {
   /// Create a remote download task.
   ///
   /// Parameters:
-  /// * [workflowDownloadPostRequest] 
+  /// * [workflowDownloadPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -37,7 +35,7 @@ class WorkflowRemoteDownloadApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowDownloadPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowDownloadPost200Response>> workflowDownloadPost({ 
+  Future<Response<WorkflowDownloadPost200Response>> workflowDownloadPost({
     WorkflowDownloadPostRequest? workflowDownloadPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -64,11 +62,13 @@ class WorkflowRemoteDownloadApi {
 
     try {
       const _type = FullType(WorkflowDownloadPostRequest);
-      _bodyData = workflowDownloadPostRequest == null ? null : _serializers.serialize(workflowDownloadPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowDownloadPostRequest == null
+          ? null
+          : _serializers.serialize(workflowDownloadPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -91,11 +91,12 @@ class WorkflowRemoteDownloadApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowDownloadPost200Response),
-      ) as WorkflowDownloadPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowDownloadPost200Response),
+            ) as WorkflowDownloadPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -132,7 +133,8 @@ class WorkflowRemoteDownloadApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowDownloadTaskIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowDownloadTaskIdDelete200Response>> workflowDownloadTaskIdDelete({ 
+  Future<Response<WorkflowDownloadTaskIdDelete200Response>>
+      workflowDownloadTaskIdDelete({
     required String taskId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -141,7 +143,10 @@ class WorkflowRemoteDownloadApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/workflow/download/{task_id}'.replaceAll('{' r'task_id' '}', encodeQueryParameter(_serializers, taskId, const FullType(String)).toString());
+    final _path = r'/workflow/download/{task_id}'.replaceAll(
+        '{' r'task_id' '}',
+        encodeQueryParameter(_serializers, taskId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -166,11 +171,13 @@ class WorkflowRemoteDownloadApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowDownloadTaskIdDelete200Response),
-      ) as WorkflowDownloadTaskIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(WorkflowDownloadTaskIdDelete200Response),
+            ) as WorkflowDownloadTaskIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -198,7 +205,7 @@ class WorkflowRemoteDownloadApi {
   ///
   /// Parameters:
   /// * [taskId] - ID of the remote download tasks.
-  /// * [workflowDownloadTaskIdPatchRequest] 
+  /// * [workflowDownloadTaskIdPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -208,7 +215,8 @@ class WorkflowRemoteDownloadApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowDownloadTaskIdPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowDownloadTaskIdPatch200Response>> workflowDownloadTaskIdPatch({ 
+  Future<Response<WorkflowDownloadTaskIdPatch200Response>>
+      workflowDownloadTaskIdPatch({
     required String taskId,
     WorkflowDownloadTaskIdPatchRequest? workflowDownloadTaskIdPatchRequest,
     CancelToken? cancelToken,
@@ -218,7 +226,10 @@ class WorkflowRemoteDownloadApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/workflow/download/{task_id}'.replaceAll('{' r'task_id' '}', encodeQueryParameter(_serializers, taskId, const FullType(String)).toString());
+    final _path = r'/workflow/download/{task_id}'.replaceAll(
+        '{' r'task_id' '}',
+        encodeQueryParameter(_serializers, taskId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -236,11 +247,13 @@ class WorkflowRemoteDownloadApi {
 
     try {
       const _type = FullType(WorkflowDownloadTaskIdPatchRequest);
-      _bodyData = workflowDownloadTaskIdPatchRequest == null ? null : _serializers.serialize(workflowDownloadTaskIdPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowDownloadTaskIdPatchRequest == null
+          ? null
+          : _serializers.serialize(workflowDownloadTaskIdPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -263,11 +276,13 @@ class WorkflowRemoteDownloadApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowDownloadTaskIdPatch200Response),
-      ) as WorkflowDownloadTaskIdPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(WorkflowDownloadTaskIdPatch200Response),
+            ) as WorkflowDownloadTaskIdPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -289,5 +304,4 @@ class WorkflowRemoteDownloadApi {
       extra: _response.extra,
     );
   }
-
 }

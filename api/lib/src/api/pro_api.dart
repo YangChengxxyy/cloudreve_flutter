@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -35,7 +34,6 @@ import 'package:cloudreve_api_client/src/model/workflow_reloacte_post200_respons
 import 'package:cloudreve_api_client/src/model/workflow_reloacte_post_request.dart';
 
 class ProApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -43,7 +41,7 @@ class ProApi {
   const ProApi(this._dio, this._serializers);
 
   /// List file activities
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [uri] - [URI](https://docs.cloudreve.org/api/file-uri) of the file.
@@ -61,7 +59,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileActivitiesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileActivitiesGet200Response>> fileActivitiesGet({ 
+  Future<Response<FileActivitiesGet200Response>> fileActivitiesGet({
     required String uri,
     required int pageSize,
     String? orderDirection = 'asc',
@@ -79,7 +77,8 @@ class ProApi {
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -91,10 +90,17 @@ class ProApi {
 
     final _queryParameters = <String, dynamic>{
       r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
-      if (filter != null) r'filter': encodeQueryParameter(_serializers, filter, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
+      if (filter != null)
+        r'filter':
+            encodeQueryParameter(_serializers, filter, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -110,11 +116,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileActivitiesGet200Response),
-      ) as FileActivitiesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileActivitiesGet200Response),
+            ) as FileActivitiesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -141,7 +148,7 @@ class ProApi {
   /// Clear existing permission setting of target files, whose permission settings will be inherited from parent after this action. Only owner of the file or administrators can perform this action.
   ///
   /// Parameters:
-  /// * [filePermissionDeleteRequest] 
+  /// * [filePermissionDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -151,7 +158,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePermissionDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePermissionDelete200Response>> filePermissionDelete({ 
+  Future<Response<FilePermissionDelete200Response>> filePermissionDelete({
     FilePermissionDeleteRequest? filePermissionDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -178,11 +185,13 @@ class ProApi {
 
     try {
       const _type = FullType(FilePermissionDeleteRequest);
-      _bodyData = filePermissionDeleteRequest == null ? null : _serializers.serialize(filePermissionDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePermissionDeleteRequest == null
+          ? null
+          : _serializers.serialize(filePermissionDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -205,11 +214,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePermissionDelete200Response),
-      ) as FilePermissionDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePermissionDelete200Response),
+            ) as FilePermissionDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -236,7 +246,7 @@ class ProApi {
   /// Set file permissions. Only owner of the file or administrators can perform this action.
   ///
   /// Parameters:
-  /// * [filePermissionPostRequest] 
+  /// * [filePermissionPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -246,7 +256,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePermissionPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePermissionPost200Response>> filePermissionPost({ 
+  Future<Response<FilePermissionPost200Response>> filePermissionPost({
     FilePermissionPostRequest? filePermissionPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -273,11 +283,13 @@ class ProApi {
 
     try {
       const _type = FullType(FilePermissionPostRequest);
-      _bodyData = filePermissionPostRequest == null ? null : _serializers.serialize(filePermissionPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePermissionPostRequest == null
+          ? null
+          : _serializers.serialize(filePermissionPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -300,11 +312,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePermissionPost200Response),
-      ) as FilePermissionPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePermissionPost200Response),
+            ) as FilePermissionPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -340,7 +353,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [GroupListGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<GroupListGet200Response>> groupListGet({ 
+  Future<Response<GroupListGet200Response>> groupListGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -373,11 +386,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(GroupListGet200Response),
-      ) as GroupListGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(GroupListGet200Response),
+            ) as GroupListGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -404,7 +418,7 @@ class ProApi {
   /// After user sign in via the URL obtained from [Prepare OpenID Sign-in](https://cloudrevev4.apifox.cn/prepare-openid-sign-in-289505034e0.md), request this to notify Cloudreve the result.
   ///
   /// Parameters:
-  /// * [sessionOpenidPostRequest] 
+  /// * [sessionOpenidPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -414,7 +428,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionOpenidPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionOpenidPost200Response>> sessionOpenidPost({ 
+  Future<Response<SessionOpenidPost200Response>> sessionOpenidPost({
     SessionOpenidPostRequest? sessionOpenidPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -441,11 +455,13 @@ class ProApi {
 
     try {
       const _type = FullType(SessionOpenidPostRequest);
-      _bodyData = sessionOpenidPostRequest == null ? null : _serializers.serialize(sessionOpenidPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionOpenidPostRequest == null
+          ? null
+          : _serializers.serialize(sessionOpenidPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -468,11 +484,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionOpenidPost200Response),
-      ) as SessionOpenidPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionOpenidPost200Response),
+            ) as SessionOpenidPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -499,7 +516,7 @@ class ProApi {
   /// Unlink an OpenID account from a Cloudreve account.
   ///
   /// Parameters:
-  /// * [providerId] - 
+  /// * [providerId] -
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -509,7 +526,8 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionOpenidProviderIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionOpenidProviderIdDelete200Response>> sessionOpenidProviderIdDelete({ 
+  Future<Response<SessionOpenidProviderIdDelete200Response>>
+      sessionOpenidProviderIdDelete({
     required int providerId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -518,7 +536,10 @@ class ProApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/session/openid/{provider_id}'.replaceAll('{' r'provider_id' '}', encodeQueryParameter(_serializers, providerId, const FullType(int)).toString());
+    final _path = r'/session/openid/{provider_id}'.replaceAll(
+        '{' r'provider_id' '}',
+        encodeQueryParameter(_serializers, providerId, const FullType(int))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -543,11 +564,13 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionOpenidProviderIdDelete200Response),
-      ) as SessionOpenidProviderIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(SessionOpenidProviderIdDelete200Response),
+            ) as SessionOpenidProviderIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -574,7 +597,7 @@ class ProApi {
   /// Preapre a social connector sign in, can be used to sign in Cloudreve account, or link existing account with a social connector account. * For signing in with social connector, authorization is not required. * For account linking, authorization is required for a valid logged-in user.
   ///
   /// Parameters:
-  /// * [sessionOpenidPutRequest] 
+  /// * [sessionOpenidPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -584,7 +607,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionOpenidPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionOpenidPut200Response>> sessionOpenidPut({ 
+  Future<Response<SessionOpenidPut200Response>> sessionOpenidPut({
     SessionOpenidPutRequest? sessionOpenidPutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -611,11 +634,13 @@ class ProApi {
 
     try {
       const _type = FullType(SessionOpenidPutRequest);
-      _bodyData = sessionOpenidPutRequest == null ? null : _serializers.serialize(sessionOpenidPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionOpenidPutRequest == null
+          ? null
+          : _serializers.serialize(sessionOpenidPutRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -638,11 +663,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionOpenidPut200Response),
-      ) as SessionOpenidPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionOpenidPut200Response),
+            ) as SessionOpenidPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -669,7 +695,7 @@ class ProApi {
   /// Report abuse on share links or users.
   ///
   /// Parameters:
-  /// * [siteAbusePostRequest] 
+  /// * [siteAbusePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -679,7 +705,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteAbusePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteAbusePost200Response>> siteAbusePost({ 
+  Future<Response<SiteAbusePost200Response>> siteAbusePost({
     SiteAbusePostRequest? siteAbusePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -706,11 +732,12 @@ class ProApi {
 
     try {
       const _type = FullType(SiteAbusePostRequest);
-      _bodyData = siteAbusePostRequest == null ? null : _serializers.serialize(siteAbusePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = siteAbusePostRequest == null
+          ? null
+          : _serializers.serialize(siteAbusePostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -733,11 +760,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteAbusePost200Response),
-      ) as SiteAbusePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteAbusePost200Response),
+            ) as SiteAbusePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -761,11 +789,11 @@ class ProApi {
   }
 
   /// List credit changes
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pageSize] - Page size.
-  /// * [orderDirection] - 
+  /// * [orderDirection] -
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -776,7 +804,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserCreditChangesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserCreditChangesGet200Response>> userCreditChangesGet({ 
+  Future<Response<UserCreditChangesGet200Response>> userCreditChangesGet({
     required num pageSize,
     String? orderDirection = 'asc',
     String? nextPageToken,
@@ -801,9 +829,14 @@ class ProApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(num)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(num)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -819,11 +852,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserCreditChangesGet200Response),
-      ) as UserCreditChangesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserCreditChangesGet200Response),
+            ) as UserCreditChangesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -847,11 +881,11 @@ class ProApi {
   }
 
   /// List payments
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pageSize] - Page size.
-  /// * [orderDirection] - 
+  /// * [orderDirection] -
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -862,7 +896,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserPaymentsGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserPaymentsGet200Response>> userPaymentsGet({ 
+  Future<Response<UserPaymentsGet200Response>> userPaymentsGet({
     required num pageSize,
     String? orderDirection = 'asc',
     String? nextPageToken,
@@ -887,9 +921,14 @@ class ProApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(num)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(num)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -905,11 +944,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserPaymentsGet200Response),
-      ) as UserPaymentsGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserPaymentsGet200Response),
+            ) as UserPaymentsGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -945,7 +985,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingNodesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingNodesGet200Response>> userSettingNodesGet({ 
+  Future<Response<UserSettingNodesGet200Response>> userSettingNodesGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -978,11 +1018,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingNodesGet200Response),
-      ) as UserSettingNodesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingNodesGet200Response),
+            ) as UserSettingNodesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1018,7 +1059,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingPoliciesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingPoliciesGet200Response>> userSettingPoliciesGet({ 
+  Future<Response<UserSettingPoliciesGet200Response>> userSettingPoliciesGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1051,11 +1092,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingPoliciesGet200Response),
-      ) as UserSettingPoliciesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingPoliciesGet200Response),
+            ) as UserSettingPoliciesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1092,7 +1134,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasGiftcodeCodeGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasGiftcodeCodeGet200Response>> vasGiftcodeCodeGet({ 
+  Future<Response<VasGiftcodeCodeGet200Response>> vasGiftcodeCodeGet({
     required String code,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1101,7 +1143,10 @@ class ProApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/giftcode/{code}'.replaceAll('{' r'code' '}', encodeQueryParameter(_serializers, code, const FullType(String)).toString());
+    final _path = r'/vas/giftcode/{code}'.replaceAll(
+        '{' r'code' '}',
+        encodeQueryParameter(_serializers, code, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1126,11 +1171,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasGiftcodeCodeGet200Response),
-      ) as VasGiftcodeCodeGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(VasGiftcodeCodeGet200Response),
+            ) as VasGiftcodeCodeGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1154,7 +1200,7 @@ class ProApi {
   }
 
   /// Redeem gift code
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [code] - Gift code.
@@ -1167,7 +1213,8 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasGiftcodeCodeRedeemPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasGiftcodeCodeRedeemPost200Response>> vasGiftcodeCodeRedeemPost({ 
+  Future<Response<VasGiftcodeCodeRedeemPost200Response>>
+      vasGiftcodeCodeRedeemPost({
     required String code,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1176,7 +1223,10 @@ class ProApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/giftcode/{code}/redeem'.replaceAll('{' r'code' '}', encodeQueryParameter(_serializers, code, const FullType(String)).toString());
+    final _path = r'/vas/giftcode/{code}/redeem'.replaceAll(
+        '{' r'code' '}',
+        encodeQueryParameter(_serializers, code, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -1201,11 +1251,13 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasGiftcodeCodeRedeemPost200Response),
-      ) as VasGiftcodeCodeRedeemPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(VasGiftcodeCodeRedeemPost200Response),
+            ) as VasGiftcodeCodeRedeemPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1232,7 +1284,7 @@ class ProApi {
   /// Create a payment for given product.
   ///
   /// Parameters:
-  /// * [vasPaymentPutRequest] 
+  /// * [vasPaymentPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1242,7 +1294,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasPaymentPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasPaymentPut200Response>> vasPaymentPut({ 
+  Future<Response<VasPaymentPut200Response>> vasPaymentPut({
     VasPaymentPutRequest? vasPaymentPutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1269,11 +1321,12 @@ class ProApi {
 
     try {
       const _type = FullType(VasPaymentPutRequest);
-      _bodyData = vasPaymentPutRequest == null ? null : _serializers.serialize(vasPaymentPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = vasPaymentPutRequest == null
+          ? null
+          : _serializers.serialize(vasPaymentPutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1296,11 +1349,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasPaymentPut200Response),
-      ) as VasPaymentPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(VasPaymentPut200Response),
+            ) as VasPaymentPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1324,7 +1378,7 @@ class ProApi {
   }
 
   /// Get payment status
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the payment.
@@ -1338,7 +1392,8 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasPaymentStatusIdTradeNoGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasPaymentStatusIdTradeNoGet200Response>> vasPaymentStatusIdTradeNoGet({ 
+  Future<Response<VasPaymentStatusIdTradeNoGet200Response>>
+      vasPaymentStatusIdTradeNoGet({
     required String id,
     required String tradeNo,
     CancelToken? cancelToken,
@@ -1348,7 +1403,15 @@ class ProApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/payment/status/{id}/{trade_no}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString()).replaceAll('{' r'trade_no' '}', encodeQueryParameter(_serializers, tradeNo, const FullType(String)).toString());
+    final _path = r'/vas/payment/status/{id}/{trade_no}'
+        .replaceAll(
+            '{' r'id' '}',
+            encodeQueryParameter(_serializers, id, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'trade_no' '}',
+            encodeQueryParameter(_serializers, tradeNo, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -1373,11 +1436,13 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasPaymentStatusIdTradeNoGet200Response),
-      ) as VasPaymentStatusIdTradeNoGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(VasPaymentStatusIdTradeNoGet200Response),
+            ) as VasPaymentStatusIdTradeNoGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1404,7 +1469,7 @@ class ProApi {
   /// Create a task to relocate storage policy for given files.
   ///
   /// Parameters:
-  /// * [workflowReloactePostRequest] 
+  /// * [workflowReloactePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1414,7 +1479,7 @@ class ProApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowReloactePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowReloactePost200Response>> workflowReloactePost({ 
+  Future<Response<WorkflowReloactePost200Response>> workflowReloactePost({
     WorkflowReloactePostRequest? workflowReloactePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1441,11 +1506,13 @@ class ProApi {
 
     try {
       const _type = FullType(WorkflowReloactePostRequest);
-      _bodyData = workflowReloactePostRequest == null ? null : _serializers.serialize(workflowReloactePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowReloactePostRequest == null
+          ? null
+          : _serializers.serialize(workflowReloactePostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1468,11 +1535,12 @@ class ProApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowReloactePost200Response),
-      ) as WorkflowReloactePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowReloactePost200Response),
+            ) as WorkflowReloactePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1494,5 +1562,4 @@ class ProApi {
       extra: _response.extra,
     );
   }
-
 }

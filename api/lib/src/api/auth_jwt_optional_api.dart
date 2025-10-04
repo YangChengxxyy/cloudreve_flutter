@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -49,7 +48,6 @@ import 'package:cloudreve_api_client/src/model/vas_payment_put_request.dart';
 import 'package:cloudreve_api_client/src/model/vas_payment_status_id_trade_no_get200_response.dart';
 
 class AuthJWTOptionalApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -57,7 +55,7 @@ class AuthJWTOptionalApi {
   const AuthJWTOptionalApi(this._dio, this._serializers);
 
   /// List file activities
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [uri] - [URI](https://docs.cloudreve.org/api/file-uri) of the file.
@@ -75,7 +73,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileActivitiesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileActivitiesGet200Response>> fileActivitiesGet({ 
+  Future<Response<FileActivitiesGet200Response>> fileActivitiesGet({
     required String uri,
     required int pageSize,
     String? orderDirection = 'asc',
@@ -93,7 +91,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -105,10 +104,17 @@ class AuthJWTOptionalApi {
 
     final _queryParameters = <String, dynamic>{
       r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
-      if (filter != null) r'filter': encodeQueryParameter(_serializers, filter, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
+      if (filter != null)
+        r'filter':
+            encodeQueryParameter(_serializers, filter, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -124,11 +130,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileActivitiesGet200Response),
-      ) as FileActivitiesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileActivitiesGet200Response),
+            ) as FileActivitiesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -166,7 +173,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileArchiveGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileArchiveGet200Response>> fileArchiveGet({ 
+  Future<Response<FileArchiveGet200Response>> fileArchiveGet({
     required String uri,
     String? entity,
     CancelToken? cancelToken,
@@ -191,7 +198,8 @@ class AuthJWTOptionalApi {
 
     final _queryParameters = <String, dynamic>{
       r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      r'entity': encodeQueryParameter(_serializers, entity, const FullType(String)),
+      r'entity':
+          encodeQueryParameter(_serializers, entity, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -207,11 +215,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileArchiveGet200Response),
-      ) as FileArchiveGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileArchiveGet200Response),
+            ) as FileArchiveGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -240,9 +249,9 @@ class AuthJWTOptionalApi {
   /// Parameters:
   /// * [uri] - [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   /// * [contentLength] - Length of the request body.
-  /// * [previous] - Previous version ID that the client side is aware of. Similar to `If-Match` in HTTP reuqest, if this field is set: - If the file version matches, update will be performed; - If latest file version does not match this value, conflict error will be raised. 
+  /// * [previous] - Previous version ID that the client side is aware of. Similar to `If-Match` in HTTP reuqest, if this field is set: - If the file version matches, update will be performed; - If latest file version does not match this value, conflict error will be raised.
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [body] 
+  /// * [body]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -252,7 +261,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileContentPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileContentPut200Response>> fileContentPut({ 
+  Future<Response<FileContentPut200Response>> fileContentPut({
     required String uri,
     required int contentLength,
     String? previous,
@@ -270,7 +279,8 @@ class AuthJWTOptionalApi {
       method: r'PUT',
       headers: <String, dynamic>{
         r'Content-Length': contentLength,
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -283,17 +293,18 @@ class AuthJWTOptionalApi {
 
     final _queryParameters = <String, dynamic>{
       r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      if (previous != null) r'previous': encodeQueryParameter(_serializers, previous, const FullType(String)),
+      if (previous != null)
+        r'previous': encodeQueryParameter(
+            _serializers, previous, const FullType(String)),
     };
 
     dynamic _bodyData;
 
     try {
       _bodyData = body?.finalize();
-
-    } catch(error, stackTrace) {
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
@@ -318,11 +329,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileContentPut200Response),
-      ) as FileContentPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileContentPut200Response),
+            ) as FileContentPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -350,7 +362,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileCreatePostRequest] 
+  /// * [fileCreatePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -360,7 +372,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileCreatePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileCreatePost200Response>> fileCreatePost({ 
+  Future<Response<FileCreatePost200Response>> fileCreatePost({
     String? xCrPurchaseTicket,
     FileCreatePostRequest? fileCreatePostRequest,
     CancelToken? cancelToken,
@@ -374,7 +386,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -389,11 +402,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileCreatePostRequest);
-      _bodyData = fileCreatePostRequest == null ? null : _serializers.serialize(fileCreatePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileCreatePostRequest == null
+          ? null
+          : _serializers.serialize(fileCreatePostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -416,11 +430,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileCreatePost200Response),
-      ) as FileCreatePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileCreatePost200Response),
+            ) as FileCreatePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -444,11 +459,11 @@ class AuthJWTOptionalApi {
   }
 
   /// Delete file
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileDeleteRequest] 
+  /// * [fileDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -458,7 +473,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileDelete200Response>> fileDelete({ 
+  Future<Response<FileDelete200Response>> fileDelete({
     String? xCrPurchaseTicket,
     FileDeleteRequest? fileDeleteRequest,
     CancelToken? cancelToken,
@@ -472,7 +487,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -487,11 +503,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileDeleteRequest);
-      _bodyData = fileDeleteRequest == null ? null : _serializers.serialize(fileDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileDeleteRequest == null
+          ? null
+          : _serializers.serialize(fileDeleteRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -514,11 +531,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileDelete200Response),
-      ) as FileDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileDelete200Response),
+            ) as FileDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -561,7 +579,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileGet200Response>> fileGet({ 
+  Future<Response<FileGet200Response>> fileGet({
     required String uri,
     required int page,
     required int pageSize,
@@ -580,7 +598,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -593,10 +612,17 @@ class AuthJWTOptionalApi {
     final _queryParameters = <String, dynamic>{
       r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
       r'page': encodeQueryParameter(_serializers, page, const FullType(int)),
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (orderBy != null) r'order_by': encodeQueryParameter(_serializers, orderBy, const FullType(String)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (orderBy != null)
+        r'order_by':
+            encodeQueryParameter(_serializers, orderBy, const FullType(String)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -612,11 +638,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileGet200Response),
-      ) as FileGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileGet200Response),
+            ) as FileGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -657,7 +684,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileInfoGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileInfoGet200Response>> fileInfoGet({ 
+  Future<Response<FileInfoGet200Response>> fileInfoGet({
     String? uri,
     String? id,
     bool? extended,
@@ -674,7 +701,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -685,10 +713,16 @@ class AuthJWTOptionalApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (uri != null) r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      if (id != null) r'id': encodeQueryParameter(_serializers, id, const FullType(String)),
-      if (extended != null) r'extended': encodeQueryParameter(_serializers, extended, const FullType(bool)),
-      if (folderSummary != null) r'folder_summary': encodeQueryParameter(_serializers, folderSummary, const FullType(bool)),
+      if (uri != null)
+        r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
+      if (id != null)
+        r'id': encodeQueryParameter(_serializers, id, const FullType(String)),
+      if (extended != null)
+        r'extended':
+            encodeQueryParameter(_serializers, extended, const FullType(bool)),
+      if (folderSummary != null)
+        r'folder_summary': encodeQueryParameter(
+            _serializers, folderSummary, const FullType(bool)),
     };
 
     final _response = await _dio.request<Object>(
@@ -704,11 +738,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileInfoGet200Response),
-      ) as FileInfoGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileInfoGet200Response),
+            ) as FileInfoGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -736,7 +771,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileMetadataPatchRequest] 
+  /// * [fileMetadataPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -746,7 +781,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileMetadataPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileMetadataPatch200Response>> fileMetadataPatch({ 
+  Future<Response<FileMetadataPatch200Response>> fileMetadataPatch({
     String? xCrPurchaseTicket,
     FileMetadataPatchRequest? fileMetadataPatchRequest,
     CancelToken? cancelToken,
@@ -760,7 +795,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -775,11 +811,13 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileMetadataPatchRequest);
-      _bodyData = fileMetadataPatchRequest == null ? null : _serializers.serialize(fileMetadataPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileMetadataPatchRequest == null
+          ? null
+          : _serializers.serialize(fileMetadataPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -802,11 +840,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileMetadataPatch200Response),
-      ) as FileMetadataPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileMetadataPatch200Response),
+            ) as FileMetadataPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -834,7 +873,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileMovePostRequest] 
+  /// * [fileMovePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -844,7 +883,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileMovePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileMovePost200Response>> fileMovePost({ 
+  Future<Response<FileMovePost200Response>> fileMovePost({
     String? xCrPurchaseTicket,
     FileMovePostRequest? fileMovePostRequest,
     CancelToken? cancelToken,
@@ -858,7 +897,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -873,11 +913,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileMovePostRequest);
-      _bodyData = fileMovePostRequest == null ? null : _serializers.serialize(fileMovePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileMovePostRequest == null
+          ? null
+          : _serializers.serialize(fileMovePostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -900,11 +941,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileMovePost200Response),
-      ) as FileMovePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileMovePost200Response),
+            ) as FileMovePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -928,11 +970,11 @@ class AuthJWTOptionalApi {
   }
 
   /// Rename file
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileRenamePostRequest] 
+  /// * [fileRenamePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -942,7 +984,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileRenamePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileRenamePost200Response>> fileRenamePost({ 
+  Future<Response<FileRenamePost200Response>> fileRenamePost({
     String? xCrPurchaseTicket,
     FileRenamePostRequest? fileRenamePostRequest,
     CancelToken? cancelToken,
@@ -956,7 +998,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -971,11 +1014,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileRenamePostRequest);
-      _bodyData = fileRenamePostRequest == null ? null : _serializers.serialize(fileRenamePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileRenamePostRequest == null
+          ? null
+          : _serializers.serialize(fileRenamePostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -998,11 +1042,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileRenamePost200Response),
-      ) as FileRenamePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileRenamePost200Response),
+            ) as FileRenamePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1041,7 +1086,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileThumbGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileThumbGet200Response>> fileThumbGet({ 
+  Future<Response<FileThumbGet200Response>> fileThumbGet({
     String? uri,
     String? xCrContextHint,
     String? xCrPurchaseTicket,
@@ -1057,7 +1102,8 @@ class AuthJWTOptionalApi {
       method: r'GET',
       headers: <String, dynamic>{
         if (xCrContextHint != null) r'X-Cr-Context-Hint': xCrContextHint,
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1068,7 +1114,8 @@ class AuthJWTOptionalApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (uri != null) r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
+      if (uri != null)
+        r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1084,11 +1131,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileThumbGet200Response),
-      ) as FileThumbGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileThumbGet200Response),
+            ) as FileThumbGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1116,7 +1164,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileUploadDeleteRequest] 
+  /// * [fileUploadDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1126,7 +1174,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUploadDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUploadDelete200Response>> fileUploadDelete({ 
+  Future<Response<FileUploadDelete200Response>> fileUploadDelete({
     String? xCrPurchaseTicket,
     FileUploadDeleteRequest? fileUploadDeleteRequest,
     CancelToken? cancelToken,
@@ -1140,7 +1188,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1155,11 +1204,13 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileUploadDeleteRequest);
-      _bodyData = fileUploadDeleteRequest == null ? null : _serializers.serialize(fileUploadDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileUploadDeleteRequest == null
+          ? null
+          : _serializers.serialize(fileUploadDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1182,11 +1233,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUploadDelete200Response),
-      ) as FileUploadDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileUploadDelete200Response),
+            ) as FileUploadDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1214,7 +1266,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileUploadPutRequest] 
+  /// * [fileUploadPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1224,7 +1276,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUploadPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUploadPut200Response>> fileUploadPut({ 
+  Future<Response<FileUploadPut200Response>> fileUploadPut({
     String? xCrPurchaseTicket,
     FileUploadPutRequest? fileUploadPutRequest,
     CancelToken? cancelToken,
@@ -1238,7 +1290,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1253,11 +1306,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileUploadPutRequest);
-      _bodyData = fileUploadPutRequest == null ? null : _serializers.serialize(fileUploadPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileUploadPutRequest == null
+          ? null
+          : _serializers.serialize(fileUploadPutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1280,11 +1334,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUploadPut200Response),
-      ) as FileUploadPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileUploadPut200Response),
+            ) as FileUploadPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1315,7 +1370,7 @@ class AuthJWTOptionalApi {
   /// * [index] - Index of the chunk, starting from `0`.
   /// * [contentLength] - Size of current chunk. Must match with the `chunk_size` in the upload session, except the last chunk.
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [body] 
+  /// * [body]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1325,7 +1380,8 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUploadSessionIdIndexPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUploadSessionIdIndexPost200Response>> fileUploadSessionIdIndexPost({ 
+  Future<Response<FileUploadSessionIdIndexPost200Response>>
+      fileUploadSessionIdIndexPost({
     required String sessionId,
     required int index,
     required int contentLength,
@@ -1338,12 +1394,22 @@ class AuthJWTOptionalApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/file/upload/{sessionId}/{index}'.replaceAll('{' r'sessionId' '}', encodeQueryParameter(_serializers, sessionId, const FullType(String)).toString()).replaceAll('{' r'index' '}', encodeQueryParameter(_serializers, index, const FullType(int)).toString());
+    final _path = r'/file/upload/{sessionId}/{index}'
+        .replaceAll(
+            '{' r'sessionId' '}',
+            encodeQueryParameter(
+                    _serializers, sessionId, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'index' '}',
+            encodeQueryParameter(_serializers, index, const FullType(int))
+                .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
         r'Content-Length': contentLength,
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1358,10 +1424,9 @@ class AuthJWTOptionalApi {
 
     try {
       _bodyData = body?.finalize();
-
-    } catch(error, stackTrace) {
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1384,11 +1449,13 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUploadSessionIdIndexPost200Response),
-      ) as FileUploadSessionIdIndexPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(FileUploadSessionIdIndexPost200Response),
+            ) as FileUploadSessionIdIndexPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1417,7 +1484,7 @@ class AuthJWTOptionalApi {
   /// Parameters:
   /// * [xCrContextHint] - Optional context hint to speed up DB queries. You can get its value from the response of listing files. It is recommended to set this header if you need to perform action on files that are just listed by [List files](/list-files-300233178e0) API.
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileUrlPostRequest] 
+  /// * [fileUrlPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1427,7 +1494,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileUrlPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileUrlPost200Response>> fileUrlPost({ 
+  Future<Response<FileUrlPost200Response>> fileUrlPost({
     String? xCrContextHint,
     String? xCrPurchaseTicket,
     FileUrlPostRequest? fileUrlPostRequest,
@@ -1443,7 +1510,8 @@ class AuthJWTOptionalApi {
       method: r'POST',
       headers: <String, dynamic>{
         if (xCrContextHint != null) r'X-Cr-Context-Hint': xCrContextHint,
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1458,11 +1526,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileUrlPostRequest);
-      _bodyData = fileUrlPostRequest == null ? null : _serializers.serialize(fileUrlPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileUrlPostRequest == null
+          ? null
+          : _serializers.serialize(fileUrlPostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1485,11 +1554,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileUrlPost200Response),
-      ) as FileUrlPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileUrlPost200Response),
+            ) as FileUrlPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1517,7 +1587,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileVersionCurrentPostRequest] 
+  /// * [fileVersionCurrentPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1527,7 +1597,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileVersionCurrentPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileVersionCurrentPost200Response>> fileVersionCurrentPost({ 
+  Future<Response<FileVersionCurrentPost200Response>> fileVersionCurrentPost({
     String? xCrPurchaseTicket,
     FileVersionCurrentPostRequest? fileVersionCurrentPostRequest,
     CancelToken? cancelToken,
@@ -1541,7 +1611,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1556,11 +1627,13 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileVersionCurrentPostRequest);
-      _bodyData = fileVersionCurrentPostRequest == null ? null : _serializers.serialize(fileVersionCurrentPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileVersionCurrentPostRequest == null
+          ? null
+          : _serializers.serialize(fileVersionCurrentPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1583,11 +1656,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileVersionCurrentPost200Response),
-      ) as FileVersionCurrentPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileVersionCurrentPost200Response),
+            ) as FileVersionCurrentPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1616,7 +1690,7 @@ class AuthJWTOptionalApi {
   /// Parameters:
   /// * [uri] - [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   /// * [version] - ID of the version to set as \"current version\". The version blob must be linked to current file. List of available versions can be retrieved via [Get file info](./get-file-info-306769225e0). The version cannot be the currrent version of the file.
-  /// * [xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink] - 
+  /// * [xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink] -
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1626,10 +1700,11 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileVersionDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileVersionDelete200Response>> fileVersionDelete({ 
+  Future<Response<FileVersionDelete200Response>> fileVersionDelete({
     String? uri,
     String? version,
-    String? xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
+    String?
+        xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1641,7 +1716,10 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink != null) r'X-Cr-Purchase-Ticket,string,false,1f63aa26-edc0-40ce-950a-cb4d4323158e,Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link': xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
+        if (xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink !=
+            null)
+          r'X-Cr-Purchase-Ticket,string,false,1f63aa26-edc0-40ce-950a-cb4d4323158e,Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link':
+              xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1652,8 +1730,11 @@ class AuthJWTOptionalApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (uri != null) r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      if (version != null) r'version': encodeQueryParameter(_serializers, version, const FullType(String)),
+      if (uri != null)
+        r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
+      if (version != null)
+        r'version':
+            encodeQueryParameter(_serializers, version, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1669,11 +1750,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileVersionDelete200Response),
-      ) as FileVersionDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileVersionDelete200Response),
+            ) as FileVersionDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1701,7 +1783,7 @@ class AuthJWTOptionalApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileViewerSessionPutRequest] 
+  /// * [fileViewerSessionPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1711,7 +1793,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileViewerSessionPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileViewerSessionPut200Response>> fileViewerSessionPut({ 
+  Future<Response<FileViewerSessionPut200Response>> fileViewerSessionPut({
     String? xCrPurchaseTicket,
     FileViewerSessionPutRequest? fileViewerSessionPutRequest,
     CancelToken? cancelToken,
@@ -1725,7 +1807,8 @@ class AuthJWTOptionalApi {
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1740,11 +1823,13 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(FileViewerSessionPutRequest);
-      _bodyData = fileViewerSessionPutRequest == null ? null : _serializers.serialize(fileViewerSessionPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileViewerSessionPutRequest == null
+          ? null
+          : _serializers.serialize(fileViewerSessionPutRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1767,11 +1852,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileViewerSessionPut200Response),
-      ) as FileViewerSessionPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileViewerSessionPut200Response),
+            ) as FileViewerSessionPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1798,7 +1884,7 @@ class AuthJWTOptionalApi {
   /// Preapre a social connector sign in, can be used to sign in Cloudreve account, or link existing account with a social connector account. * For signing in with social connector, authorization is not required. * For account linking, authorization is required for a valid logged-in user.
   ///
   /// Parameters:
-  /// * [sessionOpenidPutRequest] 
+  /// * [sessionOpenidPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1808,7 +1894,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionOpenidPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionOpenidPut200Response>> sessionOpenidPut({ 
+  Future<Response<SessionOpenidPut200Response>> sessionOpenidPut({
     SessionOpenidPutRequest? sessionOpenidPutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1835,11 +1921,13 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(SessionOpenidPutRequest);
-      _bodyData = sessionOpenidPutRequest == null ? null : _serializers.serialize(sessionOpenidPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionOpenidPutRequest == null
+          ? null
+          : _serializers.serialize(sessionOpenidPutRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1862,11 +1950,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionOpenidPut200Response),
-      ) as SessionOpenidPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionOpenidPut200Response),
+            ) as SessionOpenidPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1907,7 +1996,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ShareInfoIdGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ShareInfoIdGet200Response>> shareInfoIdGet({ 
+  Future<Response<ShareInfoIdGet200Response>> shareInfoIdGet({
     required String id,
     String? password,
     bool? countViews,
@@ -1920,11 +2009,15 @@ class AuthJWTOptionalApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/share/info/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/share/info/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -1935,9 +2028,15 @@ class AuthJWTOptionalApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (password != null) r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
-      if (countViews != null) r'count_views': encodeQueryParameter(_serializers, countViews, const FullType(bool)),
-      if (ownerExtended != null) r'owner_extended': encodeQueryParameter(_serializers, ownerExtended, const FullType(bool)),
+      if (password != null)
+        r'password': encodeQueryParameter(
+            _serializers, password, const FullType(String)),
+      if (countViews != null)
+        r'count_views': encodeQueryParameter(
+            _serializers, countViews, const FullType(bool)),
+      if (ownerExtended != null)
+        r'owner_extended': encodeQueryParameter(
+            _serializers, ownerExtended, const FullType(bool)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1953,11 +2052,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(ShareInfoIdGet200Response),
-      ) as ShareInfoIdGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(ShareInfoIdGet200Response),
+            ) as ShareInfoIdGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1984,7 +2084,7 @@ class AuthJWTOptionalApi {
   /// Report abuse on share links or users.
   ///
   /// Parameters:
-  /// * [siteAbusePostRequest] 
+  /// * [siteAbusePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1994,7 +2094,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteAbusePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteAbusePost200Response>> siteAbusePost({ 
+  Future<Response<SiteAbusePost200Response>> siteAbusePost({
     SiteAbusePostRequest? siteAbusePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2021,11 +2121,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(SiteAbusePostRequest);
-      _bodyData = siteAbusePostRequest == null ? null : _serializers.serialize(siteAbusePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = siteAbusePostRequest == null
+          ? null
+          : _serializers.serialize(siteAbusePostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -2048,11 +2149,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteAbusePost200Response),
-      ) as SiteAbusePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteAbusePost200Response),
+            ) as SiteAbusePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2089,7 +2191,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteConfigSectionGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteConfigSectionGet200Response>> siteConfigSectionGet({ 
+  Future<Response<SiteConfigSectionGet200Response>> siteConfigSectionGet({
     required String section,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2098,7 +2200,10 @@ class AuthJWTOptionalApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/site/config/{section}'.replaceAll('{' r'section' '}', encodeQueryParameter(_serializers, section, const FullType(String)).toString());
+    final _path = r'/site/config/{section}'.replaceAll(
+        '{' r'section' '}',
+        encodeQueryParameter(_serializers, section, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2123,11 +2228,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteConfigSectionGet200Response),
-      ) as SiteConfigSectionGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteConfigSectionGet200Response),
+            ) as SiteConfigSectionGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2164,7 +2270,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserInfoUserIdGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserInfoUserIdGet200Response>> userInfoUserIdGet({ 
+  Future<Response<UserInfoUserIdGet200Response>> userInfoUserIdGet({
     required String userId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2173,7 +2279,10 @@ class AuthJWTOptionalApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/info/{user_id}'.replaceAll('{' r'user_id' '}', encodeQueryParameter(_serializers, userId, const FullType(String)).toString());
+    final _path = r'/user/info/{user_id}'.replaceAll(
+        '{' r'user_id' '}',
+        encodeQueryParameter(_serializers, userId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2198,11 +2307,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserInfoUserIdGet200Response),
-      ) as UserInfoUserIdGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserInfoUserIdGet200Response),
+            ) as UserInfoUserIdGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2229,7 +2339,7 @@ class AuthJWTOptionalApi {
   /// Create a payment for given product.
   ///
   /// Parameters:
-  /// * [vasPaymentPutRequest] 
+  /// * [vasPaymentPutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2239,7 +2349,7 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasPaymentPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasPaymentPut200Response>> vasPaymentPut({ 
+  Future<Response<VasPaymentPut200Response>> vasPaymentPut({
     VasPaymentPutRequest? vasPaymentPutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2266,11 +2376,12 @@ class AuthJWTOptionalApi {
 
     try {
       const _type = FullType(VasPaymentPutRequest);
-      _bodyData = vasPaymentPutRequest == null ? null : _serializers.serialize(vasPaymentPutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = vasPaymentPutRequest == null
+          ? null
+          : _serializers.serialize(vasPaymentPutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -2293,11 +2404,12 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasPaymentPut200Response),
-      ) as VasPaymentPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(VasPaymentPut200Response),
+            ) as VasPaymentPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2321,7 +2433,7 @@ class AuthJWTOptionalApi {
   }
 
   /// Get payment status
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the payment.
@@ -2335,7 +2447,8 @@ class AuthJWTOptionalApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasPaymentStatusIdTradeNoGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasPaymentStatusIdTradeNoGet200Response>> vasPaymentStatusIdTradeNoGet({ 
+  Future<Response<VasPaymentStatusIdTradeNoGet200Response>>
+      vasPaymentStatusIdTradeNoGet({
     required String id,
     required String tradeNo,
     CancelToken? cancelToken,
@@ -2345,7 +2458,15 @@ class AuthJWTOptionalApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/payment/status/{id}/{trade_no}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString()).replaceAll('{' r'trade_no' '}', encodeQueryParameter(_serializers, tradeNo, const FullType(String)).toString());
+    final _path = r'/vas/payment/status/{id}/{trade_no}'
+        .replaceAll(
+            '{' r'id' '}',
+            encodeQueryParameter(_serializers, id, const FullType(String))
+                .toString())
+        .replaceAll(
+            '{' r'trade_no' '}',
+            encodeQueryParameter(_serializers, tradeNo, const FullType(String))
+                .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2370,11 +2491,13 @@ class AuthJWTOptionalApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasPaymentStatusIdTradeNoGet200Response),
-      ) as VasPaymentStatusIdTradeNoGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(VasPaymentStatusIdTradeNoGet200Response),
+            ) as VasPaymentStatusIdTradeNoGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2396,5 +2519,4 @@ class AuthJWTOptionalApi {
       extra: _response.extra,
     );
   }
-
 }

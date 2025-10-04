@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:cloudreve_api_client/src/model/group_sku.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -22,34 +21,39 @@ part 'site_config_group_skus_inner.g.dart';
 /// * [points] - Price in points. Empty value indicate paying with points is disabled.
 /// * [des] - Description texts.
 @BuiltValue()
-abstract class SiteConfigGroupSkusInner implements Built<SiteConfigGroupSkusInner, SiteConfigGroupSkusInnerBuilder> {
+abstract class SiteConfigGroupSkusInner
+    implements
+        Built<SiteConfigGroupSkusInner, SiteConfigGroupSkusInnerBuilder> {
   /// Any Of [GroupSKU]
   AnyOf get anyOf;
 
   SiteConfigGroupSkusInner._();
 
-  factory SiteConfigGroupSkusInner([void updates(SiteConfigGroupSkusInnerBuilder b)]) = _$SiteConfigGroupSkusInner;
+  factory SiteConfigGroupSkusInner(
+          [void updates(SiteConfigGroupSkusInnerBuilder b)]) =
+      _$SiteConfigGroupSkusInner;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SiteConfigGroupSkusInnerBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SiteConfigGroupSkusInner> get serializer => _$SiteConfigGroupSkusInnerSerializer();
+  static Serializer<SiteConfigGroupSkusInner> get serializer =>
+      _$SiteConfigGroupSkusInnerSerializer();
 }
 
-class _$SiteConfigGroupSkusInnerSerializer implements PrimitiveSerializer<SiteConfigGroupSkusInner> {
+class _$SiteConfigGroupSkusInnerSerializer
+    implements PrimitiveSerializer<SiteConfigGroupSkusInner> {
   @override
-  final Iterable<Type> types = const [SiteConfigGroupSkusInner, _$SiteConfigGroupSkusInner];
+  final Iterable<Type> types = const [
+    SiteConfigGroupSkusInner,
+    _$SiteConfigGroupSkusInner
+  ];
 
   @override
   final String wireName = r'SiteConfigGroupSkusInner';
 
   Iterable<Object?> _serializeProperties(
-    Serializers serializers,
-    SiteConfigGroupSkusInner object, {
-    FullType specifiedType = FullType.unspecified,
-  }) sync* {
-  }
+      Serializers serializers, SiteConfigGroupSkusInner object) sync* {}
 
   @override
   Object serialize(
@@ -58,7 +62,9 @@ class _$SiteConfigGroupSkusInnerSerializer implements PrimitiveSerializer<SiteCo
     FullType specifiedType = FullType.unspecified,
   }) {
     final anyOf = object.anyOf;
-    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    return serializers.serialize(anyOf,
+        specifiedType: FullType(
+            AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
   }
 
   @override
@@ -69,10 +75,12 @@ class _$SiteConfigGroupSkusInnerSerializer implements PrimitiveSerializer<SiteCo
   }) {
     final result = SiteConfigGroupSkusInnerBuilder();
     Object? anyOfDataSrc;
-    final targetType = const FullType(AnyOf, [FullType.nullable(GroupSKU), ]);
+    final targetType = const FullType(AnyOf, [
+      FullType.nullable(GroupSKU),
+    ]);
     anyOfDataSrc = serialized;
-    result.anyOf = serializers.deserialize(anyOfDataSrc, specifiedType: targetType) as AnyOf;
+    result.anyOf = serializers.deserialize(anyOfDataSrc,
+        specifiedType: targetType) as AnyOf;
     return result.build();
   }
 }
-

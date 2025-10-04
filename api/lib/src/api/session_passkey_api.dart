@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -13,7 +12,6 @@ import 'package:cloudreve_api_client/src/model/session_authn_post_request.dart';
 import 'package:cloudreve_api_client/src/model/session_authn_put200_response.dart';
 
 class SessionPasskeyApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -21,10 +19,10 @@ class SessionPasskeyApi {
   const SessionPasskeyApi(this._dio, this._serializers);
 
   /// Finish Passkey sign-in
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [sessionAuthnPostRequest] 
+  /// * [sessionAuthnPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -34,7 +32,7 @@ class SessionPasskeyApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionAuthnPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionAuthnPost200Response>> sessionAuthnPost({ 
+  Future<Response<SessionAuthnPost200Response>> sessionAuthnPost({
     SessionAuthnPostRequest? sessionAuthnPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -61,11 +59,13 @@ class SessionPasskeyApi {
 
     try {
       const _type = FullType(SessionAuthnPostRequest);
-      _bodyData = sessionAuthnPostRequest == null ? null : _serializers.serialize(sessionAuthnPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionAuthnPostRequest == null
+          ? null
+          : _serializers.serialize(sessionAuthnPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -88,11 +88,12 @@ class SessionPasskeyApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionAuthnPost200Response),
-      ) as SessionAuthnPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionAuthnPost200Response),
+            ) as SessionAuthnPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -128,7 +129,7 @@ class SessionPasskeyApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionAuthnPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionAuthnPut200Response>> sessionAuthnPut({ 
+  Future<Response<SessionAuthnPut200Response>> sessionAuthnPut({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -161,11 +162,12 @@ class SessionPasskeyApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionAuthnPut200Response),
-      ) as SessionAuthnPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionAuthnPut200Response),
+            ) as SessionAuthnPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -187,5 +189,4 @@ class SessionPasskeyApi {
       extra: _response.extra,
     );
   }
-
 }

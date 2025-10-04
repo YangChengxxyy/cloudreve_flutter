@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -21,7 +20,6 @@ import 'package:cloudreve_api_client/src/model/workflow_reloacte_post200_respons
 import 'package:cloudreve_api_client/src/model/workflow_reloacte_post_request.dart';
 
 class WorkflowApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -32,7 +30,7 @@ class WorkflowApi {
   /// Create a tasks to create a new archive file from existing files.
   ///
   /// Parameters:
-  /// * [workflowArchivePostRequest] 
+  /// * [workflowArchivePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -42,7 +40,7 @@ class WorkflowApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowArchivePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowArchivePost200Response>> workflowArchivePost({ 
+  Future<Response<WorkflowArchivePost200Response>> workflowArchivePost({
     WorkflowArchivePostRequest? workflowArchivePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -69,11 +67,13 @@ class WorkflowApi {
 
     try {
       const _type = FullType(WorkflowArchivePostRequest);
-      _bodyData = workflowArchivePostRequest == null ? null : _serializers.serialize(workflowArchivePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowArchivePostRequest == null
+          ? null
+          : _serializers.serialize(workflowArchivePostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -96,11 +96,12 @@ class WorkflowApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowArchivePost200Response),
-      ) as WorkflowArchivePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowArchivePost200Response),
+            ) as WorkflowArchivePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -127,7 +128,7 @@ class WorkflowApi {
   /// Create a task to extract all files in a given archive file.
   ///
   /// Parameters:
-  /// * [workflowExtractPostRequest] 
+  /// * [workflowExtractPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -137,7 +138,7 @@ class WorkflowApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowExtractPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowExtractPost200Response>> workflowExtractPost({ 
+  Future<Response<WorkflowExtractPost200Response>> workflowExtractPost({
     WorkflowExtractPostRequest? workflowExtractPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -164,11 +165,13 @@ class WorkflowApi {
 
     try {
       const _type = FullType(WorkflowExtractPostRequest);
-      _bodyData = workflowExtractPostRequest == null ? null : _serializers.serialize(workflowExtractPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowExtractPostRequest == null
+          ? null
+          : _serializers.serialize(workflowExtractPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -191,11 +194,12 @@ class WorkflowApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowExtractPost200Response),
-      ) as WorkflowExtractPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowExtractPost200Response),
+            ) as WorkflowExtractPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -222,7 +226,7 @@ class WorkflowApi {
   /// List all background tasks triggered by current authenticated user.
   ///
   /// Parameters:
-  /// * [pageSize] - 
+  /// * [pageSize] -
   /// * [category] - Select which category of tasks to list.
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -234,7 +238,7 @@ class WorkflowApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowGet200Response>> workflowGet({ 
+  Future<Response<WorkflowGet200Response>> workflowGet({
     required int pageSize,
     required String category,
     String? nextPageToken,
@@ -259,9 +263,13 @@ class WorkflowApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      r'category': encodeQueryParameter(_serializers, category, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      r'category':
+          encodeQueryParameter(_serializers, category, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -277,11 +285,12 @@ class WorkflowApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowGet200Response),
-      ) as WorkflowGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowGet200Response),
+            ) as WorkflowGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -308,7 +317,7 @@ class WorkflowApi {
   /// Create a task to import external physical files to given path of a given user. **This method is restricted to users with admin permission only.**
   ///
   /// Parameters:
-  /// * [workflowImportPostRequest] 
+  /// * [workflowImportPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -318,7 +327,7 @@ class WorkflowApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowImportPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowImportPost200Response>> workflowImportPost({ 
+  Future<Response<WorkflowImportPost200Response>> workflowImportPost({
     WorkflowImportPostRequest? workflowImportPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -345,11 +354,13 @@ class WorkflowApi {
 
     try {
       const _type = FullType(WorkflowImportPostRequest);
-      _bodyData = workflowImportPostRequest == null ? null : _serializers.serialize(workflowImportPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowImportPostRequest == null
+          ? null
+          : _serializers.serialize(workflowImportPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -372,11 +383,12 @@ class WorkflowApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowImportPost200Response),
-      ) as WorkflowImportPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowImportPost200Response),
+            ) as WorkflowImportPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -413,7 +425,7 @@ class WorkflowApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowProgressIdGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowProgressIdGet200Response>> workflowProgressIdGet({ 
+  Future<Response<WorkflowProgressIdGet200Response>> workflowProgressIdGet({
     required String id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -422,7 +434,10 @@ class WorkflowApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/workflow/progress/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/workflow/progress/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -447,11 +462,12 @@ class WorkflowApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowProgressIdGet200Response),
-      ) as WorkflowProgressIdGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowProgressIdGet200Response),
+            ) as WorkflowProgressIdGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -478,7 +494,7 @@ class WorkflowApi {
   /// Create a task to relocate storage policy for given files.
   ///
   /// Parameters:
-  /// * [workflowReloactePostRequest] 
+  /// * [workflowReloactePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -488,7 +504,7 @@ class WorkflowApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowReloactePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowReloactePost200Response>> workflowReloactePost({ 
+  Future<Response<WorkflowReloactePost200Response>> workflowReloactePost({
     WorkflowReloactePostRequest? workflowReloactePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -515,11 +531,13 @@ class WorkflowApi {
 
     try {
       const _type = FullType(WorkflowReloactePostRequest);
-      _bodyData = workflowReloactePostRequest == null ? null : _serializers.serialize(workflowReloactePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowReloactePostRequest == null
+          ? null
+          : _serializers.serialize(workflowReloactePostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -542,11 +560,12 @@ class WorkflowApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowReloactePost200Response),
-      ) as WorkflowReloactePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowReloactePost200Response),
+            ) as WorkflowReloactePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -568,5 +587,4 @@ class WorkflowApi {
       extra: _response.extra,
     );
   }
-
 }

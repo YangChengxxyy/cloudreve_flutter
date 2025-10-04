@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -14,7 +13,6 @@ import 'package:cloudreve_api_client/src/model/file_source_put200_response.dart'
 import 'package:cloudreve_api_client/src/model/file_source_put_request.dart';
 
 class FileDirectLinkApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -25,7 +23,7 @@ class FileDirectLinkApi {
   /// Create a direct link that can be used to access the file&#39;s content directly. Only file owners or administrators can create direct links.
   ///
   /// Parameters:
-  /// * [fileSourcePutRequest] 
+  /// * [fileSourcePutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -35,7 +33,7 @@ class FileDirectLinkApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileSourcePut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileSourcePut200Response>> fileSourcePut({ 
+  Future<Response<FileSourcePut200Response>> fileSourcePut({
     FileSourcePutRequest? fileSourcePutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -62,11 +60,12 @@ class FileDirectLinkApi {
 
     try {
       const _type = FullType(FileSourcePutRequest);
-      _bodyData = fileSourcePutRequest == null ? null : _serializers.serialize(fileSourcePutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileSourcePutRequest == null
+          ? null
+          : _serializers.serialize(fileSourcePutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -89,11 +88,12 @@ class FileDirectLinkApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileSourcePut200Response),
-      ) as FileSourcePut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileSourcePut200Response),
+            ) as FileSourcePut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -130,7 +130,7 @@ class FileDirectLinkApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileSourceIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileSourceIdDelete200Response>> fileSourceidDelete({ 
+  Future<Response<FileSourceIdDelete200Response>> fileSourceidDelete({
     required String id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -139,7 +139,10 @@ class FileDirectLinkApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/file/source{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/file/source{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -164,11 +167,12 @@ class FileDirectLinkApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileSourceIdDelete200Response),
-      ) as FileSourceIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileSourceIdDelete200Response),
+            ) as FileSourceIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -190,5 +194,4 @@ class FileDirectLinkApi {
       extra: _response.extra,
     );
   }
-
 }

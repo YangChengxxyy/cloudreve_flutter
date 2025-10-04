@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -15,7 +14,6 @@ import 'package:cloudreve_api_client/src/model/user_authn_post_request.dart';
 import 'package:cloudreve_api_client/src/model/user_authn_put200_response.dart';
 
 class UserPasskeyApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -36,7 +34,7 @@ class UserPasskeyApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserAuthnDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserAuthnDelete200Response>> userAuthnDelete({ 
+  Future<Response<UserAuthnDelete200Response>> userAuthnDelete({
     String? id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -59,7 +57,8 @@ class UserPasskeyApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (id != null) r'id': encodeQueryParameter(_serializers, id, const FullType(String)),
+      if (id != null)
+        r'id': encodeQueryParameter(_serializers, id, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -75,11 +74,12 @@ class UserPasskeyApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserAuthnDelete200Response),
-      ) as UserAuthnDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserAuthnDelete200Response),
+            ) as UserAuthnDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -103,10 +103,10 @@ class UserPasskeyApi {
   }
 
   /// Finish passkey registration
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [userAuthnPostRequest] 
+  /// * [userAuthnPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -116,7 +116,7 @@ class UserPasskeyApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserAuthnPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserAuthnPost200Response>> userAuthnPost({ 
+  Future<Response<UserAuthnPost200Response>> userAuthnPost({
     UserAuthnPostRequest? userAuthnPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -143,11 +143,12 @@ class UserPasskeyApi {
 
     try {
       const _type = FullType(UserAuthnPostRequest);
-      _bodyData = userAuthnPostRequest == null ? null : _serializers.serialize(userAuthnPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userAuthnPostRequest == null
+          ? null
+          : _serializers.serialize(userAuthnPostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -170,11 +171,12 @@ class UserPasskeyApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserAuthnPost200Response),
-      ) as UserAuthnPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserAuthnPost200Response),
+            ) as UserAuthnPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -210,7 +212,7 @@ class UserPasskeyApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserAuthnPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserAuthnPut200Response>> userAuthnPut({ 
+  Future<Response<UserAuthnPut200Response>> userAuthnPut({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -243,11 +245,12 @@ class UserPasskeyApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserAuthnPut200Response),
-      ) as UserAuthnPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserAuthnPut200Response),
+            ) as UserAuthnPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -269,5 +272,4 @@ class UserPasskeyApi {
       extra: _response.extra,
     );
   }
-
 }

@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -14,7 +13,6 @@ import 'package:cloudreve_api_client/src/model/file_version_current_post_request
 import 'package:cloudreve_api_client/src/model/file_version_delete200_response.dart';
 
 class FileVersionApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -26,7 +24,7 @@ class FileVersionApi {
   ///
   /// Parameters:
   /// * [xCrPurchaseTicket] - Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link.
-  /// * [fileVersionCurrentPostRequest] 
+  /// * [fileVersionCurrentPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -36,7 +34,7 @@ class FileVersionApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileVersionCurrentPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileVersionCurrentPost200Response>> fileVersionCurrentPost({ 
+  Future<Response<FileVersionCurrentPost200Response>> fileVersionCurrentPost({
     String? xCrPurchaseTicket,
     FileVersionCurrentPostRequest? fileVersionCurrentPostRequest,
     CancelToken? cancelToken,
@@ -50,7 +48,8 @@ class FileVersionApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicket != null) r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
+        if (xCrPurchaseTicket != null)
+          r'X-Cr-Purchase-Ticket': xCrPurchaseTicket,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -65,11 +64,13 @@ class FileVersionApi {
 
     try {
       const _type = FullType(FileVersionCurrentPostRequest);
-      _bodyData = fileVersionCurrentPostRequest == null ? null : _serializers.serialize(fileVersionCurrentPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileVersionCurrentPostRequest == null
+          ? null
+          : _serializers.serialize(fileVersionCurrentPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -92,11 +93,12 @@ class FileVersionApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileVersionCurrentPost200Response),
-      ) as FileVersionCurrentPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileVersionCurrentPost200Response),
+            ) as FileVersionCurrentPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -125,7 +127,7 @@ class FileVersionApi {
   /// Parameters:
   /// * [uri] - [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   /// * [version] - ID of the version to set as \"current version\". The version blob must be linked to current file. List of available versions can be retrieved via [Get file info](./get-file-info-306769225e0). The version cannot be the currrent version of the file.
-  /// * [xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink] - 
+  /// * [xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink] -
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -135,10 +137,11 @@ class FileVersionApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileVersionDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileVersionDelete200Response>> fileVersionDelete({ 
+  Future<Response<FileVersionDelete200Response>> fileVersionDelete({
     String? uri,
     String? version,
-    String? xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
+    String?
+        xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -150,7 +153,10 @@ class FileVersionApi {
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
-        if (xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink != null) r'X-Cr-Purchase-Ticket,string,false,1f63aa26-edc0-40ce-950a-cb4d4323158e,Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link': xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
+        if (xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink !=
+            null)
+          r'X-Cr-Purchase-Ticket,string,false,1f63aa26-edc0-40ce-950a-cb4d4323158e,Can be used to authenticate to paid share links with a anonymous identity. The ticket value can be obtained after an anonymous user purchase a paid share link':
+              xCrPurchaseTicketCommaStringCommaFalseComma1f63aa26Edc040ce950aCb4d4323158eCommaCanBeUsedToAuthenticateToPaidShareLinksWithAAnonymousIdentityPeriodTheTicketValueCanBeObtainedAfterAnAnonymousUserPurchaseAPaidShareLink,
         ...?headers,
       },
       extra: <String, dynamic>{
@@ -161,8 +167,11 @@ class FileVersionApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (uri != null) r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
-      if (version != null) r'version': encodeQueryParameter(_serializers, version, const FullType(String)),
+      if (uri != null)
+        r'uri': encodeQueryParameter(_serializers, uri, const FullType(String)),
+      if (version != null)
+        r'version':
+            encodeQueryParameter(_serializers, version, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -178,11 +187,12 @@ class FileVersionApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileVersionDelete200Response),
-      ) as FileVersionDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileVersionDelete200Response),
+            ) as FileVersionDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -204,5 +214,4 @@ class FileVersionApi {
       extra: _response.extra,
     );
   }
-
 }

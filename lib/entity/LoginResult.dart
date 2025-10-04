@@ -171,7 +171,7 @@ class UserData {
       anonymous: user.anonymous ?? false,
       language: user.language,
       credit: user.credit,
-      group: group != null ? Group.fromApi(group) : null,
+      group: Group.fromApi(group),
     );
   }
 }

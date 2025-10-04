@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -16,7 +15,6 @@ import 'package:cloudreve_api_client/src/model/site_config_section_get200_respon
 import 'package:cloudreve_api_client/src/model/site_ping_get200_response.dart';
 
 class SiteApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -27,7 +25,7 @@ class SiteApi {
   /// Report abuse on share links or users.
   ///
   /// Parameters:
-  /// * [siteAbusePostRequest] 
+  /// * [siteAbusePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -37,7 +35,7 @@ class SiteApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteAbusePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteAbusePost200Response>> siteAbusePost({ 
+  Future<Response<SiteAbusePost200Response>> siteAbusePost({
     SiteAbusePostRequest? siteAbusePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -64,11 +62,12 @@ class SiteApi {
 
     try {
       const _type = FullType(SiteAbusePostRequest);
-      _bodyData = siteAbusePostRequest == null ? null : _serializers.serialize(siteAbusePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = siteAbusePostRequest == null
+          ? null
+          : _serializers.serialize(siteAbusePostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -91,11 +90,12 @@ class SiteApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteAbusePost200Response),
-      ) as SiteAbusePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteAbusePost200Response),
+            ) as SiteAbusePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -131,7 +131,7 @@ class SiteApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteCaptchaGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteCaptchaGet200Response>> siteCaptchaGet({ 
+  Future<Response<SiteCaptchaGet200Response>> siteCaptchaGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -164,11 +164,12 @@ class SiteApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteCaptchaGet200Response),
-      ) as SiteCaptchaGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteCaptchaGet200Response),
+            ) as SiteCaptchaGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -205,7 +206,7 @@ class SiteApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SiteConfigSectionGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SiteConfigSectionGet200Response>> siteConfigSectionGet({ 
+  Future<Response<SiteConfigSectionGet200Response>> siteConfigSectionGet({
     required String section,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -214,7 +215,10 @@ class SiteApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/site/config/{section}'.replaceAll('{' r'section' '}', encodeQueryParameter(_serializers, section, const FullType(String)).toString());
+    final _path = r'/site/config/{section}'.replaceAll(
+        '{' r'section' '}',
+        encodeQueryParameter(_serializers, section, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -239,11 +243,12 @@ class SiteApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SiteConfigSectionGet200Response),
-      ) as SiteConfigSectionGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SiteConfigSectionGet200Response),
+            ) as SiteConfigSectionGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -279,7 +284,7 @@ class SiteApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SitePingGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SitePingGet200Response>> sitePingGet({ 
+  Future<Response<SitePingGet200Response>> sitePingGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -312,11 +317,12 @@ class SiteApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SitePingGet200Response),
-      ) as SitePingGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SitePingGet200Response),
+            ) as SitePingGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -338,5 +344,4 @@ class SiteApi {
       extra: _response.extra,
     );
   }
-
 }

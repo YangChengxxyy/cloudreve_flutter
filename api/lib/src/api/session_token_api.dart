@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -17,7 +16,6 @@ import 'package:cloudreve_api_client/src/model/session_token_post_request.dart';
 import 'package:cloudreve_api_client/src/model/session_token_refresh_post200_response.dart';
 
 class SessionTokenApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -28,7 +26,7 @@ class SessionTokenApi {
   /// After [Password Login](https://cloudrevev4.apifox.cn/password-sign-in-289490586e0.md), if 2FA is required, this API is used to finish 2FA challenge and obtain a pair of token.
   ///
   /// Parameters:
-  /// * [sessionToken2faPostRequest] 
+  /// * [sessionToken2faPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -38,7 +36,7 @@ class SessionTokenApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionToken2faPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionToken2faPost200Response>> sessionToken2faPost({ 
+  Future<Response<SessionToken2faPost200Response>> sessionToken2faPost({
     SessionToken2faPostRequest? sessionToken2faPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -65,11 +63,13 @@ class SessionTokenApi {
 
     try {
       const _type = FullType(SessionToken2faPostRequest);
-      _bodyData = sessionToken2faPostRequest == null ? null : _serializers.serialize(sessionToken2faPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionToken2faPostRequest == null
+          ? null
+          : _serializers.serialize(sessionToken2faPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -92,11 +92,12 @@ class SessionTokenApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionToken2faPost200Response),
-      ) as SessionToken2faPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionToken2faPost200Response),
+            ) as SessionToken2faPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -123,7 +124,7 @@ class SessionTokenApi {
   /// Sign out current session and revoke the refresh token. All refresh tokens issued from the root token will be revoked. For SSO sign in sessions, this method also give the redirect URL from SSO side to sign out its session.
   ///
   /// Parameters:
-  /// * [sessionTokenDeleteRequest] 
+  /// * [sessionTokenDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -133,7 +134,7 @@ class SessionTokenApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionTokenDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionTokenDelete200Response>> sessionTokenDelete({ 
+  Future<Response<SessionTokenDelete200Response>> sessionTokenDelete({
     SessionTokenDeleteRequest? sessionTokenDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -160,11 +161,13 @@ class SessionTokenApi {
 
     try {
       const _type = FullType(SessionTokenDeleteRequest);
-      _bodyData = sessionTokenDeleteRequest == null ? null : _serializers.serialize(sessionTokenDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionTokenDeleteRequest == null
+          ? null
+          : _serializers.serialize(sessionTokenDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -187,11 +190,12 @@ class SessionTokenApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionTokenDelete200Response),
-      ) as SessionTokenDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionTokenDelete200Response),
+            ) as SessionTokenDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -215,10 +219,10 @@ class SessionTokenApi {
   }
 
   /// Password sign-in
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [sessionTokenPostRequest] 
+  /// * [sessionTokenPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -228,7 +232,7 @@ class SessionTokenApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionTokenPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionTokenPost200Response>> sessionTokenPost({ 
+  Future<Response<SessionTokenPost200Response>> sessionTokenPost({
     SessionTokenPostRequest? sessionTokenPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -255,11 +259,13 @@ class SessionTokenApi {
 
     try {
       const _type = FullType(SessionTokenPostRequest);
-      _bodyData = sessionTokenPostRequest == null ? null : _serializers.serialize(sessionTokenPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionTokenPostRequest == null
+          ? null
+          : _serializers.serialize(sessionTokenPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -282,11 +288,12 @@ class SessionTokenApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionTokenPost200Response),
-      ) as SessionTokenPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionTokenPost200Response),
+            ) as SessionTokenPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -313,7 +320,7 @@ class SessionTokenApi {
   /// Refresh access token with a valid refresh token.
   ///
   /// Parameters:
-  /// * [sessionTokenDeleteRequest] 
+  /// * [sessionTokenDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -323,7 +330,7 @@ class SessionTokenApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionTokenRefreshPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionTokenRefreshPost200Response>> sessionTokenRefreshPost({ 
+  Future<Response<SessionTokenRefreshPost200Response>> sessionTokenRefreshPost({
     SessionTokenDeleteRequest? sessionTokenDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -350,11 +357,13 @@ class SessionTokenApi {
 
     try {
       const _type = FullType(SessionTokenDeleteRequest);
-      _bodyData = sessionTokenDeleteRequest == null ? null : _serializers.serialize(sessionTokenDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = sessionTokenDeleteRequest == null
+          ? null
+          : _serializers.serialize(sessionTokenDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -377,11 +386,12 @@ class SessionTokenApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionTokenRefreshPost200Response),
-      ) as SessionTokenRefreshPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SessionTokenRefreshPost200Response),
+            ) as SessionTokenRefreshPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -403,5 +413,4 @@ class SessionTokenApi {
       extra: _response.extra,
     );
   }
-
 }

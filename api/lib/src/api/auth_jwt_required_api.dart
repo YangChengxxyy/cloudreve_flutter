@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -69,7 +68,6 @@ import 'package:cloudreve_api_client/src/model/workflow_reloacte_post200_respons
 import 'package:cloudreve_api_client/src/model/workflow_reloacte_post_request.dart';
 
 class AuthJWTRequiredApi {
-
   final Dio _dio;
 
   final Serializers _serializers;
@@ -91,7 +89,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavGet200Response>> devicesDavGet({ 
+  Future<Response<DevicesDavGet200Response>> devicesDavGet({
     required int pageSize,
     String? nextPageToken,
     CancelToken? cancelToken,
@@ -115,8 +113,11 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -132,11 +133,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavGet200Response),
-      ) as DevicesDavGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavGet200Response),
+            ) as DevicesDavGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -160,7 +162,7 @@ class AuthJWTRequiredApi {
   }
 
   /// Delete account
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the existing WebDAV account.
@@ -173,7 +175,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavIdDelete200Response>> devicesDavIdDelete({ 
+  Future<Response<DevicesDavIdDelete200Response>> devicesDavIdDelete({
     required String id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -182,7 +184,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/devices/dav/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/devices/dav/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -207,11 +212,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavIdDelete200Response),
-      ) as DevicesDavIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavIdDelete200Response),
+            ) as DevicesDavIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -235,11 +241,11 @@ class AuthJWTRequiredApi {
   }
 
   /// Update account
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [id] - ID of the existing WebDAV account.
-  /// * [createDavAccountService] 
+  /// * [createDavAccountService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -249,7 +255,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavIdPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavIdPatch200Response>> devicesDavIdPatch({ 
+  Future<Response<DevicesDavIdPatch200Response>> devicesDavIdPatch({
     required String id,
     CreateDavAccountService? createDavAccountService,
     CancelToken? cancelToken,
@@ -259,7 +265,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/devices/dav/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/devices/dav/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -277,11 +286,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(CreateDavAccountService);
-      _bodyData = createDavAccountService == null ? null : _serializers.serialize(createDavAccountService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = createDavAccountService == null
+          ? null
+          : _serializers.serialize(createDavAccountService,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -304,11 +315,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavIdPatch200Response),
-      ) as DevicesDavIdPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavIdPatch200Response),
+            ) as DevicesDavIdPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -335,7 +347,7 @@ class AuthJWTRequiredApi {
   /// Create a new WebDAV account.
   ///
   /// Parameters:
-  /// * [createDavAccountService] 
+  /// * [createDavAccountService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -345,7 +357,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DevicesDavPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DevicesDavPut200Response>> devicesDavPut({ 
+  Future<Response<DevicesDavPut200Response>> devicesDavPut({
     CreateDavAccountService? createDavAccountService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -372,11 +384,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(CreateDavAccountService);
-      _bodyData = createDavAccountService == null ? null : _serializers.serialize(createDavAccountService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = createDavAccountService == null
+          ? null
+          : _serializers.serialize(createDavAccountService,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -399,11 +413,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(DevicesDavPut200Response),
-      ) as DevicesDavPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(DevicesDavPut200Response),
+            ) as DevicesDavPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -430,7 +445,7 @@ class AuthJWTRequiredApi {
   /// Clear existing permission setting of target files, whose permission settings will be inherited from parent after this action. Only owner of the file or administrators can perform this action.
   ///
   /// Parameters:
-  /// * [filePermissionDeleteRequest] 
+  /// * [filePermissionDeleteRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -440,7 +455,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePermissionDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePermissionDelete200Response>> filePermissionDelete({ 
+  Future<Response<FilePermissionDelete200Response>> filePermissionDelete({
     FilePermissionDeleteRequest? filePermissionDeleteRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -467,11 +482,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(FilePermissionDeleteRequest);
-      _bodyData = filePermissionDeleteRequest == null ? null : _serializers.serialize(filePermissionDeleteRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePermissionDeleteRequest == null
+          ? null
+          : _serializers.serialize(filePermissionDeleteRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -494,11 +511,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePermissionDelete200Response),
-      ) as FilePermissionDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePermissionDelete200Response),
+            ) as FilePermissionDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -525,7 +543,7 @@ class AuthJWTRequiredApi {
   /// Set file permissions. Only owner of the file or administrators can perform this action.
   ///
   /// Parameters:
-  /// * [filePermissionPostRequest] 
+  /// * [filePermissionPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -535,7 +553,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePermissionPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePermissionPost200Response>> filePermissionPost({ 
+  Future<Response<FilePermissionPost200Response>> filePermissionPost({
     FilePermissionPostRequest? filePermissionPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -562,11 +580,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(FilePermissionPostRequest);
-      _bodyData = filePermissionPostRequest == null ? null : _serializers.serialize(filePermissionPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePermissionPostRequest == null
+          ? null
+          : _serializers.serialize(filePermissionPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -589,11 +609,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePermissionPost200Response),
-      ) as FilePermissionPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePermissionPost200Response),
+            ) as FilePermissionPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -620,7 +641,7 @@ class AuthJWTRequiredApi {
   /// Remove a pinned URI from user&#39;s sidebar.
   ///
   /// Parameters:
-  /// * [pinFileService] 
+  /// * [pinFileService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -630,7 +651,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePinPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePinPut200Response>> filePinDelete({ 
+  Future<Response<FilePinPut200Response>> filePinDelete({
     PinFileService? pinFileService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -657,11 +678,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(PinFileService);
-      _bodyData = pinFileService == null ? null : _serializers.serialize(pinFileService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = pinFileService == null
+          ? null
+          : _serializers.serialize(pinFileService, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -684,11 +706,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePinPut200Response),
-      ) as FilePinPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePinPut200Response),
+            ) as FilePinPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -715,7 +738,7 @@ class AuthJWTRequiredApi {
   /// Pin a [URI](https://docs.cloudreve.org/api/file-uri) to user&#39;s sidebar.
   ///
   /// Parameters:
-  /// * [pinFileService] 
+  /// * [pinFileService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -725,7 +748,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePinPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePinPut200Response>> filePinPut({ 
+  Future<Response<FilePinPut200Response>> filePinPut({
     PinFileService? pinFileService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -752,11 +775,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(PinFileService);
-      _bodyData = pinFileService == null ? null : _serializers.serialize(pinFileService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = pinFileService == null
+          ? null
+          : _serializers.serialize(pinFileService, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -779,11 +803,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePinPut200Response),
-      ) as FilePinPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePinPut200Response),
+            ) as FilePinPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -810,7 +835,7 @@ class AuthJWTRequiredApi {
   /// This method mounts a folder to a given storage policy. All new files in this folder will prefer to use the mounted storage policy. This setting can be inherited by descendant folders if they&#39;re never mounted.
   ///
   /// Parameters:
-  /// * [filePolicyPatchRequest] 
+  /// * [filePolicyPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -820,7 +845,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FilePolicyPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FilePolicyPatch200Response>> filePolicyPatch({ 
+  Future<Response<FilePolicyPatch200Response>> filePolicyPatch({
     FilePolicyPatchRequest? filePolicyPatchRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -847,11 +872,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(FilePolicyPatchRequest);
-      _bodyData = filePolicyPatchRequest == null ? null : _serializers.serialize(filePolicyPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = filePolicyPatchRequest == null
+          ? null
+          : _serializers.serialize(filePolicyPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -874,11 +901,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FilePolicyPatch200Response),
-      ) as FilePolicyPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FilePolicyPatch200Response),
+            ) as FilePolicyPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -905,7 +933,7 @@ class AuthJWTRequiredApi {
   /// Restore deleted files in trash bin to its original location.
   ///
   /// Parameters:
-  /// * [fileRestorePostRequest] 
+  /// * [fileRestorePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -915,7 +943,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileRestorePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileRestorePost200Response>> fileRestorePost({ 
+  Future<Response<FileRestorePost200Response>> fileRestorePost({
     FileRestorePostRequest? fileRestorePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -942,11 +970,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(FileRestorePostRequest);
-      _bodyData = fileRestorePostRequest == null ? null : _serializers.serialize(fileRestorePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileRestorePostRequest == null
+          ? null
+          : _serializers.serialize(fileRestorePostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -969,11 +999,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileRestorePost200Response),
-      ) as FileRestorePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileRestorePost200Response),
+            ) as FileRestorePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1000,7 +1031,7 @@ class AuthJWTRequiredApi {
   /// Create a direct link that can be used to access the file&#39;s content directly. Only file owners or administrators can create direct links.
   ///
   /// Parameters:
-  /// * [fileSourcePutRequest] 
+  /// * [fileSourcePutRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1010,7 +1041,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileSourcePut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileSourcePut200Response>> fileSourcePut({ 
+  Future<Response<FileSourcePut200Response>> fileSourcePut({
     FileSourcePutRequest? fileSourcePutRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1037,11 +1068,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(FileSourcePutRequest);
-      _bodyData = fileSourcePutRequest == null ? null : _serializers.serialize(fileSourcePutRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileSourcePutRequest == null
+          ? null
+          : _serializers.serialize(fileSourcePutRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1064,11 +1096,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileSourcePut200Response),
-      ) as FileSourcePut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileSourcePut200Response),
+            ) as FileSourcePut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1095,7 +1128,7 @@ class AuthJWTRequiredApi {
   /// Update view settings for given folder. Only owner of the folder can update view settings.
   ///
   /// Parameters:
-  /// * [fileViewPatchRequest] 
+  /// * [fileViewPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1105,7 +1138,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FileViewPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FileViewPatch200Response>> fileViewPatch({ 
+  Future<Response<FileViewPatch200Response>> fileViewPatch({
     FileViewPatchRequest? fileViewPatchRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1132,11 +1165,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(FileViewPatchRequest);
-      _bodyData = fileViewPatchRequest == null ? null : _serializers.serialize(fileViewPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = fileViewPatchRequest == null
+          ? null
+          : _serializers.serialize(fileViewPatchRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1159,11 +1193,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(FileViewPatch200Response),
-      ) as FileViewPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(FileViewPatch200Response),
+            ) as FileViewPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1199,7 +1234,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [GroupListGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<GroupListGet200Response>> groupListGet({ 
+  Future<Response<GroupListGet200Response>> groupListGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1232,11 +1267,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(GroupListGet200Response),
-      ) as GroupListGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(GroupListGet200Response),
+            ) as GroupListGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1263,7 +1299,7 @@ class AuthJWTRequiredApi {
   /// Unlink an OpenID account from a Cloudreve account.
   ///
   /// Parameters:
-  /// * [providerId] - 
+  /// * [providerId] -
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1273,7 +1309,8 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SessionOpenidProviderIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SessionOpenidProviderIdDelete200Response>> sessionOpenidProviderIdDelete({ 
+  Future<Response<SessionOpenidProviderIdDelete200Response>>
+      sessionOpenidProviderIdDelete({
     required int providerId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1282,7 +1319,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/session/openid/{provider_id}'.replaceAll('{' r'provider_id' '}', encodeQueryParameter(_serializers, providerId, const FullType(int)).toString());
+    final _path = r'/session/openid/{provider_id}'.replaceAll(
+        '{' r'provider_id' '}',
+        encodeQueryParameter(_serializers, providerId, const FullType(int))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -1307,11 +1347,13 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SessionOpenidProviderIdDelete200Response),
-      ) as SessionOpenidProviderIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(SessionOpenidProviderIdDelete200Response),
+            ) as SessionOpenidProviderIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1335,12 +1377,12 @@ class AuthJWTRequiredApi {
   }
 
   /// List my share links
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pageSize] - Page size.
   /// * [orderBy] - Field name for ordering.
-  /// * [orderDirection] - 
+  /// * [orderDirection] -
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -1351,7 +1393,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ShareGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ShareGet200Response>> shareGet({ 
+  Future<Response<ShareGet200Response>> shareGet({
     required int pageSize,
     String? orderBy,
     String? orderDirection,
@@ -1377,10 +1419,17 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      if (orderBy != null) r'order_by': encodeQueryParameter(_serializers, orderBy, const FullType(String)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      if (orderBy != null)
+        r'order_by':
+            encodeQueryParameter(_serializers, orderBy, const FullType(String)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1396,11 +1445,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(ShareGet200Response),
-      ) as ShareGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(ShareGet200Response),
+            ) as ShareGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1428,7 +1478,7 @@ class AuthJWTRequiredApi {
   ///
   /// Parameters:
   /// * [id] - ID of the share link.
-  /// * [shareIdPostRequest] 
+  /// * [shareIdPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1438,7 +1488,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ShareIdPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ShareIdPost200Response>> shareIdPost({ 
+  Future<Response<ShareIdPost200Response>> shareIdPost({
     required String id,
     ShareIdPostRequest? shareIdPostRequest,
     CancelToken? cancelToken,
@@ -1448,7 +1498,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/share/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/share/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -1466,11 +1519,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(ShareIdPostRequest);
-      _bodyData = shareIdPostRequest == null ? null : _serializers.serialize(shareIdPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = shareIdPostRequest == null
+          ? null
+          : _serializers.serialize(shareIdPostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1493,11 +1547,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(ShareIdPost200Response),
-      ) as ShareIdPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(ShareIdPost200Response),
+            ) as ShareIdPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1524,7 +1579,7 @@ class AuthJWTRequiredApi {
   /// Create a share link to given file. Only file owner or administrator can create share links.
   ///
   /// Parameters:
-  /// * [shareCreateService] 
+  /// * [shareCreateService]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1534,7 +1589,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SharePut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SharePut200Response>> sharePut({ 
+  Future<Response<SharePut200Response>> sharePut({
     ShareCreateService? shareCreateService,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1561,11 +1616,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(ShareCreateService);
-      _bodyData = shareCreateService == null ? null : _serializers.serialize(shareCreateService, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = shareCreateService == null
+          ? null
+          : _serializers.serialize(shareCreateService, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1588,11 +1644,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(SharePut200Response),
-      ) as SharePut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(SharePut200Response),
+            ) as SharePut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1629,7 +1686,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserAuthnDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserAuthnDelete200Response>> userAuthnDelete({ 
+  Future<Response<UserAuthnDelete200Response>> userAuthnDelete({
     String? id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1652,7 +1709,8 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (id != null) r'id': encodeQueryParameter(_serializers, id, const FullType(String)),
+      if (id != null)
+        r'id': encodeQueryParameter(_serializers, id, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1668,11 +1726,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserAuthnDelete200Response),
-      ) as UserAuthnDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserAuthnDelete200Response),
+            ) as UserAuthnDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1696,10 +1755,10 @@ class AuthJWTRequiredApi {
   }
 
   /// Finish passkey registration
-  /// 
+  ///
   ///
   /// Parameters:
-  /// * [userAuthnPostRequest] 
+  /// * [userAuthnPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1709,7 +1768,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserAuthnPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserAuthnPost200Response>> userAuthnPost({ 
+  Future<Response<UserAuthnPost200Response>> userAuthnPost({
     UserAuthnPostRequest? userAuthnPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1736,11 +1795,12 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(UserAuthnPostRequest);
-      _bodyData = userAuthnPostRequest == null ? null : _serializers.serialize(userAuthnPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userAuthnPostRequest == null
+          ? null
+          : _serializers.serialize(userAuthnPostRequest, specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -1763,11 +1823,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserAuthnPost200Response),
-      ) as UserAuthnPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserAuthnPost200Response),
+            ) as UserAuthnPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1803,7 +1864,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserAuthnPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserAuthnPut200Response>> userAuthnPut({ 
+  Future<Response<UserAuthnPut200Response>> userAuthnPut({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1836,11 +1897,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserAuthnPut200Response),
-      ) as UserAuthnPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserAuthnPut200Response),
+            ) as UserAuthnPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1876,7 +1938,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserCapacityGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserCapacityGet200Response>> userCapacityGet({ 
+  Future<Response<UserCapacityGet200Response>> userCapacityGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1909,11 +1971,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserCapacityGet200Response),
-      ) as UserCapacityGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserCapacityGet200Response),
+            ) as UserCapacityGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -1937,11 +2000,11 @@ class AuthJWTRequiredApi {
   }
 
   /// List credit changes
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pageSize] - Page size.
-  /// * [orderDirection] - 
+  /// * [orderDirection] -
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -1952,7 +2015,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserCreditChangesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserCreditChangesGet200Response>> userCreditChangesGet({ 
+  Future<Response<UserCreditChangesGet200Response>> userCreditChangesGet({
     required num pageSize,
     String? orderDirection = 'asc',
     String? nextPageToken,
@@ -1977,9 +2040,14 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(num)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(num)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1995,11 +2063,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserCreditChangesGet200Response),
-      ) as UserCreditChangesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserCreditChangesGet200Response),
+            ) as UserCreditChangesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2023,11 +2092,11 @@ class AuthJWTRequiredApi {
   }
 
   /// List payments
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pageSize] - Page size.
-  /// * [orderDirection] - 
+  /// * [orderDirection] -
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -2038,7 +2107,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserPaymentsGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserPaymentsGet200Response>> userPaymentsGet({ 
+  Future<Response<UserPaymentsGet200Response>> userPaymentsGet({
     required num pageSize,
     String? orderDirection = 'asc',
     String? nextPageToken,
@@ -2063,9 +2132,14 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(num)),
-      if (orderDirection != null) r'order_direction': encodeQueryParameter(_serializers, orderDirection, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(num)),
+      if (orderDirection != null)
+        r'order_direction': encodeQueryParameter(
+            _serializers, orderDirection, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -2081,11 +2155,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserPaymentsGet200Response),
-      ) as UserPaymentsGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserPaymentsGet200Response),
+            ) as UserPaymentsGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2122,7 +2197,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSearchGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSearchGet200Response>> userSearchGet({ 
+  Future<Response<UserSearchGet200Response>> userSearchGet({
     required String keyword,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2145,7 +2220,8 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'keyword': encodeQueryParameter(_serializers, keyword, const FullType(String)),
+      r'keyword':
+          encodeQueryParameter(_serializers, keyword, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -2161,11 +2237,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSearchGet200Response),
-      ) as UserSearchGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSearchGet200Response),
+            ) as UserSearchGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2201,7 +2278,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSetting2faGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSetting2faGet200Response>> userSetting2faGet({ 
+  Future<Response<UserSetting2faGet200Response>> userSetting2faGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -2234,11 +2311,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSetting2faGet200Response),
-      ) as UserSetting2faGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSetting2faGet200Response),
+            ) as UserSetting2faGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2265,7 +2343,7 @@ class AuthJWTRequiredApi {
   /// Behaviour of this method depends on the request body:  * If requerst body is empty, the user profile pciture will set to using Gravatar. * If request body is not empty, and &#x60;Content-Length&#x60; &gt; &#x60;0&#x60;, the body will be parsed as image file, and used as the new profile picture.
   ///
   /// Parameters:
-  /// * [body] 
+  /// * [body]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2275,7 +2353,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingAvatarPut200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingAvatarPut200Response>> userSettingAvatarPut({ 
+  Future<Response<UserSettingAvatarPut200Response>> userSettingAvatarPut({
     MultipartFile? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2302,10 +2380,9 @@ class AuthJWTRequiredApi {
 
     try {
       _bodyData = body?.finalize();
-
-    } catch(error, stackTrace) {
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -2328,11 +2405,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingAvatarPut200Response),
-      ) as UserSettingAvatarPut200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingAvatarPut200Response),
+            ) as UserSettingAvatarPut200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2356,7 +2434,7 @@ class AuthJWTRequiredApi {
   }
 
   /// Get preferences
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -2368,7 +2446,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingGet200Response>> userSettingGet({ 
+  Future<Response<UserSettingGet200Response>> userSettingGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -2401,11 +2479,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingGet200Response),
-      ) as UserSettingGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingGet200Response),
+            ) as UserSettingGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2441,7 +2520,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingNodesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingNodesGet200Response>> userSettingNodesGet({ 
+  Future<Response<UserSettingNodesGet200Response>> userSettingNodesGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -2474,11 +2553,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingNodesGet200Response),
-      ) as UserSettingNodesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingNodesGet200Response),
+            ) as UserSettingNodesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2505,7 +2585,7 @@ class AuthJWTRequiredApi {
   /// Only non-null fields in request body will be updated.
   ///
   /// Parameters:
-  /// * [userSettingPatchRequest] 
+  /// * [userSettingPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2515,7 +2595,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingPatch200Response>> userSettingPatch({ 
+  Future<Response<UserSettingPatch200Response>> userSettingPatch({
     UserSettingPatchRequest? userSettingPatchRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2542,11 +2622,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(UserSettingPatchRequest);
-      _bodyData = userSettingPatchRequest == null ? null : _serializers.serialize(userSettingPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = userSettingPatchRequest == null
+          ? null
+          : _serializers.serialize(userSettingPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -2569,11 +2651,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingPatch200Response),
-      ) as UserSettingPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingPatch200Response),
+            ) as UserSettingPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2609,7 +2692,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [UserSettingPoliciesGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<UserSettingPoliciesGet200Response>> userSettingPoliciesGet({ 
+  Future<Response<UserSettingPoliciesGet200Response>> userSettingPoliciesGet({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -2642,11 +2725,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(UserSettingPoliciesGet200Response),
-      ) as UserSettingPoliciesGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(UserSettingPoliciesGet200Response),
+            ) as UserSettingPoliciesGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2683,7 +2767,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasGiftcodeCodeGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasGiftcodeCodeGet200Response>> vasGiftcodeCodeGet({ 
+  Future<Response<VasGiftcodeCodeGet200Response>> vasGiftcodeCodeGet({
     required String code,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2692,7 +2776,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/giftcode/{code}'.replaceAll('{' r'code' '}', encodeQueryParameter(_serializers, code, const FullType(String)).toString());
+    final _path = r'/vas/giftcode/{code}'.replaceAll(
+        '{' r'code' '}',
+        encodeQueryParameter(_serializers, code, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -2717,11 +2804,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasGiftcodeCodeGet200Response),
-      ) as VasGiftcodeCodeGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(VasGiftcodeCodeGet200Response),
+            ) as VasGiftcodeCodeGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2745,7 +2833,7 @@ class AuthJWTRequiredApi {
   }
 
   /// Redeem gift code
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [code] - Gift code.
@@ -2758,7 +2846,8 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [VasGiftcodeCodeRedeemPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<VasGiftcodeCodeRedeemPost200Response>> vasGiftcodeCodeRedeemPost({ 
+  Future<Response<VasGiftcodeCodeRedeemPost200Response>>
+      vasGiftcodeCodeRedeemPost({
     required String code,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2767,7 +2856,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/vas/giftcode/{code}/redeem'.replaceAll('{' r'code' '}', encodeQueryParameter(_serializers, code, const FullType(String)).toString());
+    final _path = r'/vas/giftcode/{code}/redeem'.replaceAll(
+        '{' r'code' '}',
+        encodeQueryParameter(_serializers, code, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -2792,11 +2884,13 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(VasGiftcodeCodeRedeemPost200Response),
-      ) as VasGiftcodeCodeRedeemPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(VasGiftcodeCodeRedeemPost200Response),
+            ) as VasGiftcodeCodeRedeemPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2823,7 +2917,7 @@ class AuthJWTRequiredApi {
   /// Create a tasks to create a new archive file from existing files.
   ///
   /// Parameters:
-  /// * [workflowArchivePostRequest] 
+  /// * [workflowArchivePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2833,7 +2927,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowArchivePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowArchivePost200Response>> workflowArchivePost({ 
+  Future<Response<WorkflowArchivePost200Response>> workflowArchivePost({
     WorkflowArchivePostRequest? workflowArchivePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2860,11 +2954,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(WorkflowArchivePostRequest);
-      _bodyData = workflowArchivePostRequest == null ? null : _serializers.serialize(workflowArchivePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowArchivePostRequest == null
+          ? null
+          : _serializers.serialize(workflowArchivePostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -2887,11 +2983,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowArchivePost200Response),
-      ) as WorkflowArchivePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowArchivePost200Response),
+            ) as WorkflowArchivePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -2918,7 +3015,7 @@ class AuthJWTRequiredApi {
   /// Create a remote download task.
   ///
   /// Parameters:
-  /// * [workflowDownloadPostRequest] 
+  /// * [workflowDownloadPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -2928,7 +3025,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowDownloadPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowDownloadPost200Response>> workflowDownloadPost({ 
+  Future<Response<WorkflowDownloadPost200Response>> workflowDownloadPost({
     WorkflowDownloadPostRequest? workflowDownloadPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -2955,11 +3052,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(WorkflowDownloadPostRequest);
-      _bodyData = workflowDownloadPostRequest == null ? null : _serializers.serialize(workflowDownloadPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowDownloadPostRequest == null
+          ? null
+          : _serializers.serialize(workflowDownloadPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -2982,11 +3081,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowDownloadPost200Response),
-      ) as WorkflowDownloadPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowDownloadPost200Response),
+            ) as WorkflowDownloadPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3023,7 +3123,8 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowDownloadTaskIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowDownloadTaskIdDelete200Response>> workflowDownloadTaskIdDelete({ 
+  Future<Response<WorkflowDownloadTaskIdDelete200Response>>
+      workflowDownloadTaskIdDelete({
     required String taskId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3032,7 +3133,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/workflow/download/{task_id}'.replaceAll('{' r'task_id' '}', encodeQueryParameter(_serializers, taskId, const FullType(String)).toString());
+    final _path = r'/workflow/download/{task_id}'.replaceAll(
+        '{' r'task_id' '}',
+        encodeQueryParameter(_serializers, taskId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -3057,11 +3161,13 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowDownloadTaskIdDelete200Response),
-      ) as WorkflowDownloadTaskIdDelete200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(WorkflowDownloadTaskIdDelete200Response),
+            ) as WorkflowDownloadTaskIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3089,7 +3195,7 @@ class AuthJWTRequiredApi {
   ///
   /// Parameters:
   /// * [taskId] - ID of the remote download tasks.
-  /// * [workflowDownloadTaskIdPatchRequest] 
+  /// * [workflowDownloadTaskIdPatchRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3099,7 +3205,8 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowDownloadTaskIdPatch200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowDownloadTaskIdPatch200Response>> workflowDownloadTaskIdPatch({ 
+  Future<Response<WorkflowDownloadTaskIdPatch200Response>>
+      workflowDownloadTaskIdPatch({
     required String taskId,
     WorkflowDownloadTaskIdPatchRequest? workflowDownloadTaskIdPatchRequest,
     CancelToken? cancelToken,
@@ -3109,7 +3216,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/workflow/download/{task_id}'.replaceAll('{' r'task_id' '}', encodeQueryParameter(_serializers, taskId, const FullType(String)).toString());
+    final _path = r'/workflow/download/{task_id}'.replaceAll(
+        '{' r'task_id' '}',
+        encodeQueryParameter(_serializers, taskId, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -3127,11 +3237,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(WorkflowDownloadTaskIdPatchRequest);
-      _bodyData = workflowDownloadTaskIdPatchRequest == null ? null : _serializers.serialize(workflowDownloadTaskIdPatchRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowDownloadTaskIdPatchRequest == null
+          ? null
+          : _serializers.serialize(workflowDownloadTaskIdPatchRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -3154,11 +3266,13 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowDownloadTaskIdPatch200Response),
-      ) as WorkflowDownloadTaskIdPatch200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType:
+                  const FullType(WorkflowDownloadTaskIdPatch200Response),
+            ) as WorkflowDownloadTaskIdPatch200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3185,7 +3299,7 @@ class AuthJWTRequiredApi {
   /// Create a task to extract all files in a given archive file.
   ///
   /// Parameters:
-  /// * [workflowExtractPostRequest] 
+  /// * [workflowExtractPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3195,7 +3309,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowExtractPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowExtractPost200Response>> workflowExtractPost({ 
+  Future<Response<WorkflowExtractPost200Response>> workflowExtractPost({
     WorkflowExtractPostRequest? workflowExtractPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3222,11 +3336,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(WorkflowExtractPostRequest);
-      _bodyData = workflowExtractPostRequest == null ? null : _serializers.serialize(workflowExtractPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowExtractPostRequest == null
+          ? null
+          : _serializers.serialize(workflowExtractPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -3249,11 +3365,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowExtractPost200Response),
-      ) as WorkflowExtractPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowExtractPost200Response),
+            ) as WorkflowExtractPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3280,7 +3397,7 @@ class AuthJWTRequiredApi {
   /// List all background tasks triggered by current authenticated user.
   ///
   /// Parameters:
-  /// * [pageSize] - 
+  /// * [pageSize] -
   /// * [category] - Select which category of tasks to list.
   /// * [nextPageToken] - Token for requesting next page. Empty value means requesting the first page.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -3292,7 +3409,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowGet200Response>> workflowGet({ 
+  Future<Response<WorkflowGet200Response>> workflowGet({
     required int pageSize,
     required String category,
     String? nextPageToken,
@@ -3317,9 +3434,13 @@ class AuthJWTRequiredApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'page_size': encodeQueryParameter(_serializers, pageSize, const FullType(int)),
-      r'category': encodeQueryParameter(_serializers, category, const FullType(String)),
-      if (nextPageToken != null) r'next_page_token': encodeQueryParameter(_serializers, nextPageToken, const FullType(String)),
+      r'page_size':
+          encodeQueryParameter(_serializers, pageSize, const FullType(int)),
+      r'category':
+          encodeQueryParameter(_serializers, category, const FullType(String)),
+      if (nextPageToken != null)
+        r'next_page_token': encodeQueryParameter(
+            _serializers, nextPageToken, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -3335,11 +3456,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowGet200Response),
-      ) as WorkflowGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowGet200Response),
+            ) as WorkflowGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3366,7 +3488,7 @@ class AuthJWTRequiredApi {
   /// Create a task to import external physical files to given path of a given user. **This method is restricted to users with admin permission only.**
   ///
   /// Parameters:
-  /// * [workflowImportPostRequest] 
+  /// * [workflowImportPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3376,7 +3498,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowImportPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowImportPost200Response>> workflowImportPost({ 
+  Future<Response<WorkflowImportPost200Response>> workflowImportPost({
     WorkflowImportPostRequest? workflowImportPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3403,11 +3525,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(WorkflowImportPostRequest);
-      _bodyData = workflowImportPostRequest == null ? null : _serializers.serialize(workflowImportPostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowImportPostRequest == null
+          ? null
+          : _serializers.serialize(workflowImportPostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -3430,11 +3554,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowImportPost200Response),
-      ) as WorkflowImportPost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowImportPost200Response),
+            ) as WorkflowImportPost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3471,7 +3596,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowProgressIdGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowProgressIdGet200Response>> workflowProgressIdGet({ 
+  Future<Response<WorkflowProgressIdGet200Response>> workflowProgressIdGet({
     required String id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3480,7 +3605,10 @@ class AuthJWTRequiredApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/workflow/progress/{id}'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _path = r'/workflow/progress/{id}'.replaceAll(
+        '{' r'id' '}',
+        encodeQueryParameter(_serializers, id, const FullType(String))
+            .toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -3505,11 +3633,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowProgressIdGet200Response),
-      ) as WorkflowProgressIdGet200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowProgressIdGet200Response),
+            ) as WorkflowProgressIdGet200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3536,7 +3665,7 @@ class AuthJWTRequiredApi {
   /// Create a task to relocate storage policy for given files.
   ///
   /// Parameters:
-  /// * [workflowReloactePostRequest] 
+  /// * [workflowReloactePostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -3546,7 +3675,7 @@ class AuthJWTRequiredApi {
   ///
   /// Returns a [Future] containing a [Response] with a [WorkflowReloactePost200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<WorkflowReloactePost200Response>> workflowReloactePost({ 
+  Future<Response<WorkflowReloactePost200Response>> workflowReloactePost({
     WorkflowReloactePostRequest? workflowReloactePostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -3573,11 +3702,13 @@ class AuthJWTRequiredApi {
 
     try {
       const _type = FullType(WorkflowReloactePostRequest);
-      _bodyData = workflowReloactePostRequest == null ? null : _serializers.serialize(workflowReloactePostRequest, specifiedType: _type);
-
-    } catch(error, stackTrace) {
+      _bodyData = workflowReloactePostRequest == null
+          ? null
+          : _serializers.serialize(workflowReloactePostRequest,
+              specifiedType: _type);
+    } catch (error, stackTrace) {
       throw DioException(
-         requestOptions: _options.compose(
+        requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -3600,11 +3731,12 @@ class AuthJWTRequiredApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(WorkflowReloactePost200Response),
-      ) as WorkflowReloactePost200Response;
-
+      _responseData = rawResponse == null
+          ? null
+          : _serializers.deserialize(
+              rawResponse,
+              specifiedType: const FullType(WorkflowReloactePost200Response),
+            ) as WorkflowReloactePost200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -3626,5 +3758,4 @@ class AuthJWTRequiredApi {
       extra: _response.extra,
     );
   }
-
 }

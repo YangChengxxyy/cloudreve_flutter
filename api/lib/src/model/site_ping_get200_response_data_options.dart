@@ -3,8 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -13,26 +11,36 @@ part 'site_ping_get200_response_data_options.g.dart';
 /// A `CredentialAssertion` object that can be used by browser to initiate a authentification.
 ///
 /// Properties:
-/// * [n01jSRK1R5F4NZ2CHDTQ44G3C82] 
+/// * [n01jSRK1R5F4NZ2CHDTQ44G3C82]
 @BuiltValue()
-abstract class SitePingGet200ResponseDataOptions implements Built<SitePingGet200ResponseDataOptions, SitePingGet200ResponseDataOptionsBuilder> {
+abstract class SitePingGet200ResponseDataOptions
+    implements
+        Built<SitePingGet200ResponseDataOptions,
+            SitePingGet200ResponseDataOptionsBuilder> {
   @BuiltValueField(wireName: r'01JSRK1R5F4NZ2CHDTQ44G3C82')
   String get n01jSRK1R5F4NZ2CHDTQ44G3C82;
 
   SitePingGet200ResponseDataOptions._();
 
-  factory SitePingGet200ResponseDataOptions([void updates(SitePingGet200ResponseDataOptionsBuilder b)]) = _$SitePingGet200ResponseDataOptions;
+  factory SitePingGet200ResponseDataOptions(
+          [void updates(SitePingGet200ResponseDataOptionsBuilder b)]) =
+      _$SitePingGet200ResponseDataOptions;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SitePingGet200ResponseDataOptionsBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SitePingGet200ResponseDataOptions> get serializer => _$SitePingGet200ResponseDataOptionsSerializer();
+  static Serializer<SitePingGet200ResponseDataOptions> get serializer =>
+      _$SitePingGet200ResponseDataOptionsSerializer();
 }
 
-class _$SitePingGet200ResponseDataOptionsSerializer implements PrimitiveSerializer<SitePingGet200ResponseDataOptions> {
+class _$SitePingGet200ResponseDataOptionsSerializer
+    implements PrimitiveSerializer<SitePingGet200ResponseDataOptions> {
   @override
-  final Iterable<Type> types = const [SitePingGet200ResponseDataOptions, _$SitePingGet200ResponseDataOptions];
+  final Iterable<Type> types = const [
+    SitePingGet200ResponseDataOptions,
+    _$SitePingGet200ResponseDataOptions
+  ];
 
   @override
   final String wireName = r'SitePingGet200ResponseDataOptions';
@@ -55,7 +63,9 @@ class _$SitePingGet200ResponseDataOptionsSerializer implements PrimitiveSerializ
     SitePingGet200ResponseDataOptions object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -105,4 +115,3 @@ class _$SitePingGet200ResponseDataOptionsSerializer implements PrimitiveSerializ
     return result.build();
   }
 }
-

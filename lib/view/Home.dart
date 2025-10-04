@@ -160,8 +160,7 @@ class _HomeState extends State<Home> {
       },
       child: FutureBuilder<FileListing>(
         future: _fileResp,
-        builder:
-            (BuildContext context, AsyncSnapshot<FileListing> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<FileListing> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text("加载失败"));
           }
@@ -600,8 +599,8 @@ class _HomeState extends State<Home> {
       DateTime now = DateTime.now();
       time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
-        final downloadUrl = await _ensureDownloadUrl(fileId, fileUri,
-            contextHint: contextHint);
+        final downloadUrl =
+            await _ensureDownloadUrl(fileId, fileUri, contextHint: contextHint);
         if (downloadUrl != null) {
           final image = await CloudreveRepository.fetchRaw(downloadUrl);
           if (image != null) {
@@ -613,8 +612,8 @@ class _HomeState extends State<Home> {
       }
       return file.readAsBytesSync();
     } else {
-      final downloadUrl = await _ensureDownloadUrl(fileId, fileUri,
-          contextHint: contextHint);
+      final downloadUrl =
+          await _ensureDownloadUrl(fileId, fileUri, contextHint: contextHint);
       if (downloadUrl == null) {
         return Uint8List.fromList([1]);
       }
@@ -744,8 +743,8 @@ class _HomeState extends State<Home> {
       );
     } else {
       final contextHint = _currentListing?.contextHint;
-      final url = await _ensureDownloadUrl(file.id, fileUri,
-          contextHint: contextHint);
+      final url =
+          await _ensureDownloadUrl(file.id, fileUri, contextHint: contextHint);
       if (url == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('获取下载链接失败')),
@@ -796,7 +795,7 @@ class _HomeState extends State<Home> {
         }
         return;
       }
-      if (downloadResponse?.statusCode == 200) {
+      if (downloadResponse.statusCode == 200) {
         await _flutterLocalNotificationsPlugin.cancel(fileHashCode);
         await _showDownloadNotification(
           id: fileHashCode,
