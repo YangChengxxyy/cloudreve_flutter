@@ -26,7 +26,7 @@ abstract class UserCapacityGet200ResponseData implements Built<UserCapacityGet20
 
   /// Available storage packs in bytes. Ony presented in Pro edition.
   @BuiltValueField(wireName: r'storage_pack_total')
-  int get storagePackTotal;
+  int? get storagePackTotal;
 
   UserCapacityGet200ResponseData._();
 
@@ -61,11 +61,13 @@ class _$UserCapacityGet200ResponseDataSerializer implements PrimitiveSerializer<
       object.used,
       specifiedType: const FullType(int),
     );
-    yield r'storage_pack_total';
-    yield serializers.serialize(
-      object.storagePackTotal,
-      specifiedType: const FullType(int),
-    );
+    if (object.storagePackTotal != null) {
+      yield r'storage_pack_total';
+      yield serializers.serialize(
+        object.storagePackTotal,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override
@@ -106,8 +108,9 @@ class _$UserCapacityGet200ResponseDataSerializer implements PrimitiveSerializer<
         case r'storage_pack_total':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.storagePackTotal = valueDes;
           break;
         default:
@@ -138,4 +141,3 @@ class _$UserCapacityGet200ResponseDataSerializer implements PrimitiveSerializer<
     return result.build();
   }
 }
-

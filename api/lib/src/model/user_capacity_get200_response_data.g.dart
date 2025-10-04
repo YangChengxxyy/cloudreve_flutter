@@ -12,14 +12,14 @@ class _$UserCapacityGet200ResponseData extends UserCapacityGet200ResponseData {
   @override
   final int used;
   @override
-  final int storagePackTotal;
+  final int? storagePackTotal;
 
   factory _$UserCapacityGet200ResponseData(
           [void Function(UserCapacityGet200ResponseDataBuilder)? updates]) =>
       (UserCapacityGet200ResponseDataBuilder()..update(updates))._build();
 
   _$UserCapacityGet200ResponseData._(
-      {required this.total, required this.used, required this.storagePackTotal})
+      {required this.total, required this.used, this.storagePackTotal})
       : super._();
   @override
   UserCapacityGet200ResponseData rebuild(
@@ -113,10 +113,7 @@ class UserCapacityGet200ResponseDataBuilder
               total, r'UserCapacityGet200ResponseData', 'total'),
           used: BuiltValueNullFieldError.checkNotNull(
               used, r'UserCapacityGet200ResponseData', 'used'),
-          storagePackTotal: BuiltValueNullFieldError.checkNotNull(
-              storagePackTotal,
-              r'UserCapacityGet200ResponseData',
-              'storagePackTotal'),
+          storagePackTotal: storagePackTotal,
         );
     replace(_$result);
     return _$result;

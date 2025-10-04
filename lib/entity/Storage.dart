@@ -32,7 +32,7 @@ class Storage {
 
   factory Storage.fromApi(cloudreve_api.UserCapacityGet200ResponseData data) {
     final baseTotal = data.total;
-    final packTotal = data.storagePackTotal;
+    final packTotal = data.storagePackTotal ?? 0;
     final usedValue = data.used;
     final totalValue = baseTotal + packTotal;
     final remaining = totalValue - usedValue;
