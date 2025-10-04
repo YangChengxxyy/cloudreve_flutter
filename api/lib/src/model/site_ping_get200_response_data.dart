@@ -19,9 +19,11 @@ part 'site_ping_get200_response_data.g.dart';
 /// * [ssoEnabled] - Whether this account can be logged in with Logto.
 /// * [publicKey] - A [PublicKeyCredentialCreationOptions](https://www.w3.org/TR/webauthn/#dictionary-makecredentialoptions) object that can be used to invoke passkey registration from browser.
 /// * [sessionId] - ID of the login session.
-/// * [options] 
+/// * [options]
 @BuiltValue()
-abstract class SitePingGet200ResponseData implements Built<SitePingGet200ResponseData, SitePingGet200ResponseDataBuilder> {
+abstract class SitePingGet200ResponseData
+    implements
+        Built<SitePingGet200ResponseData, SitePingGet200ResponseDataBuilder> {
   /// Whether this account can be logged in with Passkeys.
   @BuiltValueField(wireName: r'webauthn_enabled')
   bool? get webauthnEnabled;
@@ -51,18 +53,25 @@ abstract class SitePingGet200ResponseData implements Built<SitePingGet200Respons
 
   SitePingGet200ResponseData._();
 
-  factory SitePingGet200ResponseData([void updates(SitePingGet200ResponseDataBuilder b)]) = _$SitePingGet200ResponseData;
+  factory SitePingGet200ResponseData(
+          [void updates(SitePingGet200ResponseDataBuilder b)]) =
+      _$SitePingGet200ResponseData;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SitePingGet200ResponseDataBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SitePingGet200ResponseData> get serializer => _$SitePingGet200ResponseDataSerializer();
+  static Serializer<SitePingGet200ResponseData> get serializer =>
+      _$SitePingGet200ResponseDataSerializer();
 }
 
-class _$SitePingGet200ResponseDataSerializer implements PrimitiveSerializer<SitePingGet200ResponseData> {
+class _$SitePingGet200ResponseDataSerializer
+    implements PrimitiveSerializer<SitePingGet200ResponseData> {
   @override
-  final Iterable<Type> types = const [SitePingGet200ResponseData, _$SitePingGet200ResponseData];
+  final Iterable<Type> types = const [
+    SitePingGet200ResponseData,
+    _$SitePingGet200ResponseData
+  ];
 
   @override
   final String wireName = r'SitePingGet200ResponseData';
@@ -121,7 +130,9 @@ class _$SitePingGet200ResponseDataSerializer implements PrimitiveSerializer<Site
     SitePingGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -183,7 +194,7 @@ class _$SitePingGet200ResponseDataSerializer implements PrimitiveSerializer<Site
             value,
             specifiedType: const FullType(SitePingGet200ResponseDataOptions),
           ) as SitePingGet200ResponseDataOptions;
-          result.options.replace(valueDes);
+          result.options = valueDes.toBuilder();
           break;
         default:
           unhandled.add(key);

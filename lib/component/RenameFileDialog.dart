@@ -1,5 +1,5 @@
 import 'package:cloudreve/entity/MFile.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:flutter/material.dart';
 
 class RenameFileDialog extends StatefulWidget {
@@ -32,11 +32,11 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
           ),
           Form(
             key: _formKey,
-            child: TextFormField(
-              controller: _newFileController,
-              decoration: InputDecoration(
-                label: Text("新名称"),
-              ),
+              child: TextFormField(
+                controller: _newFileController,
+                decoration: InputDecoration(
+                  label: Text("新名称"),
+                ),
               keyboardType: TextInputType.text,
               validator: (v) {
                 if (v == null) {
@@ -58,22 +58,28 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
         TextButton(
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              var items = <String>[];
-              var dirs = <String>[];
-              if (widget.file.type == "dir") {
-                dirs.add(widget.file.id);
+              final uri = widget.file.path;
+              final success = uri.isNotEmpty &&
+                  await CloudreveRepository.renameEntry(
+                    fileUri: uri,
+                    newName: _newFileController.text.trim(),
+                  );
+              if (success) {
+                Navigator.pop(context);
+                Navigator.pop(widget.fatherContext);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("重命名成功"),
+                  ),
+                );
+                widget.refresh();
               } else {
-                items.add(widget.file.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("重命名失败"),
+                  ),
+                );
               }
-              await renameObjects(_newFileController.text, dirs, items);
-              Navigator.pop(context);
-              Navigator.pop(widget.fatherContext);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("重命名成功"),
-                ),
-              );
-              widget.refresh();
             }
           },
           child: Text("确定"),

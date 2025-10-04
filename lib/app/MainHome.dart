@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloudreve/component/CustomSearchDelegate.dart';
 import 'package:cloudreve/component/MDrawer.dart';
@@ -7,11 +8,10 @@ import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
-import 'package:cloudreve_api_client/cloudreve_api_client.dart'
-    as cloudreve_api;
+import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class _MainHomeState extends State<MainHome> {
   String _path = "/";
 
   /// 访问后台的文件列表
-  late Future<cloudreve_api.FileGet200Response?> _fileResp;
+  late Future<FileListing> _fileResp;
 
   /// 记录刷新时间 减少刷新时间
   int _lastRequest = -1;
@@ -60,7 +60,7 @@ class _MainHomeState extends State<MainHome> {
   late UserData _userData;
 
   _MainHomeState() {
-    _fileResp = directory(_path);
+    _fileResp = CloudreveRepository.listFiles(_path);
   }
 
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
@@ -325,8 +325,10 @@ class _MainHomeState extends State<MainHome> {
             TextButton(
               onPressed: () async {
                 if ((_formKey.currentState!).validate()) {
-                  final res = await addDirectory(
-                      {"path": _path + "/" + _newFoldController.text.trim()});
+                  final res = await CloudreveRepository.createDirectory(
+                    _path,
+                    _newFoldController.text.trim(),
+                  );
                   if (res != null && res.code == 0) {
                     Navigator.pop(context);
                     _newFoldController.text = "";
@@ -383,16 +385,14 @@ class _MainHomeState extends State<MainHome> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String username = prefs.getString(usernameKey)!;
       String password = prefs.getString(passwordKey)!;
-      final loginResult = await session(username, password);
-      final storageResp = await getStorage();
-      final storageData = storageResp?.data;
+      final loginResult =
+          await CloudreveRepository.signIn(email: username, password: password);
+      final storageData = await CloudreveRepository.fetchStorage();
 
-      final Storage storage = storageData != null
-          ? Storage.fromApi(storageData)
-          : _storage;
+      final Storage storage = storageData ?? _storage;
       final UserData userData =
           loginResult.data != null ? loginResult.data!.user : _userData;
-      var fileResp = directory(_path);
+      var fileResp = CloudreveRepository.listFiles(_path);
 
       setState(() {
         _fileResp = fileResp;
@@ -407,16 +407,14 @@ class _MainHomeState extends State<MainHome> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String username = prefs.getString(usernameKey)!;
         String password = prefs.getString(passwordKey)!;
-        final loginResult = await session(username, password);
-        final storageResp = await getStorage();
-        final storageData = storageResp?.data;
+        final loginResult = await CloudreveRepository.signIn(
+            email: username, password: password);
+        final storageData = await CloudreveRepository.fetchStorage();
 
-        final Storage storage = storageData != null
-            ? Storage.fromApi(storageData)
-            : _storage;
+        final Storage storage = storageData ?? _storage;
         final UserData userData =
             loginResult.data != null ? loginResult.data!.user : _userData;
-        var fileResp = directory(_path);
+        var fileResp = CloudreveRepository.listFiles(_path);
 
         setState(() {
           _fileResp = fileResp;
@@ -444,12 +442,24 @@ class _MainHomeState extends State<MainHome> {
     uploadCancelTokenMap[fileHashCode] = cancelToken;
     Response response;
     try {
-      response = await uploadFile(
-        file,
-        _path,
-        cancelToken,
-        (process, total) {
-          final percent = process / total;
+      final options = Options(
+        method: 'POST',
+        contentType: 'application/octet-stream',
+        headers: {
+          'x-cr-filename': Uri.encodeComponent(file.name),
+          'x-cr-path': Uri.encodeComponent(_path),
+          HttpHeaders.contentLengthHeader: file.size,
+        },
+        sendTimeout: const Duration(seconds: 100),
+      );
+
+      response = await HttpUtil.dio.post(
+        '/api/v3/file/upload',
+        options: options,
+        data: file.readStream,
+        cancelToken: cancelToken,
+        onSendProgress: (process, total) {
+          final percent = total == 0 ? 0 : process / total;
           unawaited(
             _showUploadNotification(
               id: fileHashCode,

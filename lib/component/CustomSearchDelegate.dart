@@ -1,12 +1,7 @@
 import 'package:cloudreve/entity/MFile.dart';
-import 'package:cloudreve/entity/Property.dart';
-import 'package:cloudreve/entity/Result.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/view/Home.dart';
-import 'package:cloudreve_api_client/cloudreve_api_client.dart'
-    as cloudreve_api;
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearchDelegate extends SearchDelegate<String> {
@@ -46,25 +41,18 @@ class CustomSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder<cloudreve_api.FileGet200Response?>(
-      future: search(query),
-      builder: (BuildContext _,
-          AsyncSnapshot<cloudreve_api.FileGet200Response?> snapshot) {
+    return FutureBuilder<FileListing>(
+      future: CloudreveRepository.search(query),
+      builder:
+          (BuildContext _, AsyncSnapshot<FileListing> snapshot) {
         if (snapshot.hasError) {
           return Center(
             child: Text("搜索失败"),
           );
         }
-        if (snapshot.hasData && snapshot.data != null) {
-          final response = snapshot.data!;
-          if (response.code != 0) {
-            return Center(
-              child: Text(response.msg ?? "搜索失败"),
-            );
-          }
-          final files = response.data.files;
-          final fileList =
-              files.map(MFile.fromFileResponse).toList(growable: false);
+        if (snapshot.hasData) {
+          final listing = snapshot.data!;
+          final fileList = List<MFile>.from(listing.files);
           if (fileList.isEmpty) {
             return Center(
               child: Text("没有结果"),
@@ -137,8 +125,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                 color: Colors.grey,
                 tooltip: "删除",
                 onPressed: () async {
-                  Response delRes = await deleteItem([], [file.id]);
-                  if (delRes.data['code'] == 0) {
+                  final uri = file.path;
+                  final success = uri.isNotEmpty &&
+                      await CloudreveRepository.deleteFiles(
+                        fileUris: [uri],
+                      );
+                  if (success) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("删除成功"),
@@ -192,42 +184,17 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               ),
             ),
           ],
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text("文件名:\t\t${file.name}"),
-              Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble())}"),
+         content: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           mainAxisSize: MainAxisSize.min,
+           children: <Widget>[
+             Text("文件名:\t\t${file.name}"),
+             Text("文件大小:\t\t${MFile.getFileSize(file.size.toDouble())}"),
               Text("上传时间:\t\t${file.getFormatDate()}"),
-              FutureBuilder(
-                future: property(file),
-                builder: (BuildContext _, AsyncSnapshot<Response> snapshot) {
-                  if (snapshot.hasData) {
-                    Result result = Result.fromJson(snapshot.data!.data);
-                    Property property = Property.fromJson(result.data);
-                    return Row(
-                      children: [
-                        Text("路径:\t\t"),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(dialogContext);
-                            Navigator.pop(context);
-                            gotoPath(property.path);
-                          },
-                          child: Text(
-                            property.path,
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue),
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Text("loading……");
-                  }
-                },
-              ),
+              Text(
+                "路径:\t\t${file.path}",
+                style: TextStyle(color: Colors.grey[700]),
+              )
             ],
           ),
         );

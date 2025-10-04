@@ -33,7 +33,7 @@ dependencies:
   file_picker: ^8.0.3
   
   cloudreve_api_client:
-    path: lib/api/generated
+    path: api/
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -6,8 +6,8 @@ import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/CacheUtil.dart';
-import 'package:cloudreve/utils/Service.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/view/Share.dart';
 import 'package:cloudreve/view/WebDav.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,9 @@ class MDrawer extends StatelessWidget {
       time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
         try {
-          Uint8List data = (await avatar(userData.id, "l")).data;
+          final response =
+              await CloudreveRepository.fetchAvatar(userId: userData.id, size: "l");
+          final data = response.data ?? Uint8List.fromList([1]);
           final file = await File(avatarPath).create();
           file.writeAsBytesSync(data);
           return data;
@@ -42,7 +44,9 @@ class MDrawer extends StatelessWidget {
       return file.readAsBytesSync();
     } else {
       try {
-        Uint8List data = (await avatar(userData.id, "l")).data;
+        final response =
+            await CloudreveRepository.fetchAvatar(userId: userData.id, size: "l");
+        final data = response.data ?? Uint8List.fromList([1]);
         final file = await File(avatarPath).create();
         file.writeAsBytesSync(data);
         return data;
@@ -180,7 +184,7 @@ class MDrawer extends StatelessWidget {
             textColor: Colors.grey,
             title: Text('退出登录'),
             onTap: () async {
-              await deleteSession();
+              await CloudreveRepository.signOut();
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool(isLoginKey, false);
               await prefs.remove(usernameKey);

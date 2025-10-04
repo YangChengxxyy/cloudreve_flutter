@@ -3,9 +3,8 @@ import 'package:cloudreve/app/RegisterHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
-import 'package:dio/dio.dart';
 import 'package:direct_select_flutter/direct_select_container.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
@@ -249,17 +248,17 @@ class _LoginBodyState extends State<LoginBody> {
                         style: ButtonStyle(),
                         onPressed: () async {
                           if ((_formKey.currentState!).validate()) {
-                            final loginResult = await session(
-                              _emailController.text,
-                              _pwdController.text,
+                            final loginResult = await CloudreveRepository.signIn(
+                              email: _emailController.text,
+                              password: _pwdController.text,
                             );
 
                             if (loginResult.isSuccess &&
                                 loginResult.data != null) {
-                              final storageResp = await getStorage();
-                              final storageData = storageResp?.data;
+                              final storageData =
+                                  await CloudreveRepository.fetchStorage();
                               final Storage sto = storageData != null
-                                  ? Storage.fromApi(storageData)
+                                  ? storageData
                                   : Storage(0, 0, 0);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();

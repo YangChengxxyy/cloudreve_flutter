@@ -1,6 +1,5 @@
 import 'package:cloudreve/entity/LoginResult.dart';
-import 'package:cloudreve/utils/Service.dart';
-import 'package:dio/dio.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:flutter/material.dart';
 
 import 'LoginHome.dart';
@@ -113,11 +112,13 @@ class RegisterBody extends StatelessWidget {
                         onPressed: () async {
                           if ((_formKey.currentState!).validate()) {
                             //验证通过提交数据
-                            Response registerResp = await register(
-                                _emailController.text, _pwdController.text);
-                            LoginResult loginResult =
-                                LoginResult.fromJson(registerResp.data);
-                            if (loginResult.code == 203) {
+                            final LoginResult loginResult =
+                                await CloudreveRepository.register(
+                              email: _emailController.text,
+                              password: _pwdController.text,
+                            );
+                            if (loginResult.code == 0 ||
+                                loginResult.code == 203) {
                               _emailController.clear();
                               _pwdController.clear();
                               _pwdController2.clear();
@@ -145,13 +146,28 @@ class RegisterBody extends StatelessWidget {
                                       child: ListBody(
                                         children: <Widget>[
                                           Text(
-                                            '请访问邮箱点击激活按钮',
+                                            loginResult.code == 203
+                                                ? '请访问邮箱点击激活按钮'
+                                                : '注册成功，请登录',
                                             style:
                                                 TextStyle(color: Colors.blue),
                                           ),
                                         ],
                                       ),
                                     ),
+                                  );
+                                },
+                              );
+                            }
+                            if (loginResult.code != 0 &&
+                                loginResult.code != 203) {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title: Text("注册失败"),
+                                    content: Text(
+                                        loginResult.msg ?? '请稍后重试'),
                                   );
                                 },
                               );

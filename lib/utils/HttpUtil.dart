@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HttpUtil {
   static CookieJar cookieJar = CookieJar();
 
-  static String _baseUrl = 'http://47.96.113.32:5212';
+  static String _baseUrl = 'http://47.96.113.32:5212/api/v4/';
 
   static BaseOptions _normalOption = BaseOptions(
     baseUrl: _baseUrl,

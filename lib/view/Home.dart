@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloudreve/api/generated/lib/cloudreve_api_client.dart'
-    as cloudreve_api;
 import 'package:cloudreve/component/RenameFileDialog.dart';
 import 'package:cloudreve/component/ShareDialog.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -84,7 +82,7 @@ class Home extends StatefulWidget {
   final String path;
 
   /// 访问文件数据
-  final Future<cloudreve_api.FileGet200Response?> fileResp;
+  final Future<FileListing> fileResp;
 
   /// 刷新函数
   final void Function(bool) refresh;
@@ -120,6 +118,7 @@ class _HomeState extends State<Home> {
 
   /// 默认下载路径
   static const String _downPath = "/storage/emulated/0/Download/";
+  FileListing? _currentListing;
 
   @override
   void initState() {
@@ -129,7 +128,7 @@ class _HomeState extends State<Home> {
 
   String get _path => widget.path;
   Mode get _mode => widget.mode;
-  Future<cloudreve_api.FileGet200Response?> get _fileResp => widget.fileResp;
+  Future<FileListing> get _fileResp => widget.fileResp;
   void Function(String) get _changePath => widget.changePath;
   void Function(bool) get _refreshCallback => widget.refresh;
   int Function(MFile, MFile)? get _compare => widget.compare;
@@ -159,24 +158,21 @@ class _HomeState extends State<Home> {
           Navigator.of(context).pop();
         }
       },
-      child: FutureBuilder<cloudreve_api.FileGet200Response?>(
+      child: FutureBuilder<FileListing>(
         future: _fileResp,
-        builder: (BuildContext context,
-            AsyncSnapshot<cloudreve_api.FileGet200Response?> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<FileListing> snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text("加载失败"));
           }
-          if (snapshot.hasData && snapshot.data != null) {
-            final response = snapshot.data!;
-            if (response.code != 0) {
-              return Center(child: Text(response.msg ?? "加载失败"));
-            }
+          if (snapshot.hasData) {
+            final listing = snapshot.data!;
+            _currentListing = listing;
             final head = _buildHead(context, path);
-            final objects = response.data.files;
+            final objects = listing.files;
 
             if (objects.isNotEmpty) {
-              final fileList =
-                  objects.map(MFile.fromFileResponse).toList(growable: true);
+              final fileList = List<MFile>.from(objects);
               if (compare != null) {
                 fileList.sort(compare);
               }
@@ -406,8 +402,12 @@ class _HomeState extends State<Home> {
               tooltip: "删除",
               color: Colors.grey,
               onPressed: () async {
-                Response delRes = await deleteItem([file.id], []);
-                if (delRes.data['code'] == 0) {
+                final uri = _uriForFile(file);
+                final success = uri != null &&
+                    await CloudreveRepository.deleteFiles(
+                      fileUris: [uri],
+                    );
+                if (success) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("删除成功"),
@@ -473,8 +473,12 @@ class _HomeState extends State<Home> {
                 color: Colors.grey,
                 tooltip: "删除",
                 onPressed: () async {
-                  Response delRes = await deleteItem([], [file.id]);
-                  if (delRes.data['code'] == 0) {
+                  final uri = _uriForFile(file);
+                  final success = uri != null &&
+                      await CloudreveRepository.deleteFiles(
+                        fileUris: [uri],
+                      );
+                  if (success) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("删除成功"),
@@ -550,6 +554,10 @@ class _HomeState extends State<Home> {
 
   /// 获取缩略图
   Future<Uint8List> _geThumbImage(String fileId) async {
+    final fileUri = _uriForId(fileId);
+    if (fileUri == null) {
+      return Uint8List.fromList([1]);
+    }
     String cachePath = (await getTemporaryDirectory()).path;
     String thumbPath = cachePath + cacheThumbPath + fileId;
     File file = File(thumbPath);
@@ -558,14 +566,19 @@ class _HomeState extends State<Home> {
       DateTime now = DateTime.now();
       time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
-        Uint8List thumb = (await getThumb(fileId)).data;
-        final file = await File(thumbPath).create();
-        file.writeAsBytesSync(thumb);
-        return thumb;
+        final thumb = await CloudreveRepository.fetchThumbnailBytes(fileUri);
+        if (thumb != null) {
+          final file = await File(thumbPath).create();
+          file.writeAsBytesSync(thumb);
+          return thumb;
+        }
       }
       return file.readAsBytesSync();
     } else {
-      Uint8List thumb = (await getThumb(fileId)).data;
+      final thumb = await CloudreveRepository.fetchThumbnailBytes(fileUri);
+      if (thumb == null) {
+        return Uint8List.fromList([1]);
+      }
       final file = await File(thumbPath).create();
       file.writeAsBytesSync(thumb);
       return thumb;
@@ -574,6 +587,11 @@ class _HomeState extends State<Home> {
 
   /// 获取图像
   Future<Uint8List> _getImage(String fileId) async {
+    final fileUri = _uriForId(fileId);
+    if (fileUri == null) {
+      return Uint8List.fromList([1]);
+    }
+    final contextHint = _currentListing?.contextHint;
     String cachePath = (await getTemporaryDirectory()).path;
     String imagePath = cachePath + cacheImagePath + fileId;
     File file = File(imagePath);
@@ -582,30 +600,28 @@ class _HomeState extends State<Home> {
       DateTime now = DateTime.now();
       time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
-        String? downloadUrl;
-        if (_downloadUrlCache[fileId] == null) {
-          Response getUrlResp = await getDownloadUrl(fileId);
-          downloadUrl = getUrlResp.data['data'].toString();
-          _downloadUrlCache[fileId] = downloadUrl;
-        } else {
-          downloadUrl = _downloadUrlCache[fileId]!;
+        final downloadUrl = await _ensureDownloadUrl(fileId, fileUri,
+            contextHint: contextHint);
+        if (downloadUrl != null) {
+          final image = await CloudreveRepository.fetchRaw(downloadUrl);
+          if (image != null) {
+            final file = await File(imagePath).create();
+            file.writeAsBytesSync(image);
+            return image;
+          }
         }
-        Uint8List image = (await getImage(downloadUrl)).data;
-        final file = await File(imagePath).create();
-        file.writeAsBytesSync(image);
-        return image;
       }
       return file.readAsBytesSync();
     } else {
-      String? downloadUrl;
-      if (_downloadUrlCache[fileId] == null) {
-        Response getUrlResp = await getDownloadUrl(fileId);
-        downloadUrl = getUrlResp.data['data'].toString();
-        _downloadUrlCache[fileId] = downloadUrl;
-      } else {
-        downloadUrl = _downloadUrlCache[fileId]!;
+      final downloadUrl = await _ensureDownloadUrl(fileId, fileUri,
+          contextHint: contextHint);
+      if (downloadUrl == null) {
+        return Uint8List.fromList([1]);
       }
-      Uint8List image = (await getImage(downloadUrl)).data;
+      final image = await CloudreveRepository.fetchRaw(downloadUrl);
+      if (image == null) {
+        return Uint8List.fromList([1]);
+      }
       final file = await File(imagePath).create();
       file.writeAsBytesSync(image);
       return image;
@@ -711,6 +727,10 @@ class _HomeState extends State<Home> {
   /// 下载按钮点击
   void _downloadButtonTap(
       BuildContext context, BuildContext? dialogContext, MFile file) async {
+    final fileUri = _uriForFile(file);
+    if (fileUri == null) {
+      return;
+    }
     File f = File(_downPath + file.name);
     var exist = await f.exists();
     if (exist) {
@@ -723,8 +743,15 @@ class _HomeState extends State<Home> {
         ),
       );
     } else {
-      Response response = await getDownloadUrl(file.id);
-      String url = response.data['data'].toString();
+      final contextHint = _currentListing?.contextHint;
+      final url = await _ensureDownloadUrl(file.id, fileUri,
+          contextHint: contextHint);
+      if (url == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('获取下载链接失败')),
+        );
+        return;
+      }
       Dio dio = Dio();
       if (dialogContext != null) {
         Navigator.pop(dialogContext);
@@ -732,8 +759,9 @@ class _HomeState extends State<Home> {
       int fileHashCode = file.hashCode;
       CancelToken cancelToken = CancelToken();
       downloadCancelTokenMap[fileHashCode] = cancelToken;
+      Response<dynamic>? downloadResponse;
       try {
-        response = await dio.download(
+        downloadResponse = await dio.download(
           url,
           _downPath + file.name,
           cancelToken: cancelToken,
@@ -768,7 +796,7 @@ class _HomeState extends State<Home> {
         }
         return;
       }
-      if (response.statusCode == 200) {
+      if (downloadResponse?.statusCode == 200) {
         await _flutterLocalNotificationsPlugin.cancel(fileHashCode);
         await _showDownloadNotification(
           id: fileHashCode,
@@ -786,6 +814,37 @@ class _HomeState extends State<Home> {
         );
       }
     }
+  }
+
+  Future<String?> _ensureDownloadUrl(String cacheKey, String fileUri,
+      {String? contextHint}) async {
+    var downloadUrl = _downloadUrlCache[cacheKey];
+    if (downloadUrl != null) {
+      return downloadUrl;
+    }
+    downloadUrl = await CloudreveRepository.createDownloadUrl(
+      fileUri,
+      contextHint: contextHint,
+    );
+    if (downloadUrl != null) {
+      _downloadUrlCache[cacheKey] = downloadUrl;
+    }
+    return downloadUrl;
+  }
+
+  String? _uriForFile(MFile file) {
+    if (file.path.isNotEmpty) {
+      return file.path;
+    }
+    return _uriForId(file.id);
+  }
+
+  String? _uriForId(String id) {
+    final listing = _currentListing;
+    if (listing == null) {
+      return null;
+    }
+    return listing.fileMap[id]?.path;
   }
 
   /// 打开按钮点击
@@ -811,11 +870,22 @@ class _HomeState extends State<Home> {
           ),
         );
       } else {
-        Response response = await getDownloadUrl(file.id);
-        String url = response.data['data'].toString();
+        final fileUri = _uriForFile(file);
+        if (fileUri == null) {
+          return;
+        }
+        final contextHint = _currentListing?.contextHint;
+        final url = await _ensureDownloadUrl(file.id, fileUri,
+            contextHint: contextHint);
+        if (url == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('获取下载链接失败')),
+          );
+          return;
+        }
         Dio dio = Dio();
         try {
-          response = await dio.download(url, tempPath + file.name);
+          final response = await dio.download(url, tempPath + file.name);
           if (response.statusCode == 200) {
             _refreshCallback(true);
             final _result = await OpenFile.open(tempPath + file.name);
@@ -837,8 +907,12 @@ class _HomeState extends State<Home> {
               ),
             );
           }
-        } catch (e) {
-          return print(e);
+        } on DioException catch (err) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(err.message ?? '打开失败'),
+            ),
+          );
         }
       }
     }

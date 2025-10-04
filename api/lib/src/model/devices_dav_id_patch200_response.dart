@@ -12,13 +12,16 @@ part 'devices_dav_id_patch200_response.g.dart';
 /// DevicesDavIdPatch200Response
 ///
 /// Properties:
-/// * [data] 
+/// * [data]
 /// * [code] - Response code. `0` - Success.
 /// * [msg] - Human readable error message (if any).
 /// * [error] - Internal error message, only visable in debug mode.
 /// * [correlationId] - Correlation ID of the request. Only presented on failed reqeust.
 @BuiltValue()
-abstract class DevicesDavIdPatch200Response implements Built<DevicesDavIdPatch200Response, DevicesDavIdPatch200ResponseBuilder> {
+abstract class DevicesDavIdPatch200Response
+    implements
+        Built<DevicesDavIdPatch200Response,
+            DevicesDavIdPatch200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
   DavAccount get data;
 
@@ -40,19 +43,25 @@ abstract class DevicesDavIdPatch200Response implements Built<DevicesDavIdPatch20
 
   DevicesDavIdPatch200Response._();
 
-  factory DevicesDavIdPatch200Response([void updates(DevicesDavIdPatch200ResponseBuilder b)]) = _$DevicesDavIdPatch200Response;
+  factory DevicesDavIdPatch200Response(
+          [void updates(DevicesDavIdPatch200ResponseBuilder b)]) =
+      _$DevicesDavIdPatch200Response;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DevicesDavIdPatch200ResponseBuilder b) => b
-      ..code = 0;
+  static void _defaults(DevicesDavIdPatch200ResponseBuilder b) => b..code = 0;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DevicesDavIdPatch200Response> get serializer => _$DevicesDavIdPatch200ResponseSerializer();
+  static Serializer<DevicesDavIdPatch200Response> get serializer =>
+      _$DevicesDavIdPatch200ResponseSerializer();
 }
 
-class _$DevicesDavIdPatch200ResponseSerializer implements PrimitiveSerializer<DevicesDavIdPatch200Response> {
+class _$DevicesDavIdPatch200ResponseSerializer
+    implements PrimitiveSerializer<DevicesDavIdPatch200Response> {
   @override
-  final Iterable<Type> types = const [DevicesDavIdPatch200Response, _$DevicesDavIdPatch200Response];
+  final Iterable<Type> types = const [
+    DevicesDavIdPatch200Response,
+    _$DevicesDavIdPatch200Response
+  ];
 
   @override
   final String wireName = r'DevicesDavIdPatch200Response';
@@ -101,7 +110,9 @@ class _$DevicesDavIdPatch200ResponseSerializer implements PrimitiveSerializer<De
     DevicesDavIdPatch200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -121,7 +132,7 @@ class _$DevicesDavIdPatch200ResponseSerializer implements PrimitiveSerializer<De
             value,
             specifiedType: const FullType(DavAccount),
           ) as DavAccount;
-          result.data.replace(valueDes);
+          result.data = valueDes.toBuilder();
           break;
         case r'code':
           final valueDes = serializers.deserialize(

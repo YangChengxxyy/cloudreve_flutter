@@ -8,7 +8,7 @@ import 'package:cloudreve/entity/Storage.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
@@ -123,12 +123,12 @@ class MyApp extends StatelessWidget {
       }
 
       //重新登录刷新登录信息
-      LoginResult loginResult = await session(username, password);
-      final storageResp = await getStorage();
-      final storageData = storageResp?.data;
-      Storage storage = storageData != null
-          ? Storage.fromApi(storageData)
-          : Storage(0, 0, 0);
+      LoginResult loginResult = await CloudreveRepository.signIn(
+        email: username,
+        password: password,
+      );
+      Storage storage =
+          await CloudreveRepository.fetchStorage() ?? Storage(0, 0, 0);
       if (loginResult.isSuccess && loginResult.data != null) {
         return MainHome(
           userData: loginResult.data!.user,
