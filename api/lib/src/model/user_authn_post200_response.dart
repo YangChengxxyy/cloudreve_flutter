@@ -20,11 +20,11 @@ part 'user_authn_post200_response.g.dart';
 @BuiltValue()
 abstract class UserAuthnPost200Response implements Built<UserAuthnPost200Response, UserAuthnPost200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  Passkey get data;
+  Passkey? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$UserAuthnPost200ResponseSerializer implements PrimitiveSerializer<UserAu
     UserAuthnPost200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(Passkey),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(Passkey),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

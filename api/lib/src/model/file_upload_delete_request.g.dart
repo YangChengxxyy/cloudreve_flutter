@@ -8,16 +8,15 @@ part of 'file_upload_delete_request.dart';
 
 class _$FileUploadDeleteRequest extends FileUploadDeleteRequest {
   @override
-  final String id;
+  final String? id;
   @override
-  final String uri;
+  final String? uri;
 
   factory _$FileUploadDeleteRequest(
           [void Function(FileUploadDeleteRequestBuilder)? updates]) =>
       (FileUploadDeleteRequestBuilder()..update(updates))._build();
 
-  _$FileUploadDeleteRequest._({required this.id, required this.uri})
-      : super._();
+  _$FileUploadDeleteRequest._({this.id, this.uri}) : super._();
   @override
   FileUploadDeleteRequest rebuild(
           void Function(FileUploadDeleteRequestBuilder) updates) =>
@@ -96,10 +95,8 @@ class FileUploadDeleteRequestBuilder
   _$FileUploadDeleteRequest _build() {
     final _$result = _$v ??
         _$FileUploadDeleteRequest._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'FileUploadDeleteRequest', 'id'),
-          uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'FileUploadDeleteRequest', 'uri'),
+          id: id,
+          uri: uri,
         );
     replace(_$result);
     return _$result;

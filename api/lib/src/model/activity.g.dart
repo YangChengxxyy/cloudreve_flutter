@@ -8,11 +8,11 @@ part of 'activity.dart';
 
 class _$Activity extends Activity {
   @override
-  final String id;
+  final String? id;
   @override
-  final LogEntry content;
+  final LogEntry? content;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   final ActivityUser? user;
   @override
@@ -22,11 +22,7 @@ class _$Activity extends Activity {
       (ActivityBuilder()..update(updates))._build();
 
   _$Activity._(
-      {required this.id,
-      required this.content,
-      required this.createdAt,
-      this.user,
-      this.versionId})
+      {this.id, this.content, this.createdAt, this.user, this.versionId})
       : super._();
   @override
   Activity rebuild(void Function(ActivityBuilder) updates) =>
@@ -101,7 +97,7 @@ class ActivityBuilder implements Builder<Activity, ActivityBuilder> {
     final $v = _$v;
     if ($v != null) {
       _id = $v.id;
-      _content = $v.content.toBuilder();
+      _content = $v.content?.toBuilder();
       _createdAt = $v.createdAt;
       _user = $v.user?.toBuilder();
       _versionId = $v.versionId;
@@ -128,10 +124,9 @@ class ActivityBuilder implements Builder<Activity, ActivityBuilder> {
     try {
       _$result = _$v ??
           _$Activity._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'Activity', 'id'),
-            content: content.build(),
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'Activity', 'createdAt'),
+            id: id,
+            content: _content?.build(),
+            createdAt: createdAt,
             user: _user?.build(),
             versionId: versionId,
           );
@@ -139,7 +134,7 @@ class ActivityBuilder implements Builder<Activity, ActivityBuilder> {
       late String _$failedField;
       try {
         _$failedField = 'content';
-        content.build();
+        _content?.build();
 
         _$failedField = 'user';
         _user?.build();

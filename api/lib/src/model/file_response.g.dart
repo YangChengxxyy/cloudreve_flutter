@@ -61,29 +61,29 @@ class _$FileResponseTypeEnumSerializer
 
 class _$FileResponse extends FileResponse {
   @override
-  final FileResponseTypeEnum type;
+  final FileResponseTypeEnum? type;
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
   final String? permission;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
-  final int size;
+  final int? size;
   @override
-  final BuiltMap<String, String> metadata;
+  final BuiltMap<String, String>? metadata;
   @override
-  final String path;
+  final String? path;
   @override
   final bool? shared;
   @override
   final String? capability;
   @override
-  final bool owned;
+  final bool? owned;
   @override
   final String? primaryEntity;
   @override
@@ -95,18 +95,18 @@ class _$FileResponse extends FileResponse {
       (FileResponseBuilder()..update(updates))._build();
 
   _$FileResponse._(
-      {required this.type,
-      required this.id,
-      required this.name,
+      {this.type,
+      this.id,
+      this.name,
       this.permission,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.size,
-      required this.metadata,
-      required this.path,
+      this.createdAt,
+      this.updatedAt,
+      this.size,
+      this.metadata,
+      this.path,
       this.shared,
       this.capability,
-      required this.owned,
+      this.owned,
       this.primaryEntity,
       this.extendedInfo,
       this.folderSummary})
@@ -268,7 +268,7 @@ class FileResponseBuilder
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
       _size = $v.size;
-      _metadata = $v.metadata.toBuilder();
+      _metadata = $v.metadata?.toBuilder();
       _path = $v.path;
       _shared = $v.shared;
       _capability = $v.capability;
@@ -299,26 +299,18 @@ class FileResponseBuilder
     try {
       _$result = _$v ??
           _$FileResponse._(
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'FileResponse', 'type'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'FileResponse', 'id'),
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'FileResponse', 'name'),
+            type: type,
+            id: id,
+            name: name,
             permission: permission,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'FileResponse', 'createdAt'),
-            updatedAt: BuiltValueNullFieldError.checkNotNull(
-                updatedAt, r'FileResponse', 'updatedAt'),
-            size: BuiltValueNullFieldError.checkNotNull(
-                size, r'FileResponse', 'size'),
-            metadata: metadata.build(),
-            path: BuiltValueNullFieldError.checkNotNull(
-                path, r'FileResponse', 'path'),
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            size: size,
+            metadata: _metadata?.build(),
+            path: path,
             shared: shared,
             capability: capability,
-            owned: BuiltValueNullFieldError.checkNotNull(
-                owned, r'FileResponse', 'owned'),
+            owned: owned,
             primaryEntity: primaryEntity,
             extendedInfo: _extendedInfo?.build(),
             folderSummary: _folderSummary?.build(),
@@ -327,7 +319,7 @@ class FileResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'metadata';
-        metadata.build();
+        _metadata?.build();
 
         _$failedField = 'extendedInfo';
         _extendedInfo?.build();

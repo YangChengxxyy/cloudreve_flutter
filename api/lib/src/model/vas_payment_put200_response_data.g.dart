@@ -8,17 +8,15 @@ part of 'vas_payment_put200_response_data.dart';
 
 class _$VasPaymentPut200ResponseData extends VasPaymentPut200ResponseData {
   @override
-  final Payment payment;
+  final Payment? payment;
   @override
-  final VasPaymentPut200ResponseDataRequest request;
+  final VasPaymentPut200ResponseDataRequest? request;
 
   factory _$VasPaymentPut200ResponseData(
           [void Function(VasPaymentPut200ResponseDataBuilder)? updates]) =>
       (VasPaymentPut200ResponseDataBuilder()..update(updates))._build();
 
-  _$VasPaymentPut200ResponseData._(
-      {required this.payment, required this.request})
-      : super._();
+  _$VasPaymentPut200ResponseData._({this.payment, this.request}) : super._();
   @override
   VasPaymentPut200ResponseData rebuild(
           void Function(VasPaymentPut200ResponseDataBuilder) updates) =>
@@ -77,8 +75,8 @@ class VasPaymentPut200ResponseDataBuilder
   VasPaymentPut200ResponseDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _payment = $v.payment.toBuilder();
-      _request = $v.request.toBuilder();
+      _payment = $v.payment?.toBuilder();
+      _request = $v.request?.toBuilder();
       _$v = null;
     }
     return this;
@@ -102,16 +100,16 @@ class VasPaymentPut200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$VasPaymentPut200ResponseData._(
-            payment: payment.build(),
-            request: request.build(),
+            payment: _payment?.build(),
+            request: _request?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'payment';
-        payment.build();
+        _payment?.build();
         _$failedField = 'request';
-        request.build();
+        _request?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'VasPaymentPut200ResponseData', _$failedField, e.toString());

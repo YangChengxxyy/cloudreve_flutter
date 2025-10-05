@@ -8,9 +8,9 @@ part of 'user_authn_post200_response.dart';
 
 class _$UserAuthnPost200Response extends UserAuthnPost200Response {
   @override
-  final Passkey data;
+  final Passkey? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$UserAuthnPost200Response extends UserAuthnPost200Response {
       (UserAuthnPost200ResponseBuilder()..update(updates))._build();
 
   _$UserAuthnPost200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserAuthnPost200Response rebuild(
@@ -106,7 +102,7 @@ class UserAuthnPost200ResponseBuilder
   UserAuthnPost200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -134,9 +130,8 @@ class UserAuthnPost200ResponseBuilder
     try {
       _$result = _$v ??
           _$UserAuthnPost200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserAuthnPost200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -145,7 +140,7 @@ class UserAuthnPost200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'UserAuthnPost200Response', _$failedField, e.toString());

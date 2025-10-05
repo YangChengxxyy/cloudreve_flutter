@@ -17,11 +17,11 @@ part 'user_search_get200_response_data_inner_group.g.dart';
 abstract class UserSearchGet200ResponseDataInnerGroup implements Built<UserSearchGet200ResponseDataInnerGroup, UserSearchGet200ResponseDataInnerGroupBuilder> {
   /// ID of the group.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of the group.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   UserSearchGet200ResponseDataInnerGroup._();
 
@@ -46,16 +46,20 @@ class _$UserSearchGet200ResponseDataInnerGroupSerializer implements PrimitiveSer
     UserSearchGet200ResponseDataInnerGroup object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

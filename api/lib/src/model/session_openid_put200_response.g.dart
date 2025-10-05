@@ -8,9 +8,9 @@ part of 'session_openid_put200_response.dart';
 
 class _$SessionOpenidPut200Response extends SessionOpenidPut200Response {
   @override
-  final String data;
+  final String? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$SessionOpenidPut200Response extends SessionOpenidPut200Response {
       (SessionOpenidPut200ResponseBuilder()..update(updates))._build();
 
   _$SessionOpenidPut200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SessionOpenidPut200Response rebuild(
@@ -133,10 +129,8 @@ class SessionOpenidPut200ResponseBuilder
   _$SessionOpenidPut200Response _build() {
     final _$result = _$v ??
         _$SessionOpenidPut200Response._(
-          data: BuiltValueNullFieldError.checkNotNull(
-              data, r'SessionOpenidPut200Response', 'data'),
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'SessionOpenidPut200Response', 'code'),
+          data: data,
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

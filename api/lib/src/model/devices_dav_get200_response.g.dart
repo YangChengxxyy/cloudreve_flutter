@@ -10,7 +10,7 @@ class _$DevicesDavGet200Response extends DevicesDavGet200Response {
   @override
   final BuiltList<DevicesDavGet200ResponseDataInner>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$DevicesDavGet200Response extends DevicesDavGet200Response {
       (DevicesDavGet200ResponseBuilder()..update(updates))._build();
 
   _$DevicesDavGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   DevicesDavGet200Response rebuild(
@@ -133,8 +133,7 @@ class DevicesDavGet200ResponseBuilder
       _$result = _$v ??
           _$DevicesDavGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'DevicesDavGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

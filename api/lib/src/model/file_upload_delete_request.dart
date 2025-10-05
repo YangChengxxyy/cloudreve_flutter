@@ -17,11 +17,11 @@ part 'file_upload_delete_request.g.dart';
 abstract class FileUploadDeleteRequest implements Built<FileUploadDeleteRequest, FileUploadDeleteRequestBuilder> {
   /// ID of the upload session.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target placeholder file, it should have been created during creating upload session.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   FileUploadDeleteRequest._();
 
@@ -46,16 +46,20 @@ class _$FileUploadDeleteRequestSerializer implements PrimitiveSerializer<FileUpl
     FileUploadDeleteRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

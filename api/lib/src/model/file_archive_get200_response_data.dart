@@ -17,7 +17,7 @@ part 'file_archive_get200_response_data.g.dart';
 @BuiltValue()
 abstract class FileArchiveGet200ResponseData implements Built<FileArchiveGet200ResponseData, FileArchiveGet200ResponseDataBuilder> {
   @BuiltValueField(wireName: r'files')
-  BuiltList<ArchivedFile> get files;
+  BuiltList<ArchivedFile>? get files;
 
   FileArchiveGet200ResponseData._();
 
@@ -42,11 +42,13 @@ class _$FileArchiveGet200ResponseDataSerializer implements PrimitiveSerializer<F
     FileArchiveGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'files';
-    yield serializers.serialize(
-      object.files,
-      specifiedType: const FullType(BuiltList, [FullType(ArchivedFile)]),
-    );
+    if (object.files != null) {
+      yield r'files';
+      yield serializers.serialize(
+        object.files,
+        specifiedType: const FullType(BuiltList, [FullType(ArchivedFile)]),
+      );
+    }
   }
 
   @override

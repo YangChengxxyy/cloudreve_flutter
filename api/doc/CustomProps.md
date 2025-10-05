@@ -8,9 +8,9 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | ID of the custom props. You can get the corresponding metadata key by appending `props:` prefix. | 
-**name** | **String** | Display name of the propertity. | 
-**type** | **String** | Type of the input component. | 
+**id** | **String** | ID of the custom props. You can get the corresponding metadata key by appending `props:` prefix. | [optional] 
+**name** | **String** | Display name of the propertity. | [optional] 
+**type** | **String** | Type of the input component. | [optional] 
 **max** | **String** | Maximum length for text fields, maximum value for number/rating field. | [optional] 
 **min** | **String** | Minimum length for text fields, minimum value for number field. | [optional] 
 **default_** | **String** | Default value in string. | [optional] 

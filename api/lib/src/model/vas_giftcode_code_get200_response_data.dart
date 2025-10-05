@@ -18,11 +18,11 @@ part 'vas_giftcode_code_get200_response_data.g.dart';
 abstract class VasGiftcodeCodeGet200ResponseData implements Built<VasGiftcodeCodeGet200ResponseData, VasGiftcodeCodeGet200ResponseDataBuilder> {
   /// Name of the product.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Quantity of the product included in the gift code.
   @BuiltValueField(wireName: r'qyt')
-  num get qyt;
+  num? get qyt;
 
   /// Duration of the group or storage pack product in one `qyt`.
   @BuiltValueField(wireName: r'duration')
@@ -51,16 +51,20 @@ class _$VasGiftcodeCodeGet200ResponseDataSerializer implements PrimitiveSerializ
     VasGiftcodeCodeGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'qyt';
-    yield serializers.serialize(
-      object.qyt,
-      specifiedType: const FullType(num),
-    );
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.qyt != null) {
+      yield r'qyt';
+      yield serializers.serialize(
+        object.qyt,
+        specifiedType: const FullType(num),
+      );
+    }
     if (object.duration != null) {
       yield r'duration';
       yield serializers.serialize(

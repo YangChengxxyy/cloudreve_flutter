@@ -19,11 +19,11 @@ part 'devices_dav_get200_response_data_inner.g.dart';
 @BuiltValue()
 abstract class DevicesDavGet200ResponseDataInner implements Built<DevicesDavGet200ResponseDataInner, DevicesDavGet200ResponseDataInnerBuilder> {
   @BuiltValueField(wireName: r'pagination')
-  DevicesDavGet200ResponseDataInnerPagination get pagination;
+  DevicesDavGet200ResponseDataInnerPagination? get pagination;
 
   /// List of WebDAV accounts.
   @BuiltValueField(wireName: r'accounts')
-  BuiltList<DavAccount> get accounts;
+  BuiltList<DavAccount>? get accounts;
 
   DevicesDavGet200ResponseDataInner._();
 
@@ -48,16 +48,20 @@ class _$DevicesDavGet200ResponseDataInnerSerializer implements PrimitiveSerializ
     DevicesDavGet200ResponseDataInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(DevicesDavGet200ResponseDataInnerPagination),
-    );
-    yield r'accounts';
-    yield serializers.serialize(
-      object.accounts,
-      specifiedType: const FullType(BuiltList, [FullType(DavAccount)]),
-    );
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(DevicesDavGet200ResponseDataInnerPagination),
+      );
+    }
+    if (object.accounts != null) {
+      yield r'accounts';
+      yield serializers.serialize(
+        object.accounts,
+        specifiedType: const FullType(BuiltList, [FullType(DavAccount)]),
+      );
+    }
   }
 
   @override

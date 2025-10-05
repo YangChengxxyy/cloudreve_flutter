@@ -19,11 +19,11 @@ part 'file_url_post200_response_data.g.dart';
 abstract class FileUrlPost200ResponseData implements Built<FileUrlPost200ResponseData, FileUrlPost200ResponseDataBuilder> {
   /// List of file URL.
   @BuiltValueField(wireName: r'urls')
-  BuiltList<FileUrlPost200ResponseDataUrlsInner> get urls;
+  BuiltList<FileUrlPost200ResponseDataUrlsInner>? get urls;
 
   /// Unix timestamp of the expiration date for this uplaod session. Client must finish the uploading before this time.
   @BuiltValueField(wireName: r'expires')
-  int get expires;
+  int? get expires;
 
   FileUrlPost200ResponseData._();
 
@@ -48,16 +48,20 @@ class _$FileUrlPost200ResponseDataSerializer implements PrimitiveSerializer<File
     FileUrlPost200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'urls';
-    yield serializers.serialize(
-      object.urls,
-      specifiedType: const FullType(BuiltList, [FullType(FileUrlPost200ResponseDataUrlsInner)]),
-    );
-    yield r'expires';
-    yield serializers.serialize(
-      object.expires,
-      specifiedType: const FullType(int),
-    );
+    if (object.urls != null) {
+      yield r'urls';
+      yield serializers.serialize(
+        object.urls,
+        specifiedType: const FullType(BuiltList, [FullType(FileUrlPost200ResponseDataUrlsInner)]),
+      );
+    }
+    if (object.expires != null) {
+      yield r'expires';
+      yield serializers.serialize(
+        object.expires,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override

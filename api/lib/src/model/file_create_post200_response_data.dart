@@ -28,16 +28,16 @@ part 'file_create_post200_response_data.g.dart';
 abstract class FileCreatePost200ResponseData implements Built<FileCreatePost200ResponseData, FileCreatePost200ResponseDataBuilder> {
   /// Type of this file.
   @BuiltValueField(wireName: r'type')
-  FileCreatePost200ResponseDataTypeEnum get type;
+  FileCreatePost200ResponseDataTypeEnum? get type;
   // enum typeEnum {  0,  1,  };
 
   /// ID of this file.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of this file.   It might not be expected display name. For files under trash bin, this field is a non-readable UUID. The expected display name should be retrieved from `metadata` with name `sys:restore_uri`, which can be parsed as a [URI](https://docs.cloudreve.org/api/file-uri).
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// [Boolset](https://docs.cloudreve.org/api/boolset) encoded permissions granted by current authenticated user. For `null`, all permissions are granted. Permission definition can be found at [File Permissions](https://docs.cloudreve.org/api/boolset#file-permission)
   @BuiltValueField(wireName: r'permission')
@@ -45,19 +45,19 @@ abstract class FileCreatePost200ResponseData implements Built<FileCreatePost200R
 
   /// Datetime when the file is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   /// Datetime when the file is last updated.
   @BuiltValueField(wireName: r'updated_at')
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
 
   /// Size of the file, also the size of current primary version blob.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of this file.
   @BuiltValueField(wireName: r'path')
-  String get path;
+  String? get path;
 
   /// Whether this file has share links.
   @BuiltValueField(wireName: r'shared')
@@ -69,7 +69,7 @@ abstract class FileCreatePost200ResponseData implements Built<FileCreatePost200R
 
   /// Whether this file is owned by current authenticated user.
   @BuiltValueField(wireName: r'owned')
-  bool get owned;
+  bool? get owned;
 
   /// ID of the primary version blob.
   @BuiltValueField(wireName: r'primary_entity')
@@ -98,21 +98,27 @@ class _$FileCreatePost200ResponseDataSerializer implements PrimitiveSerializer<F
     FileCreatePost200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(FileCreatePost200ResponseDataTypeEnum),
-    );
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(FileCreatePost200ResponseDataTypeEnum),
+      );
+    }
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.permission != null) {
       yield r'permission';
       yield serializers.serialize(
@@ -120,26 +126,34 @@ class _$FileCreatePost200ResponseDataSerializer implements PrimitiveSerializer<F
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updated_at';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
-    yield r'path';
-    yield serializers.serialize(
-      object.path,
-      specifiedType: const FullType(String),
-    );
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.updatedAt != null) {
+      yield r'updated_at';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.path != null) {
+      yield r'path';
+      yield serializers.serialize(
+        object.path,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.shared != null) {
       yield r'shared';
       yield serializers.serialize(
@@ -154,11 +168,13 @@ class _$FileCreatePost200ResponseDataSerializer implements PrimitiveSerializer<F
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'owned';
-    yield serializers.serialize(
-      object.owned,
-      specifiedType: const FullType(bool),
-    );
+    if (object.owned != null) {
+      yield r'owned';
+      yield serializers.serialize(
+        object.owned,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.primaryEntity != null) {
       yield r'primary_entity';
       yield serializers.serialize(

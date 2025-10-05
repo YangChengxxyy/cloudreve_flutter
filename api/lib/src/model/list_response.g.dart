@@ -8,19 +8,19 @@ part of 'list_response.dart';
 
 class _$ListResponse extends ListResponse {
   @override
-  final BuiltList<FileResponse> files;
+  final BuiltList<FileResponse>? files;
   @override
-  final FileResponse parent;
+  final FileResponse? parent;
   @override
-  final PaginationResults pagination;
+  final PaginationResults? pagination;
   @override
-  final NavigatorProps props;
+  final NavigatorProps? props;
   @override
-  final String contextHint;
+  final String? contextHint;
   @override
   final bool? recursionLimitReached;
   @override
-  final bool mixedType;
+  final bool? mixedType;
   @override
   final bool? singleFileView;
   @override
@@ -32,13 +32,13 @@ class _$ListResponse extends ListResponse {
       (ListResponseBuilder()..update(updates))._build();
 
   _$ListResponse._(
-      {required this.files,
-      required this.parent,
-      required this.pagination,
-      required this.props,
-      required this.contextHint,
+      {this.files,
+      this.parent,
+      this.pagination,
+      this.props,
+      this.contextHint,
       this.recursionLimitReached,
-      required this.mixedType,
+      this.mixedType,
       this.singleFileView,
       this.storagePolicy,
       this.view})
@@ -158,10 +158,10 @@ class ListResponseBuilder
   ListResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _files = $v.files.toBuilder();
-      _parent = $v.parent.toBuilder();
-      _pagination = $v.pagination.toBuilder();
-      _props = $v.props.toBuilder();
+      _files = $v.files?.toBuilder();
+      _parent = $v.parent?.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
+      _props = $v.props?.toBuilder();
       _contextHint = $v.contextHint;
       _recursionLimitReached = $v.recursionLimitReached;
       _mixedType = $v.mixedType;
@@ -191,15 +191,13 @@ class ListResponseBuilder
     try {
       _$result = _$v ??
           _$ListResponse._(
-            files: files.build(),
-            parent: parent.build(),
-            pagination: pagination.build(),
-            props: props.build(),
-            contextHint: BuiltValueNullFieldError.checkNotNull(
-                contextHint, r'ListResponse', 'contextHint'),
+            files: _files?.build(),
+            parent: _parent?.build(),
+            pagination: _pagination?.build(),
+            props: _props?.build(),
+            contextHint: contextHint,
             recursionLimitReached: recursionLimitReached,
-            mixedType: BuiltValueNullFieldError.checkNotNull(
-                mixedType, r'ListResponse', 'mixedType'),
+            mixedType: mixedType,
             singleFileView: singleFileView,
             storagePolicy: _storagePolicy?.build(),
             view: _view?.build(),
@@ -208,13 +206,13 @@ class ListResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'files';
-        files.build();
+        _files?.build();
         _$failedField = 'parent';
-        parent.build();
+        _parent?.build();
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
         _$failedField = 'props';
-        props.build();
+        _props?.build();
 
         _$failedField = 'storagePolicy';
         _storagePolicy?.build();

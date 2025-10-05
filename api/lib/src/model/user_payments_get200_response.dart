@@ -24,7 +24,7 @@ abstract class UserPaymentsGet200Response implements Built<UserPaymentsGet200Res
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -69,11 +69,13 @@ class _$UserPaymentsGet200ResponseSerializer implements PrimitiveSerializer<User
         specifiedType: const FullType.nullable(UserPaymentsGet200ResponseData),
       );
     }
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

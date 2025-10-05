@@ -8,29 +8,29 @@ part of 'workflow_import_post_request.dart';
 
 class _$WorkflowImportPostRequest extends WorkflowImportPostRequest {
   @override
-  final String src;
+  final String? src;
   @override
-  final String dst;
+  final String? dst;
   @override
   final bool? extractMediaMeta;
   @override
-  final String userId;
+  final String? userId;
   @override
   final bool? recursive;
   @override
-  final int policyId;
+  final int? policyId;
 
   factory _$WorkflowImportPostRequest(
           [void Function(WorkflowImportPostRequestBuilder)? updates]) =>
       (WorkflowImportPostRequestBuilder()..update(updates))._build();
 
   _$WorkflowImportPostRequest._(
-      {required this.src,
-      required this.dst,
+      {this.src,
+      this.dst,
       this.extractMediaMeta,
-      required this.userId,
+      this.userId,
       this.recursive,
-      required this.policyId})
+      this.policyId})
       : super._();
   @override
   WorkflowImportPostRequest rebuild(
@@ -143,16 +143,12 @@ class WorkflowImportPostRequestBuilder
   _$WorkflowImportPostRequest _build() {
     final _$result = _$v ??
         _$WorkflowImportPostRequest._(
-          src: BuiltValueNullFieldError.checkNotNull(
-              src, r'WorkflowImportPostRequest', 'src'),
-          dst: BuiltValueNullFieldError.checkNotNull(
-              dst, r'WorkflowImportPostRequest', 'dst'),
+          src: src,
+          dst: dst,
           extractMediaMeta: extractMediaMeta,
-          userId: BuiltValueNullFieldError.checkNotNull(
-              userId, r'WorkflowImportPostRequest', 'userId'),
+          userId: userId,
           recursive: recursive,
-          policyId: BuiltValueNullFieldError.checkNotNull(
-              policyId, r'WorkflowImportPostRequest', 'policyId'),
+          policyId: policyId,
         );
     replace(_$result);
     return _$result;

@@ -9,17 +9,15 @@ part of 'file_source_put200_response_data_inner.dart';
 class _$FileSourcePut200ResponseDataInner
     extends FileSourcePut200ResponseDataInner {
   @override
-  final String link;
+  final String? link;
   @override
-  final String fileUrl;
+  final String? fileUrl;
 
   factory _$FileSourcePut200ResponseDataInner(
           [void Function(FileSourcePut200ResponseDataInnerBuilder)? updates]) =>
       (FileSourcePut200ResponseDataInnerBuilder()..update(updates))._build();
 
-  _$FileSourcePut200ResponseDataInner._(
-      {required this.link, required this.fileUrl})
-      : super._();
+  _$FileSourcePut200ResponseDataInner._({this.link, this.fileUrl}) : super._();
   @override
   FileSourcePut200ResponseDataInner rebuild(
           void Function(FileSourcePut200ResponseDataInnerBuilder) updates) =>
@@ -100,10 +98,8 @@ class FileSourcePut200ResponseDataInnerBuilder
   _$FileSourcePut200ResponseDataInner _build() {
     final _$result = _$v ??
         _$FileSourcePut200ResponseDataInner._(
-          link: BuiltValueNullFieldError.checkNotNull(
-              link, r'FileSourcePut200ResponseDataInner', 'link'),
-          fileUrl: BuiltValueNullFieldError.checkNotNull(
-              fileUrl, r'FileSourcePut200ResponseDataInner', 'fileUrl'),
+          link: link,
+          fileUrl: fileUrl,
         );
     replace(_$result);
     return _$result;

@@ -27,7 +27,7 @@ part 'file_upload_put200_response_data.g.dart';
 abstract class FileUploadPut200ResponseData implements Built<FileUploadPut200ResponseData, FileUploadPut200ResponseDataBuilder> {
   /// ID of the upload session. Might be used in following upload requests.
   @BuiltValueField(wireName: r'session_id')
-  String get sessionId;
+  String? get sessionId;
 
   /// ID of the multipart upload request. Only used by some storage policy. 
   @BuiltValueField(wireName: r'upload_id')
@@ -35,11 +35,11 @@ abstract class FileUploadPut200ResponseData implements Built<FileUploadPut200Res
 
   /// Size of a chunk in multipart uplaod. `0` means multipart upload is disabled.
   @BuiltValueField(wireName: r'chunk_size')
-  int get chunkSize;
+  int? get chunkSize;
 
   /// Unix timestamp of the expiration date for this uplaod session. Client must finish the uploading before this time.
   @BuiltValueField(wireName: r'expires')
-  int get expires;
+  int? get expires;
 
   /// List of URLs to upload each chunk. Some storage policy use only one URL for all chunks, in this case only one URL is included in the list.
   @BuiltValueField(wireName: r'upload_urls')
@@ -54,7 +54,7 @@ abstract class FileUploadPut200ResponseData implements Built<FileUploadPut200Res
   String? get completeURL;
 
   @BuiltValueField(wireName: r'storage_policy')
-  StoragePolicy get storagePolicy;
+  StoragePolicy? get storagePolicy;
 
   /// Desired value of content-type in uplaod requests. Only used by qiniu and upyun.
   @BuiltValueField(wireName: r'mime_type')
@@ -87,11 +87,13 @@ class _$FileUploadPut200ResponseDataSerializer implements PrimitiveSerializer<Fi
     FileUploadPut200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'session_id';
-    yield serializers.serialize(
-      object.sessionId,
-      specifiedType: const FullType(String),
-    );
+    if (object.sessionId != null) {
+      yield r'session_id';
+      yield serializers.serialize(
+        object.sessionId,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.uploadId != null) {
       yield r'upload_id';
       yield serializers.serialize(
@@ -99,16 +101,20 @@ class _$FileUploadPut200ResponseDataSerializer implements PrimitiveSerializer<Fi
         specifiedType: const FullType(String),
       );
     }
-    yield r'chunk_size';
-    yield serializers.serialize(
-      object.chunkSize,
-      specifiedType: const FullType(int),
-    );
-    yield r'expires';
-    yield serializers.serialize(
-      object.expires,
-      specifiedType: const FullType(int),
-    );
+    if (object.chunkSize != null) {
+      yield r'chunk_size';
+      yield serializers.serialize(
+        object.chunkSize,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.expires != null) {
+      yield r'expires';
+      yield serializers.serialize(
+        object.expires,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.uploadUrls != null) {
       yield r'upload_urls';
       yield serializers.serialize(
@@ -130,11 +136,13 @@ class _$FileUploadPut200ResponseDataSerializer implements PrimitiveSerializer<Fi
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'storage_policy';
-    yield serializers.serialize(
-      object.storagePolicy,
-      specifiedType: const FullType(StoragePolicy),
-    );
+    if (object.storagePolicy != null) {
+      yield r'storage_policy';
+      yield serializers.serialize(
+        object.storagePolicy,
+        specifiedType: const FullType(StoragePolicy),
+      );
+    }
     if (object.mimeType != null) {
       yield r'mime_type';
       yield serializers.serialize(

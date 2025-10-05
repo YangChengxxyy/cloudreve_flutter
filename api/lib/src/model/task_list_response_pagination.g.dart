@@ -8,9 +8,9 @@ part of 'task_list_response_pagination.dart';
 
 class _$TaskListResponsePagination extends TaskListResponsePagination {
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
-  final String nextToken;
+  final String? nextToken;
   @override
   final bool? isCursor;
 
@@ -18,8 +18,7 @@ class _$TaskListResponsePagination extends TaskListResponsePagination {
           [void Function(TaskListResponsePaginationBuilder)? updates]) =>
       (TaskListResponsePaginationBuilder()..update(updates))._build();
 
-  _$TaskListResponsePagination._(
-      {required this.pageSize, required this.nextToken, this.isCursor})
+  _$TaskListResponsePagination._({this.pageSize, this.nextToken, this.isCursor})
       : super._();
   @override
   TaskListResponsePagination rebuild(
@@ -107,10 +106,8 @@ class TaskListResponsePaginationBuilder
   _$TaskListResponsePagination _build() {
     final _$result = _$v ??
         _$TaskListResponsePagination._(
-          pageSize: BuiltValueNullFieldError.checkNotNull(
-              pageSize, r'TaskListResponsePagination', 'pageSize'),
-          nextToken: BuiltValueNullFieldError.checkNotNull(
-              nextToken, r'TaskListResponsePagination', 'nextToken'),
+          pageSize: pageSize,
+          nextToken: nextToken,
           isCursor: isCursor,
         );
     replace(_$result);

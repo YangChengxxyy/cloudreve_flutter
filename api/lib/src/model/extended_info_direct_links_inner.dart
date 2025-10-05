@@ -19,19 +19,19 @@ part 'extended_info_direct_links_inner.g.dart';
 abstract class ExtendedInfoDirectLinksInner implements Built<ExtendedInfoDirectLinksInner, ExtendedInfoDirectLinksInnerBuilder> {
   /// ID of the direct link.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// URL of the direct link.
   @BuiltValueField(wireName: r'url')
-  String get url;
+  String? get url;
 
   /// Count of link views.
   @BuiltValueField(wireName: r'downloaded')
-  num get downloaded;
+  num? get downloaded;
 
   /// Datetime when the link is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   ExtendedInfoDirectLinksInner._();
 
@@ -56,26 +56,34 @@ class _$ExtendedInfoDirectLinksInnerSerializer implements PrimitiveSerializer<Ex
     ExtendedInfoDirectLinksInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'url';
-    yield serializers.serialize(
-      object.url,
-      specifiedType: const FullType(String),
-    );
-    yield r'downloaded';
-    yield serializers.serialize(
-      object.downloaded,
-      specifiedType: const FullType(num),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.url != null) {
+      yield r'url';
+      yield serializers.serialize(
+        object.url,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.downloaded != null) {
+      yield r'downloaded';
+      yield serializers.serialize(
+        object.downloaded,
+        specifiedType: const FullType(num),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
   }
 
   @override

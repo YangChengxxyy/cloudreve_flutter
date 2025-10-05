@@ -1,4 +1,4 @@
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:flutter/material.dart';
 
 class RenameNickDialog extends StatefulWidget {
@@ -48,14 +48,24 @@ class _RenameNickDialogState extends State<RenameNickDialog> {
         TextButton(
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              await renameNick(_newNickController.text);
-              widget.refresh(true);
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("修改成功"),
-                ),
+              final response = await CloudreveRepository.updateNickname(
+                _newNickController.text,
               );
+              if (response != null && (response.msg?.isEmpty ?? true)) {
+                widget.refresh(true);
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("修改成功"),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(response?.msg ?? "修改失败"),
+                  ),
+                );
+              }
             }
           },
           child: Text("确定"),

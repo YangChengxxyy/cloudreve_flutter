@@ -8,15 +8,15 @@ part of 'entity_created_by_group.dart';
 
 class _$EntityCreatedByGroup extends EntityCreatedByGroup {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
 
   factory _$EntityCreatedByGroup(
           [void Function(EntityCreatedByGroupBuilder)? updates]) =>
       (EntityCreatedByGroupBuilder()..update(updates))._build();
 
-  _$EntityCreatedByGroup._({required this.id, required this.name}) : super._();
+  _$EntityCreatedByGroup._({this.id, this.name}) : super._();
   @override
   EntityCreatedByGroup rebuild(
           void Function(EntityCreatedByGroupBuilder) updates) =>
@@ -94,10 +94,8 @@ class EntityCreatedByGroupBuilder
   _$EntityCreatedByGroup _build() {
     final _$result = _$v ??
         _$EntityCreatedByGroup._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'EntityCreatedByGroup', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'EntityCreatedByGroup', 'name'),
+          id: id,
+          name: name,
         );
     replace(_$result);
     return _$result;

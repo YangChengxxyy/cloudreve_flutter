@@ -131,15 +131,15 @@ class _$ActivityUserShareLinksInProfileEnumSerializer
 
 class _$ActivityUser extends ActivityUser {
   @override
-  final String id;
+  final String? id;
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final ActivityUserGroup group;
+  final ActivityUserGroup? group;
   @override
   final ActivityUserAvatarEnum? avatar;
   @override
@@ -149,11 +149,11 @@ class _$ActivityUser extends ActivityUser {
       (ActivityUserBuilder()..update(updates))._build();
 
   _$ActivityUser._(
-      {required this.id,
+      {this.id,
       this.email,
       this.nickname,
-      required this.createdAt,
-      required this.group,
+      this.createdAt,
+      this.group,
       this.avatar,
       this.shareLinksInProfile})
       : super._();
@@ -252,7 +252,7 @@ class ActivityUserBuilder
       _email = $v.email;
       _nickname = $v.nickname;
       _createdAt = $v.createdAt;
-      _group = $v.group.toBuilder();
+      _group = $v.group?.toBuilder();
       _avatar = $v.avatar;
       _shareLinksInProfile = $v.shareLinksInProfile;
       _$v = null;
@@ -278,13 +278,11 @@ class ActivityUserBuilder
     try {
       _$result = _$v ??
           _$ActivityUser._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'ActivityUser', 'id'),
+            id: id,
             email: email,
             nickname: nickname,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'ActivityUser', 'createdAt'),
-            group: group.build(),
+            createdAt: createdAt,
+            group: _group?.build(),
             avatar: avatar,
             shareLinksInProfile: shareLinksInProfile,
           );
@@ -292,7 +290,7 @@ class ActivityUserBuilder
       late String _$failedField;
       try {
         _$failedField = 'group';
-        group.build();
+        _group?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'ActivityUser', _$failedField, e.toString());

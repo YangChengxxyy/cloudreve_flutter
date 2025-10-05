@@ -19,11 +19,11 @@ part 'file_metadata_patch_request.g.dart';
 abstract class FileMetadataPatchRequest implements Built<FileMetadataPatchRequest, FileMetadataPatchRequestBuilder> {
   /// List of [URI](https://docs.cloudreve.org/api/file-uri) of the target files.
   @BuiltValueField(wireName: r'uris')
-  BuiltList<String> get uris;
+  BuiltList<String>? get uris;
 
   /// List of metadata patches.
   @BuiltValueField(wireName: r'patches')
-  BuiltList<FileMetadataPatchRequestPatchesInner> get patches;
+  BuiltList<FileMetadataPatchRequestPatchesInner>? get patches;
 
   FileMetadataPatchRequest._();
 
@@ -48,16 +48,20 @@ class _$FileMetadataPatchRequestSerializer implements PrimitiveSerializer<FileMe
     FileMetadataPatchRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uris';
-    yield serializers.serialize(
-      object.uris,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'patches';
-    yield serializers.serialize(
-      object.patches,
-      specifiedType: const FullType(BuiltList, [FullType(FileMetadataPatchRequestPatchesInner)]),
-    );
+    if (object.uris != null) {
+      yield r'uris';
+      yield serializers.serialize(
+        object.uris,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.patches != null) {
+      yield r'patches';
+      yield serializers.serialize(
+        object.patches,
+        specifiedType: const FullType(BuiltList, [FullType(FileMetadataPatchRequestPatchesInner)]),
+      );
+    }
   }
 
   @override

@@ -83,17 +83,16 @@ class _$PaymentProviderTypeEnumSerializer
 
 class _$PaymentProvider extends PaymentProvider {
   @override
-  final String id;
+  final String? id;
   @override
   final PaymentProviderTypeEnum? type;
   @override
-  final String name;
+  final String? name;
 
   factory _$PaymentProvider([void Function(PaymentProviderBuilder)? updates]) =>
       (PaymentProviderBuilder()..update(updates))._build();
 
-  _$PaymentProvider._({required this.id, this.type, required this.name})
-      : super._();
+  _$PaymentProvider._({this.id, this.type, this.name}) : super._();
   @override
   PaymentProvider rebuild(void Function(PaymentProviderBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -177,11 +176,9 @@ class PaymentProviderBuilder
   _$PaymentProvider _build() {
     final _$result = _$v ??
         _$PaymentProvider._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'PaymentProvider', 'id'),
+          id: id,
           type: type,
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'PaymentProvider', 'name'),
+          name: name,
         );
     replace(_$result);
     return _$result;

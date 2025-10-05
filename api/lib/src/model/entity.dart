@@ -24,26 +24,26 @@ part 'entity.g.dart';
 abstract class Entity implements Built<Entity, EntityBuilder> {
   /// ID of the blob.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Size of the blob.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// Type of the blob.
   @BuiltValueField(wireName: r'type')
-  EntityTypeEnum get type;
+  EntityTypeEnum? get type;
   // enum typeEnum {  0,  1,  2,  };
 
   /// Datetime when the blob is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   @BuiltValueField(wireName: r'storage_policy')
   EntityStoragePolicy? get storagePolicy;
 
   @BuiltValueField(wireName: r'created_by')
-  EntityCreatedBy get createdBy;
+  EntityCreatedBy? get createdBy;
 
   Entity._();
 
@@ -68,26 +68,34 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     Entity object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(EntityTypeEnum),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(EntityTypeEnum),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
     if (object.storagePolicy != null) {
       yield r'storage_policy';
       yield serializers.serialize(
@@ -95,11 +103,13 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
         specifiedType: const FullType.nullable(EntityStoragePolicy),
       );
     }
-    yield r'created_by';
-    yield serializers.serialize(
-      object.createdBy,
-      specifiedType: const FullType(EntityCreatedBy),
-    );
+    if (object.createdBy != null) {
+      yield r'created_by';
+      yield serializers.serialize(
+        object.createdBy,
+        specifiedType: const FullType(EntityCreatedBy),
+      );
+    }
   }
 
   @override

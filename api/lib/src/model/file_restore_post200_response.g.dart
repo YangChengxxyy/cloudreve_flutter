@@ -8,7 +8,7 @@ part of 'file_restore_post200_response.dart';
 
 class _$FileRestorePost200Response extends FileRestorePost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$FileRestorePost200Response extends FileRestorePost200Response {
       (FileRestorePost200ResponseBuilder()..update(updates))._build();
 
   _$FileRestorePost200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -136,8 +136,7 @@ class FileRestorePost200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileRestorePost200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileRestorePost200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

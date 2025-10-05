@@ -24,7 +24,7 @@ part 'explorer_view.g.dart';
 abstract class ExplorerView implements Built<ExplorerView, ExplorerViewBuilder> {
   /// The number of items to display per page.
   @BuiltValueField(wireName: r'page_size')
-  int get pageSize;
+  int? get pageSize;
 
   /// The field to order the results by.
   @BuiltValueField(wireName: r'order')
@@ -75,11 +75,13 @@ class _$ExplorerViewSerializer implements PrimitiveSerializer<ExplorerView> {
     ExplorerView object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'page_size';
-    yield serializers.serialize(
-      object.pageSize,
-      specifiedType: const FullType(int),
-    );
+    if (object.pageSize != null) {
+      yield r'page_size';
+      yield serializers.serialize(
+        object.pageSize,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.order != null) {
       yield r'order';
       yield serializers.serialize(

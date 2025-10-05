@@ -8,16 +8,15 @@ part of 'list_share_response.dart';
 
 class _$ListShareResponse extends ListShareResponse {
   @override
-  final BuiltList<Share> shares;
+  final BuiltList<Share>? shares;
   @override
-  final ListShareResponsePagination pagination;
+  final ListShareResponsePagination? pagination;
 
   factory _$ListShareResponse(
           [void Function(ListShareResponseBuilder)? updates]) =>
       (ListShareResponseBuilder()..update(updates))._build();
 
-  _$ListShareResponse._({required this.shares, required this.pagination})
-      : super._();
+  _$ListShareResponse._({this.shares, this.pagination}) : super._();
   @override
   ListShareResponse rebuild(void Function(ListShareResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -73,8 +72,8 @@ class ListShareResponseBuilder
   ListShareResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _shares = $v.shares.toBuilder();
-      _pagination = $v.pagination.toBuilder();
+      _shares = $v.shares?.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
       _$v = null;
     }
     return this;
@@ -98,16 +97,16 @@ class ListShareResponseBuilder
     try {
       _$result = _$v ??
           _$ListShareResponse._(
-            shares: shares.build(),
-            pagination: pagination.build(),
+            shares: _shares?.build(),
+            pagination: _pagination?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'shares';
-        shares.build();
+        _shares?.build();
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'ListShareResponse', _$failedField, e.toString());

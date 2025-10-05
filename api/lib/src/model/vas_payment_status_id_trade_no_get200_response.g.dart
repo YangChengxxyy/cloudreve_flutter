@@ -11,7 +11,7 @@ class _$VasPaymentStatusIdTradeNoGet200Response
   @override
   final Payment? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -26,7 +26,7 @@ class _$VasPaymentStatusIdTradeNoGet200Response
           ._build();
 
   _$VasPaymentStatusIdTradeNoGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   VasPaymentStatusIdTradeNoGet200Response rebuild(
@@ -138,8 +138,7 @@ class VasPaymentStatusIdTradeNoGet200ResponseBuilder
       _$result = _$v ??
           _$VasPaymentStatusIdTradeNoGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'VasPaymentStatusIdTradeNoGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

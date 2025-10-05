@@ -8,18 +8,17 @@ part of 'site_config_custom_nav_items_inner.dart';
 
 class _$SiteConfigCustomNavItemsInner extends SiteConfigCustomNavItemsInner {
   @override
-  final String icon;
+  final String? icon;
   @override
-  final String name;
+  final String? name;
   @override
-  final String url;
+  final String? url;
 
   factory _$SiteConfigCustomNavItemsInner(
           [void Function(SiteConfigCustomNavItemsInnerBuilder)? updates]) =>
       (SiteConfigCustomNavItemsInnerBuilder()..update(updates))._build();
 
-  _$SiteConfigCustomNavItemsInner._(
-      {required this.icon, required this.name, required this.url})
+  _$SiteConfigCustomNavItemsInner._({this.icon, this.name, this.url})
       : super._();
   @override
   SiteConfigCustomNavItemsInner rebuild(
@@ -108,12 +107,9 @@ class SiteConfigCustomNavItemsInnerBuilder
   _$SiteConfigCustomNavItemsInner _build() {
     final _$result = _$v ??
         _$SiteConfigCustomNavItemsInner._(
-          icon: BuiltValueNullFieldError.checkNotNull(
-              icon, r'SiteConfigCustomNavItemsInner', 'icon'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'SiteConfigCustomNavItemsInner', 'name'),
-          url: BuiltValueNullFieldError.checkNotNull(
-              url, r'SiteConfigCustomNavItemsInner', 'url'),
+          icon: icon,
+          name: name,
+          url: url,
         );
     replace(_$result);
     return _$result;

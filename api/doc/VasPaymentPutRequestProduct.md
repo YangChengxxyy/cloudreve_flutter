@@ -8,7 +8,7 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **int** | Type of the product. | 
+**type** | **int** | Type of the product. | [optional] 
 **shareLinkId** | **String** | ID of the paid share link. Only required if `type` is `3`. | [optional] 
 **skuId** | **String** | SKU ID for user group or storage packs. Only required if `type` is `2` or `3`. | [optional] 
 

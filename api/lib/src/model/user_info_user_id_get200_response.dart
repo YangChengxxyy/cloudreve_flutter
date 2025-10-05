@@ -20,11 +20,11 @@ part 'user_info_user_id_get200_response.g.dart';
 @BuiltValue()
 abstract class UserInfoUserIdGet200Response implements Built<UserInfoUserIdGet200Response, UserInfoUserIdGet200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  UserInfoUserIdGet200ResponseData get data;
+  UserInfoUserIdGet200ResponseData? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$UserInfoUserIdGet200ResponseSerializer implements PrimitiveSerializer<Us
     UserInfoUserIdGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(UserInfoUserIdGet200ResponseData),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(UserInfoUserIdGet200ResponseData),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

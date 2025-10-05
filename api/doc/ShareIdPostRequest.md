@@ -8,8 +8,8 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**permissions** | [**PermissionSetting**](PermissionSetting.md) |  | 
-**uri** | **String** | [URI](https://docs.cloudreve.org/api/file-uri) of the shared file or folder. | 
+**permissions** | [**PermissionSetting**](PermissionSetting.md) |  | [optional] 
+**uri** | **String** | [URI](https://docs.cloudreve.org/api/file-uri) of the shared file or folder. | [optional] 
 **shareView** | **bool** | Whether view settings within the shared folder is exposed to other user. If `uri` points to a file, this field is appliable. | [optional] 
 **expire** | **int** | Number of seconds after which the link will be expired. Empty value means permanent link. | [optional] 
 **price** | **int** | Only in Pro edition. Set the price (in points) to pay for this link. | [optional] 

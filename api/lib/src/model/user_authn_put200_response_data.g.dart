@@ -8,13 +8,13 @@ part of 'user_authn_put200_response_data.dart';
 
 class _$UserAuthnPut200ResponseData extends UserAuthnPut200ResponseData {
   @override
-  final JsonObject publicKey;
+  final JsonObject? publicKey;
 
   factory _$UserAuthnPut200ResponseData(
           [void Function(UserAuthnPut200ResponseDataBuilder)? updates]) =>
       (UserAuthnPut200ResponseDataBuilder()..update(updates))._build();
 
-  _$UserAuthnPut200ResponseData._({required this.publicKey}) : super._();
+  _$UserAuthnPut200ResponseData._({this.publicKey}) : super._();
   @override
   UserAuthnPut200ResponseData rebuild(
           void Function(UserAuthnPut200ResponseDataBuilder) updates) =>
@@ -85,8 +85,7 @@ class UserAuthnPut200ResponseDataBuilder
   _$UserAuthnPut200ResponseData _build() {
     final _$result = _$v ??
         _$UserAuthnPut200ResponseData._(
-          publicKey: BuiltValueNullFieldError.checkNotNull(
-              publicKey, r'UserAuthnPut200ResponseData', 'publicKey'),
+          publicKey: publicKey,
         );
     replace(_$result);
     return _$result;

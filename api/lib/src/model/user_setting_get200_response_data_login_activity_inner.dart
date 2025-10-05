@@ -25,40 +25,40 @@ part 'user_setting_get200_response_data_login_activity_inner.g.dart';
 abstract class UserSettingGet200ResponseDataLoginActivityInner implements Built<UserSettingGet200ResponseDataLoginActivityInner, UserSettingGet200ResponseDataLoginActivityInnerBuilder> {
   /// When the login activity initiated.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   /// IP address of the client.
   @BuiltValueField(wireName: r'ip')
-  String get ip;
+  String? get ip;
 
   /// Name of the browser, parsed from user agent.
   @BuiltValueField(wireName: r'browser')
-  String get browser;
+  String? get browser;
 
   /// Name of the device, parsed from user agent.
   @BuiltValueField(wireName: r'device')
-  String get device;
+  String? get device;
 
   /// Name of the operating system, parsed from user agent.
   @BuiltValueField(wireName: r'os')
-  String get os;
+  String? get os;
 
   /// Method for sign in. Empty string means sign in using password.
   @BuiltValueField(wireName: r'login_with')
-  UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnum get loginWith;
+  UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnum? get loginWith;
   // enum loginWithEnum {  passkey,  openid,  };
 
   /// Type of the 3rd party identity provider. Only valid if `login_with` is `openid`.
   @BuiltValueField(wireName: r'open_id_provider')
-  int get openIdProvider;
+  int? get openIdProvider;
 
   /// Whether this sign in succeed.
   @BuiltValueField(wireName: r'success')
-  bool get success;
+  bool? get success;
 
   /// Whether this request is from WebDAV client. Currently we only record failed sign in activities for WebDAV requests.
   @BuiltValueField(wireName: r'webdav')
-  bool get webdav;
+  bool? get webdav;
 
   UserSettingGet200ResponseDataLoginActivityInner._();
 
@@ -83,51 +83,69 @@ class _$UserSettingGet200ResponseDataLoginActivityInnerSerializer implements Pri
     UserSettingGet200ResponseDataLoginActivityInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'ip';
-    yield serializers.serialize(
-      object.ip,
-      specifiedType: const FullType(String),
-    );
-    yield r'browser';
-    yield serializers.serialize(
-      object.browser,
-      specifiedType: const FullType(String),
-    );
-    yield r'device';
-    yield serializers.serialize(
-      object.device,
-      specifiedType: const FullType(String),
-    );
-    yield r'os';
-    yield serializers.serialize(
-      object.os,
-      specifiedType: const FullType(String),
-    );
-    yield r'login_with';
-    yield serializers.serialize(
-      object.loginWith,
-      specifiedType: const FullType(UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnum),
-    );
-    yield r'open_id_provider';
-    yield serializers.serialize(
-      object.openIdProvider,
-      specifiedType: const FullType(int),
-    );
-    yield r'success';
-    yield serializers.serialize(
-      object.success,
-      specifiedType: const FullType(bool),
-    );
-    yield r'webdav';
-    yield serializers.serialize(
-      object.webdav,
-      specifiedType: const FullType(bool),
-    );
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.ip != null) {
+      yield r'ip';
+      yield serializers.serialize(
+        object.ip,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.browser != null) {
+      yield r'browser';
+      yield serializers.serialize(
+        object.browser,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.device != null) {
+      yield r'device';
+      yield serializers.serialize(
+        object.device,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.os != null) {
+      yield r'os';
+      yield serializers.serialize(
+        object.os,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.loginWith != null) {
+      yield r'login_with';
+      yield serializers.serialize(
+        object.loginWith,
+        specifiedType: const FullType(UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnum),
+      );
+    }
+    if (object.openIdProvider != null) {
+      yield r'open_id_provider';
+      yield serializers.serialize(
+        object.openIdProvider,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.success != null) {
+      yield r'success';
+      yield serializers.serialize(
+        object.success,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.webdav != null) {
+      yield r'webdav';
+      yield serializers.serialize(
+        object.webdav,
+        specifiedType: const FullType(bool),
+      );
+    }
   }
 
   @override

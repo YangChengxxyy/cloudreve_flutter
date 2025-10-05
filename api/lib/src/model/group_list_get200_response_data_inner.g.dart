@@ -9,16 +9,15 @@ part of 'group_list_get200_response_data_inner.dart';
 class _$GroupListGet200ResponseDataInner
     extends GroupListGet200ResponseDataInner {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
 
   factory _$GroupListGet200ResponseDataInner(
           [void Function(GroupListGet200ResponseDataInnerBuilder)? updates]) =>
       (GroupListGet200ResponseDataInnerBuilder()..update(updates))._build();
 
-  _$GroupListGet200ResponseDataInner._({required this.id, required this.name})
-      : super._();
+  _$GroupListGet200ResponseDataInner._({this.id, this.name}) : super._();
   @override
   GroupListGet200ResponseDataInner rebuild(
           void Function(GroupListGet200ResponseDataInnerBuilder) updates) =>
@@ -98,10 +97,8 @@ class GroupListGet200ResponseDataInnerBuilder
   _$GroupListGet200ResponseDataInner _build() {
     final _$result = _$v ??
         _$GroupListGet200ResponseDataInner._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'GroupListGet200ResponseDataInner', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'GroupListGet200ResponseDataInner', 'name'),
+          id: id,
+          name: name,
         );
     replace(_$result);
     return _$result;

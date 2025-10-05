@@ -8,7 +8,7 @@ part of 'file_view_patch_request.dart';
 
 class _$FileViewPatchRequest extends FileViewPatchRequest {
   @override
-  final String uri;
+  final String? uri;
   @override
   final ExplorerView? view;
 
@@ -16,7 +16,7 @@ class _$FileViewPatchRequest extends FileViewPatchRequest {
           [void Function(FileViewPatchRequestBuilder)? updates]) =>
       (FileViewPatchRequestBuilder()..update(updates))._build();
 
-  _$FileViewPatchRequest._({required this.uri, this.view}) : super._();
+  _$FileViewPatchRequest._({this.uri, this.view}) : super._();
   @override
   FileViewPatchRequest rebuild(
           void Function(FileViewPatchRequestBuilder) updates) =>
@@ -96,8 +96,7 @@ class FileViewPatchRequestBuilder
     try {
       _$result = _$v ??
           _$FileViewPatchRequest._(
-            uri: BuiltValueNullFieldError.checkNotNull(
-                uri, r'FileViewPatchRequest', 'uri'),
+            uri: uri,
             view: _view?.build(),
           );
     } catch (_) {

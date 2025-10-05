@@ -29,22 +29,22 @@ part 'task_response.g.dart';
 @BuiltValue()
 abstract class TaskResponse implements Built<TaskResponse, TaskResponseBuilder> {
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   @BuiltValueField(wireName: r'updated_at')
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
 
   /// ID of the tasks.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Status of the task
   @BuiltValueField(wireName: r'status')
-  TaskResponseStatusEnum get status;
+  TaskResponseStatusEnum? get status;
   // enum statusEnum {  queued,  processing,  suspending,  error,  canceled,  completed,  };
 
   @BuiltValueField(wireName: r'type')
-  TaskResponseTypeEnum get type;
+  TaskResponseTypeEnum? get type;
   // enum typeEnum {  media_meta,  entity_recycle_routine,  explicit_entity_recycle,  upload_sentinel_check,  create_archive,  extract_archive,  relocate,  remote_download,  import,  };
 
   @BuiltValueField(wireName: r'summary')
@@ -71,7 +71,7 @@ abstract class TaskResponse implements Built<TaskResponse, TaskResponseBuilder> 
   int? get retryCount;
 
   @BuiltValueField(wireName: r'node')
-  Node get node;
+  Node? get node;
 
   TaskResponse._();
 
@@ -96,31 +96,41 @@ class _$TaskResponseSerializer implements PrimitiveSerializer<TaskResponse> {
     TaskResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updated_at';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'status';
-    yield serializers.serialize(
-      object.status,
-      specifiedType: const FullType(TaskResponseStatusEnum),
-    );
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(TaskResponseTypeEnum),
-    );
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.updatedAt != null) {
+      yield r'updated_at';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.status != null) {
+      yield r'status';
+      yield serializers.serialize(
+        object.status,
+        specifiedType: const FullType(TaskResponseStatusEnum),
+      );
+    }
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(TaskResponseTypeEnum),
+      );
+    }
     if (object.summary != null) {
       yield r'summary';
       yield serializers.serialize(
@@ -163,11 +173,13 @@ class _$TaskResponseSerializer implements PrimitiveSerializer<TaskResponse> {
         specifiedType: const FullType.nullable(int),
       );
     }
-    yield r'node';
-    yield serializers.serialize(
-      object.node,
-      specifiedType: const FullType(Node),
-    );
+    if (object.node != null) {
+      yield r'node';
+      yield serializers.serialize(
+        object.node,
+        specifiedType: const FullType(Node),
+      );
+    }
   }
 
   @override

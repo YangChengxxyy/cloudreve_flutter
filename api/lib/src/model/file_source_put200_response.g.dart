@@ -10,7 +10,7 @@ class _$FileSourcePut200Response extends FileSourcePut200Response {
   @override
   final BuiltList<FileSourcePut200ResponseDataInner>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -26,7 +26,7 @@ class _$FileSourcePut200Response extends FileSourcePut200Response {
 
   _$FileSourcePut200Response._(
       {this.data,
-      required this.code,
+      this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -150,8 +150,7 @@ class FileSourcePut200ResponseBuilder
       _$result = _$v ??
           _$FileSourcePut200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileSourcePut200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

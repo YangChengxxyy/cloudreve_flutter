@@ -20,11 +20,11 @@ part 'devices_dav_put200_response.g.dart';
 @BuiltValue()
 abstract class DevicesDavPut200Response implements Built<DevicesDavPut200Response, DevicesDavPut200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  DavAccount get data;
+  DavAccount? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$DevicesDavPut200ResponseSerializer implements PrimitiveSerializer<Device
     DevicesDavPut200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(DavAccount),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(DavAccount),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

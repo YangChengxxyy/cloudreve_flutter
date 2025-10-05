@@ -923,7 +923,7 @@ class _HomeState extends State<Home> {
       builder: (dialogContext) {
         return ShareDialog(
           fatherContext: dialogContext,
-          parentFatherContext: parentFatherContext,
+          parentContext: parentFatherContext,
           file: file,
         );
       },

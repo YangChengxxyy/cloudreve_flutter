@@ -17,11 +17,11 @@ part 'file_policy_patch_request.g.dart';
 abstract class FilePolicyPatchRequest implements Built<FilePolicyPatchRequest, FilePolicyPatchRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the folder.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// ID of the storage policy. List of available storage policies can be get from [List available storage policies ](./list-available-storage-policies-308312707e0)
   @BuiltValueField(wireName: r'policy_id')
-  String get policyId;
+  String? get policyId;
 
   FilePolicyPatchRequest._();
 
@@ -46,16 +46,20 @@ class _$FilePolicyPatchRequestSerializer implements PrimitiveSerializer<FilePoli
     FilePolicyPatchRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
-    yield r'policy_id';
-    yield serializers.serialize(
-      object.policyId,
-      specifiedType: const FullType(String),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.policyId != null) {
+      yield r'policy_id';
+      yield serializers.serialize(
+        object.policyId,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

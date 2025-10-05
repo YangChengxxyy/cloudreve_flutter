@@ -18,11 +18,11 @@ part 'task_response_summary.g.dart';
 abstract class TaskResponseSummary implements Built<TaskResponseSummary, TaskResponseSummaryBuilder> {
   /// Current phase(sub-step) of the task. The possible value differs from different task types.
   @BuiltValueField(wireName: r'phase')
-  String get phase;
+  String? get phase;
 
   /// Key-value map of task specific props.
   @BuiltValueField(wireName: r'props')
-  BuiltMap<String, String> get props;
+  BuiltMap<String, String>? get props;
 
   TaskResponseSummary._();
 
@@ -47,16 +47,20 @@ class _$TaskResponseSummarySerializer implements PrimitiveSerializer<TaskRespons
     TaskResponseSummary object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'phase';
-    yield serializers.serialize(
-      object.phase,
-      specifiedType: const FullType(String),
-    );
-    yield r'props';
-    yield serializers.serialize(
-      object.props,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
-    );
+    if (object.phase != null) {
+      yield r'phase';
+      yield serializers.serialize(
+        object.phase,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.props != null) {
+      yield r'props';
+      yield serializers.serialize(
+        object.props,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+      );
+    }
   }
 
   @override

@@ -9,7 +9,7 @@ part of 'file_viewer_session_put200_response_data.dart';
 class _$FileViewerSessionPut200ResponseData
     extends FileViewerSessionPut200ResponseData {
   @override
-  final FileViewerSessionPut200ResponseDataSession session;
+  final FileViewerSessionPut200ResponseDataSession? session;
   @override
   final String? wopiSrc;
 
@@ -18,7 +18,7 @@ class _$FileViewerSessionPut200ResponseData
               updates]) =>
       (FileViewerSessionPut200ResponseDataBuilder()..update(updates))._build();
 
-  _$FileViewerSessionPut200ResponseData._({required this.session, this.wopiSrc})
+  _$FileViewerSessionPut200ResponseData._({this.session, this.wopiSrc})
       : super._();
   @override
   FileViewerSessionPut200ResponseData rebuild(
@@ -78,7 +78,7 @@ class FileViewerSessionPut200ResponseDataBuilder
   FileViewerSessionPut200ResponseDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _session = $v.session.toBuilder();
+      _session = $v.session?.toBuilder();
       _wopiSrc = $v.wopiSrc;
       _$v = null;
     }
@@ -104,14 +104,14 @@ class FileViewerSessionPut200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$FileViewerSessionPut200ResponseData._(
-            session: session.build(),
+            session: _session?.build(),
             wopiSrc: wopiSrc,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'session';
-        session.build();
+        _session?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(r'FileViewerSessionPut200ResponseData',
             _$failedField, e.toString());

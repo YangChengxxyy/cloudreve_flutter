@@ -8,7 +8,7 @@ part of 'file_view_patch200_response.dart';
 
 class _$FileViewPatch200Response extends FileViewPatch200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$FileViewPatch200Response extends FileViewPatch200Response {
       (FileViewPatch200ResponseBuilder()..update(updates))._build();
 
   _$FileViewPatch200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileViewPatch200Response rebuild(
@@ -118,8 +118,7 @@ class FileViewPatch200ResponseBuilder
   _$FileViewPatch200Response _build() {
     final _$result = _$v ??
         _$FileViewPatch200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'FileViewPatch200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

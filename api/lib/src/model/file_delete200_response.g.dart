@@ -8,7 +8,7 @@ part of 'file_delete200_response.dart';
 
 class _$FileDelete200Response extends FileDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$FileDelete200Response extends FileDelete200Response {
       (FileDelete200ResponseBuilder()..update(updates))._build();
 
   _$FileDelete200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -135,8 +135,7 @@ class FileDelete200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileDelete200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileDelete200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

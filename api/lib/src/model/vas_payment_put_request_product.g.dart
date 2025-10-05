@@ -86,7 +86,7 @@ class _$VasPaymentPutRequestProductTypeEnumSerializer
 
 class _$VasPaymentPutRequestProduct extends VasPaymentPutRequestProduct {
   @override
-  final VasPaymentPutRequestProductTypeEnum type;
+  final VasPaymentPutRequestProductTypeEnum? type;
   @override
   final String? shareLinkId;
   @override
@@ -96,8 +96,7 @@ class _$VasPaymentPutRequestProduct extends VasPaymentPutRequestProduct {
           [void Function(VasPaymentPutRequestProductBuilder)? updates]) =>
       (VasPaymentPutRequestProductBuilder()..update(updates))._build();
 
-  _$VasPaymentPutRequestProduct._(
-      {required this.type, this.shareLinkId, this.skuId})
+  _$VasPaymentPutRequestProduct._({this.type, this.shareLinkId, this.skuId})
       : super._();
   @override
   VasPaymentPutRequestProduct rebuild(
@@ -186,8 +185,7 @@ class VasPaymentPutRequestProductBuilder
   _$VasPaymentPutRequestProduct _build() {
     final _$result = _$v ??
         _$VasPaymentPutRequestProduct._(
-          type: BuiltValueNullFieldError.checkNotNull(
-              type, r'VasPaymentPutRequestProduct', 'type'),
+          type: type,
           shareLinkId: shareLinkId,
           skuId: skuId,
         );

@@ -18,15 +18,15 @@ part 'user_credit_changes_get200_response_data_changes_inner.g.dart';
 abstract class UserCreditChangesGet200ResponseDataChangesInner implements Built<UserCreditChangesGet200ResponseDataChangesInner, UserCreditChangesGet200ResponseDataChangesInnerBuilder> {
   /// Datetime when the event occurs.
   @BuiltValueField(wireName: r'changed_at')
-  DateTime get changedAt;
+  DateTime? get changedAt;
 
   /// Credit changed.
   @BuiltValueField(wireName: r'diff')
-  int get diff;
+  int? get diff;
 
   /// Reason of the change.
   @BuiltValueField(wireName: r'reason')
-  String get reason;
+  String? get reason;
 
   UserCreditChangesGet200ResponseDataChangesInner._();
 
@@ -51,21 +51,27 @@ class _$UserCreditChangesGet200ResponseDataChangesInnerSerializer implements Pri
     UserCreditChangesGet200ResponseDataChangesInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'changed_at';
-    yield serializers.serialize(
-      object.changedAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'diff';
-    yield serializers.serialize(
-      object.diff,
-      specifiedType: const FullType(int),
-    );
-    yield r'reason';
-    yield serializers.serialize(
-      object.reason,
-      specifiedType: const FullType(String),
-    );
+    if (object.changedAt != null) {
+      yield r'changed_at';
+      yield serializers.serialize(
+        object.changedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.diff != null) {
+      yield r'diff';
+      yield serializers.serialize(
+        object.diff,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.reason != null) {
+      yield r'reason';
+      yield serializers.serialize(
+        object.reason,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

@@ -124,21 +124,21 @@ class _$StoragePolicyTypeEnumSerializer
 
 class _$StoragePolicy extends StoragePolicy {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
   final BuiltList<String>? allowedSuffix;
   @override
   final BuiltList<String>? deniedSuffix;
   @override
-  final StoragePolicyTypeEnum type;
+  final StoragePolicyTypeEnum? type;
   @override
   final String? allowedNameRegexp;
   @override
   final String? deniedNameRegexp;
   @override
-  final num maxSize;
+  final num? maxSize;
   @override
   final bool? relay;
   @override
@@ -152,14 +152,14 @@ class _$StoragePolicy extends StoragePolicy {
       (StoragePolicyBuilder()..update(updates))._build();
 
   _$StoragePolicy._(
-      {required this.id,
-      required this.name,
+      {this.id,
+      this.name,
       this.allowedSuffix,
       this.deniedSuffix,
-      required this.type,
+      this.type,
       this.allowedNameRegexp,
       this.deniedNameRegexp,
-      required this.maxSize,
+      this.maxSize,
       this.relay,
       this.weight,
       this.children,
@@ -331,18 +331,14 @@ class StoragePolicyBuilder
     try {
       _$result = _$v ??
           _$StoragePolicy._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'StoragePolicy', 'id'),
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'StoragePolicy', 'name'),
+            id: id,
+            name: name,
             allowedSuffix: _allowedSuffix?.build(),
             deniedSuffix: _deniedSuffix?.build(),
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'StoragePolicy', 'type'),
+            type: type,
             allowedNameRegexp: allowedNameRegexp,
             deniedNameRegexp: deniedNameRegexp,
-            maxSize: BuiltValueNullFieldError.checkNotNull(
-                maxSize, r'StoragePolicy', 'maxSize'),
+            maxSize: maxSize,
             relay: relay,
             weight: weight,
             children: _children?.build(),

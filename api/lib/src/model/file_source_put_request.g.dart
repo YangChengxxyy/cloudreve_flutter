@@ -8,13 +8,13 @@ part of 'file_source_put_request.dart';
 
 class _$FileSourcePutRequest extends FileSourcePutRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
 
   factory _$FileSourcePutRequest(
           [void Function(FileSourcePutRequestBuilder)? updates]) =>
       (FileSourcePutRequestBuilder()..update(updates))._build();
 
-  _$FileSourcePutRequest._({required this.uris}) : super._();
+  _$FileSourcePutRequest._({this.uris}) : super._();
   @override
   FileSourcePutRequest rebuild(
           void Function(FileSourcePutRequestBuilder) updates) =>
@@ -61,7 +61,7 @@ class FileSourcePutRequestBuilder
   FileSourcePutRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
+      _uris = $v.uris?.toBuilder();
       _$v = null;
     }
     return this;
@@ -85,13 +85,13 @@ class FileSourcePutRequestBuilder
     try {
       _$result = _$v ??
           _$FileSourcePutRequest._(
-            uris: uris.build(),
+            uris: _uris?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileSourcePutRequest', _$failedField, e.toString());

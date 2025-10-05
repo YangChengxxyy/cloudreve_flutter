@@ -8,9 +8,9 @@ part of 'site_captcha_get200_response.dart';
 
 class _$SiteCaptchaGet200Response extends SiteCaptchaGet200Response {
   @override
-  final SiteCaptchaGet200ResponseData data;
+  final SiteCaptchaGet200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$SiteCaptchaGet200Response extends SiteCaptchaGet200Response {
       (SiteCaptchaGet200ResponseBuilder()..update(updates))._build();
 
   _$SiteCaptchaGet200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SiteCaptchaGet200Response rebuild(
@@ -107,7 +103,7 @@ class SiteCaptchaGet200ResponseBuilder
   SiteCaptchaGet200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -135,9 +131,8 @@ class SiteCaptchaGet200ResponseBuilder
     try {
       _$result = _$v ??
           _$SiteCaptchaGet200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'SiteCaptchaGet200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -146,7 +141,7 @@ class SiteCaptchaGet200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SiteCaptchaGet200Response', _$failedField, e.toString());

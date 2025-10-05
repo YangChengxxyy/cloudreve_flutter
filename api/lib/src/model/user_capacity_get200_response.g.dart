@@ -10,7 +10,7 @@ class _$UserCapacityGet200Response extends UserCapacityGet200Response {
   @override
   final UserCapacityGet200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$UserCapacityGet200Response extends UserCapacityGet200Response {
       (UserCapacityGet200ResponseBuilder()..update(updates))._build();
 
   _$UserCapacityGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserCapacityGet200Response rebuild(
@@ -132,8 +132,7 @@ class UserCapacityGet200ResponseBuilder
       _$result = _$v ??
           _$UserCapacityGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserCapacityGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

@@ -1,86 +1,72 @@
+import 'package:cloudreve_api_client/cloudreve_api_client.dart'
+    as cloudreve_api;
+
 class ShareData {
-  late List<ShareItems> items;
-  late int total;
+  ShareData({required this.items, this.nextToken});
 
-  ShareData(this.items, this.total);
-
-  ShareData.fromJson(Map<String, dynamic> json) {
-    items = <ShareItems>[];
-    if (json['items'] != null) {
-      json['items'].forEach((v) {
-        items.add(ShareItems.fromJson(v));
-      });
-    }
-    total = json['total'];
+  factory ShareData.fromApi(
+    List<cloudreve_api.Share> shares, {
+    cloudreve_api.ListShareResponsePagination? pagination,
+  }) {
+    final nextTokenValue = pagination?.nextToken;
+    return ShareData(
+      items: shares.map(ShareItems.fromApi).toList(),
+      nextToken:
+          (nextTokenValue == null || nextTokenValue.isEmpty) ? null : nextTokenValue,
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['items'] = items.map((v) => v.toJson()).toList();
-    data['total'] = total;
-    return data;
-  }
+  final List<ShareItems> items;
+  final String? nextToken;
 }
 
 class ShareItems {
-  late String key;
-  late bool isDir;
-  late String password;
-  late String createDate;
-  late int downloads;
-  late int remainDownloads;
-  late int views;
-  late int expire;
-  late bool preview;
-  late Source source;
+  ShareItems({
+    required this.key,
+    required this.isDir,
+    required this.password,
+    required this.createDate,
+    required this.downloads,
+    required this.views,
+    required this.preview,
+    required this.source,
+    required this.expired,
+    this.url,
+  });
 
-  ShareItems(this.key, this.isDir, this.password, this.createDate, this.downloads,
-      this.remainDownloads, this.views, this.expire, this.preview, this.source);
-
-  ShareItems.fromJson(Map<String, dynamic> json) {
-    key = json['key'];
-    isDir = json['is_dir'];
-    password = json['password'];
-    createDate = json['create_date'];
-    downloads = json['downloads'];
-    remainDownloads = json['remain_downloads'];
-    views = json['views'];
-    expire = json['expire'];
-    preview = json['preview'];
-    source = Source.fromJson(json['source']);
+  factory ShareItems.fromApi(cloudreve_api.Share share) {
+    final isDirectory =
+        share.sourceType == cloudreve_api.ShareSourceTypeEnum.number1;
+    final ownerName = share.name ?? '';
+    return ShareItems(
+      key: share.id ?? '',
+      isDir: isDirectory,
+      password: share.password ?? '',
+      createDate: share.createdAt?.toIso8601String() ?? '',
+      downloads: share.downloaded ?? 0,
+      views: share.visited ?? 0,
+      preview: share.shareView ?? false,
+      source: Source(name: ownerName, size: 0),
+      expired: share.expired ?? false,
+      url: share.url,
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['key'] = key;
-    data['is_dir'] = isDir;
-    data['password'] = password;
-    data['create_date'] = createDate;
-    data['downloads'] = downloads;
-    data['remain_downloads'] = remainDownloads;
-    data['views'] = views;
-    data['expire'] = expire;
-    data['preview'] = preview;
-    data['source'] = source.toJson();
-    return data;
-  }
+  final String key;
+  final bool isDir;
+  final String password;
+  final String createDate;
+  final int downloads;
+  final int views;
+  final bool preview;
+  final Source source;
+  final bool expired;
+  final String? url;
 }
 
 class Source {
-  late String name;
-  late int size;
+  Source({required this.name, required this.size});
 
-  Source(this.name, this.size);
-
-  Source.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    size = json['size'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['size'] = size;
-    return data;
-  }
+  final String name;
+  final int size;
 }

@@ -20,11 +20,11 @@ part 'session_authn_put200_response.g.dart';
 @BuiltValue()
 abstract class SessionAuthnPut200Response implements Built<SessionAuthnPut200Response, SessionAuthnPut200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  SessionAuthnPut200ResponseData get data;
+  SessionAuthnPut200ResponseData? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$SessionAuthnPut200ResponseSerializer implements PrimitiveSerializer<Sess
     SessionAuthnPut200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(SessionAuthnPut200ResponseData),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(SessionAuthnPut200ResponseData),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

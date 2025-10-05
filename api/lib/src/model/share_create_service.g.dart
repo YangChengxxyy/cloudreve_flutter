@@ -8,9 +8,9 @@ part of 'share_create_service.dart';
 
 class _$ShareCreateService extends ShareCreateService {
   @override
-  final PermissionSetting permissions;
+  final PermissionSetting? permissions;
   @override
-  final String uri;
+  final String? uri;
   @override
   final bool? isPrivate;
   @override
@@ -29,8 +29,8 @@ class _$ShareCreateService extends ShareCreateService {
       (ShareCreateServiceBuilder()..update(updates))._build();
 
   _$ShareCreateService._(
-      {required this.permissions,
-      required this.uri,
+      {this.permissions,
+      this.uri,
       this.isPrivate,
       this.shareView,
       this.expire,
@@ -136,7 +136,7 @@ class ShareCreateServiceBuilder
   ShareCreateServiceBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _permissions = $v.permissions.toBuilder();
+      _permissions = $v.permissions?.toBuilder();
       _uri = $v.uri;
       _isPrivate = $v.isPrivate;
       _shareView = $v.shareView;
@@ -167,9 +167,8 @@ class ShareCreateServiceBuilder
     try {
       _$result = _$v ??
           _$ShareCreateService._(
-            permissions: permissions.build(),
-            uri: BuiltValueNullFieldError.checkNotNull(
-                uri, r'ShareCreateService', 'uri'),
+            permissions: _permissions?.build(),
+            uri: uri,
             isPrivate: isPrivate,
             shareView: shareView,
             expire: expire,
@@ -181,7 +180,7 @@ class ShareCreateServiceBuilder
       late String _$failedField;
       try {
         _$failedField = 'permissions';
-        permissions.build();
+        _permissions?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'ShareCreateService', _$failedField, e.toString());

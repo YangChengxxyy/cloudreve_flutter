@@ -8,22 +8,18 @@ part of 'archived_file.dart';
 
 class _$ArchivedFile extends ArchivedFile {
   @override
-  final String name;
+  final String? name;
   @override
-  final int size;
+  final int? size;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
   final bool? isDirectory;
 
   factory _$ArchivedFile([void Function(ArchivedFileBuilder)? updates]) =>
       (ArchivedFileBuilder()..update(updates))._build();
 
-  _$ArchivedFile._(
-      {required this.name,
-      required this.size,
-      required this.updatedAt,
-      this.isDirectory})
+  _$ArchivedFile._({this.name, this.size, this.updatedAt, this.isDirectory})
       : super._();
   @override
   ArchivedFile rebuild(void Function(ArchivedFileBuilder) updates) =>
@@ -116,12 +112,9 @@ class ArchivedFileBuilder
   _$ArchivedFile _build() {
     final _$result = _$v ??
         _$ArchivedFile._(
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'ArchivedFile', 'name'),
-          size: BuiltValueNullFieldError.checkNotNull(
-              size, r'ArchivedFile', 'size'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'ArchivedFile', 'updatedAt'),
+          name: name,
+          size: size,
+          updatedAt: updatedAt,
           isDirectory: isDirectory,
         );
     replace(_$result);

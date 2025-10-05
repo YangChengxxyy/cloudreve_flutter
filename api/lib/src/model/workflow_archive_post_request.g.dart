@@ -8,9 +8,9 @@ part of 'workflow_archive_post_request.dart';
 
 class _$WorkflowArchivePostRequest extends WorkflowArchivePostRequest {
   @override
-  final BuiltList<String> src;
+  final BuiltList<String>? src;
   @override
-  final String dst;
+  final String? dst;
   @override
   final String? preferredNodeId;
   @override
@@ -23,11 +23,7 @@ class _$WorkflowArchivePostRequest extends WorkflowArchivePostRequest {
       (WorkflowArchivePostRequestBuilder()..update(updates))._build();
 
   _$WorkflowArchivePostRequest._(
-      {required this.src,
-      required this.dst,
-      this.preferredNodeId,
-      this.password,
-      this.fileMask})
+      {this.src, this.dst, this.preferredNodeId, this.password, this.fileMask})
       : super._();
   @override
   WorkflowArchivePostRequest rebuild(
@@ -107,7 +103,7 @@ class WorkflowArchivePostRequestBuilder
   WorkflowArchivePostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _src = $v.src.toBuilder();
+      _src = $v.src?.toBuilder();
       _dst = $v.dst;
       _preferredNodeId = $v.preferredNodeId;
       _password = $v.password;
@@ -135,9 +131,8 @@ class WorkflowArchivePostRequestBuilder
     try {
       _$result = _$v ??
           _$WorkflowArchivePostRequest._(
-            src: src.build(),
-            dst: BuiltValueNullFieldError.checkNotNull(
-                dst, r'WorkflowArchivePostRequest', 'dst'),
+            src: _src?.build(),
+            dst: dst,
             preferredNodeId: preferredNodeId,
             password: password,
             fileMask: _fileMask?.build(),
@@ -146,7 +141,7 @@ class WorkflowArchivePostRequestBuilder
       late String _$failedField;
       try {
         _$failedField = 'src';
-        src.build();
+        _src?.build();
 
         _$failedField = 'fileMask';
         _fileMask?.build();

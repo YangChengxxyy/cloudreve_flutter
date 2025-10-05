@@ -17,11 +17,11 @@ part 'site_captcha_get200_response_data.g.dart';
 abstract class SiteCaptchaGet200ResponseData implements Built<SiteCaptchaGet200ResponseData, SiteCaptchaGet200ResponseDataBuilder> {
   /// Base64 encoded CAPTCHA image.
   @BuiltValueField(wireName: r'image')
-  String get image;
+  String? get image;
 
   /// Ticket of this CAPTCHA, need to be included in following request that requires CAPTCHA verification.
   @BuiltValueField(wireName: r'ticket')
-  String get ticket;
+  String? get ticket;
 
   SiteCaptchaGet200ResponseData._();
 
@@ -46,16 +46,20 @@ class _$SiteCaptchaGet200ResponseDataSerializer implements PrimitiveSerializer<S
     SiteCaptchaGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'image';
-    yield serializers.serialize(
-      object.image,
-      specifiedType: const FullType(String),
-    );
-    yield r'ticket';
-    yield serializers.serialize(
-      object.ticket,
-      specifiedType: const FullType(String),
-    );
+    if (object.image != null) {
+      yield r'image';
+      yield serializers.serialize(
+        object.image,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.ticket != null) {
+      yield r'ticket';
+      yield serializers.serialize(
+        object.ticket,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

@@ -10,7 +10,7 @@ class _$VasPaymentPut200Response extends VasPaymentPut200Response {
   @override
   final VasPaymentPut200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$VasPaymentPut200Response extends VasPaymentPut200Response {
       (VasPaymentPut200ResponseBuilder()..update(updates))._build();
 
   _$VasPaymentPut200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   VasPaymentPut200Response rebuild(
@@ -132,8 +132,7 @@ class VasPaymentPut200ResponseBuilder
       _$result = _$v ??
           _$VasPaymentPut200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'VasPaymentPut200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

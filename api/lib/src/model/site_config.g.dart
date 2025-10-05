@@ -210,9 +210,9 @@ class _$SiteConfig extends SiteConfig {
   @override
   final String? captchaReCaptchaKey;
   @override
-  final String captchaCapInstanceUrl;
+  final String? captchaCapInstanceUrl;
   @override
-  final String captchaCapSiteKey;
+  final String? captchaCapSiteKey;
   @override
   final String? siteNotice;
   @override
@@ -303,8 +303,8 @@ class _$SiteConfig extends SiteConfig {
       this.authn,
       this.user,
       this.captchaReCaptchaKey,
-      required this.captchaCapInstanceUrl,
-      required this.captchaCapSiteKey,
+      this.captchaCapInstanceUrl,
+      this.captchaCapSiteKey,
       this.siteNotice,
       this.captchaType,
       this.turnstileSiteId,
@@ -849,10 +849,8 @@ class SiteConfigBuilder implements Builder<SiteConfig, SiteConfigBuilder> {
             authn: authn,
             user: _user?.build(),
             captchaReCaptchaKey: captchaReCaptchaKey,
-            captchaCapInstanceUrl: BuiltValueNullFieldError.checkNotNull(
-                captchaCapInstanceUrl, r'SiteConfig', 'captchaCapInstanceUrl'),
-            captchaCapSiteKey: BuiltValueNullFieldError.checkNotNull(
-                captchaCapSiteKey, r'SiteConfig', 'captchaCapSiteKey'),
+            captchaCapInstanceUrl: captchaCapInstanceUrl,
+            captchaCapSiteKey: captchaCapSiteKey,
             siteNotice: siteNotice,
             captchaType: captchaType,
             turnstileSiteId: turnstileSiteId,

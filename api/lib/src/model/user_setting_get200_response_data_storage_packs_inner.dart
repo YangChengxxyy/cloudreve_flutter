@@ -19,19 +19,19 @@ part 'user_setting_get200_response_data_storage_packs_inner.g.dart';
 abstract class UserSettingGet200ResponseDataStoragePacksInner implements Built<UserSettingGet200ResponseDataStoragePacksInner, UserSettingGet200ResponseDataStoragePacksInnerBuilder> {
   /// Name of the storage pack.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// When the storage pack is activated.
   @BuiltValueField(wireName: r'active_since')
-  DateTime get activeSince;
+  DateTime? get activeSince;
 
   /// When the storage pack will be expired.
   @BuiltValueField(wireName: r'expire_at')
-  DateTime get expireAt;
+  DateTime? get expireAt;
 
   /// Extra capacity included in this pack, in bytes.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   UserSettingGet200ResponseDataStoragePacksInner._();
 
@@ -56,26 +56,34 @@ class _$UserSettingGet200ResponseDataStoragePacksInnerSerializer implements Prim
     UserSettingGet200ResponseDataStoragePacksInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'active_since';
-    yield serializers.serialize(
-      object.activeSince,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'expire_at';
-    yield serializers.serialize(
-      object.expireAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.activeSince != null) {
+      yield r'active_since';
+      yield serializers.serialize(
+        object.activeSince,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.expireAt != null) {
+      yield r'expire_at';
+      yield serializers.serialize(
+        object.expireAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override

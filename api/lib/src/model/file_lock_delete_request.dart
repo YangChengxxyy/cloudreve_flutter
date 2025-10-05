@@ -17,7 +17,7 @@ part 'file_lock_delete_request.g.dart';
 abstract class FileLockDeleteRequest implements Built<FileLockDeleteRequest, FileLockDeleteRequestBuilder> {
   /// List of lock tokens, can be retrieved in lock conflict error response.
   @BuiltValueField(wireName: r'tokens')
-  BuiltList<String> get tokens;
+  BuiltList<String>? get tokens;
 
   FileLockDeleteRequest._();
 
@@ -42,11 +42,13 @@ class _$FileLockDeleteRequestSerializer implements PrimitiveSerializer<FileLockD
     FileLockDeleteRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'tokens';
-    yield serializers.serialize(
-      object.tokens,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.tokens != null) {
+      yield r'tokens';
+      yield serializers.serialize(
+        object.tokens,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
   }
 
   @override

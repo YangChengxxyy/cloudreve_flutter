@@ -9,7 +9,7 @@ part of 'callback_cos_session_id_key_get200_response.dart';
 class _$CallbackCosSessionIdKeyGet200Response
     extends CallbackCosSessionIdKeyGet200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
 
@@ -19,8 +19,7 @@ class _$CallbackCosSessionIdKeyGet200Response
       (CallbackCosSessionIdKeyGet200ResponseBuilder()..update(updates))
           ._build();
 
-  _$CallbackCosSessionIdKeyGet200Response._({required this.code, this.msg})
-      : super._();
+  _$CallbackCosSessionIdKeyGet200Response._({this.code, this.msg}) : super._();
   @override
   CallbackCosSessionIdKeyGet200Response rebuild(
           void Function(CallbackCosSessionIdKeyGet200ResponseBuilder)
@@ -103,8 +102,7 @@ class CallbackCosSessionIdKeyGet200ResponseBuilder
   _$CallbackCosSessionIdKeyGet200Response _build() {
     final _$result = _$v ??
         _$CallbackCosSessionIdKeyGet200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'CallbackCosSessionIdKeyGet200Response', 'code'),
+          code: code,
           msg: msg,
         );
     replace(_$result);

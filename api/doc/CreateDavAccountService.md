@@ -8,8 +8,8 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uri** | **String** | [URI](https://docs.cloudreve.org/api/file-uri) of the relative root folder. | 
-**name** | **String** | Annotation of the account. | 
+**uri** | **String** | [URI](https://docs.cloudreve.org/api/file-uri) of the relative root folder. | [optional] 
+**name** | **String** | Annotation of the account. | [optional] 
 **readonly** | **bool** | Whether this account is readonly. | [optional] 
 **proxy** | **bool** | Whether reverse proxy is enabled for this account. | [optional] 
 

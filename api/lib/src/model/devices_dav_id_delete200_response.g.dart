@@ -8,7 +8,7 @@ part of 'devices_dav_id_delete200_response.dart';
 
 class _$DevicesDavIdDelete200Response extends DevicesDavIdDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$DevicesDavIdDelete200Response extends DevicesDavIdDelete200Response {
       (DevicesDavIdDelete200ResponseBuilder()..update(updates))._build();
 
   _$DevicesDavIdDelete200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   DevicesDavIdDelete200Response rebuild(
@@ -119,8 +119,7 @@ class DevicesDavIdDelete200ResponseBuilder
   _$DevicesDavIdDelete200Response _build() {
     final _$result = _$v ??
         _$DevicesDavIdDelete200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'DevicesDavIdDelete200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

@@ -19,10 +19,10 @@ part 'task_list_response.g.dart';
 @BuiltValue()
 abstract class TaskListResponse implements Built<TaskListResponse, TaskListResponseBuilder> {
   @BuiltValueField(wireName: r'pagination')
-  TaskListResponsePagination get pagination;
+  TaskListResponsePagination? get pagination;
 
   @BuiltValueField(wireName: r'tasks')
-  BuiltList<TaskResponse> get tasks;
+  BuiltList<TaskResponse>? get tasks;
 
   TaskListResponse._();
 
@@ -47,16 +47,20 @@ class _$TaskListResponseSerializer implements PrimitiveSerializer<TaskListRespon
     TaskListResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(TaskListResponsePagination),
-    );
-    yield r'tasks';
-    yield serializers.serialize(
-      object.tasks,
-      specifiedType: const FullType(BuiltList, [FullType(TaskResponse)]),
-    );
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(TaskListResponsePagination),
+      );
+    }
+    if (object.tasks != null) {
+      yield r'tasks';
+      yield serializers.serialize(
+        object.tasks,
+        specifiedType: const FullType(BuiltList, [FullType(TaskResponse)]),
+      );
+    }
   }
 
   @override

@@ -8,8 +8,8 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**SiteConfig**](SiteConfig.md) |  | 
-**code** | **int** | Response code. `0` - Success. | [default to 0]
+**data** | [**SiteConfig**](SiteConfig.md) |  | [optional] 
+**code** | **int** | Response code. `0` - Success. | [optional] [default to 0]
 **msg** | **String** | Human readable error message (if any). | [optional] 
 **error** | **String** | Internal error message, only visable in debug mode. | [optional] 
 **correlationId** | **String** | Correlation ID of the request. Only presented on failed reqeust. | [optional] 

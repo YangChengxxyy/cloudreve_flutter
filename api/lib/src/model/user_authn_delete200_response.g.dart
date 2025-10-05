@@ -8,7 +8,7 @@ part of 'user_authn_delete200_response.dart';
 
 class _$UserAuthnDelete200Response extends UserAuthnDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$UserAuthnDelete200Response extends UserAuthnDelete200Response {
       (UserAuthnDelete200ResponseBuilder()..update(updates))._build();
 
   _$UserAuthnDelete200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserAuthnDelete200Response rebuild(
@@ -118,8 +118,7 @@ class UserAuthnDelete200ResponseBuilder
   _$UserAuthnDelete200Response _build() {
     final _$result = _$v ??
         _$UserAuthnDelete200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'UserAuthnDelete200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

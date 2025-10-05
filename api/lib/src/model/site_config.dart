@@ -117,11 +117,11 @@ abstract class SiteConfig implements Built<SiteConfig, SiteConfigBuilder> {
 
   /// Instance URL for Cap V2.
   @BuiltValueField(wireName: r'captcha_cap_instance_url')
-  String get captchaCapInstanceUrl;
+  String? get captchaCapInstanceUrl;
 
   /// Site key for Cap V2.
   @BuiltValueField(wireName: r'captcha_cap_site_key')
-  String get captchaCapSiteKey;
+  String? get captchaCapSiteKey;
 
   /// Global site announcement (if configured).
   @BuiltValueField(wireName: r'site_notice')
@@ -371,16 +371,20 @@ class _$SiteConfigSerializer implements PrimitiveSerializer<SiteConfig> {
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'captcha_cap_instance_url';
-    yield serializers.serialize(
-      object.captchaCapInstanceUrl,
-      specifiedType: const FullType(String),
-    );
-    yield r'captcha_cap_site_key';
-    yield serializers.serialize(
-      object.captchaCapSiteKey,
-      specifiedType: const FullType(String),
-    );
+    if (object.captchaCapInstanceUrl != null) {
+      yield r'captcha_cap_instance_url';
+      yield serializers.serialize(
+        object.captchaCapInstanceUrl,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.captchaCapSiteKey != null) {
+      yield r'captcha_cap_site_key';
+      yield serializers.serialize(
+        object.captchaCapSiteKey,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.siteNotice != null) {
       yield r'site_notice';
       yield serializers.serialize(

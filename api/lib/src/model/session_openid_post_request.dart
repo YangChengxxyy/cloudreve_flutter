@@ -18,15 +18,15 @@ part 'session_openid_post_request.g.dart';
 abstract class SessionOpenidPostRequest implements Built<SessionOpenidPostRequest, SessionOpenidPostRequestBuilder> {
   /// OAuth `code`, can be found in the redirected URL query string after user sign in complete.
   @BuiltValueField(wireName: r'code')
-  String get code;
+  String? get code;
 
   /// Sign in session ID, can be found in the redirected URL query string `state`.
   @BuiltValueField(wireName: r'session_id')
-  String get sessionId;
+  String? get sessionId;
 
   /// OpenID provider type ID.
   @BuiltValueField(wireName: r'provider_id')
-  int get providerId;
+  int? get providerId;
 
   SessionOpenidPostRequest._();
 
@@ -51,21 +51,27 @@ class _$SessionOpenidPostRequestSerializer implements PrimitiveSerializer<Sessio
     SessionOpenidPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(String),
-    );
-    yield r'session_id';
-    yield serializers.serialize(
-      object.sessionId,
-      specifiedType: const FullType(String),
-    );
-    yield r'provider_id';
-    yield serializers.serialize(
-      object.providerId,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.sessionId != null) {
+      yield r'session_id';
+      yield serializers.serialize(
+        object.sessionId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.providerId != null) {
+      yield r'provider_id';
+      yield serializers.serialize(
+        object.providerId,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override

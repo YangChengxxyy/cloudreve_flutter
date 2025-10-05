@@ -29,24 +29,24 @@ part 'payment.g.dart';
 abstract class Payment implements Built<Payment, PaymentBuilder> {
   /// ID of the payment.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Trade number of the payment.
   @BuiltValueField(wireName: r'trade_no')
-  String get tradeNo;
+  String? get tradeNo;
 
   /// Title of the payment.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Status of the payment.
   @BuiltValueField(wireName: r'status')
-  PaymentStatusEnum get status;
+  PaymentStatusEnum? get status;
   // enum statusEnum {  created,  paid,  fulfilled,  fulfill_failed,  canceled,  };
 
   /// Quantity of desired product.
   @BuiltValueField(wireName: r'qyt')
-  int get qyt;
+  int? get qyt;
 
   /// Price for one product, in the minimum currency unit, or in points.
   @BuiltValueField(wireName: r'price_unit')
@@ -62,19 +62,19 @@ abstract class Payment implements Built<Payment, PaymentBuilder> {
 
   /// Minimum [currency unit](https://docs.cloudreve.org/en/payment/official#currency-unit). Empty value means paying by points.
   @BuiltValueField(wireName: r'price_one_unit')
-  int get priceOneUnit;
+  int? get priceOneUnit;
 
   /// Datetime when the payment is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   /// Datetime when the payment is updated.
   @BuiltValueField(wireName: r'updated_at')
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
 
   /// Type of the product.
   @BuiltValueField(wireName: r'product_type')
-  PaymentProductTypeEnum get productType;
+  PaymentProductTypeEnum? get productType;
   // enum productTypeEnum {  1,  2,  3,  4,  };
 
   /// The access ticket for paid share. Only presented when an anonymous user purshaed a paid share link. It can be used in `X-Cr-Purchase-Ticket` to proof purchasing and access file related APIs.
@@ -104,31 +104,41 @@ class _$PaymentSerializer implements PrimitiveSerializer<Payment> {
     Payment object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'trade_no';
-    yield serializers.serialize(
-      object.tradeNo,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'status';
-    yield serializers.serialize(
-      object.status,
-      specifiedType: const FullType(PaymentStatusEnum),
-    );
-    yield r'qyt';
-    yield serializers.serialize(
-      object.qyt,
-      specifiedType: const FullType(int),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.tradeNo != null) {
+      yield r'trade_no';
+      yield serializers.serialize(
+        object.tradeNo,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.status != null) {
+      yield r'status';
+      yield serializers.serialize(
+        object.status,
+        specifiedType: const FullType(PaymentStatusEnum),
+      );
+    }
+    if (object.qyt != null) {
+      yield r'qyt';
+      yield serializers.serialize(
+        object.qyt,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.priceUnit != null) {
       yield r'price_unit';
       yield serializers.serialize(
@@ -150,26 +160,34 @@ class _$PaymentSerializer implements PrimitiveSerializer<Payment> {
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'price_one_unit';
-    yield serializers.serialize(
-      object.priceOneUnit,
-      specifiedType: const FullType(int),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updated_at';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'product_type';
-    yield serializers.serialize(
-      object.productType,
-      specifiedType: const FullType(PaymentProductTypeEnum),
-    );
+    if (object.priceOneUnit != null) {
+      yield r'price_one_unit';
+      yield serializers.serialize(
+        object.priceOneUnit,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.updatedAt != null) {
+      yield r'updated_at';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.productType != null) {
+      yield r'product_type';
+      yield serializers.serialize(
+        object.productType,
+        specifiedType: const FullType(PaymentProductTypeEnum),
+      );
+    }
     if (object.ticket != null) {
       yield r'ticket';
       yield serializers.serialize(

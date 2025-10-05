@@ -146,15 +146,15 @@ class _$UserInfoUserIdGet200ResponseDataShareLinksInProfileEnumSerializer
 class _$UserInfoUserIdGet200ResponseData
     extends UserInfoUserIdGet200ResponseData {
   @override
-  final String id;
+  final String? id;
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final UserInfoUserIdGet200ResponseDataGroup group;
+  final UserInfoUserIdGet200ResponseDataGroup? group;
   @override
   final UserInfoUserIdGet200ResponseDataAvatarEnum? avatar;
   @override
@@ -166,11 +166,11 @@ class _$UserInfoUserIdGet200ResponseData
       (UserInfoUserIdGet200ResponseDataBuilder()..update(updates))._build();
 
   _$UserInfoUserIdGet200ResponseData._(
-      {required this.id,
+      {this.id,
       this.email,
       this.nickname,
-      required this.createdAt,
-      required this.group,
+      this.createdAt,
+      this.group,
       this.avatar,
       this.shareLinksInProfile})
       : super._();
@@ -276,7 +276,7 @@ class UserInfoUserIdGet200ResponseDataBuilder
       _email = $v.email;
       _nickname = $v.nickname;
       _createdAt = $v.createdAt;
-      _group = $v.group.toBuilder();
+      _group = $v.group?.toBuilder();
       _avatar = $v.avatar;
       _shareLinksInProfile = $v.shareLinksInProfile;
       _$v = null;
@@ -302,13 +302,11 @@ class UserInfoUserIdGet200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$UserInfoUserIdGet200ResponseData._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'UserInfoUserIdGet200ResponseData', 'id'),
+            id: id,
             email: email,
             nickname: nickname,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'UserInfoUserIdGet200ResponseData', 'createdAt'),
-            group: group.build(),
+            createdAt: createdAt,
+            group: _group?.build(),
             avatar: avatar,
             shareLinksInProfile: shareLinksInProfile,
           );
@@ -316,7 +314,7 @@ class UserInfoUserIdGet200ResponseDataBuilder
       late String _$failedField;
       try {
         _$failedField = 'group';
-        group.build();
+        _group?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'UserInfoUserIdGet200ResponseData', _$failedField, e.toString());

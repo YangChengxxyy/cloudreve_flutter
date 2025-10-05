@@ -8,9 +8,9 @@ part of 'workflow_extract_post_request.dart';
 
 class _$WorkflowExtractPostRequest extends WorkflowExtractPostRequest {
   @override
-  final BuiltList<String> src;
+  final BuiltList<String>? src;
   @override
-  final String dst;
+  final String? dst;
   @override
   final String? preferredNodeId;
   @override
@@ -25,8 +25,8 @@ class _$WorkflowExtractPostRequest extends WorkflowExtractPostRequest {
       (WorkflowExtractPostRequestBuilder()..update(updates))._build();
 
   _$WorkflowExtractPostRequest._(
-      {required this.src,
-      required this.dst,
+      {this.src,
+      this.dst,
       this.preferredNodeId,
       this.encoding,
       this.password,
@@ -117,7 +117,7 @@ class WorkflowExtractPostRequestBuilder
   WorkflowExtractPostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _src = $v.src.toBuilder();
+      _src = $v.src?.toBuilder();
       _dst = $v.dst;
       _preferredNodeId = $v.preferredNodeId;
       _encoding = $v.encoding;
@@ -146,9 +146,8 @@ class WorkflowExtractPostRequestBuilder
     try {
       _$result = _$v ??
           _$WorkflowExtractPostRequest._(
-            src: src.build(),
-            dst: BuiltValueNullFieldError.checkNotNull(
-                dst, r'WorkflowExtractPostRequest', 'dst'),
+            src: _src?.build(),
+            dst: dst,
             preferredNodeId: preferredNodeId,
             encoding: encoding,
             password: password,
@@ -158,7 +157,7 @@ class WorkflowExtractPostRequestBuilder
       late String _$failedField;
       try {
         _$failedField = 'src';
-        src.build();
+        _src?.build();
 
         _$failedField = 'fileMask';
         _fileMask?.build();

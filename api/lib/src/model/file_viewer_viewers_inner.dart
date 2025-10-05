@@ -23,28 +23,28 @@ part 'file_viewer_viewers_inner.g.dart';
 abstract class FileViewerViewersInner implements Built<FileViewerViewersInner, FileViewerViewersInnerBuilder> {
   /// ID of the file app.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Type of the file app.
   @BuiltValueField(wireName: r'type')
-  String get type;
+  String? get type;
 
   /// Display name of the app, can be i18next key.
   @BuiltValueField(wireName: r'display_name')
-  FileViewerViewersInnerDisplayNameEnum get displayName;
+  FileViewerViewersInnerDisplayNameEnum? get displayName;
   // enum displayNameEnum {  builtin,  wopi,  custom,  };
 
   /// Supported extensions.
   @BuiltValueField(wireName: r'exts')
-  BuiltList<String> get exts;
+  BuiltList<String>? get exts;
 
   /// Icon URL.
   @BuiltValueField(wireName: r'icon')
-  String get icon;
+  String? get icon;
 
   /// Max supported size in bytes of the source file.
   @BuiltValueField(wireName: r'max_size')
-  int get maxSize;
+  int? get maxSize;
 
   /// URL of embed iframe apps.
   @BuiltValueField(wireName: r'url')
@@ -73,41 +73,55 @@ class _$FileViewerViewersInnerSerializer implements PrimitiveSerializer<FileView
     FileViewerViewersInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(String),
-    );
-    yield r'display_name';
-    yield serializers.serialize(
-      object.displayName,
-      specifiedType: const FullType(FileViewerViewersInnerDisplayNameEnum),
-    );
-    yield r'exts';
-    yield serializers.serialize(
-      object.exts,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'icon';
-    yield serializers.serialize(
-      object.icon,
-      specifiedType: const FullType(String),
-    );
-    yield r'max_size';
-    yield serializers.serialize(
-      object.maxSize,
-      specifiedType: const FullType(int),
-    );
-    yield r'url';
-    yield object.url == null ? null : serializers.serialize(
-      object.url,
-      specifiedType: const FullType.nullable(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'display_name';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType(FileViewerViewersInnerDisplayNameEnum),
+      );
+    }
+    if (object.exts != null) {
+      yield r'exts';
+      yield serializers.serialize(
+        object.exts,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.icon != null) {
+      yield r'icon';
+      yield serializers.serialize(
+        object.icon,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.maxSize != null) {
+      yield r'max_size';
+      yield serializers.serialize(
+        object.maxSize,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.url != null) {
+      yield r'url';
+      yield serializers.serialize(
+        object.url,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
   }
 
   @override

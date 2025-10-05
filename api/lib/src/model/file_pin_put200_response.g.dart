@@ -8,7 +8,7 @@ part of 'file_pin_put200_response.dart';
 
 class _$FilePinPut200Response extends FilePinPut200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$FilePinPut200Response extends FilePinPut200Response {
       (FilePinPut200ResponseBuilder()..update(updates))._build();
 
   _$FilePinPut200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FilePinPut200Response rebuild(
@@ -117,8 +117,7 @@ class FilePinPut200ResponseBuilder
   _$FilePinPut200Response _build() {
     final _$result = _$v ??
         _$FilePinPut200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'FilePinPut200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

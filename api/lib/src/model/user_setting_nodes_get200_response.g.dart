@@ -10,7 +10,7 @@ class _$UserSettingNodesGet200Response extends UserSettingNodesGet200Response {
   @override
   final BuiltList<Node>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$UserSettingNodesGet200Response extends UserSettingNodesGet200Response {
       (UserSettingNodesGet200ResponseBuilder()..update(updates))._build();
 
   _$UserSettingNodesGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserSettingNodesGet200Response rebuild(
@@ -132,8 +132,7 @@ class UserSettingNodesGet200ResponseBuilder
       _$result = _$v ??
           _$UserSettingNodesGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserSettingNodesGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

@@ -8,17 +8,16 @@ part of 'custom_nav_item.dart';
 
 class _$CustomNavItem extends CustomNavItem {
   @override
-  final String icon;
+  final String? icon;
   @override
-  final String name;
+  final String? name;
   @override
-  final String url;
+  final String? url;
 
   factory _$CustomNavItem([void Function(CustomNavItemBuilder)? updates]) =>
       (CustomNavItemBuilder()..update(updates))._build();
 
-  _$CustomNavItem._({required this.icon, required this.name, required this.url})
-      : super._();
+  _$CustomNavItem._({this.icon, this.name, this.url}) : super._();
   @override
   CustomNavItem rebuild(void Function(CustomNavItemBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -102,12 +101,9 @@ class CustomNavItemBuilder
   _$CustomNavItem _build() {
     final _$result = _$v ??
         _$CustomNavItem._(
-          icon: BuiltValueNullFieldError.checkNotNull(
-              icon, r'CustomNavItem', 'icon'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'CustomNavItem', 'name'),
-          url: BuiltValueNullFieldError.checkNotNull(
-              url, r'CustomNavItem', 'url'),
+          icon: icon,
+          name: name,
+          url: url,
         );
     replace(_$result);
     return _$result;

@@ -24,7 +24,7 @@ part 'user_search_get200_response_data_inner.g.dart';
 abstract class UserSearchGet200ResponseDataInner implements Built<UserSearchGet200ResponseDataInner, UserSearchGet200ResponseDataInnerBuilder> {
   /// ID of the user.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Email of the user. For anonymous session, it is empty.
   @BuiltValueField(wireName: r'email')
@@ -36,10 +36,10 @@ abstract class UserSearchGet200ResponseDataInner implements Built<UserSearchGet2
 
   /// Time at which the user is created. For anonymous session, this value is invalid.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   @BuiltValueField(wireName: r'group')
-  UserSearchGet200ResponseDataInnerGroup get group;
+  UserSearchGet200ResponseDataInnerGroup? get group;
 
   /// Source type of the profile picture. Empty value indicates no profile picture.
   @BuiltValueField(wireName: r'avatar')
@@ -74,11 +74,13 @@ class _$UserSearchGet200ResponseDataInnerSerializer implements PrimitiveSerializ
     UserSearchGet200ResponseDataInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.email != null) {
       yield r'email';
       yield serializers.serialize(
@@ -86,26 +88,34 @@ class _$UserSearchGet200ResponseDataInnerSerializer implements PrimitiveSerializ
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'nickname';
-    yield object.nickname == null ? null : serializers.serialize(
-      object.nickname,
-      specifiedType: const FullType.nullable(String),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'group';
-    yield serializers.serialize(
-      object.group,
-      specifiedType: const FullType(UserSearchGet200ResponseDataInnerGroup),
-    );
-    yield r'avatar';
-    yield object.avatar == null ? null : serializers.serialize(
-      object.avatar,
-      specifiedType: const FullType.nullable(UserSearchGet200ResponseDataInnerAvatarEnum),
-    );
+    if (object.nickname != null) {
+      yield r'nickname';
+      yield serializers.serialize(
+        object.nickname,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.group != null) {
+      yield r'group';
+      yield serializers.serialize(
+        object.group,
+        specifiedType: const FullType(UserSearchGet200ResponseDataInnerGroup),
+      );
+    }
+    if (object.avatar != null) {
+      yield r'avatar';
+      yield serializers.serialize(
+        object.avatar,
+        specifiedType: const FullType.nullable(UserSearchGet200ResponseDataInnerAvatarEnum),
+      );
+    }
     if (object.shareLinksInProfile != null) {
       yield r'share_links_in_profile';
       yield serializers.serialize(

@@ -21,11 +21,11 @@ part 'share_id_post_request.g.dart';
 @BuiltValue()
 abstract class ShareIdPostRequest implements Built<ShareIdPostRequest, ShareIdPostRequestBuilder> {
   @BuiltValueField(wireName: r'permissions')
-  PermissionSetting get permissions;
+  PermissionSetting? get permissions;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the shared file or folder.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Whether view settings within the shared folder is exposed to other user. If `uri` points to a file, this field is appliable.
   @BuiltValueField(wireName: r'share_view')
@@ -66,16 +66,20 @@ class _$ShareIdPostRequestSerializer implements PrimitiveSerializer<ShareIdPostR
     ShareIdPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'permissions';
-    yield serializers.serialize(
-      object.permissions,
-      specifiedType: const FullType(PermissionSetting),
-    );
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
+    if (object.permissions != null) {
+      yield r'permissions';
+      yield serializers.serialize(
+        object.permissions,
+        specifiedType: const FullType(PermissionSetting),
+      );
+    }
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.shareView != null) {
       yield r'share_view';
       yield serializers.serialize(

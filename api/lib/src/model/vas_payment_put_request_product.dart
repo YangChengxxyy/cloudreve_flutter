@@ -19,7 +19,7 @@ part 'vas_payment_put_request_product.g.dart';
 abstract class VasPaymentPutRequestProduct implements Built<VasPaymentPutRequestProduct, VasPaymentPutRequestProductBuilder> {
   /// Type of the product.
   @BuiltValueField(wireName: r'type')
-  VasPaymentPutRequestProductTypeEnum get type;
+  VasPaymentPutRequestProductTypeEnum? get type;
   // enum typeEnum {  1,  2,  3,  4,  };
 
   /// ID of the paid share link. Only required if `type` is `3`.
@@ -53,11 +53,13 @@ class _$VasPaymentPutRequestProductSerializer implements PrimitiveSerializer<Vas
     VasPaymentPutRequestProduct object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(VasPaymentPutRequestProductTypeEnum),
-    );
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(VasPaymentPutRequestProductTypeEnum),
+      );
+    }
     if (object.shareLinkId != null) {
       yield r'share_link_id';
       yield serializers.serialize(

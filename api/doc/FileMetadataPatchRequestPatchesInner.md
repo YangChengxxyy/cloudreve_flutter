@@ -8,7 +8,7 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**key** | **String** | Metadata key. For patch operation, only a set of selected key prefixs are allowed: `sys:*`,`dav:*`, `customize:*`, `tag:*`. | 
+**key** | **String** | Metadata key. For patch operation, only a set of selected key prefixs are allowed: `sys:*`,`dav:*`, `customize:*`, `tag:*`. | [optional] 
 **value** | **String** | Value of the metadata. | [optional] 
 **remove** | **bool** | If set to `true`, metadata with given key will be removed. | [optional] 
 

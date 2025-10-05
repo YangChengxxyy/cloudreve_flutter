@@ -20,11 +20,11 @@ part 'user_shares_user_id_get200_response.g.dart';
 @BuiltValue()
 abstract class UserSharesUserIdGet200Response implements Built<UserSharesUserIdGet200Response, UserSharesUserIdGet200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  ListShareResponse get data;
+  ListShareResponse? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$UserSharesUserIdGet200ResponseSerializer implements PrimitiveSerializer<
     UserSharesUserIdGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(ListShareResponse),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(ListShareResponse),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

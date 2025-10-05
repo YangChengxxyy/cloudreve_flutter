@@ -8,17 +8,15 @@ part of 'user_reset_user_id_patch_request.dart';
 
 class _$UserResetUserIdPatchRequest extends UserResetUserIdPatchRequest {
   @override
-  final String password;
+  final String? password;
   @override
-  final String secret;
+  final String? secret;
 
   factory _$UserResetUserIdPatchRequest(
           [void Function(UserResetUserIdPatchRequestBuilder)? updates]) =>
       (UserResetUserIdPatchRequestBuilder()..update(updates))._build();
 
-  _$UserResetUserIdPatchRequest._(
-      {required this.password, required this.secret})
-      : super._();
+  _$UserResetUserIdPatchRequest._({this.password, this.secret}) : super._();
   @override
   UserResetUserIdPatchRequest rebuild(
           void Function(UserResetUserIdPatchRequestBuilder) updates) =>
@@ -98,10 +96,8 @@ class UserResetUserIdPatchRequestBuilder
   _$UserResetUserIdPatchRequest _build() {
     final _$result = _$v ??
         _$UserResetUserIdPatchRequest._(
-          password: BuiltValueNullFieldError.checkNotNull(
-              password, r'UserResetUserIdPatchRequest', 'password'),
-          secret: BuiltValueNullFieldError.checkNotNull(
-              secret, r'UserResetUserIdPatchRequest', 'secret'),
+          password: password,
+          secret: secret,
         );
     replace(_$result);
     return _$result;

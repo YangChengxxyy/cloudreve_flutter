@@ -78,23 +78,23 @@ class _$UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnumSerializer
 class _$UserSettingGet200ResponseDataLoginActivityInner
     extends UserSettingGet200ResponseDataLoginActivityInner {
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final String ip;
+  final String? ip;
   @override
-  final String browser;
+  final String? browser;
   @override
-  final String device;
+  final String? device;
   @override
-  final String os;
+  final String? os;
   @override
-  final UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnum loginWith;
+  final UserSettingGet200ResponseDataLoginActivityInnerLoginWithEnum? loginWith;
   @override
-  final int openIdProvider;
+  final int? openIdProvider;
   @override
-  final bool success;
+  final bool? success;
   @override
-  final bool webdav;
+  final bool? webdav;
 
   factory _$UserSettingGet200ResponseDataLoginActivityInner(
           [void Function(
@@ -105,15 +105,15 @@ class _$UserSettingGet200ResponseDataLoginActivityInner
           ._build();
 
   _$UserSettingGet200ResponseDataLoginActivityInner._(
-      {required this.createdAt,
-      required this.ip,
-      required this.browser,
-      required this.device,
-      required this.os,
-      required this.loginWith,
-      required this.openIdProvider,
-      required this.success,
-      required this.webdav})
+      {this.createdAt,
+      this.ip,
+      this.browser,
+      this.device,
+      this.os,
+      this.loginWith,
+      this.openIdProvider,
+      this.success,
+      this.webdav})
       : super._();
   @override
   UserSettingGet200ResponseDataLoginActivityInner rebuild(
@@ -259,26 +259,15 @@ class UserSettingGet200ResponseDataLoginActivityInnerBuilder
   _$UserSettingGet200ResponseDataLoginActivityInner _build() {
     final _$result = _$v ??
         _$UserSettingGet200ResponseDataLoginActivityInner._(
-          createdAt: BuiltValueNullFieldError.checkNotNull(createdAt,
-              r'UserSettingGet200ResponseDataLoginActivityInner', 'createdAt'),
-          ip: BuiltValueNullFieldError.checkNotNull(
-              ip, r'UserSettingGet200ResponseDataLoginActivityInner', 'ip'),
-          browser: BuiltValueNullFieldError.checkNotNull(browser,
-              r'UserSettingGet200ResponseDataLoginActivityInner', 'browser'),
-          device: BuiltValueNullFieldError.checkNotNull(device,
-              r'UserSettingGet200ResponseDataLoginActivityInner', 'device'),
-          os: BuiltValueNullFieldError.checkNotNull(
-              os, r'UserSettingGet200ResponseDataLoginActivityInner', 'os'),
-          loginWith: BuiltValueNullFieldError.checkNotNull(loginWith,
-              r'UserSettingGet200ResponseDataLoginActivityInner', 'loginWith'),
-          openIdProvider: BuiltValueNullFieldError.checkNotNull(
-              openIdProvider,
-              r'UserSettingGet200ResponseDataLoginActivityInner',
-              'openIdProvider'),
-          success: BuiltValueNullFieldError.checkNotNull(success,
-              r'UserSettingGet200ResponseDataLoginActivityInner', 'success'),
-          webdav: BuiltValueNullFieldError.checkNotNull(webdav,
-              r'UserSettingGet200ResponseDataLoginActivityInner', 'webdav'),
+          createdAt: createdAt,
+          ip: ip,
+          browser: browser,
+          device: device,
+          os: os,
+          loginWith: loginWith,
+          openIdProvider: openIdProvider,
+          success: success,
+          webdav: webdav,
         );
     replace(_$result);
     return _$result;

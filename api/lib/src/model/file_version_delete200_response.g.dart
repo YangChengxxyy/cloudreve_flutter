@@ -8,7 +8,7 @@ part of 'file_version_delete200_response.dart';
 
 class _$FileVersionDelete200Response extends FileVersionDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$FileVersionDelete200Response extends FileVersionDelete200Response {
       (FileVersionDelete200ResponseBuilder()..update(updates))._build();
 
   _$FileVersionDelete200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileVersionDelete200Response rebuild(
@@ -119,8 +119,7 @@ class FileVersionDelete200ResponseBuilder
   _$FileVersionDelete200Response _build() {
     final _$result = _$v ??
         _$FileVersionDelete200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'FileVersionDelete200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

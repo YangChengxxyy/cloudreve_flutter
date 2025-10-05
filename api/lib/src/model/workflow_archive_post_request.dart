@@ -21,11 +21,11 @@ part 'workflow_archive_post_request.g.dart';
 abstract class WorkflowArchivePostRequest implements Built<WorkflowArchivePostRequest, WorkflowArchivePostRequestBuilder> {
   /// Source file URIs.
   @BuiltValueField(wireName: r'src')
-  BuiltList<String> get src;
+  BuiltList<String>? get src;
 
   /// URI of destination archive file.
   @BuiltValueField(wireName: r'dst')
-  String get dst;
+  String? get dst;
 
   /// Select preferred node to handle this task. Only available in pro edition. Option of nodes can be get from [List available nodes](./list-available-nodes-308315715e0).
   @BuiltValueField(wireName: r'preferred_node_id')
@@ -62,16 +62,20 @@ class _$WorkflowArchivePostRequestSerializer implements PrimitiveSerializer<Work
     WorkflowArchivePostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'src';
-    yield serializers.serialize(
-      object.src,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'dst';
-    yield serializers.serialize(
-      object.dst,
-      specifiedType: const FullType(String),
-    );
+    if (object.src != null) {
+      yield r'src';
+      yield serializers.serialize(
+        object.src,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.dst != null) {
+      yield r'dst';
+      yield serializers.serialize(
+        object.dst,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.preferredNodeId != null) {
       yield r'preferred_node_id';
       yield serializers.serialize(

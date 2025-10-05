@@ -8,16 +8,15 @@ part of 'session_authn_post_request.dart';
 
 class _$SessionAuthnPostRequest extends SessionAuthnPostRequest {
   @override
-  final String response;
+  final String? response;
   @override
-  final String sessionId;
+  final String? sessionId;
 
   factory _$SessionAuthnPostRequest(
           [void Function(SessionAuthnPostRequestBuilder)? updates]) =>
       (SessionAuthnPostRequestBuilder()..update(updates))._build();
 
-  _$SessionAuthnPostRequest._({required this.response, required this.sessionId})
-      : super._();
+  _$SessionAuthnPostRequest._({this.response, this.sessionId}) : super._();
   @override
   SessionAuthnPostRequest rebuild(
           void Function(SessionAuthnPostRequestBuilder) updates) =>
@@ -96,10 +95,8 @@ class SessionAuthnPostRequestBuilder
   _$SessionAuthnPostRequest _build() {
     final _$result = _$v ??
         _$SessionAuthnPostRequest._(
-          response: BuiltValueNullFieldError.checkNotNull(
-              response, r'SessionAuthnPostRequest', 'response'),
-          sessionId: BuiltValueNullFieldError.checkNotNull(
-              sessionId, r'SessionAuthnPostRequest', 'sessionId'),
+          response: response,
+          sessionId: sessionId,
         );
     replace(_$result);
     return _$result;

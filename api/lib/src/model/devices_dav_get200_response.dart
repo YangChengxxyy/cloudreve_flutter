@@ -26,7 +26,7 @@ abstract class DevicesDavGet200Response implements Built<DevicesDavGet200Respons
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -71,11 +71,13 @@ class _$DevicesDavGet200ResponseSerializer implements PrimitiveSerializer<Device
         specifiedType: const FullType.nullable(BuiltList, [FullType(DevicesDavGet200ResponseDataInner)]),
       );
     }
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

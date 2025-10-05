@@ -18,11 +18,11 @@ part 'task_list_response_pagination.g.dart';
 abstract class TaskListResponsePagination implements Built<TaskListResponsePagination, TaskListResponsePaginationBuilder> {
   /// Maximum items included in one page.
   @BuiltValueField(wireName: r'page_size')
-  int get pageSize;
+  int? get pageSize;
 
   /// Token used to request the next page in cursor pagination.
   @BuiltValueField(wireName: r'next_token')
-  String get nextToken;
+  String? get nextToken;
 
   /// Whether the response is using cursor pagination.
   @BuiltValueField(wireName: r'is_cursor')
@@ -51,16 +51,20 @@ class _$TaskListResponsePaginationSerializer implements PrimitiveSerializer<Task
     TaskListResponsePagination object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'page_size';
-    yield serializers.serialize(
-      object.pageSize,
-      specifiedType: const FullType(int),
-    );
-    yield r'next_token';
-    yield serializers.serialize(
-      object.nextToken,
-      specifiedType: const FullType(String),
-    );
+    if (object.pageSize != null) {
+      yield r'page_size';
+      yield serializers.serialize(
+        object.pageSize,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.nextToken != null) {
+      yield r'next_token';
+      yield serializers.serialize(
+        object.nextToken,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.isCursor != null) {
       yield r'is_cursor';
       yield serializers.serialize(

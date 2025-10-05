@@ -8,19 +8,17 @@ part of 'user_authn_post_request.dart';
 
 class _$UserAuthnPostRequest extends UserAuthnPostRequest {
   @override
-  final String response;
+  final String? response;
   @override
-  final String u;
+  final String? u;
   @override
-  final String ua;
+  final String? ua;
 
   factory _$UserAuthnPostRequest(
           [void Function(UserAuthnPostRequestBuilder)? updates]) =>
       (UserAuthnPostRequestBuilder()..update(updates))._build();
 
-  _$UserAuthnPostRequest._(
-      {required this.response, required this.u, required this.ua})
-      : super._();
+  _$UserAuthnPostRequest._({this.response, this.u, this.ua}) : super._();
   @override
   UserAuthnPostRequest rebuild(
           void Function(UserAuthnPostRequestBuilder) updates) =>
@@ -106,12 +104,9 @@ class UserAuthnPostRequestBuilder
   _$UserAuthnPostRequest _build() {
     final _$result = _$v ??
         _$UserAuthnPostRequest._(
-          response: BuiltValueNullFieldError.checkNotNull(
-              response, r'UserAuthnPostRequest', 'response'),
-          u: BuiltValueNullFieldError.checkNotNull(
-              u, r'UserAuthnPostRequest', 'u'),
-          ua: BuiltValueNullFieldError.checkNotNull(
-              ua, r'UserAuthnPostRequest', 'ua'),
+          response: response,
+          u: u,
+          ua: ua,
         );
     replace(_$result);
     return _$result;

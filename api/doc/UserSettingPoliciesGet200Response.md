@@ -9,7 +9,7 @@ import 'package:cloudreve_api_client/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **data** | [**BuiltList&lt;StoragePolicy&gt;**](StoragePolicy.md) | Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file. | [optional] 
-**code** | **int** | Response code. `0` - Success. | [default to 0]
+**code** | **int** | Response code. `0` - Success. | [optional] [default to 0]
 **msg** | **String** | Human readable error message (if any). | [optional] 
 **error** | **String** | Internal error message, only visable in debug mode. | [optional] 
 **correlationId** | **String** | Correlation ID of the request. Only presented on failed reqeust. | [optional] 

@@ -8,7 +8,7 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**category** | **int** | Category of this log. Definition can be found in [`explorer.ts`](https://github.com/cloudreve/frontend/blob/master/src/api/explorer.ts#L20). | 
+**category** | **int** | Category of this log. Definition can be found in [`explorer.ts`](https://github.com/cloudreve/frontend/blob/master/src/api/explorer.ts#L20). | [optional] 
 **exts** | [**BuiltMap&lt;String, JsonObject&gt;**](JsonObject.md) | Extra key-value props. | [optional] 
 **originalName** | **String** | Original name of the file in renaming operation. | [optional] 
 **newName** | **String** | New name of the file in renaming operation. | [optional] 

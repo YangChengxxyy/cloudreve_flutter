@@ -17,11 +17,11 @@ part 'file_version_current_post_request.g.dart';
 abstract class FileVersionCurrentPostRequest implements Built<FileVersionCurrentPostRequest, FileVersionCurrentPostRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// ID of the version to set as \"current version\". The version blob must be linked to current file. List of available versions can be retrieved via [Get file info](./get-file-info-306769225e0)
   @BuiltValueField(wireName: r'version')
-  String get version;
+  String? get version;
 
   FileVersionCurrentPostRequest._();
 
@@ -46,16 +46,20 @@ class _$FileVersionCurrentPostRequestSerializer implements PrimitiveSerializer<F
     FileVersionCurrentPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
-    yield r'version';
-    yield serializers.serialize(
-      object.version,
-      specifiedType: const FullType(String),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.version != null) {
+      yield r'version';
+      yield serializers.serialize(
+        object.version,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

@@ -8,7 +8,7 @@ part of 'file_policy_patch200_response.dart';
 
 class _$FilePolicyPatch200Response extends FilePolicyPatch200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$FilePolicyPatch200Response extends FilePolicyPatch200Response {
       (FilePolicyPatch200ResponseBuilder()..update(updates))._build();
 
   _$FilePolicyPatch200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FilePolicyPatch200Response rebuild(
@@ -118,8 +118,7 @@ class FilePolicyPatch200ResponseBuilder
   _$FilePolicyPatch200Response _build() {
     final _$result = _$v ??
         _$FilePolicyPatch200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'FilePolicyPatch200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

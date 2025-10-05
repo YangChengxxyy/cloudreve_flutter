@@ -8,8 +8,8 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**src** | **BuiltList&lt;String&gt;** | Source file URIs. Exact 1 item is expected. | 
-**dst** | **String** | URI of destination folder to store output files. | 
+**src** | **BuiltList&lt;String&gt;** | Source file URIs. Exact 1 item is expected. | [optional] 
+**dst** | **String** | URI of destination folder to store output files. | [optional] 
 **preferredNodeId** | **String** | Select preferred node to handle this task. Only available in pro edition. Option of nodes can be get from [List available nodes](./list-available-nodes-308315715e0). | [optional] 
 **encoding** | **String** | Encoding charset of the source archive file. By default it's `utf8`. | [optional] 
 **password** | **String** | Optional paassword for `zip` or `7z` archive files. | [optional] 

@@ -8,9 +8,9 @@ part of 'create_dav_account_service.dart';
 
 class _$CreateDavAccountService extends CreateDavAccountService {
   @override
-  final String uri;
+  final String? uri;
   @override
-  final String name;
+  final String? name;
   @override
   final bool? readonly;
   @override
@@ -20,8 +20,7 @@ class _$CreateDavAccountService extends CreateDavAccountService {
           [void Function(CreateDavAccountServiceBuilder)? updates]) =>
       (CreateDavAccountServiceBuilder()..update(updates))._build();
 
-  _$CreateDavAccountService._(
-      {required this.uri, required this.name, this.readonly, this.proxy})
+  _$CreateDavAccountService._({this.uri, this.name, this.readonly, this.proxy})
       : super._();
   @override
   CreateDavAccountService rebuild(
@@ -117,10 +116,8 @@ class CreateDavAccountServiceBuilder
   _$CreateDavAccountService _build() {
     final _$result = _$v ??
         _$CreateDavAccountService._(
-          uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'CreateDavAccountService', 'uri'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'CreateDavAccountService', 'name'),
+          uri: uri,
+          name: name,
           readonly: readonly,
           proxy: proxy,
         );

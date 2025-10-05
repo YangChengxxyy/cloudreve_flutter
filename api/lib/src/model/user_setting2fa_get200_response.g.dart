@@ -8,9 +8,9 @@ part of 'user_setting2fa_get200_response.dart';
 
 class _$UserSetting2faGet200Response extends UserSetting2faGet200Response {
   @override
-  final String data;
+  final String? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$UserSetting2faGet200Response extends UserSetting2faGet200Response {
       (UserSetting2faGet200ResponseBuilder()..update(updates))._build();
 
   _$UserSetting2faGet200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserSetting2faGet200Response rebuild(
@@ -133,10 +129,8 @@ class UserSetting2faGet200ResponseBuilder
   _$UserSetting2faGet200Response _build() {
     final _$result = _$v ??
         _$UserSetting2faGet200Response._(
-          data: BuiltValueNullFieldError.checkNotNull(
-              data, r'UserSetting2faGet200Response', 'data'),
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'UserSetting2faGet200Response', 'code'),
+          data: data,
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

@@ -8,16 +8,15 @@ part of 'file_permission_post_request.dart';
 
 class _$FilePermissionPostRequest extends FilePermissionPostRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
   @override
-  final PermissionSetting setting;
+  final PermissionSetting? setting;
 
   factory _$FilePermissionPostRequest(
           [void Function(FilePermissionPostRequestBuilder)? updates]) =>
       (FilePermissionPostRequestBuilder()..update(updates))._build();
 
-  _$FilePermissionPostRequest._({required this.uris, required this.setting})
-      : super._();
+  _$FilePermissionPostRequest._({this.uris, this.setting}) : super._();
   @override
   FilePermissionPostRequest rebuild(
           void Function(FilePermissionPostRequestBuilder) updates) =>
@@ -74,8 +73,8 @@ class FilePermissionPostRequestBuilder
   FilePermissionPostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
-      _setting = $v.setting.toBuilder();
+      _uris = $v.uris?.toBuilder();
+      _setting = $v.setting?.toBuilder();
       _$v = null;
     }
     return this;
@@ -99,16 +98,16 @@ class FilePermissionPostRequestBuilder
     try {
       _$result = _$v ??
           _$FilePermissionPostRequest._(
-            uris: uris.build(),
-            setting: setting.build(),
+            uris: _uris?.build(),
+            setting: _setting?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
         _$failedField = 'setting';
-        setting.build();
+        _setting?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FilePermissionPostRequest', _$failedField, e.toString());

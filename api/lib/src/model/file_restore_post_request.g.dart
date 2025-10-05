@@ -8,13 +8,13 @@ part of 'file_restore_post_request.dart';
 
 class _$FileRestorePostRequest extends FileRestorePostRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
 
   factory _$FileRestorePostRequest(
           [void Function(FileRestorePostRequestBuilder)? updates]) =>
       (FileRestorePostRequestBuilder()..update(updates))._build();
 
-  _$FileRestorePostRequest._({required this.uris}) : super._();
+  _$FileRestorePostRequest._({this.uris}) : super._();
   @override
   FileRestorePostRequest rebuild(
           void Function(FileRestorePostRequestBuilder) updates) =>
@@ -61,7 +61,7 @@ class FileRestorePostRequestBuilder
   FileRestorePostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
+      _uris = $v.uris?.toBuilder();
       _$v = null;
     }
     return this;
@@ -85,13 +85,13 @@ class FileRestorePostRequestBuilder
     try {
       _$result = _$v ??
           _$FileRestorePostRequest._(
-            uris: uris.build(),
+            uris: _uris?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileRestorePostRequest', _$failedField, e.toString());

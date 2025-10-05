@@ -8,16 +8,15 @@ part of 'file_policy_patch_request.dart';
 
 class _$FilePolicyPatchRequest extends FilePolicyPatchRequest {
   @override
-  final String uri;
+  final String? uri;
   @override
-  final String policyId;
+  final String? policyId;
 
   factory _$FilePolicyPatchRequest(
           [void Function(FilePolicyPatchRequestBuilder)? updates]) =>
       (FilePolicyPatchRequestBuilder()..update(updates))._build();
 
-  _$FilePolicyPatchRequest._({required this.uri, required this.policyId})
-      : super._();
+  _$FilePolicyPatchRequest._({this.uri, this.policyId}) : super._();
   @override
   FilePolicyPatchRequest rebuild(
           void Function(FilePolicyPatchRequestBuilder) updates) =>
@@ -95,10 +94,8 @@ class FilePolicyPatchRequestBuilder
   _$FilePolicyPatchRequest _build() {
     final _$result = _$v ??
         _$FilePolicyPatchRequest._(
-          uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'FilePolicyPatchRequest', 'uri'),
-          policyId: BuiltValueNullFieldError.checkNotNull(
-              policyId, r'FilePolicyPatchRequest', 'policyId'),
+          uri: uri,
+          policyId: policyId,
         );
     replace(_$result);
     return _$result;

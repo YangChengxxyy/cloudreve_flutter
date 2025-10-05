@@ -9,7 +9,7 @@ part of 'file_url_post200_response_data_urls_inner.dart';
 class _$FileUrlPost200ResponseDataUrlsInner
     extends FileUrlPost200ResponseDataUrlsInner {
   @override
-  final String url;
+  final String? url;
   @override
   final String? streamSaverDisplayName;
 
@@ -19,7 +19,7 @@ class _$FileUrlPost200ResponseDataUrlsInner
       (FileUrlPost200ResponseDataUrlsInnerBuilder()..update(updates))._build();
 
   _$FileUrlPost200ResponseDataUrlsInner._(
-      {required this.url, this.streamSaverDisplayName})
+      {this.url, this.streamSaverDisplayName})
       : super._();
   @override
   FileUrlPost200ResponseDataUrlsInner rebuild(
@@ -102,8 +102,7 @@ class FileUrlPost200ResponseDataUrlsInnerBuilder
   _$FileUrlPost200ResponseDataUrlsInner _build() {
     final _$result = _$v ??
         _$FileUrlPost200ResponseDataUrlsInner._(
-          url: BuiltValueNullFieldError.checkNotNull(
-              url, r'FileUrlPost200ResponseDataUrlsInner', 'url'),
+          url: url,
           streamSaverDisplayName: streamSaverDisplayName,
         );
     replace(_$result);

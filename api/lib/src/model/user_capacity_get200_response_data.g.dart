@@ -8,9 +8,9 @@ part of 'user_capacity_get200_response_data.dart';
 
 class _$UserCapacityGet200ResponseData extends UserCapacityGet200ResponseData {
   @override
-  final int total;
+  final int? total;
   @override
-  final int used;
+  final int? used;
   @override
   final int? storagePackTotal;
 
@@ -19,7 +19,7 @@ class _$UserCapacityGet200ResponseData extends UserCapacityGet200ResponseData {
       (UserCapacityGet200ResponseDataBuilder()..update(updates))._build();
 
   _$UserCapacityGet200ResponseData._(
-      {required this.total, required this.used, this.storagePackTotal})
+      {this.total, this.used, this.storagePackTotal})
       : super._();
   @override
   UserCapacityGet200ResponseData rebuild(
@@ -109,10 +109,8 @@ class UserCapacityGet200ResponseDataBuilder
   _$UserCapacityGet200ResponseData _build() {
     final _$result = _$v ??
         _$UserCapacityGet200ResponseData._(
-          total: BuiltValueNullFieldError.checkNotNull(
-              total, r'UserCapacityGet200ResponseData', 'total'),
-          used: BuiltValueNullFieldError.checkNotNull(
-              used, r'UserCapacityGet200ResponseData', 'used'),
+          total: total,
+          used: used,
           storagePackTotal: storagePackTotal,
         );
     replace(_$result);

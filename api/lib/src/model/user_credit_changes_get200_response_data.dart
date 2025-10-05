@@ -19,10 +19,10 @@ part 'user_credit_changes_get200_response_data.g.dart';
 @BuiltValue()
 abstract class UserCreditChangesGet200ResponseData implements Built<UserCreditChangesGet200ResponseData, UserCreditChangesGet200ResponseDataBuilder> {
   @BuiltValueField(wireName: r'pagination')
-  UserCreditChangesGet200ResponseDataPagination get pagination;
+  UserCreditChangesGet200ResponseDataPagination? get pagination;
 
   @BuiltValueField(wireName: r'changes')
-  BuiltList<UserCreditChangesGet200ResponseDataChangesInner> get changes;
+  BuiltList<UserCreditChangesGet200ResponseDataChangesInner>? get changes;
 
   UserCreditChangesGet200ResponseData._();
 
@@ -47,16 +47,20 @@ class _$UserCreditChangesGet200ResponseDataSerializer implements PrimitiveSerial
     UserCreditChangesGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(UserCreditChangesGet200ResponseDataPagination),
-    );
-    yield r'changes';
-    yield serializers.serialize(
-      object.changes,
-      specifiedType: const FullType(BuiltList, [FullType(UserCreditChangesGet200ResponseDataChangesInner)]),
-    );
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(UserCreditChangesGet200ResponseDataPagination),
+      );
+    }
+    if (object.changes != null) {
+      yield r'changes';
+      yield serializers.serialize(
+        object.changes,
+        specifiedType: const FullType(BuiltList, [FullType(UserCreditChangesGet200ResponseDataChangesInner)]),
+      );
+    }
   }
 
   @override

@@ -9,9 +9,9 @@ part of 'workflow_progress_id_get200_response.dart';
 class _$WorkflowProgressIdGet200Response
     extends WorkflowProgressIdGet200Response {
   @override
-  final BuiltMap<String, Progress> data;
+  final BuiltMap<String, Progress>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
 
@@ -19,8 +19,7 @@ class _$WorkflowProgressIdGet200Response
           [void Function(WorkflowProgressIdGet200ResponseBuilder)? updates]) =>
       (WorkflowProgressIdGet200ResponseBuilder()..update(updates))._build();
 
-  _$WorkflowProgressIdGet200Response._(
-      {required this.data, required this.code, this.msg})
+  _$WorkflowProgressIdGet200Response._({this.data, this.code, this.msg})
       : super._();
   @override
   WorkflowProgressIdGet200Response rebuild(
@@ -86,7 +85,7 @@ class WorkflowProgressIdGet200ResponseBuilder
   WorkflowProgressIdGet200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _$v = null;
@@ -112,16 +111,15 @@ class WorkflowProgressIdGet200ResponseBuilder
     try {
       _$result = _$v ??
           _$WorkflowProgressIdGet200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'WorkflowProgressIdGet200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'WorkflowProgressIdGet200Response', _$failedField, e.toString());

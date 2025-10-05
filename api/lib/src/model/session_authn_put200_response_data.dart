@@ -19,11 +19,11 @@ part 'session_authn_put200_response_data.g.dart';
 abstract class SessionAuthnPut200ResponseData implements Built<SessionAuthnPut200ResponseData, SessionAuthnPut200ResponseDataBuilder> {
   /// ID of the login session.
   @BuiltValueField(wireName: r'session_id')
-  String get sessionId;
+  String? get sessionId;
 
   /// A `CredentialAssertion` object that can be used by browser to initiate a authentification.
   @BuiltValueField(wireName: r'options')
-  BuiltMap<String, JsonObject?> get options;
+  BuiltMap<String, JsonObject?>? get options;
 
   SessionAuthnPut200ResponseData._();
 
@@ -48,16 +48,20 @@ class _$SessionAuthnPut200ResponseDataSerializer implements PrimitiveSerializer<
     SessionAuthnPut200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'session_id';
-    yield serializers.serialize(
-      object.sessionId,
-      specifiedType: const FullType(String),
-    );
-    yield r'options';
-    yield serializers.serialize(
-      object.options,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
-    );
+    if (object.sessionId != null) {
+      yield r'session_id';
+      yield serializers.serialize(
+        object.sessionId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.options != null) {
+      yield r'options';
+      yield serializers.serialize(
+        object.options,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
+      );
+    }
   }
 
   @override

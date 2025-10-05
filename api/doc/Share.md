@@ -8,12 +8,12 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | ID of the share link. | 
+**id** | **String** | ID of the share link. | [optional] 
 **name** | **String** | Name of the shared file/folder. | [optional] 
-**visited** | **int** | Count of views to this share link. | 
+**visited** | **int** | Count of views to this share link. | [optional] 
 **downloaded** | **int** | Count of downloads to this share link. Only appliable to share links with a file(not folder) as source type. | [optional] 
 **price** | **int** | Price of this share link, in points. | [optional] 
-**unlocked** | **bool** | Whether this share link is accessible to current user. | 
+**unlocked** | **bool** | Whether this share link is accessible to current user. | [optional] 
 **sourceType** | **int** | Type of the shared source file. | [optional] [default to ShareSourceTypeEnum.number1]
 **owner** | [**ShareOwner**](ShareOwner.md) |  | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) | Create time. | [optional] 

@@ -148,15 +148,15 @@ class _$UserSearchGet200ResponseDataInnerShareLinksInProfileEnumSerializer
 class _$UserSearchGet200ResponseDataInner
     extends UserSearchGet200ResponseDataInner {
   @override
-  final String id;
+  final String? id;
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final UserSearchGet200ResponseDataInnerGroup group;
+  final UserSearchGet200ResponseDataInnerGroup? group;
   @override
   final UserSearchGet200ResponseDataInnerAvatarEnum? avatar;
   @override
@@ -168,11 +168,11 @@ class _$UserSearchGet200ResponseDataInner
       (UserSearchGet200ResponseDataInnerBuilder()..update(updates))._build();
 
   _$UserSearchGet200ResponseDataInner._(
-      {required this.id,
+      {this.id,
       this.email,
       this.nickname,
-      required this.createdAt,
-      required this.group,
+      this.createdAt,
+      this.group,
       this.avatar,
       this.shareLinksInProfile})
       : super._();
@@ -279,7 +279,7 @@ class UserSearchGet200ResponseDataInnerBuilder
       _email = $v.email;
       _nickname = $v.nickname;
       _createdAt = $v.createdAt;
-      _group = $v.group.toBuilder();
+      _group = $v.group?.toBuilder();
       _avatar = $v.avatar;
       _shareLinksInProfile = $v.shareLinksInProfile;
       _$v = null;
@@ -306,13 +306,11 @@ class UserSearchGet200ResponseDataInnerBuilder
     try {
       _$result = _$v ??
           _$UserSearchGet200ResponseDataInner._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'UserSearchGet200ResponseDataInner', 'id'),
+            id: id,
             email: email,
             nickname: nickname,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'UserSearchGet200ResponseDataInner', 'createdAt'),
-            group: group.build(),
+            createdAt: createdAt,
+            group: _group?.build(),
             avatar: avatar,
             shareLinksInProfile: shareLinksInProfile,
           );
@@ -320,7 +318,7 @@ class UserSearchGet200ResponseDataInnerBuilder
       late String _$failedField;
       try {
         _$failedField = 'group';
-        group.build();
+        _group?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'UserSearchGet200ResponseDataInner', _$failedField, e.toString());

@@ -189,17 +189,17 @@ class _$UserShareLinksInProfileEnumSerializer
 
 class _$User extends User {
   @override
-  final String id;
+  final String? id;
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   final bool? anonymous;
   @override
-  final Group group;
+  final Group? group;
   @override
   final UserStatusEnum? status;
   @override
@@ -209,7 +209,7 @@ class _$User extends User {
   @override
   final int? credit;
   @override
-  final String language;
+  final String? language;
   @override
   final String? disableViewSync;
   @override
@@ -219,17 +219,17 @@ class _$User extends User {
       (UserBuilder()..update(updates))._build();
 
   _$User._(
-      {required this.id,
+      {this.id,
       this.email,
       this.nickname,
-      required this.createdAt,
+      this.createdAt,
       this.anonymous,
-      required this.group,
+      this.group,
       this.status,
       this.avatar,
       this.preferredTheme,
       this.credit,
-      required this.language,
+      this.language,
       this.disableViewSync,
       this.shareLinksInProfile})
       : super._();
@@ -370,7 +370,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
       _nickname = $v.nickname;
       _createdAt = $v.createdAt;
       _anonymous = $v.anonymous;
-      _group = $v.group.toBuilder();
+      _group = $v.group?.toBuilder();
       _status = $v.status;
       _avatar = $v.avatar;
       _preferredTheme = $v.preferredTheme;
@@ -401,19 +401,17 @@ class UserBuilder implements Builder<User, UserBuilder> {
     try {
       _$result = _$v ??
           _$User._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'User', 'id'),
+            id: id,
             email: email,
             nickname: nickname,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'User', 'createdAt'),
+            createdAt: createdAt,
             anonymous: anonymous,
-            group: group.build(),
+            group: _group?.build(),
             status: status,
             avatar: avatar,
             preferredTheme: preferredTheme,
             credit: credit,
-            language: BuiltValueNullFieldError.checkNotNull(
-                language, r'User', 'language'),
+            language: language,
             disableViewSync: disableViewSync,
             shareLinksInProfile: shareLinksInProfile,
           );
@@ -421,7 +419,7 @@ class UserBuilder implements Builder<User, UserBuilder> {
       late String _$failedField;
       try {
         _$failedField = 'group';
-        group.build();
+        _group?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(r'User', _$failedField, e.toString());
       }

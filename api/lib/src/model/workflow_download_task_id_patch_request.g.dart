@@ -9,14 +9,14 @@ part of 'workflow_download_task_id_patch_request.dart';
 class _$WorkflowDownloadTaskIdPatchRequest
     extends WorkflowDownloadTaskIdPatchRequest {
   @override
-  final BuiltList<WorkflowDownloadTaskIdPatchRequestFilesInner> files;
+  final BuiltList<WorkflowDownloadTaskIdPatchRequestFilesInner>? files;
 
   factory _$WorkflowDownloadTaskIdPatchRequest(
           [void Function(WorkflowDownloadTaskIdPatchRequestBuilder)?
               updates]) =>
       (WorkflowDownloadTaskIdPatchRequestBuilder()..update(updates))._build();
 
-  _$WorkflowDownloadTaskIdPatchRequest._({required this.files}) : super._();
+  _$WorkflowDownloadTaskIdPatchRequest._({this.files}) : super._();
   @override
   WorkflowDownloadTaskIdPatchRequest rebuild(
           void Function(WorkflowDownloadTaskIdPatchRequestBuilder) updates) =>
@@ -68,7 +68,7 @@ class WorkflowDownloadTaskIdPatchRequestBuilder
   WorkflowDownloadTaskIdPatchRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _files = $v.files.toBuilder();
+      _files = $v.files?.toBuilder();
       _$v = null;
     }
     return this;
@@ -93,13 +93,13 @@ class WorkflowDownloadTaskIdPatchRequestBuilder
     try {
       _$result = _$v ??
           _$WorkflowDownloadTaskIdPatchRequest._(
-            files: files.build(),
+            files: _files?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'files';
-        files.build();
+        _files?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'WorkflowDownloadTaskIdPatchRequest', _$failedField, e.toString());

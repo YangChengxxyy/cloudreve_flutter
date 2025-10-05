@@ -12,16 +12,16 @@ class _$SessionTokenPostRequest extends SessionTokenPostRequest {
   @override
   final String? ticket;
   @override
-  final String email;
+  final String? email;
   @override
-  final String password;
+  final String? password;
 
   factory _$SessionTokenPostRequest(
           [void Function(SessionTokenPostRequestBuilder)? updates]) =>
       (SessionTokenPostRequestBuilder()..update(updates))._build();
 
   _$SessionTokenPostRequest._(
-      {this.captcha, this.ticket, required this.email, required this.password})
+      {this.captcha, this.ticket, this.email, this.password})
       : super._();
   @override
   SessionTokenPostRequest rebuild(
@@ -119,10 +119,8 @@ class SessionTokenPostRequestBuilder
         _$SessionTokenPostRequest._(
           captcha: captcha,
           ticket: ticket,
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'SessionTokenPostRequest', 'email'),
-          password: BuiltValueNullFieldError.checkNotNull(
-              password, r'SessionTokenPostRequest', 'password'),
+          email: email,
+          password: password,
         );
     replace(_$result);
     return _$result;

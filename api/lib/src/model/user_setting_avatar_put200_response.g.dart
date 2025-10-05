@@ -9,7 +9,7 @@ part of 'user_setting_avatar_put200_response.dart';
 class _$UserSettingAvatarPut200Response
     extends UserSettingAvatarPut200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -22,7 +22,7 @@ class _$UserSettingAvatarPut200Response
       (UserSettingAvatarPut200ResponseBuilder()..update(updates))._build();
 
   _$UserSettingAvatarPut200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserSettingAvatarPut200Response rebuild(
@@ -120,8 +120,7 @@ class UserSettingAvatarPut200ResponseBuilder
   _$UserSettingAvatarPut200Response _build() {
     final _$result = _$v ??
         _$UserSettingAvatarPut200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'UserSettingAvatarPut200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

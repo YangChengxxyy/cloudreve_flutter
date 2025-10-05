@@ -8,18 +8,17 @@ part of 'session_openid_post_request.dart';
 
 class _$SessionOpenidPostRequest extends SessionOpenidPostRequest {
   @override
-  final String code;
+  final String? code;
   @override
-  final String sessionId;
+  final String? sessionId;
   @override
-  final int providerId;
+  final int? providerId;
 
   factory _$SessionOpenidPostRequest(
           [void Function(SessionOpenidPostRequestBuilder)? updates]) =>
       (SessionOpenidPostRequestBuilder()..update(updates))._build();
 
-  _$SessionOpenidPostRequest._(
-      {required this.code, required this.sessionId, required this.providerId})
+  _$SessionOpenidPostRequest._({this.code, this.sessionId, this.providerId})
       : super._();
   @override
   SessionOpenidPostRequest rebuild(
@@ -107,12 +106,9 @@ class SessionOpenidPostRequestBuilder
   _$SessionOpenidPostRequest _build() {
     final _$result = _$v ??
         _$SessionOpenidPostRequest._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'SessionOpenidPostRequest', 'code'),
-          sessionId: BuiltValueNullFieldError.checkNotNull(
-              sessionId, r'SessionOpenidPostRequest', 'sessionId'),
-          providerId: BuiltValueNullFieldError.checkNotNull(
-              providerId, r'SessionOpenidPostRequest', 'providerId'),
+          code: code,
+          sessionId: sessionId,
+          providerId: providerId,
         );
     replace(_$result);
     return _$result;

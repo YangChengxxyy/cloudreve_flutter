@@ -1,10 +1,8 @@
 import 'package:cloudreve/entity/MFile.dart';
-import 'package:cloudreve/entity/Result.dart';
 import 'package:cloudreve/entity/ShareData.dart';
-import 'package:cloudreve/utils/GeneratePassword.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
-import 'package:cloudreve/utils/Service.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,17 +18,15 @@ class Share extends StatefulWidget {
 class _ShareState extends State<Share> {
   ShareOrderBy _orderBy = shareOrderByList[0];
 
-  int _page = 1;
-
   ShareData? _shareData;
 
   static final List<ShareOrderBy> shareOrderByList = <ShareOrderBy>[
-    ShareOrderBy("DESC", "created_at", "创建日期由晚到早"),
-    ShareOrderBy("ASC", "created_at", "创建日期由早到晚"),
-    ShareOrderBy("DESC", "downloads", "下载次数由大到小"),
-    ShareOrderBy("ASC", "downloads", "下载次数由小到大"),
-    ShareOrderBy("DESC", "views", "浏览次数由大到小"),
-    ShareOrderBy("ASC", "views", "浏览次数由小到大"),
+    ShareOrderBy("desc", "id", "创建日期由晚到早"),
+    ShareOrderBy("asc", "id", "创建日期由早到晚"),
+    ShareOrderBy("desc", "downloads", "下载次数由大到小"),
+    ShareOrderBy("asc", "downloads", "下载次数由小到大"),
+    ShareOrderBy("desc", "views", "浏览次数由大到小"),
+    ShareOrderBy("asc", "views", "浏览次数由小到大"),
   ];
 
   @override
@@ -137,12 +133,12 @@ class _ShareState extends State<Share> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                child: e.remainDownloads == 1 ||
-                                                        e.expire < -1
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: e.expired
                                                     ? const Text("已失效")
-                                                    : const Text(""),
+                                                    : const SizedBox.shrink(),
                                               ),
                                             ],
                                           ),
@@ -185,21 +181,29 @@ class _ShareState extends State<Share> {
   }
 
   Future<ShareData> _getShare() async {
-    Result result = Result.fromJson((await getShare(
-            page: _page, order: _orderBy.order, orderBy: _orderBy.orderBy))
-        .data);
-    ShareData shareData = ShareData.fromJson(result.data);
+    final result = await CloudreveRepository.fetchMyShares(
+      pageSize: 50,
+      orderBy: _orderBy.orderBy,
+      orderDirection: _orderBy.order,
+    );
+    final shareData = ShareData.fromApi(
+      result.shares,
+      pagination: result.pagination,
+    );
     return shareData;
   }
 
   List<Widget> _getButtonIcons(ShareItems items) {
-    var buttonList = <Widget>[
+    final baseUrl = HttpUtil.dio.options.baseUrl;
+    final trimmedBase = baseUrl.endsWith('/')
+        ? baseUrl.substring(0, baseUrl.length - 1)
+        : baseUrl;
+    final shareUrl = items.url ?? '$trimmedBase/s/${items.key}';
+    final buttons = <Widget>[
       IconButton(
         onPressed: () async {
-          final shareUri =
-              Uri.parse('${HttpUtil.dio.options.baseUrl}/s/${items.key}');
           final launched = await launchUrl(
-            shareUri,
+            Uri.parse(shareUrl),
             mode: LaunchMode.externalApplication,
           );
           if (!launched && mounted) {
@@ -208,103 +212,77 @@ class _ShareState extends State<Share> {
             );
           }
         },
-        icon: Icon(Icons.open_in_new),
+        icon: const Icon(Icons.open_in_new),
         color: Colors.grey[700],
         tooltip: "打开",
       ),
-    ];
-    if (items.password == "") {
-      buttonList.add(IconButton(
-        onPressed: () async {
-          await editShare(items.key,
-              prop: "password", value: generatePassword(6, isSpecial: false));
-          setState(() {
-            _orderBy = _orderBy;
-          });
-        },
-        icon: Icon(Icons.lock_open),
-        color: Colors.grey[700],
-        tooltip: "变更为私密分享",
-      ));
-    } else {
-      buttonList.add(IconButton(
-        onPressed: () async {
-          await editShare(items.key, prop: "password", value: "");
-          setState(() {
-            _orderBy = _orderBy;
-          });
-        },
-        icon: Icon(Icons.lock),
-        color: Colors.grey[700],
-        tooltip: "变更为公开分享",
-      ));
-      buttonList.add(IconButton(
+      IconButton(
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return AlertDialog(
-                title: Text("分享密码"),
-                content: Text(items.password),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: items.password,
-                        ),
-                      );
-                      Navigator.pop(dialogContext);
-                    },
-                    child: Text("复制"),
-                  ),
-                ],
-              );
-            },
+          Clipboard.setData(ClipboardData(text: shareUrl));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('链接已复制')),
           );
         },
-        icon: Icon(Icons.vpn_key),
+        icon: const Icon(Icons.link),
         color: Colors.grey[700],
-        tooltip: "查看密码",
-      ));
+        tooltip: "复制链接",
+      ),
+    ];
+
+    if (items.password.isNotEmpty) {
+      buttons.add(
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return AlertDialog(
+                  title: const Text("分享密码"),
+                  content: Text(items.password),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Clipboard.setData(
+                          ClipboardData(text: items.password),
+                        );
+                        Navigator.pop(dialogContext);
+                      },
+                      child: const Text("复制"),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          icon: const Icon(Icons.vpn_key),
+          color: Colors.grey[700],
+          tooltip: "查看密码",
+        ),
+      );
     }
-    if (items.preview) {
-      buttonList.add(IconButton(
+
+    buttons.add(
+      IconButton(
         onPressed: () async {
-          await editShare(items.key, prop: "preview_enabled", value: false);
-          setState(() {
-            _orderBy = _orderBy;
-          });
+          final success = await CloudreveRepository.deleteShare(items.key);
+          if (success) {
+            setState(() {});
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('分享已删除')),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('删除失败')),
+            );
+          }
         },
-        icon: Icon(Icons.visibility),
+        icon: const Icon(Icons.delete),
         color: Colors.grey[700],
-        tooltip: "禁止预览",
-      ));
-    } else {
-      buttonList.add(IconButton(
-        onPressed: () async {
-          await editShare(items.key, prop: "preview_enabled", value: true);
-          setState(() {
-            _orderBy = _orderBy;
-          });
-        },
-        icon: Icon(Icons.visibility_off),
-        color: Colors.grey[700],
-        tooltip: "允许预览",
-      ));
-    }
-    buttonList.add(IconButton(
-      onPressed: () async {
-        await deleteShare(items.key);
-        setState(() {
-          _orderBy = _orderBy;
-        });
-      },
-      icon: Icon(Icons.delete),
-      color: Colors.grey[700],
-      tooltip: "取消分享",
-    ));
-    return buttonList;
+        tooltip: "取消分享",
+      ),
+    );
+
+    return buttons;
   }
 
   static double leftIconSize = 44;

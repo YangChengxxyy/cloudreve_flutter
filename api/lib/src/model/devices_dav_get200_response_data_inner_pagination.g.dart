@@ -9,11 +9,11 @@ part of 'devices_dav_get200_response_data_inner_pagination.dart';
 class _$DevicesDavGet200ResponseDataInnerPagination
     extends DevicesDavGet200ResponseDataInnerPagination {
   @override
-  final int page;
+  final int? page;
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
-  final String nextToken;
+  final String? nextToken;
   @override
   final bool? isCursor;
 
@@ -24,10 +24,7 @@ class _$DevicesDavGet200ResponseDataInnerPagination
           ._build();
 
   _$DevicesDavGet200ResponseDataInnerPagination._(
-      {required this.page,
-      required this.pageSize,
-      required this.nextToken,
-      this.isCursor})
+      {this.page, this.pageSize, this.nextToken, this.isCursor})
       : super._();
   @override
   DevicesDavGet200ResponseDataInnerPagination rebuild(
@@ -128,12 +125,9 @@ class DevicesDavGet200ResponseDataInnerPaginationBuilder
   _$DevicesDavGet200ResponseDataInnerPagination _build() {
     final _$result = _$v ??
         _$DevicesDavGet200ResponseDataInnerPagination._(
-          page: BuiltValueNullFieldError.checkNotNull(
-              page, r'DevicesDavGet200ResponseDataInnerPagination', 'page'),
-          pageSize: BuiltValueNullFieldError.checkNotNull(pageSize,
-              r'DevicesDavGet200ResponseDataInnerPagination', 'pageSize'),
-          nextToken: BuiltValueNullFieldError.checkNotNull(nextToken,
-              r'DevicesDavGet200ResponseDataInnerPagination', 'nextToken'),
+          page: page,
+          pageSize: pageSize,
+          nextToken: nextToken,
           isCursor: isCursor,
         );
     replace(_$result);

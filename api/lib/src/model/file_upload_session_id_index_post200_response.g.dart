@@ -9,7 +9,7 @@ part of 'file_upload_session_id_index_post200_response.dart';
 class _$FileUploadSessionIdIndexPost200Response
     extends FileUploadSessionIdIndexPost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,7 +24,7 @@ class _$FileUploadSessionIdIndexPost200Response
           ._build();
 
   _$FileUploadSessionIdIndexPost200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileUploadSessionIdIndexPost200Response rebuild(
@@ -125,8 +125,7 @@ class FileUploadSessionIdIndexPost200ResponseBuilder
   _$FileUploadSessionIdIndexPost200Response _build() {
     final _$result = _$v ??
         _$FileUploadSessionIdIndexPost200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'FileUploadSessionIdIndexPost200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

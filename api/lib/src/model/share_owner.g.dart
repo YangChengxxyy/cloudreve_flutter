@@ -77,15 +77,15 @@ class _$ShareOwnerShareLinksInProfileEnumSerializer
 
 class _$ShareOwner extends ShareOwner {
   @override
-  final String id;
+  final String? id;
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final Group group;
+  final Group? group;
   @override
   final String? disableViewSync;
   @override
@@ -95,11 +95,11 @@ class _$ShareOwner extends ShareOwner {
       (ShareOwnerBuilder()..update(updates))._build();
 
   _$ShareOwner._(
-      {required this.id,
+      {this.id,
       this.email,
       this.nickname,
-      required this.createdAt,
-      required this.group,
+      this.createdAt,
+      this.group,
       this.disableViewSync,
       this.shareLinksInProfile})
       : super._();
@@ -197,7 +197,7 @@ class ShareOwnerBuilder implements Builder<ShareOwner, ShareOwnerBuilder> {
       _email = $v.email;
       _nickname = $v.nickname;
       _createdAt = $v.createdAt;
-      _group = $v.group.toBuilder();
+      _group = $v.group?.toBuilder();
       _disableViewSync = $v.disableViewSync;
       _shareLinksInProfile = $v.shareLinksInProfile;
       _$v = null;
@@ -223,12 +223,11 @@ class ShareOwnerBuilder implements Builder<ShareOwner, ShareOwnerBuilder> {
     try {
       _$result = _$v ??
           _$ShareOwner._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'ShareOwner', 'id'),
+            id: id,
             email: email,
             nickname: nickname,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'ShareOwner', 'createdAt'),
-            group: group.build(),
+            createdAt: createdAt,
+            group: _group?.build(),
             disableViewSync: disableViewSync,
             shareLinksInProfile: shareLinksInProfile,
           );
@@ -236,7 +235,7 @@ class ShareOwnerBuilder implements Builder<ShareOwner, ShareOwnerBuilder> {
       late String _$failedField;
       try {
         _$failedField = 'group';
-        group.build();
+        _group?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'ShareOwner', _$failedField, e.toString());

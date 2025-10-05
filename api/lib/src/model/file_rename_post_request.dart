@@ -27,16 +27,16 @@ part 'file_rename_post_request.g.dart';
 abstract class FileRenamePostRequest implements Built<FileRenamePostRequest, FileRenamePostRequestBuilder> {
   /// Type of this file.
   @BuiltValueField(wireName: r'type')
-  FileRenamePostRequestTypeEnum get type;
+  FileRenamePostRequestTypeEnum? get type;
   // enum typeEnum {  0,  1,  };
 
   /// ID of this file.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of this file.   It might not be expected display name. For files under trash bin, this field is a non-readable UUID. The expected display name should be retrieved from `metadata` with name `sys:restore_uri`, which can be parsed as a [URI](https://docs.cloudreve.org/api/file-uri).
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// [Boolset](https://docs.cloudreve.org/api/boolset) encoded permissions granted by current authenticated user. For `null`, all permissions are granted. Permission definition can be found at [File Permissions](https://docs.cloudreve.org/api/boolset#file-permission)
   @BuiltValueField(wireName: r'permission')
@@ -44,19 +44,19 @@ abstract class FileRenamePostRequest implements Built<FileRenamePostRequest, Fil
 
   /// Datetime when the file is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   /// Datetime when the file is last updated.
   @BuiltValueField(wireName: r'updated_at')
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
 
   /// Size of the file, also the size of current primary version blob.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of this file.
   @BuiltValueField(wireName: r'path')
-  String get path;
+  String? get path;
 
   /// [Boolset](https://docs.cloudreve.org/api/boolset) encoded set of capabilities supported.
   @BuiltValueField(wireName: r'capability')
@@ -64,7 +64,7 @@ abstract class FileRenamePostRequest implements Built<FileRenamePostRequest, Fil
 
   /// Whether this file is owned by current authenticated user.
   @BuiltValueField(wireName: r'owned')
-  bool get owned;
+  bool? get owned;
 
   /// ID of the primary version blob.
   @BuiltValueField(wireName: r'primary_entity')
@@ -93,21 +93,27 @@ class _$FileRenamePostRequestSerializer implements PrimitiveSerializer<FileRenam
     FileRenamePostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(FileRenamePostRequestTypeEnum),
-    );
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(FileRenamePostRequestTypeEnum),
+      );
+    }
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.permission != null) {
       yield r'permission';
       yield serializers.serialize(
@@ -115,26 +121,34 @@ class _$FileRenamePostRequestSerializer implements PrimitiveSerializer<FileRenam
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updated_at';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
-    yield r'path';
-    yield serializers.serialize(
-      object.path,
-      specifiedType: const FullType(String),
-    );
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.updatedAt != null) {
+      yield r'updated_at';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.path != null) {
+      yield r'path';
+      yield serializers.serialize(
+        object.path,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.capability != null) {
       yield r'capability';
       yield serializers.serialize(
@@ -142,11 +156,13 @@ class _$FileRenamePostRequestSerializer implements PrimitiveSerializer<FileRenam
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'owned';
-    yield serializers.serialize(
-      object.owned,
-      specifiedType: const FullType(bool),
-    );
+    if (object.owned != null) {
+      yield r'owned';
+      yield serializers.serialize(
+        object.owned,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.primaryEntity != null) {
       yield r'primary_entity';
       yield serializers.serialize(

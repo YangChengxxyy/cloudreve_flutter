@@ -8,9 +8,9 @@ part of 'user_post_request.dart';
 
 class _$UserPostRequest extends UserPostRequest {
   @override
-  final String email;
+  final String? email;
   @override
-  final String password;
+  final String? password;
   @override
   final String? language;
   @override
@@ -22,11 +22,7 @@ class _$UserPostRequest extends UserPostRequest {
       (UserPostRequestBuilder()..update(updates))._build();
 
   _$UserPostRequest._(
-      {required this.email,
-      required this.password,
-      this.language,
-      this.captcha,
-      this.ticket})
+      {this.email, this.password, this.language, this.captcha, this.ticket})
       : super._();
   @override
   UserPostRequest rebuild(void Function(UserPostRequestBuilder) updates) =>
@@ -127,10 +123,8 @@ class UserPostRequestBuilder
   _$UserPostRequest _build() {
     final _$result = _$v ??
         _$UserPostRequest._(
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'UserPostRequest', 'email'),
-          password: BuiltValueNullFieldError.checkNotNull(
-              password, r'UserPostRequest', 'password'),
+          email: email,
+          password: password,
           language: language,
           captcha: captcha,
           ticket: ticket,

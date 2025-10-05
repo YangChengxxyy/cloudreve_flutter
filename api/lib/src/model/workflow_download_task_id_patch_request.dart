@@ -18,7 +18,7 @@ part 'workflow_download_task_id_patch_request.g.dart';
 abstract class WorkflowDownloadTaskIdPatchRequest implements Built<WorkflowDownloadTaskIdPatchRequest, WorkflowDownloadTaskIdPatchRequestBuilder> {
   /// List of files to change.
   @BuiltValueField(wireName: r'files')
-  BuiltList<WorkflowDownloadTaskIdPatchRequestFilesInner> get files;
+  BuiltList<WorkflowDownloadTaskIdPatchRequestFilesInner>? get files;
 
   WorkflowDownloadTaskIdPatchRequest._();
 
@@ -43,11 +43,13 @@ class _$WorkflowDownloadTaskIdPatchRequestSerializer implements PrimitiveSeriali
     WorkflowDownloadTaskIdPatchRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'files';
-    yield serializers.serialize(
-      object.files,
-      specifiedType: const FullType(BuiltList, [FullType(WorkflowDownloadTaskIdPatchRequestFilesInner)]),
-    );
+    if (object.files != null) {
+      yield r'files';
+      yield serializers.serialize(
+        object.files,
+        specifiedType: const FullType(BuiltList, [FullType(WorkflowDownloadTaskIdPatchRequestFilesInner)]),
+      );
+    }
   }
 
   @override

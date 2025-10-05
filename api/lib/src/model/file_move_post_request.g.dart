@@ -8,9 +8,9 @@ part of 'file_move_post_request.dart';
 
 class _$FileMovePostRequest extends FileMovePostRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
   @override
-  final String dst;
+  final String? dst;
   @override
   final bool? copy;
 
@@ -18,8 +18,7 @@ class _$FileMovePostRequest extends FileMovePostRequest {
           [void Function(FileMovePostRequestBuilder)? updates]) =>
       (FileMovePostRequestBuilder()..update(updates))._build();
 
-  _$FileMovePostRequest._({required this.uris, required this.dst, this.copy})
-      : super._();
+  _$FileMovePostRequest._({this.uris, this.dst, this.copy}) : super._();
   @override
   FileMovePostRequest rebuild(
           void Function(FileMovePostRequestBuilder) updates) =>
@@ -81,7 +80,7 @@ class FileMovePostRequestBuilder
   FileMovePostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
+      _uris = $v.uris?.toBuilder();
       _dst = $v.dst;
       _copy = $v.copy;
       _$v = null;
@@ -107,16 +106,15 @@ class FileMovePostRequestBuilder
     try {
       _$result = _$v ??
           _$FileMovePostRequest._(
-            uris: uris.build(),
-            dst: BuiltValueNullFieldError.checkNotNull(
-                dst, r'FileMovePostRequest', 'dst'),
+            uris: _uris?.build(),
+            dst: dst,
             copy: copy,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileMovePostRequest', _$failedField, e.toString());

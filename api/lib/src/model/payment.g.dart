@@ -148,15 +148,15 @@ class _$PaymentProductTypeEnumSerializer
 
 class _$Payment extends Payment {
   @override
-  final String id;
+  final String? id;
   @override
-  final String tradeNo;
+  final String? tradeNo;
   @override
-  final String name;
+  final String? name;
   @override
-  final PaymentStatusEnum status;
+  final PaymentStatusEnum? status;
   @override
-  final int qyt;
+  final int? qyt;
   @override
   final int? priceUnit;
   @override
@@ -164,13 +164,13 @@ class _$Payment extends Payment {
   @override
   final String? priceMark;
   @override
-  final int priceOneUnit;
+  final int? priceOneUnit;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
-  final PaymentProductTypeEnum productType;
+  final PaymentProductTypeEnum? productType;
   @override
   final String? ticket;
 
@@ -178,18 +178,18 @@ class _$Payment extends Payment {
       (PaymentBuilder()..update(updates))._build();
 
   _$Payment._(
-      {required this.id,
-      required this.tradeNo,
-      required this.name,
-      required this.status,
-      required this.qyt,
+      {this.id,
+      this.tradeNo,
+      this.name,
+      this.status,
+      this.qyt,
       this.priceUnit,
       this.priceId,
       this.priceMark,
-      required this.priceOneUnit,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.productType,
+      this.priceOneUnit,
+      this.createdAt,
+      this.updatedAt,
+      this.productType,
       this.ticket})
       : super._();
   @override
@@ -355,24 +355,18 @@ class PaymentBuilder implements Builder<Payment, PaymentBuilder> {
   _$Payment _build() {
     final _$result = _$v ??
         _$Payment._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'Payment', 'id'),
-          tradeNo: BuiltValueNullFieldError.checkNotNull(
-              tradeNo, r'Payment', 'tradeNo'),
-          name: BuiltValueNullFieldError.checkNotNull(name, r'Payment', 'name'),
-          status: BuiltValueNullFieldError.checkNotNull(
-              status, r'Payment', 'status'),
-          qyt: BuiltValueNullFieldError.checkNotNull(qyt, r'Payment', 'qyt'),
+          id: id,
+          tradeNo: tradeNo,
+          name: name,
+          status: status,
+          qyt: qyt,
           priceUnit: priceUnit,
           priceId: priceId,
           priceMark: priceMark,
-          priceOneUnit: BuiltValueNullFieldError.checkNotNull(
-              priceOneUnit, r'Payment', 'priceOneUnit'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'Payment', 'createdAt'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'Payment', 'updatedAt'),
-          productType: BuiltValueNullFieldError.checkNotNull(
-              productType, r'Payment', 'productType'),
+          priceOneUnit: priceOneUnit,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          productType: productType,
           ticket: ticket,
         );
     replace(_$result);

@@ -8,28 +8,28 @@ part of 'dav_account.dart';
 
 class _$DavAccount extends DavAccount {
   @override
-  final String id;
+  final String? id;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final String name;
+  final String? name;
   @override
-  final String uri;
+  final String? uri;
   @override
-  final String password;
+  final String? password;
   @override
-  final String options;
+  final String? options;
 
   factory _$DavAccount([void Function(DavAccountBuilder)? updates]) =>
       (DavAccountBuilder()..update(updates))._build();
 
   _$DavAccount._(
-      {required this.id,
-      required this.createdAt,
-      required this.name,
-      required this.uri,
-      required this.password,
-      required this.options})
+      {this.id,
+      this.createdAt,
+      this.name,
+      this.uri,
+      this.password,
+      this.options})
       : super._();
   @override
   DavAccount rebuild(void Function(DavAccountBuilder) updates) =>
@@ -137,16 +137,12 @@ class DavAccountBuilder implements Builder<DavAccount, DavAccountBuilder> {
   _$DavAccount _build() {
     final _$result = _$v ??
         _$DavAccount._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'DavAccount', 'id'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'DavAccount', 'createdAt'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'DavAccount', 'name'),
-          uri: BuiltValueNullFieldError.checkNotNull(uri, r'DavAccount', 'uri'),
-          password: BuiltValueNullFieldError.checkNotNull(
-              password, r'DavAccount', 'password'),
-          options: BuiltValueNullFieldError.checkNotNull(
-              options, r'DavAccount', 'options'),
+          id: id,
+          createdAt: createdAt,
+          name: name,
+          uri: uri,
+          password: password,
+          options: options,
         );
     replace(_$result);
     return _$result;

@@ -22,11 +22,11 @@ part 'archive_workflow_service.g.dart';
 abstract class ArchiveWorkflowService implements Built<ArchiveWorkflowService, ArchiveWorkflowServiceBuilder> {
   /// Source file URIs.
   @BuiltValueField(wireName: r'src')
-  BuiltList<String> get src;
+  BuiltList<String>? get src;
 
   /// URI of destination folder to store output files.
   @BuiltValueField(wireName: r'dst')
-  String get dst;
+  String? get dst;
 
   /// Select preferred node to handle this task. Only available in pro edition. Option of nodes can be get from [List available nodes](./list-available-nodes-308315715e0).
   @BuiltValueField(wireName: r'preferred_node_id')
@@ -67,16 +67,20 @@ class _$ArchiveWorkflowServiceSerializer implements PrimitiveSerializer<ArchiveW
     ArchiveWorkflowService object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'src';
-    yield serializers.serialize(
-      object.src,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'dst';
-    yield serializers.serialize(
-      object.dst,
-      specifiedType: const FullType(String),
-    );
+    if (object.src != null) {
+      yield r'src';
+      yield serializers.serialize(
+        object.src,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.dst != null) {
+      yield r'dst';
+      yield serializers.serialize(
+        object.dst,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.preferredNodeId != null) {
       yield r'preferred_node_id';
       yield serializers.serialize(

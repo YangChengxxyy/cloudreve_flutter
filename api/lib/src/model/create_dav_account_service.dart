@@ -19,11 +19,11 @@ part 'create_dav_account_service.g.dart';
 abstract class CreateDavAccountService implements Built<CreateDavAccountService, CreateDavAccountServiceBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the relative root folder.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Annotation of the account.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Whether this account is readonly.
   @BuiltValueField(wireName: r'readonly')
@@ -56,16 +56,20 @@ class _$CreateDavAccountServiceSerializer implements PrimitiveSerializer<CreateD
     CreateDavAccountService object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.readonly != null) {
       yield r'readonly';
       yield serializers.serialize(

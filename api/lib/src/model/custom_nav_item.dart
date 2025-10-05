@@ -18,15 +18,15 @@ part 'custom_nav_item.g.dart';
 abstract class CustomNavItem implements Built<CustomNavItem, CustomNavItemBuilder> {
   /// Iconify icon name.
   @BuiltValueField(wireName: r'icon')
-  String get icon;
+  String? get icon;
 
   /// Display name.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// URL to reidrect to after user clicked this item.
   @BuiltValueField(wireName: r'url')
-  String get url;
+  String? get url;
 
   CustomNavItem._();
 
@@ -51,21 +51,27 @@ class _$CustomNavItemSerializer implements PrimitiveSerializer<CustomNavItem> {
     CustomNavItem object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'icon';
-    yield serializers.serialize(
-      object.icon,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'url';
-    yield serializers.serialize(
-      object.url,
-      specifiedType: const FullType(String),
-    );
+    if (object.icon != null) {
+      yield r'icon';
+      yield serializers.serialize(
+        object.icon,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.url != null) {
+      yield r'url';
+      yield serializers.serialize(
+        object.url,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

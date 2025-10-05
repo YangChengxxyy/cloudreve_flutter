@@ -8,23 +8,18 @@ part of 'passkey.dart';
 
 class _$Passkey extends Passkey {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
   final DateTime? usedAt;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   factory _$Passkey([void Function(PasskeyBuilder)? updates]) =>
       (PasskeyBuilder()..update(updates))._build();
 
-  _$Passkey._(
-      {required this.id,
-      required this.name,
-      this.usedAt,
-      required this.createdAt})
-      : super._();
+  _$Passkey._({this.id, this.name, this.usedAt, this.createdAt}) : super._();
   @override
   Passkey rebuild(void Function(PasskeyBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -115,11 +110,10 @@ class PasskeyBuilder implements Builder<Passkey, PasskeyBuilder> {
   _$Passkey _build() {
     final _$result = _$v ??
         _$Passkey._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'Passkey', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(name, r'Passkey', 'name'),
+          id: id,
+          name: name,
           usedAt: usedAt,
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'Passkey', 'createdAt'),
+          createdAt: createdAt,
         );
     replace(_$result);
     return _$result;

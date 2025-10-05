@@ -9,11 +9,11 @@ part of 'file_viewer_session_put200_response_data_session.dart';
 class _$FileViewerSessionPut200ResponseDataSession
     extends FileViewerSessionPut200ResponseDataSession {
   @override
-  final String id;
+  final String? id;
   @override
-  final String accessToken;
+  final String? accessToken;
   @override
-  final int expires;
+  final int? expires;
 
   factory _$FileViewerSessionPut200ResponseDataSession(
           [void Function(FileViewerSessionPut200ResponseDataSessionBuilder)?
@@ -22,7 +22,7 @@ class _$FileViewerSessionPut200ResponseDataSession
           ._build();
 
   _$FileViewerSessionPut200ResponseDataSession._(
-      {required this.id, required this.accessToken, required this.expires})
+      {this.id, this.accessToken, this.expires})
       : super._();
   @override
   FileViewerSessionPut200ResponseDataSession rebuild(
@@ -115,12 +115,9 @@ class FileViewerSessionPut200ResponseDataSessionBuilder
   _$FileViewerSessionPut200ResponseDataSession _build() {
     final _$result = _$v ??
         _$FileViewerSessionPut200ResponseDataSession._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'FileViewerSessionPut200ResponseDataSession', 'id'),
-          accessToken: BuiltValueNullFieldError.checkNotNull(accessToken,
-              r'FileViewerSessionPut200ResponseDataSession', 'accessToken'),
-          expires: BuiltValueNullFieldError.checkNotNull(expires,
-              r'FileViewerSessionPut200ResponseDataSession', 'expires'),
+          id: id,
+          accessToken: accessToken,
+          expires: expires,
         );
     replace(_$result);
     return _$result;

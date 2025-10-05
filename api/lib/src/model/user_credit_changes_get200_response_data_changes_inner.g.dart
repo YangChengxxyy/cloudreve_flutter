@@ -9,11 +9,11 @@ part of 'user_credit_changes_get200_response_data_changes_inner.dart';
 class _$UserCreditChangesGet200ResponseDataChangesInner
     extends UserCreditChangesGet200ResponseDataChangesInner {
   @override
-  final DateTime changedAt;
+  final DateTime? changedAt;
   @override
-  final int diff;
+  final int? diff;
   @override
-  final String reason;
+  final String? reason;
 
   factory _$UserCreditChangesGet200ResponseDataChangesInner(
           [void Function(
@@ -24,7 +24,7 @@ class _$UserCreditChangesGet200ResponseDataChangesInner
           ._build();
 
   _$UserCreditChangesGet200ResponseDataChangesInner._(
-      {required this.changedAt, required this.diff, required this.reason})
+      {this.changedAt, this.diff, this.reason})
       : super._();
   @override
   UserCreditChangesGet200ResponseDataChangesInner rebuild(
@@ -117,12 +117,9 @@ class UserCreditChangesGet200ResponseDataChangesInnerBuilder
   _$UserCreditChangesGet200ResponseDataChangesInner _build() {
     final _$result = _$v ??
         _$UserCreditChangesGet200ResponseDataChangesInner._(
-          changedAt: BuiltValueNullFieldError.checkNotNull(changedAt,
-              r'UserCreditChangesGet200ResponseDataChangesInner', 'changedAt'),
-          diff: BuiltValueNullFieldError.checkNotNull(
-              diff, r'UserCreditChangesGet200ResponseDataChangesInner', 'diff'),
-          reason: BuiltValueNullFieldError.checkNotNull(reason,
-              r'UserCreditChangesGet200ResponseDataChangesInner', 'reason'),
+          changedAt: changedAt,
+          diff: diff,
+          reason: reason,
         );
     replace(_$result);
     return _$result;

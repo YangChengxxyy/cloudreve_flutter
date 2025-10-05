@@ -8,31 +8,31 @@ part of 'group_sku.dart';
 
 class _$GroupSKU extends GroupSKU {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final int time;
+  final int? time;
   @override
-  final int price;
+  final int? price;
   @override
   final String? chip;
   @override
   final int? points;
   @override
-  final BuiltList<String> des;
+  final BuiltList<String>? des;
 
   factory _$GroupSKU([void Function(GroupSKUBuilder)? updates]) =>
       (GroupSKUBuilder()..update(updates))._build();
 
   _$GroupSKU._(
-      {required this.id,
-      required this.name,
-      required this.time,
-      required this.price,
+      {this.id,
+      this.name,
+      this.time,
+      this.price,
       this.chip,
       this.points,
-      required this.des})
+      this.des})
       : super._();
   @override
   GroupSKU rebuild(void Function(GroupSKUBuilder) updates) =>
@@ -126,7 +126,7 @@ class GroupSKUBuilder implements Builder<GroupSKU, GroupSKUBuilder> {
       _price = $v.price;
       _chip = $v.chip;
       _points = $v.points;
-      _des = $v.des.toBuilder();
+      _des = $v.des?.toBuilder();
       _$v = null;
     }
     return this;
@@ -150,22 +150,19 @@ class GroupSKUBuilder implements Builder<GroupSKU, GroupSKUBuilder> {
     try {
       _$result = _$v ??
           _$GroupSKU._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'GroupSKU', 'id'),
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'GroupSKU', 'name'),
-            time: BuiltValueNullFieldError.checkNotNull(
-                time, r'GroupSKU', 'time'),
-            price: BuiltValueNullFieldError.checkNotNull(
-                price, r'GroupSKU', 'price'),
+            id: id,
+            name: name,
+            time: time,
+            price: price,
             chip: chip,
             points: points,
-            des: des.build(),
+            des: _des?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'des';
-        des.build();
+        _des?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'GroupSKU', _$failedField, e.toString());

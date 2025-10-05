@@ -8,7 +8,7 @@ part of 'log_entry.dart';
 
 class _$LogEntry extends LogEntry {
   @override
-  final int category;
+  final int? category;
   @override
   final BuiltMap<String, JsonObject?>? exts;
   @override
@@ -30,7 +30,7 @@ class _$LogEntry extends LogEntry {
       (LogEntryBuilder()..update(updates))._build();
 
   _$LogEntry._(
-      {required this.category,
+      {this.category,
       this.exts,
       this.originalName,
       this.newName,
@@ -176,8 +176,7 @@ class LogEntryBuilder implements Builder<LogEntry, LogEntryBuilder> {
     try {
       _$result = _$v ??
           _$LogEntry._(
-            category: BuiltValueNullFieldError.checkNotNull(
-                category, r'LogEntry', 'category'),
+            category: category,
             exts: _exts?.build(),
             originalName: originalName,
             newName: newName,

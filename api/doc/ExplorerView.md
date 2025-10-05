@@ -8,7 +8,7 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**pageSize** | **int** | The number of items to display per page. | 
+**pageSize** | **int** | The number of items to display per page. | [optional] 
 **order** | **String** | The field to order the results by. | [optional] 
 **orderDirection** | **String** | The direction to order the results. | [optional] 
 **view** | **String** | The view mode for the explorer. | [optional] 

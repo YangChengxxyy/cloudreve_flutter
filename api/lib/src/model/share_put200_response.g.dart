@@ -10,7 +10,7 @@ class _$SharePut200Response extends SharePut200Response {
   @override
   final String? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$SharePut200Response extends SharePut200Response {
       (SharePut200ResponseBuilder()..update(updates))._build();
 
   _$SharePut200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SharePut200Response rebuild(
@@ -128,8 +128,7 @@ class SharePut200ResponseBuilder
     final _$result = _$v ??
         _$SharePut200Response._(
           data: data,
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'SharePut200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

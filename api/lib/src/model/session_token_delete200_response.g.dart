@@ -8,9 +8,9 @@ part of 'session_token_delete200_response.dart';
 
 class _$SessionTokenDelete200Response extends SessionTokenDelete200Response {
   @override
-  final User data;
+  final User? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$SessionTokenDelete200Response extends SessionTokenDelete200Response {
       (SessionTokenDelete200ResponseBuilder()..update(updates))._build();
 
   _$SessionTokenDelete200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SessionTokenDelete200Response rebuild(
@@ -107,7 +103,7 @@ class SessionTokenDelete200ResponseBuilder
   SessionTokenDelete200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -135,9 +131,8 @@ class SessionTokenDelete200ResponseBuilder
     try {
       _$result = _$v ??
           _$SessionTokenDelete200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'SessionTokenDelete200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -146,7 +141,7 @@ class SessionTokenDelete200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SessionTokenDelete200Response', _$failedField, e.toString());

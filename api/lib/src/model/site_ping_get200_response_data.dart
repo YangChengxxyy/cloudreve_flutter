@@ -30,7 +30,7 @@ abstract class SitePingGet200ResponseData
 
   /// Whether this account can be logged in with password.
   @BuiltValueField(wireName: r'password_enabled')
-  bool get passwordEnabled;
+  bool? get passwordEnabled;
 
   /// Whether this account can be logged in with Tencent QQ.
   @BuiltValueField(wireName: r'qq_enabled')
@@ -42,14 +42,14 @@ abstract class SitePingGet200ResponseData
 
   /// A [PublicKeyCredentialCreationOptions](https://www.w3.org/TR/webauthn/#dictionary-makecredentialoptions) object that can be used to invoke passkey registration from browser.
   @BuiltValueField(wireName: r'publicKey')
-  JsonObject get publicKey;
+  JsonObject? get publicKey;
 
   /// ID of the login session.
   @BuiltValueField(wireName: r'session_id')
-  String get sessionId;
+  String? get sessionId;
 
   @BuiltValueField(wireName: r'options')
-  SitePingGet200ResponseDataOptions get options;
+  SitePingGet200ResponseDataOptions? get options;
 
   SitePingGet200ResponseData._();
 
@@ -88,11 +88,13 @@ class _$SitePingGet200ResponseDataSerializer
         specifiedType: const FullType(bool),
       );
     }
-    yield r'password_enabled';
-    yield serializers.serialize(
-      object.passwordEnabled,
-      specifiedType: const FullType(bool),
-    );
+    if (object.passwordEnabled != null) {
+      yield r'password_enabled';
+      yield serializers.serialize(
+        object.passwordEnabled,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.qqEnabled != null) {
       yield r'qq_enabled';
       yield serializers.serialize(
@@ -107,21 +109,27 @@ class _$SitePingGet200ResponseDataSerializer
         specifiedType: const FullType(bool),
       );
     }
-    yield r'publicKey';
-    yield serializers.serialize(
-      object.publicKey,
-      specifiedType: const FullType(JsonObject),
-    );
-    yield r'session_id';
-    yield serializers.serialize(
-      object.sessionId,
-      specifiedType: const FullType(String),
-    );
-    yield r'options';
-    yield serializers.serialize(
-      object.options,
-      specifiedType: const FullType(SitePingGet200ResponseDataOptions),
-    );
+    if (object.publicKey != null) {
+      yield r'publicKey';
+      yield serializers.serialize(
+        object.publicKey,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.sessionId != null) {
+      yield r'session_id';
+      yield serializers.serialize(
+        object.sessionId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.options != null) {
+      yield r'options';
+      yield serializers.serialize(
+        object.options,
+        specifiedType: const FullType(SitePingGet200ResponseDataOptions),
+      );
+    }
   }
 
   @override

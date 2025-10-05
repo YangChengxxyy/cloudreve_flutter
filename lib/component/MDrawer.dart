@@ -1,18 +1,19 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:cloudreve/app/LoginHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/state/app_state.dart';
 import 'package:cloudreve/utils/CacheUtil.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/view/Share.dart';
 import 'package:cloudreve/view/WebDav.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class MDrawer extends StatelessWidget {
   final UserData userData;
@@ -32,7 +33,7 @@ class MDrawer extends StatelessWidget {
       if (time.isBefore(now)) {
         try {
           final response =
-              await CloudreveRepository.fetchAvatar(userId: userData.id, size: "l");
+              await CloudreveRepository.fetchAvatar(userId: userData.id);
           final data = response.data ?? Uint8List.fromList([1]);
           final file = await File(avatarPath).create();
           file.writeAsBytesSync(data);
@@ -45,7 +46,7 @@ class MDrawer extends StatelessWidget {
     } else {
       try {
         final response =
-            await CloudreveRepository.fetchAvatar(userId: userData.id, size: "l");
+            await CloudreveRepository.fetchAvatar(userId: userData.id);
         final data = response.data ?? Uint8List.fromList([1]);
         final file = await File(avatarPath).create();
         file.writeAsBytesSync(data);
@@ -184,16 +185,12 @@ class MDrawer extends StatelessWidget {
             textColor: Colors.grey,
             title: Text('退出登录'),
             onTap: () async {
+              Navigator.of(context).pop();
               await CloudreveRepository.signOut();
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.setBool(isLoginKey, false);
-              await prefs.remove(usernameKey);
-              await prefs.remove(passwordKey);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => LoginHome()),
-                (route) => false,
-              );
+              await context.read<AppState>().logout();
+              if (context.mounted) {
+                context.go('/login');
+              }
             },
           ),
         ],

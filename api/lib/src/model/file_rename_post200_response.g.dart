@@ -8,9 +8,9 @@ part of 'file_rename_post200_response.dart';
 
 class _$FileRenamePost200Response extends FileRenamePost200Response {
   @override
-  final FileRenamePost200ResponseData data;
+  final FileRenamePost200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$FileRenamePost200Response extends FileRenamePost200Response {
       (FileRenamePost200ResponseBuilder()..update(updates))._build();
 
   _$FileRenamePost200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileRenamePost200Response rebuild(
@@ -107,7 +103,7 @@ class FileRenamePost200ResponseBuilder
   FileRenamePost200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -135,9 +131,8 @@ class FileRenamePost200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileRenamePost200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileRenamePost200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -146,7 +141,7 @@ class FileRenamePost200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileRenamePost200Response', _$failedField, e.toString());

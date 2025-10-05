@@ -17,7 +17,7 @@ part 'file_restore_post_request.g.dart';
 abstract class FileRestorePostRequest implements Built<FileRestorePostRequest, FileRestorePostRequestBuilder> {
   /// List of [URI](https://docs.cloudreve.org/api/file-uri) of the target files. Filesystem must be `trash`.
   @BuiltValueField(wireName: r'uris')
-  BuiltList<String> get uris;
+  BuiltList<String>? get uris;
 
   FileRestorePostRequest._();
 
@@ -42,11 +42,13 @@ class _$FileRestorePostRequestSerializer implements PrimitiveSerializer<FileRest
     FileRestorePostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uris';
-    yield serializers.serialize(
-      object.uris,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.uris != null) {
+      yield r'uris';
+      yield serializers.serialize(
+        object.uris,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
   }
 
   @override

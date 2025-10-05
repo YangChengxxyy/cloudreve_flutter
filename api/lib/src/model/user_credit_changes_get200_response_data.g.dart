@@ -9,17 +9,16 @@ part of 'user_credit_changes_get200_response_data.dart';
 class _$UserCreditChangesGet200ResponseData
     extends UserCreditChangesGet200ResponseData {
   @override
-  final UserCreditChangesGet200ResponseDataPagination pagination;
+  final UserCreditChangesGet200ResponseDataPagination? pagination;
   @override
-  final BuiltList<UserCreditChangesGet200ResponseDataChangesInner> changes;
+  final BuiltList<UserCreditChangesGet200ResponseDataChangesInner>? changes;
 
   factory _$UserCreditChangesGet200ResponseData(
           [void Function(UserCreditChangesGet200ResponseDataBuilder)?
               updates]) =>
       (UserCreditChangesGet200ResponseDataBuilder()..update(updates))._build();
 
-  _$UserCreditChangesGet200ResponseData._(
-      {required this.pagination, required this.changes})
+  _$UserCreditChangesGet200ResponseData._({this.pagination, this.changes})
       : super._();
   @override
   UserCreditChangesGet200ResponseData rebuild(
@@ -86,8 +85,8 @@ class UserCreditChangesGet200ResponseDataBuilder
   UserCreditChangesGet200ResponseDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _pagination = $v.pagination.toBuilder();
-      _changes = $v.changes.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
+      _changes = $v.changes?.toBuilder();
       _$v = null;
     }
     return this;
@@ -112,16 +111,16 @@ class UserCreditChangesGet200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$UserCreditChangesGet200ResponseData._(
-            pagination: pagination.build(),
-            changes: changes.build(),
+            pagination: _pagination?.build(),
+            changes: _changes?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
         _$failedField = 'changes';
-        changes.build();
+        _changes?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(r'UserCreditChangesGet200ResponseData',
             _$failedField, e.toString());

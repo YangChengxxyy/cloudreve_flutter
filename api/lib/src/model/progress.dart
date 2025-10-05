@@ -18,11 +18,11 @@ part 'progress.g.dart';
 abstract class Progress implements Built<Progress, ProgressBuilder> {
   /// Total items to process. Could be file size in bytes, or item counts depending on the progress type.
   @BuiltValueField(wireName: r'total')
-  int get total;
+  int? get total;
 
   /// Currently procressed items. Could be file size in bytes, or item counts depending on the progress type.
   @BuiltValueField(wireName: r'current')
-  int get current;
+  int? get current;
 
   /// Identifier of this progress (if applied). For batched file tasks, this could be used to differentiate different files processed in parallel.
   @BuiltValueField(wireName: r'identifier')
@@ -51,16 +51,20 @@ class _$ProgressSerializer implements PrimitiveSerializer<Progress> {
     Progress object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'total';
-    yield serializers.serialize(
-      object.total,
-      specifiedType: const FullType(int),
-    );
-    yield r'current';
-    yield serializers.serialize(
-      object.current,
-      specifiedType: const FullType(int),
-    );
+    if (object.total != null) {
+      yield r'total';
+      yield serializers.serialize(
+        object.total,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.current != null) {
+      yield r'current';
+      yield serializers.serialize(
+        object.current,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.identifier != null) {
       yield r'identifier';
       yield serializers.serialize(

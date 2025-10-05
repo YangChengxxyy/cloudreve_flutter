@@ -1,7 +1,6 @@
-import 'package:cloudreve/app/MainHome.dart';
-import 'package:cloudreve/app/RegisterHome.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/state/app_state.dart';
 import 'package:cloudreve/utils/HttpUtil.dart';
 import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
@@ -9,6 +8,8 @@ import 'package:direct_select_flutter/direct_select_container.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginHome extends StatefulWidget {
@@ -301,9 +302,7 @@ class _LoginBodyState extends State<LoginBody> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) {
-                          return RegisterHome();
-                        }));
+                        context.push('/register');
                       },
                       child: Text(
                         "注册账户",
@@ -321,15 +320,10 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   void _onLoginBtnClick(UserData userData, Storage storage) {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainHome(
-            userData: userData,
-            storage: storage,
-          ),
-        ),
-        (route) => false);
+    context
+        .read<AppState>()
+        .updateSession(userData: userData, storage: storage);
+    context.go('/home/files');
   }
 
   void _addUrl(String url) async {

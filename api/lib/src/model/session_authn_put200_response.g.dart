@@ -8,9 +8,9 @@ part of 'session_authn_put200_response.dart';
 
 class _$SessionAuthnPut200Response extends SessionAuthnPut200Response {
   @override
-  final SessionAuthnPut200ResponseData data;
+  final SessionAuthnPut200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$SessionAuthnPut200Response extends SessionAuthnPut200Response {
       (SessionAuthnPut200ResponseBuilder()..update(updates))._build();
 
   _$SessionAuthnPut200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SessionAuthnPut200Response rebuild(
@@ -107,7 +103,7 @@ class SessionAuthnPut200ResponseBuilder
   SessionAuthnPut200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -135,9 +131,8 @@ class SessionAuthnPut200ResponseBuilder
     try {
       _$result = _$v ??
           _$SessionAuthnPut200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'SessionAuthnPut200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -146,7 +141,7 @@ class SessionAuthnPut200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SessionAuthnPut200Response', _$failedField, e.toString());

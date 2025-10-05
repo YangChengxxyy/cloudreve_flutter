@@ -10,7 +10,7 @@ class _$UserAuthnPut200Response extends UserAuthnPut200Response {
   @override
   final UserAuthnPut200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$UserAuthnPut200Response extends UserAuthnPut200Response {
       (UserAuthnPut200ResponseBuilder()..update(updates))._build();
 
   _$UserAuthnPut200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserAuthnPut200Response rebuild(
@@ -132,8 +132,7 @@ class UserAuthnPut200ResponseBuilder
       _$result = _$v ??
           _$UserAuthnPut200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserAuthnPut200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

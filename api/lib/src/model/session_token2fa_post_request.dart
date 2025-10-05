@@ -17,11 +17,11 @@ part 'session_token2fa_post_request.g.dart';
 abstract class SessionToken2faPostRequest implements Built<SessionToken2faPostRequest, SessionToken2faPostRequestBuilder> {
   /// One time passcode.
   @BuiltValueField(wireName: r'opt')
-  String get opt;
+  String? get opt;
 
   /// 2FA login session ID.
   @BuiltValueField(wireName: r'session_id')
-  String get sessionId;
+  String? get sessionId;
 
   SessionToken2faPostRequest._();
 
@@ -46,16 +46,20 @@ class _$SessionToken2faPostRequestSerializer implements PrimitiveSerializer<Sess
     SessionToken2faPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'opt';
-    yield serializers.serialize(
-      object.opt,
-      specifiedType: const FullType(String),
-    );
-    yield r'session_id';
-    yield serializers.serialize(
-      object.sessionId,
-      specifiedType: const FullType(String),
-    );
+    if (object.opt != null) {
+      yield r'opt';
+      yield serializers.serialize(
+        object.opt,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.sessionId != null) {
+      yield r'session_id';
+      yield serializers.serialize(
+        object.sessionId,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

@@ -66,25 +66,25 @@ class _$FileRenamePostRequestTypeEnumSerializer
 
 class _$FileRenamePostRequest extends FileRenamePostRequest {
   @override
-  final FileRenamePostRequestTypeEnum type;
+  final FileRenamePostRequestTypeEnum? type;
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
   final String? permission;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
-  final int size;
+  final int? size;
   @override
-  final String path;
+  final String? path;
   @override
   final String? capability;
   @override
-  final bool owned;
+  final bool? owned;
   @override
   final String? primaryEntity;
 
@@ -93,16 +93,16 @@ class _$FileRenamePostRequest extends FileRenamePostRequest {
       (FileRenamePostRequestBuilder()..update(updates))._build();
 
   _$FileRenamePostRequest._(
-      {required this.type,
-      required this.id,
-      required this.name,
+      {this.type,
+      this.id,
+      this.name,
       this.permission,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.size,
-      required this.path,
+      this.createdAt,
+      this.updatedAt,
+      this.size,
+      this.path,
       this.capability,
-      required this.owned,
+      this.owned,
       this.primaryEntity})
       : super._();
   @override
@@ -255,24 +255,16 @@ class FileRenamePostRequestBuilder
   _$FileRenamePostRequest _build() {
     final _$result = _$v ??
         _$FileRenamePostRequest._(
-          type: BuiltValueNullFieldError.checkNotNull(
-              type, r'FileRenamePostRequest', 'type'),
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'FileRenamePostRequest', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'FileRenamePostRequest', 'name'),
+          type: type,
+          id: id,
+          name: name,
           permission: permission,
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'FileRenamePostRequest', 'createdAt'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'FileRenamePostRequest', 'updatedAt'),
-          size: BuiltValueNullFieldError.checkNotNull(
-              size, r'FileRenamePostRequest', 'size'),
-          path: BuiltValueNullFieldError.checkNotNull(
-              path, r'FileRenamePostRequest', 'path'),
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          size: size,
+          path: path,
           capability: capability,
-          owned: BuiltValueNullFieldError.checkNotNull(
-              owned, r'FileRenamePostRequest', 'owned'),
+          owned: owned,
           primaryEntity: primaryEntity,
         );
     replace(_$result);

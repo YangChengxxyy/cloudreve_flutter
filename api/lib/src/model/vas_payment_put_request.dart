@@ -20,11 +20,11 @@ part 'vas_payment_put_request.g.dart';
 @BuiltValue()
 abstract class VasPaymentPutRequest implements Built<VasPaymentPutRequest, VasPaymentPutRequestBuilder> {
   @BuiltValueField(wireName: r'product')
-  VasPaymentPutRequestProduct get product;
+  VasPaymentPutRequestProduct? get product;
 
   /// Quantity of the product. For points product, this is the count of purchasing points.
   @BuiltValueField(wireName: r'quantity')
-  int get quantity;
+  int? get quantity;
 
   /// ID of the payment provider. Empty value means paying using points.  List of available payment providers can be get from `payment` in the response of [Get site settings](./get-site-settings-289489676e0) under `vas` section.
   @BuiltValueField(wireName: r'provider_id')
@@ -61,16 +61,20 @@ class _$VasPaymentPutRequestSerializer implements PrimitiveSerializer<VasPayment
     VasPaymentPutRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'product';
-    yield serializers.serialize(
-      object.product,
-      specifiedType: const FullType(VasPaymentPutRequestProduct),
-    );
-    yield r'quantity';
-    yield serializers.serialize(
-      object.quantity,
-      specifiedType: const FullType(int),
-    );
+    if (object.product != null) {
+      yield r'product';
+      yield serializers.serialize(
+        object.product,
+        specifiedType: const FullType(VasPaymentPutRequestProduct),
+      );
+    }
+    if (object.quantity != null) {
+      yield r'quantity';
+      yield serializers.serialize(
+        object.quantity,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.providerId != null) {
       yield r'provider_id';
       yield serializers.serialize(

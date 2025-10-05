@@ -8,13 +8,13 @@ part of 'pagination_results.dart';
 
 class _$PaginationResults extends PaginationResults {
   @override
-  final int page;
+  final int? page;
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
   final int? totalItems;
   @override
-  final String nextToken;
+  final String? nextToken;
   @override
   final bool? isCursor;
 
@@ -23,10 +23,10 @@ class _$PaginationResults extends PaginationResults {
       (PaginationResultsBuilder()..update(updates))._build();
 
   _$PaginationResults._(
-      {required this.page,
-      required this.pageSize,
+      {this.page,
+      this.pageSize,
       this.totalItems,
-      required this.nextToken,
+      this.nextToken,
       this.isCursor})
       : super._();
   @override
@@ -129,13 +129,10 @@ class PaginationResultsBuilder
   _$PaginationResults _build() {
     final _$result = _$v ??
         _$PaginationResults._(
-          page: BuiltValueNullFieldError.checkNotNull(
-              page, r'PaginationResults', 'page'),
-          pageSize: BuiltValueNullFieldError.checkNotNull(
-              pageSize, r'PaginationResults', 'pageSize'),
+          page: page,
+          pageSize: pageSize,
           totalItems: totalItems,
-          nextToken: BuiltValueNullFieldError.checkNotNull(
-              nextToken, r'PaginationResults', 'nextToken'),
+          nextToken: nextToken,
           isCursor: isCursor,
         );
     replace(_$result);

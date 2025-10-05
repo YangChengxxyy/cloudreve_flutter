@@ -18,10 +18,10 @@ part 'login_response.g.dart';
 @BuiltValue()
 abstract class LoginResponse implements Built<LoginResponse, LoginResponseBuilder> {
   @BuiltValueField(wireName: r'user')
-  User get user;
+  User? get user;
 
   @BuiltValueField(wireName: r'token')
-  Token get token;
+  Token? get token;
 
   LoginResponse._();
 
@@ -46,16 +46,20 @@ class _$LoginResponseSerializer implements PrimitiveSerializer<LoginResponse> {
     LoginResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'user';
-    yield serializers.serialize(
-      object.user,
-      specifiedType: const FullType(User),
-    );
-    yield r'token';
-    yield serializers.serialize(
-      object.token,
-      specifiedType: const FullType(Token),
-    );
+    if (object.user != null) {
+      yield r'user';
+      yield serializers.serialize(
+        object.user,
+        specifiedType: const FullType(User),
+      );
+    }
+    if (object.token != null) {
+      yield r'token';
+      yield serializers.serialize(
+        object.token,
+        specifiedType: const FullType(Token),
+      );
+    }
   }
 
   @override

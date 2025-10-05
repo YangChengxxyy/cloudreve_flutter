@@ -125,7 +125,7 @@ class _$ExplorerViewViewEnumSerializer
 
 class _$ExplorerView extends ExplorerView {
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
   final String? order;
   @override
@@ -143,7 +143,7 @@ class _$ExplorerView extends ExplorerView {
       (ExplorerViewBuilder()..update(updates))._build();
 
   _$ExplorerView._(
-      {required this.pageSize,
+      {this.pageSize,
       this.order,
       this.orderDirection,
       this.view,
@@ -271,8 +271,7 @@ class ExplorerViewBuilder
     try {
       _$result = _$v ??
           _$ExplorerView._(
-            pageSize: BuiltValueNullFieldError.checkNotNull(
-                pageSize, r'ExplorerView', 'pageSize'),
+            pageSize: pageSize,
             order: order,
             orderDirection: orderDirection,
             view: view,

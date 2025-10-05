@@ -31,11 +31,11 @@ abstract class ExtendedInfo implements Built<ExtendedInfo, ExtendedInfoBuilder> 
 
   /// Only applies to folders. Indicating whether this storage policy setting is inherited from parent folders.
   @BuiltValueField(wireName: r'storage_policy_inherited')
-  bool get storagePolicyInherited;
+  bool? get storagePolicyInherited;
 
   /// Storage used by this file, equals to sum of size for all referred blobs.
   @BuiltValueField(wireName: r'storage_used')
-  int get storageUsed;
+  int? get storageUsed;
 
   /// List of share links for this file.
   @BuiltValueField(wireName: r'shares')
@@ -81,16 +81,20 @@ class _$ExtendedInfoSerializer implements PrimitiveSerializer<ExtendedInfo> {
         specifiedType: const FullType.nullable(ExtendedInfoStoragePolicy),
       );
     }
-    yield r'storage_policy_inherited';
-    yield serializers.serialize(
-      object.storagePolicyInherited,
-      specifiedType: const FullType(bool),
-    );
-    yield r'storage_used';
-    yield serializers.serialize(
-      object.storageUsed,
-      specifiedType: const FullType(int),
-    );
+    if (object.storagePolicyInherited != null) {
+      yield r'storage_policy_inherited';
+      yield serializers.serialize(
+        object.storagePolicyInherited,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.storageUsed != null) {
+      yield r'storage_used';
+      yield serializers.serialize(
+        object.storageUsed,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.shares != null) {
       yield r'shares';
       yield serializers.serialize(

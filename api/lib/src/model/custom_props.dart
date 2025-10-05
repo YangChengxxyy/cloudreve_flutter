@@ -24,15 +24,15 @@ part 'custom_props.g.dart';
 abstract class CustomProps implements Built<CustomProps, CustomPropsBuilder> {
   /// ID of the custom props. You can get the corresponding metadata key by appending `props:` prefix.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Display name of the propertity.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Type of the input component.
   @BuiltValueField(wireName: r'type')
-  CustomPropsTypeEnum get type;
+  CustomPropsTypeEnum? get type;
   // enum typeEnum {  text,  number,  boolean,  select,  multi_select,  link,  rating,  };
 
   /// Maximum length for text fields, maximum value for number/rating field.
@@ -78,21 +78,27 @@ class _$CustomPropsSerializer implements PrimitiveSerializer<CustomProps> {
     CustomProps object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(CustomPropsTypeEnum),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(CustomPropsTypeEnum),
+      );
+    }
     if (object.max != null) {
       yield r'max';
       yield serializers.serialize(

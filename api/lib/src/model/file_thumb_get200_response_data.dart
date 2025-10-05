@@ -18,7 +18,7 @@ part 'file_thumb_get200_response_data.g.dart';
 abstract class FileThumbGet200ResponseData implements Built<FileThumbGet200ResponseData, FileThumbGet200ResponseDataBuilder> {
   /// URL of the thumbnail image. Possibly be obfuscated if `obfuscated` is `true`. Please refer to the top of this document for how to decode it.
   @BuiltValueField(wireName: r'url')
-  String get url;
+  String? get url;
 
   /// Whether the `url` is obfuscated.
   @BuiltValueField(wireName: r'obfuscated')
@@ -26,7 +26,7 @@ abstract class FileThumbGet200ResponseData implements Built<FileThumbGet200Respo
 
   /// Expire date of the thumbnail image.
   @BuiltValueField(wireName: r'expires')
-  DateTime get expires;
+  DateTime? get expires;
 
   FileThumbGet200ResponseData._();
 
@@ -51,11 +51,13 @@ class _$FileThumbGet200ResponseDataSerializer implements PrimitiveSerializer<Fil
     FileThumbGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'url';
-    yield serializers.serialize(
-      object.url,
-      specifiedType: const FullType(String),
-    );
+    if (object.url != null) {
+      yield r'url';
+      yield serializers.serialize(
+        object.url,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.obfuscated != null) {
       yield r'obfuscated';
       yield serializers.serialize(
@@ -63,11 +65,13 @@ class _$FileThumbGet200ResponseDataSerializer implements PrimitiveSerializer<Fil
         specifiedType: const FullType.nullable(bool),
       );
     }
-    yield r'expires';
-    yield serializers.serialize(
-      object.expires,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.expires != null) {
+      yield r'expires';
+      yield serializers.serialize(
+        object.expires,
+        specifiedType: const FullType(DateTime),
+      );
+    }
   }
 
   @override

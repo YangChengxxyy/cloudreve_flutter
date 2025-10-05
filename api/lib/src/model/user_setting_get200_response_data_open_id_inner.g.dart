@@ -82,9 +82,9 @@ class _$UserSettingGet200ResponseDataOpenIdInnerProviderEnumSerializer
 class _$UserSettingGet200ResponseDataOpenIdInner
     extends UserSettingGet200ResponseDataOpenIdInner {
   @override
-  final UserSettingGet200ResponseDataOpenIdInnerProviderEnum provider;
+  final UserSettingGet200ResponseDataOpenIdInnerProviderEnum? provider;
   @override
-  final String linkedAt;
+  final String? linkedAt;
 
   factory _$UserSettingGet200ResponseDataOpenIdInner(
           [void Function(UserSettingGet200ResponseDataOpenIdInnerBuilder)?
@@ -92,8 +92,7 @@ class _$UserSettingGet200ResponseDataOpenIdInner
       (UserSettingGet200ResponseDataOpenIdInnerBuilder()..update(updates))
           ._build();
 
-  _$UserSettingGet200ResponseDataOpenIdInner._(
-      {required this.provider, required this.linkedAt})
+  _$UserSettingGet200ResponseDataOpenIdInner._({this.provider, this.linkedAt})
       : super._();
   @override
   UserSettingGet200ResponseDataOpenIdInner rebuild(
@@ -180,10 +179,8 @@ class UserSettingGet200ResponseDataOpenIdInnerBuilder
   _$UserSettingGet200ResponseDataOpenIdInner _build() {
     final _$result = _$v ??
         _$UserSettingGet200ResponseDataOpenIdInner._(
-          provider: BuiltValueNullFieldError.checkNotNull(provider,
-              r'UserSettingGet200ResponseDataOpenIdInner', 'provider'),
-          linkedAt: BuiltValueNullFieldError.checkNotNull(linkedAt,
-              r'UserSettingGet200ResponseDataOpenIdInner', 'linkedAt'),
+          provider: provider,
+          linkedAt: linkedAt,
         );
     replace(_$result);
     return _$result;

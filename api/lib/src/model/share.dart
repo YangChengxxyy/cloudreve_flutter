@@ -36,7 +36,7 @@ part 'share.g.dart';
 abstract class Share implements Built<Share, ShareBuilder> {
   /// ID of the share link.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of the shared file/folder.
   @BuiltValueField(wireName: r'name')
@@ -44,7 +44,7 @@ abstract class Share implements Built<Share, ShareBuilder> {
 
   /// Count of views to this share link.
   @BuiltValueField(wireName: r'visited')
-  int get visited;
+  int? get visited;
 
   /// Count of downloads to this share link. Only appliable to share links with a file(not folder) as source type.
   @BuiltValueField(wireName: r'downloaded')
@@ -56,7 +56,7 @@ abstract class Share implements Built<Share, ShareBuilder> {
 
   /// Whether this share link is accessible to current user.
   @BuiltValueField(wireName: r'unlocked')
-  bool get unlocked;
+  bool? get unlocked;
 
   /// Type of the shared source file.
   @BuiltValueField(wireName: r'source_type')
@@ -129,11 +129,13 @@ class _$ShareSerializer implements PrimitiveSerializer<Share> {
     Share object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.name != null) {
       yield r'name';
       yield serializers.serialize(
@@ -141,11 +143,13 @@ class _$ShareSerializer implements PrimitiveSerializer<Share> {
         specifiedType: const FullType(String),
       );
     }
-    yield r'visited';
-    yield serializers.serialize(
-      object.visited,
-      specifiedType: const FullType(int),
-    );
+    if (object.visited != null) {
+      yield r'visited';
+      yield serializers.serialize(
+        object.visited,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.downloaded != null) {
       yield r'downloaded';
       yield serializers.serialize(
@@ -160,11 +164,13 @@ class _$ShareSerializer implements PrimitiveSerializer<Share> {
         specifiedType: const FullType(int),
       );
     }
-    yield r'unlocked';
-    yield serializers.serialize(
-      object.unlocked,
-      specifiedType: const FullType(bool),
-    );
+    if (object.unlocked != null) {
+      yield r'unlocked';
+      yield serializers.serialize(
+        object.unlocked,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.sourceType != null) {
       yield r'source_type';
       yield serializers.serialize(

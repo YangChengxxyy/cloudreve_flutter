@@ -8,7 +8,7 @@ part of 'site_abuse_post200_response.dart';
 
 class _$SiteAbusePost200Response extends SiteAbusePost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$SiteAbusePost200Response extends SiteAbusePost200Response {
       (SiteAbusePost200ResponseBuilder()..update(updates))._build();
 
   _$SiteAbusePost200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SiteAbusePost200Response rebuild(
@@ -118,8 +118,7 @@ class SiteAbusePost200ResponseBuilder
   _$SiteAbusePost200Response _build() {
     final _$result = _$v ??
         _$SiteAbusePost200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'SiteAbusePost200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

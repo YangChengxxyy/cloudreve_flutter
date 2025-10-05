@@ -9,9 +9,9 @@ part of 'user_reset_user_id_patch200_response.dart';
 class _$UserResetUserIdPatch200Response
     extends UserResetUserIdPatch200Response {
   @override
-  final User data;
+  final User? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,11 +24,7 @@ class _$UserResetUserIdPatch200Response
       (UserResetUserIdPatch200ResponseBuilder()..update(updates))._build();
 
   _$UserResetUserIdPatch200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserResetUserIdPatch200Response rebuild(
@@ -108,7 +104,7 @@ class UserResetUserIdPatch200ResponseBuilder
   UserResetUserIdPatch200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -136,9 +132,8 @@ class UserResetUserIdPatch200ResponseBuilder
     try {
       _$result = _$v ??
           _$UserResetUserIdPatch200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserResetUserIdPatch200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -147,7 +142,7 @@ class UserResetUserIdPatch200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'UserResetUserIdPatch200Response', _$failedField, e.toString());

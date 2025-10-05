@@ -19,15 +19,15 @@ part 'archived_file.g.dart';
 abstract class ArchivedFile implements Built<ArchivedFile, ArchivedFileBuilder> {
   /// Path of the file in the archive.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Size of the file uncompressed.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// Datetime when the file is modified.
   @BuiltValueField(wireName: r'updated_at')
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
 
   /// Whether this is a directory instead of a file.
   @BuiltValueField(wireName: r'is_directory')
@@ -56,21 +56,27 @@ class _$ArchivedFileSerializer implements PrimitiveSerializer<ArchivedFile> {
     ArchivedFile object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
-    yield r'updated_at';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.updatedAt != null) {
+      yield r'updated_at';
+      yield serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
     if (object.isDirectory != null) {
       yield r'is_directory';
       yield serializers.serialize(

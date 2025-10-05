@@ -12,14 +12,13 @@ class _$UserResetPostRequest extends UserResetPostRequest {
   @override
   final String? ticket;
   @override
-  final String email;
+  final String? email;
 
   factory _$UserResetPostRequest(
           [void Function(UserResetPostRequestBuilder)? updates]) =>
       (UserResetPostRequestBuilder()..update(updates))._build();
 
-  _$UserResetPostRequest._({this.captcha, this.ticket, required this.email})
-      : super._();
+  _$UserResetPostRequest._({this.captcha, this.ticket, this.email}) : super._();
   @override
   UserResetPostRequest rebuild(
           void Function(UserResetPostRequestBuilder) updates) =>
@@ -107,8 +106,7 @@ class UserResetPostRequestBuilder
         _$UserResetPostRequest._(
           captcha: captcha,
           ticket: ticket,
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'UserResetPostRequest', 'email'),
+          email: email,
         );
     replace(_$result);
     return _$result;

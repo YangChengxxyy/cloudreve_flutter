@@ -18,11 +18,11 @@ part 'list_share_response_pagination.g.dart';
 abstract class ListShareResponsePagination implements Built<ListShareResponsePagination, ListShareResponsePaginationBuilder> {
   /// Maximum items included in one page.
   @BuiltValueField(wireName: r'page_size')
-  int get pageSize;
+  int? get pageSize;
 
   /// Token used to request the next page in cursor pagination.
   @BuiltValueField(wireName: r'next_token')
-  String get nextToken;
+  String? get nextToken;
 
   /// Whether the response is using cursor pagination.
   @BuiltValueField(wireName: r'is_cursor')
@@ -51,16 +51,20 @@ class _$ListShareResponsePaginationSerializer implements PrimitiveSerializer<Lis
     ListShareResponsePagination object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'page_size';
-    yield serializers.serialize(
-      object.pageSize,
-      specifiedType: const FullType(int),
-    );
-    yield r'next_token';
-    yield serializers.serialize(
-      object.nextToken,
-      specifiedType: const FullType(String),
-    );
+    if (object.pageSize != null) {
+      yield r'page_size';
+      yield serializers.serialize(
+        object.pageSize,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.nextToken != null) {
+      yield r'next_token';
+      yield serializers.serialize(
+        object.nextToken,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.isCursor != null) {
       yield r'is_cursor';
       yield serializers.serialize(

@@ -24,7 +24,7 @@ part 'file_url_post_request.g.dart';
 abstract class FileUrlPostRequest implements Built<FileUrlPostRequest, FileUrlPostRequestBuilder> {
   /// List of [URI](https://docs.cloudreve.org/api/file-uri) of the target files.
   @BuiltValueField(wireName: r'uris')
-  BuiltList<String> get uris;
+  BuiltList<String>? get uris;
 
   /// Whether the desired URL is for downloading files. For supported storage policy, browser will download file instead of previewing it directly if this field is set to  `true`.
   @BuiltValueField(wireName: r'download')
@@ -77,11 +77,13 @@ class _$FileUrlPostRequestSerializer implements PrimitiveSerializer<FileUrlPostR
     FileUrlPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uris';
-    yield serializers.serialize(
-      object.uris,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.uris != null) {
+      yield r'uris';
+      yield serializers.serialize(
+        object.uris,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
     if (object.download != null) {
       yield r'download';
       yield serializers.serialize(

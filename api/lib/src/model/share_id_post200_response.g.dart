@@ -10,7 +10,7 @@ class _$ShareIdPost200Response extends ShareIdPost200Response {
   @override
   final LoginResponse? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$ShareIdPost200Response extends ShareIdPost200Response {
       (ShareIdPost200ResponseBuilder()..update(updates))._build();
 
   _$ShareIdPost200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   ShareIdPost200Response rebuild(
@@ -130,8 +130,7 @@ class ShareIdPost200ResponseBuilder
       _$result = _$v ??
           _$ShareIdPost200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'ShareIdPost200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

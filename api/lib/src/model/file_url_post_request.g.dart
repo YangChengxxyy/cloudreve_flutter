@@ -8,7 +8,7 @@ part of 'file_url_post_request.dart';
 
 class _$FileUrlPostRequest extends FileUrlPostRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
   @override
   final bool? download;
   @override
@@ -29,7 +29,7 @@ class _$FileUrlPostRequest extends FileUrlPostRequest {
       (FileUrlPostRequestBuilder()..update(updates))._build();
 
   _$FileUrlPostRequest._(
-      {required this.uris,
+      {this.uris,
       this.download,
       this.redirect,
       this.entity,
@@ -135,7 +135,7 @@ class FileUrlPostRequestBuilder
   FileUrlPostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
+      _uris = $v.uris?.toBuilder();
       _download = $v.download;
       _redirect = $v.redirect;
       _entity = $v.entity;
@@ -166,7 +166,7 @@ class FileUrlPostRequestBuilder
     try {
       _$result = _$v ??
           _$FileUrlPostRequest._(
-            uris: uris.build(),
+            uris: _uris?.build(),
             download: download,
             redirect: redirect,
             entity: entity,
@@ -179,7 +179,7 @@ class FileUrlPostRequestBuilder
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileUrlPostRequest', _$failedField, e.toString());

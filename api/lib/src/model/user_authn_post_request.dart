@@ -18,15 +18,15 @@ part 'user_authn_post_request.g.dart';
 abstract class UserAuthnPostRequest implements Built<UserAuthnPostRequest, UserAuthnPostRequestBuilder> {
   /// JSON encoded CredentialCreationResponse with additional fields, see example for details.
   @BuiltValueField(wireName: r'response')
-  String get response;
+  String? get response;
 
   /// Name of the passkey. Available placeholders:  - `{os}`: OS name parsed from `ua`; - `{browser}`: Browser name parsed from `ua`;
   @BuiltValueField(wireName: r'u')
-  String get u;
+  String? get u;
 
   /// Client user agent.
   @BuiltValueField(wireName: r'ua')
-  String get ua;
+  String? get ua;
 
   UserAuthnPostRequest._();
 
@@ -51,21 +51,27 @@ class _$UserAuthnPostRequestSerializer implements PrimitiveSerializer<UserAuthnP
     UserAuthnPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'response';
-    yield serializers.serialize(
-      object.response,
-      specifiedType: const FullType(String),
-    );
-    yield r'u';
-    yield serializers.serialize(
-      object.u,
-      specifiedType: const FullType(String),
-    );
-    yield r'ua';
-    yield serializers.serialize(
-      object.ua,
-      specifiedType: const FullType(String),
-    );
+    if (object.response != null) {
+      yield r'response';
+      yield serializers.serialize(
+        object.response,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.u != null) {
+      yield r'u';
+      yield serializers.serialize(
+        object.u,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.ua != null) {
+      yield r'ua';
+      yield serializers.serialize(
+        object.ua,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

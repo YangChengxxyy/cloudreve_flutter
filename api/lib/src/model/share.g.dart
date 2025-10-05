@@ -61,17 +61,17 @@ class _$ShareSourceTypeEnumSerializer
 
 class _$Share extends Share {
   @override
-  final String id;
+  final String? id;
   @override
   final String? name;
   @override
-  final int visited;
+  final int? visited;
   @override
   final int? downloaded;
   @override
   final int? price;
   @override
-  final bool unlocked;
+  final bool? unlocked;
   @override
   final ShareSourceTypeEnum? sourceType;
   @override
@@ -101,12 +101,12 @@ class _$Share extends Share {
       (ShareBuilder()..update(updates))._build();
 
   _$Share._(
-      {required this.id,
+      {this.id,
       this.name,
-      required this.visited,
+      this.visited,
       this.downloaded,
       this.price,
-      required this.unlocked,
+      this.unlocked,
       this.sourceType,
       this.owner,
       this.createdAt,
@@ -328,14 +328,12 @@ class ShareBuilder implements Builder<Share, ShareBuilder> {
     try {
       _$result = _$v ??
           _$Share._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'Share', 'id'),
+            id: id,
             name: name,
-            visited: BuiltValueNullFieldError.checkNotNull(
-                visited, r'Share', 'visited'),
+            visited: visited,
             downloaded: downloaded,
             price: price,
-            unlocked: BuiltValueNullFieldError.checkNotNull(
-                unlocked, r'Share', 'unlocked'),
+            unlocked: unlocked,
             sourceType: sourceType,
             owner: _owner?.build(),
             createdAt: createdAt,

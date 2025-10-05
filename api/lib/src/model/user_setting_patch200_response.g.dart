@@ -8,7 +8,7 @@ part of 'user_setting_patch200_response.dart';
 
 class _$UserSettingPatch200Response extends UserSettingPatch200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$UserSettingPatch200Response extends UserSettingPatch200Response {
       (UserSettingPatch200ResponseBuilder()..update(updates))._build();
 
   _$UserSettingPatch200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserSettingPatch200Response rebuild(
@@ -119,8 +119,7 @@ class UserSettingPatch200ResponseBuilder
   _$UserSettingPatch200Response _build() {
     final _$result = _$v ??
         _$UserSettingPatch200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'UserSettingPatch200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

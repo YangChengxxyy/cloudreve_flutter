@@ -18,7 +18,7 @@ abstract class SitePingGet200ResponseDataOptions
         Built<SitePingGet200ResponseDataOptions,
             SitePingGet200ResponseDataOptionsBuilder> {
   @BuiltValueField(wireName: r'01JSRK1R5F4NZ2CHDTQ44G3C82')
-  String get n01jSRK1R5F4NZ2CHDTQ44G3C82;
+  String? get n01jSRK1R5F4NZ2CHDTQ44G3C82;
 
   SitePingGet200ResponseDataOptions._();
 
@@ -50,11 +50,13 @@ class _$SitePingGet200ResponseDataOptionsSerializer
     SitePingGet200ResponseDataOptions object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'01JSRK1R5F4NZ2CHDTQ44G3C82';
-    yield serializers.serialize(
-      object.n01jSRK1R5F4NZ2CHDTQ44G3C82,
-      specifiedType: const FullType(String),
-    );
+    if (object.n01jSRK1R5F4NZ2CHDTQ44G3C82 != null) {
+      yield r'01JSRK1R5F4NZ2CHDTQ44G3C82';
+      yield serializers.serialize(
+        object.n01jSRK1R5F4NZ2CHDTQ44G3C82,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

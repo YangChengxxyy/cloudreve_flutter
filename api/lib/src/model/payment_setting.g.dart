@@ -8,22 +8,19 @@ part of 'payment_setting.dart';
 
 class _$PaymentSetting extends PaymentSetting {
   @override
-  final String currencyCode;
+  final String? currencyCode;
   @override
-  final String currencyMark;
+  final String? currencyMark;
   @override
-  final int currencyUnit;
+  final int? currencyUnit;
   @override
-  final BuiltList<PaymentProvider> providers;
+  final BuiltList<PaymentProvider>? providers;
 
   factory _$PaymentSetting([void Function(PaymentSettingBuilder)? updates]) =>
       (PaymentSettingBuilder()..update(updates))._build();
 
   _$PaymentSetting._(
-      {required this.currencyCode,
-      required this.currencyMark,
-      required this.currencyUnit,
-      required this.providers})
+      {this.currencyCode, this.currencyMark, this.currencyUnit, this.providers})
       : super._();
   @override
   PaymentSetting rebuild(void Function(PaymentSettingBuilder) updates) =>
@@ -96,7 +93,7 @@ class PaymentSettingBuilder
       _currencyCode = $v.currencyCode;
       _currencyMark = $v.currencyMark;
       _currencyUnit = $v.currencyUnit;
-      _providers = $v.providers.toBuilder();
+      _providers = $v.providers?.toBuilder();
       _$v = null;
     }
     return this;
@@ -120,19 +117,16 @@ class PaymentSettingBuilder
     try {
       _$result = _$v ??
           _$PaymentSetting._(
-            currencyCode: BuiltValueNullFieldError.checkNotNull(
-                currencyCode, r'PaymentSetting', 'currencyCode'),
-            currencyMark: BuiltValueNullFieldError.checkNotNull(
-                currencyMark, r'PaymentSetting', 'currencyMark'),
-            currencyUnit: BuiltValueNullFieldError.checkNotNull(
-                currencyUnit, r'PaymentSetting', 'currencyUnit'),
-            providers: providers.build(),
+            currencyCode: currencyCode,
+            currencyMark: currencyMark,
+            currencyUnit: currencyUnit,
+            providers: _providers?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'providers';
-        providers.build();
+        _providers?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'PaymentSetting', _$failedField, e.toString());

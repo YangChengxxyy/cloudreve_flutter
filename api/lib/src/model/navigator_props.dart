@@ -20,19 +20,19 @@ part 'navigator_props.g.dart';
 abstract class NavigatorProps implements Built<NavigatorProps, NavigatorPropsBuilder> {
   /// [Boolset](https://docs.cloudreve.org/api/boolset) encoded set of capabilities supported in this filesystem. Capability definition can be found at [File System Capabilities](https://docs.cloudreve.org/api/boolset#file-system-capability)
   @BuiltValueField(wireName: r'capability')
-  String get capability;
+  String? get capability;
 
   /// Max supported page size.
   @BuiltValueField(wireName: r'max_page_size')
-  int get maxPageSize;
+  int? get maxPageSize;
 
   /// List of supported `order by` fields.
   @BuiltValueField(wireName: r'order_by_options')
-  BuiltList<String> get orderByOptions;
+  BuiltList<String>? get orderByOptions;
 
   /// List of supported order direction.
   @BuiltValueField(wireName: r'order_direction_options')
-  BuiltList<String> get orderDirectionOptions;
+  BuiltList<String>? get orderDirectionOptions;
 
   NavigatorProps._();
 
@@ -57,26 +57,34 @@ class _$NavigatorPropsSerializer implements PrimitiveSerializer<NavigatorProps> 
     NavigatorProps object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'capability';
-    yield serializers.serialize(
-      object.capability,
-      specifiedType: const FullType(String),
-    );
-    yield r'max_page_size';
-    yield serializers.serialize(
-      object.maxPageSize,
-      specifiedType: const FullType(int),
-    );
-    yield r'order_by_options';
-    yield serializers.serialize(
-      object.orderByOptions,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'order_direction_options';
-    yield serializers.serialize(
-      object.orderDirectionOptions,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.capability != null) {
+      yield r'capability';
+      yield serializers.serialize(
+        object.capability,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.maxPageSize != null) {
+      yield r'max_page_size';
+      yield serializers.serialize(
+        object.maxPageSize,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.orderByOptions != null) {
+      yield r'order_by_options';
+      yield serializers.serialize(
+        object.orderByOptions,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.orderDirectionOptions != null) {
+      yield r'order_direction_options';
+      yield serializers.serialize(
+        object.orderDirectionOptions,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
   }
 
   @override

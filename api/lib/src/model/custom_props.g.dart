@@ -96,11 +96,11 @@ class _$CustomPropsTypeEnumSerializer
 
 class _$CustomProps extends CustomProps {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final CustomPropsTypeEnum type;
+  final CustomPropsTypeEnum? type;
   @override
   final String? max;
   @override
@@ -116,9 +116,9 @@ class _$CustomProps extends CustomProps {
       (CustomPropsBuilder()..update(updates))._build();
 
   _$CustomProps._(
-      {required this.id,
-      required this.name,
-      required this.type,
+      {this.id,
+      this.name,
+      this.type,
       this.max,
       this.min,
       this.default_,
@@ -249,11 +249,9 @@ class CustomPropsBuilder implements Builder<CustomProps, CustomPropsBuilder> {
     try {
       _$result = _$v ??
           _$CustomProps._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'CustomProps', 'id'),
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'CustomProps', 'name'),
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'CustomProps', 'type'),
+            id: id,
+            name: name,
+            type: type,
             max: max,
             min: min,
             default_: default_,

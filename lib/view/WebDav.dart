@@ -1,6 +1,6 @@
-import 'package:cloudreve/entity/Accounts.dart';
-import 'package:cloudreve/utils/Service.dart';
-import 'package:dio/dio.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
+import 'package:cloudreve_api_client/cloudreve_api_client.dart'
+    as cloudreve_api;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,25 +13,34 @@ class WebDav extends StatelessWidget {
       ),
       body: Container(
         child: FutureBuilder(
-          future: webdav(),
-          builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+          future: CloudreveRepository.fetchWebDavAccounts(),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<cloudreve_api.DavAccount>> snapshot) {
             if (snapshot.hasData) {
-              Accounts accounts = Accounts.fromJson(
-                  snapshot.data!.data['data'] as Map<String, dynamic>);
-              var list = accounts.accounts;
+              final list = snapshot.data!;
               var dataRows = <DataRow>[];
               for (var value in list) {
+                final name = value.name ?? '';
+                final password = value.password ?? '';
+                final displayPassword = password.length > 10
+                    ? '${password.substring(0, 10)}...'
+                    : password;
+                final uri = value.uri ?? '';
+                final createdAt = value.createdAt;
+                final createdAtText = createdAt != null
+                    ? createdAt.toIso8601String().substring(0, 10)
+                    : '';
                 var dataRow = DataRow(
                   cells: [
-                    DataCell(Text(value.name)),
+                    DataCell(Text(name)),
                     DataCell(
                       Row(
                         children: [
-                          Text(value.password.substring(0, 10) + "..."),
+                          Text(displayPassword),
                           TextButton(
                             onPressed: () {
                               Clipboard.setData(
-                                  ClipboardData(text: value.password));
+                                  ClipboardData(text: password));
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text("复制成功"),
@@ -44,11 +53,11 @@ class WebDav extends StatelessWidget {
                       ),
                     ),
                     DataCell(
-                      Text(value.root),
+                      Text(uri),
                     ),
                     DataCell(
                       Text(
-                        value.createdAt.substring(0, 10),
+                        createdAtText,
                       ),
                     ),
                     // DataCell(
@@ -86,7 +95,7 @@ class WebDav extends StatelessWidget {
                 ),
               );
             } else {
-              return Text("loading...");
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),

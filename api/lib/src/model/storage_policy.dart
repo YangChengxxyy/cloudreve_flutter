@@ -28,11 +28,11 @@ part 'storage_policy.g.dart';
 abstract class StoragePolicy implements Built<StoragePolicy, StoragePolicyBuilder> {
   /// ID of the storage policy.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Display name of the storage policy.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// List of file extensions allowed in this storage policy. Empty list means no limit on allowed extensions.
   @BuiltValueField(wireName: r'allowed_suffix')
@@ -44,7 +44,7 @@ abstract class StoragePolicy implements Built<StoragePolicy, StoragePolicyBuilde
 
   /// Storage provider type.
   @BuiltValueField(wireName: r'type')
-  StoragePolicyTypeEnum get type;
+  StoragePolicyTypeEnum? get type;
   // enum typeEnum {  local,  qiniu,  upyun,  oss,  cos,  s3,  onedrive,  remote,  obs,  load_balance,  ks3,  };
 
   /// If not empty, file name must match this regex.
@@ -57,7 +57,7 @@ abstract class StoragePolicy implements Built<StoragePolicy, StoragePolicyBuilde
 
   /// Max allowed size of a single file. `0` means no limit.
   @BuiltValueField(wireName: r'max_size')
-  num get maxSize;
+  num? get maxSize;
 
   /// Indicates whether upload needs to be proxyed by Cloudreve. If `true`, the client should treat it as a `local` storage policy to process uploading.
   @BuiltValueField(wireName: r'relay')
@@ -98,16 +98,20 @@ class _$StoragePolicySerializer implements PrimitiveSerializer<StoragePolicy> {
     StoragePolicy object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.allowedSuffix != null) {
       yield r'allowed_suffix';
       yield serializers.serialize(
@@ -122,11 +126,13 @@ class _$StoragePolicySerializer implements PrimitiveSerializer<StoragePolicy> {
         specifiedType: const FullType.nullable(BuiltList, [FullType(String)]),
       );
     }
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(StoragePolicyTypeEnum),
-    );
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(StoragePolicyTypeEnum),
+      );
+    }
     if (object.allowedNameRegexp != null) {
       yield r'allowed_name_regexp';
       yield serializers.serialize(
@@ -141,11 +147,13 @@ class _$StoragePolicySerializer implements PrimitiveSerializer<StoragePolicy> {
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'max_size';
-    yield serializers.serialize(
-      object.maxSize,
-      specifiedType: const FullType(num),
-    );
+    if (object.maxSize != null) {
+      yield r'max_size';
+      yield serializers.serialize(
+        object.maxSize,
+        specifiedType: const FullType(num),
+      );
+    }
     if (object.relay != null) {
       yield r'relay';
       yield serializers.serialize(

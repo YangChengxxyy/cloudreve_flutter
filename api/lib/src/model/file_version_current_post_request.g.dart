@@ -8,16 +8,15 @@ part of 'file_version_current_post_request.dart';
 
 class _$FileVersionCurrentPostRequest extends FileVersionCurrentPostRequest {
   @override
-  final String uri;
+  final String? uri;
   @override
-  final String version;
+  final String? version;
 
   factory _$FileVersionCurrentPostRequest(
           [void Function(FileVersionCurrentPostRequestBuilder)? updates]) =>
       (FileVersionCurrentPostRequestBuilder()..update(updates))._build();
 
-  _$FileVersionCurrentPostRequest._({required this.uri, required this.version})
-      : super._();
+  _$FileVersionCurrentPostRequest._({this.uri, this.version}) : super._();
   @override
   FileVersionCurrentPostRequest rebuild(
           void Function(FileVersionCurrentPostRequestBuilder) updates) =>
@@ -97,10 +96,8 @@ class FileVersionCurrentPostRequestBuilder
   _$FileVersionCurrentPostRequest _build() {
     final _$result = _$v ??
         _$FileVersionCurrentPostRequest._(
-          uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'FileVersionCurrentPostRequest', 'uri'),
-          version: BuiltValueNullFieldError.checkNotNull(
-              version, r'FileVersionCurrentPostRequest', 'version'),
+          uri: uri,
+          version: version,
         );
     replace(_$result);
     return _$result;

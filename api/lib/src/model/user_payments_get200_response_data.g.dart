@@ -8,16 +8,15 @@ part of 'user_payments_get200_response_data.dart';
 
 class _$UserPaymentsGet200ResponseData extends UserPaymentsGet200ResponseData {
   @override
-  final UserPaymentsGet200ResponseDataPagination pagination;
+  final UserPaymentsGet200ResponseDataPagination? pagination;
   @override
-  final BuiltList<Payment> payments;
+  final BuiltList<Payment>? payments;
 
   factory _$UserPaymentsGet200ResponseData(
           [void Function(UserPaymentsGet200ResponseDataBuilder)? updates]) =>
       (UserPaymentsGet200ResponseDataBuilder()..update(updates))._build();
 
-  _$UserPaymentsGet200ResponseData._(
-      {required this.pagination, required this.payments})
+  _$UserPaymentsGet200ResponseData._({this.pagination, this.payments})
       : super._();
   @override
   UserPaymentsGet200ResponseData rebuild(
@@ -78,8 +77,8 @@ class UserPaymentsGet200ResponseDataBuilder
   UserPaymentsGet200ResponseDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _pagination = $v.pagination.toBuilder();
-      _payments = $v.payments.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
+      _payments = $v.payments?.toBuilder();
       _$v = null;
     }
     return this;
@@ -103,16 +102,16 @@ class UserPaymentsGet200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$UserPaymentsGet200ResponseData._(
-            pagination: pagination.build(),
-            payments: payments.build(),
+            pagination: _pagination?.build(),
+            payments: _payments?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
         _$failedField = 'payments';
-        payments.build();
+        _payments?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'UserPaymentsGet200ResponseData', _$failedField, e.toString());

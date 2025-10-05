@@ -19,10 +19,10 @@ part 'file_permission_post_request.g.dart';
 abstract class FilePermissionPostRequest implements Built<FilePermissionPostRequest, FilePermissionPostRequestBuilder> {
   /// List of [URI](https://docs.cloudreve.org/api/file-uri) of the target files.
   @BuiltValueField(wireName: r'uris')
-  BuiltList<String> get uris;
+  BuiltList<String>? get uris;
 
   @BuiltValueField(wireName: r'setting')
-  PermissionSetting get setting;
+  PermissionSetting? get setting;
 
   FilePermissionPostRequest._();
 
@@ -47,16 +47,20 @@ class _$FilePermissionPostRequestSerializer implements PrimitiveSerializer<FileP
     FilePermissionPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uris';
-    yield serializers.serialize(
-      object.uris,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'setting';
-    yield serializers.serialize(
-      object.setting,
-      specifiedType: const FullType(PermissionSetting),
-    );
+    if (object.uris != null) {
+      yield r'uris';
+      yield serializers.serialize(
+        object.uris,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.setting != null) {
+      yield r'setting';
+      yield serializers.serialize(
+        object.setting,
+        specifiedType: const FullType(PermissionSetting),
+      );
+    }
   }
 
   @override

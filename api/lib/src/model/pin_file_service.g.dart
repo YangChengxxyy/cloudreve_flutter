@@ -8,14 +8,14 @@ part of 'pin_file_service.dart';
 
 class _$PinFileService extends PinFileService {
   @override
-  final String uri;
+  final String? uri;
   @override
   final String? name;
 
   factory _$PinFileService([void Function(PinFileServiceBuilder)? updates]) =>
       (PinFileServiceBuilder()..update(updates))._build();
 
-  _$PinFileService._({required this.uri, this.name}) : super._();
+  _$PinFileService._({this.uri, this.name}) : super._();
   @override
   PinFileService rebuild(void Function(PinFileServiceBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -89,8 +89,7 @@ class PinFileServiceBuilder
   _$PinFileService _build() {
     final _$result = _$v ??
         _$PinFileService._(
-          uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'PinFileService', 'uri'),
+          uri: uri,
           name: name,
         );
     replace(_$result);

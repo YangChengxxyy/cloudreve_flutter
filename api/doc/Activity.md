@@ -8,9 +8,9 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | ID of the activity. | 
-**content** | [**LogEntry**](LogEntry.md) |  | 
-**createdAt** | [**DateTime**](DateTime.md) | Datetime when the activity is triggered. | 
+**id** | **String** | ID of the activity. | [optional] 
+**content** | [**LogEntry**](LogEntry.md) |  | [optional] 
+**createdAt** | [**DateTime**](DateTime.md) | Datetime when the activity is triggered. | [optional] 
 **user** | [**ActivityUser**](ActivityUser.md) |  | [optional] 
 **versionId** | **String** | ID of the version blob correlated to this activity (if any). | [optional] 
 

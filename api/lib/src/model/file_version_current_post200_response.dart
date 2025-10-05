@@ -19,7 +19,7 @@ part 'file_version_current_post200_response.g.dart';
 abstract class FileVersionCurrentPost200Response implements Built<FileVersionCurrentPost200Response, FileVersionCurrentPost200ResponseBuilder> {
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -57,11 +57,13 @@ class _$FileVersionCurrentPost200ResponseSerializer implements PrimitiveSerializ
     FileVersionCurrentPost200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

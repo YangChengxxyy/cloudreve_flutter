@@ -17,11 +17,11 @@ part 'session_authn_post_request.g.dart';
 abstract class SessionAuthnPostRequest implements Built<SessionAuthnPostRequest, SessionAuthnPostRequestBuilder> {
   /// JSON encoded `AuthenticatorAttestationResponse` with additional fields, see example for details.
   @BuiltValueField(wireName: r'response')
-  String get response;
+  String? get response;
 
   /// Passkey login session ID.
   @BuiltValueField(wireName: r'session_id')
-  String get sessionId;
+  String? get sessionId;
 
   SessionAuthnPostRequest._();
 
@@ -46,16 +46,20 @@ class _$SessionAuthnPostRequestSerializer implements PrimitiveSerializer<Session
     SessionAuthnPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'response';
-    yield serializers.serialize(
-      object.response,
-      specifiedType: const FullType(String),
-    );
-    yield r'session_id';
-    yield serializers.serialize(
-      object.sessionId,
-      specifiedType: const FullType(String),
-    );
+    if (object.response != null) {
+      yield r'response';
+      yield serializers.serialize(
+        object.response,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.sessionId != null) {
+      yield r'session_id';
+      yield serializers.serialize(
+        object.sessionId,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

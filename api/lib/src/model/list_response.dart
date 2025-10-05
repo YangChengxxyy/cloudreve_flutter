@@ -31,20 +31,20 @@ part 'list_response.g.dart';
 abstract class ListResponse implements Built<ListResponse, ListResponseBuilder> {
   /// List of files.
   @BuiltValueField(wireName: r'files')
-  BuiltList<FileResponse> get files;
+  BuiltList<FileResponse>? get files;
 
   @BuiltValueField(wireName: r'parent')
-  FileResponse get parent;
+  FileResponse? get parent;
 
   @BuiltValueField(wireName: r'pagination')
-  PaginationResults get pagination;
+  PaginationResults? get pagination;
 
   @BuiltValueField(wireName: r'props')
-  NavigatorProps get props;
+  NavigatorProps? get props;
 
   /// ContextHint is used to speed up following operations under this listed directory. It persists some intermedia state so that the following request don't need to query database again. One typical case is loading thumbnails under the listed folder, carry context hint in `X-Cr-Context-Hint` header in the thumbnail request can speed up backend database operations.
   @BuiltValueField(wireName: r'context_hint')
-  String get contextHint;
+  String? get contextHint;
 
   /// Only applies to search list, indicating whether the recursion limit has been reached. Client side should suggest user narrow down search root folder in this case.
   @BuiltValueField(wireName: r'recursion_limit_reached')
@@ -52,7 +52,7 @@ abstract class ListResponse implements Built<ListResponse, ListResponseBuilder> 
 
   /// If it's `false`, folders is alway placed in front of the file list. If it's `true`, folders might be mixed with files in the list. Cloudreve will try its best not to mix file types, but in search result list, this value is `false`.
   @BuiltValueField(wireName: r'mixed_type')
-  bool get mixedType;
+  bool? get mixedType;
 
   /// Indicating the frontend UI should use \"Single share file\" UI, since there's only one file in single file share link.
   @BuiltValueField(wireName: r'single_file_view')
@@ -87,31 +87,41 @@ class _$ListResponseSerializer implements PrimitiveSerializer<ListResponse> {
     ListResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'files';
-    yield serializers.serialize(
-      object.files,
-      specifiedType: const FullType(BuiltList, [FullType(FileResponse)]),
-    );
-    yield r'parent';
-    yield serializers.serialize(
-      object.parent,
-      specifiedType: const FullType(FileResponse),
-    );
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(PaginationResults),
-    );
-    yield r'props';
-    yield serializers.serialize(
-      object.props,
-      specifiedType: const FullType(NavigatorProps),
-    );
-    yield r'context_hint';
-    yield serializers.serialize(
-      object.contextHint,
-      specifiedType: const FullType(String),
-    );
+    if (object.files != null) {
+      yield r'files';
+      yield serializers.serialize(
+        object.files,
+        specifiedType: const FullType(BuiltList, [FullType(FileResponse)]),
+      );
+    }
+    if (object.parent != null) {
+      yield r'parent';
+      yield serializers.serialize(
+        object.parent,
+        specifiedType: const FullType(FileResponse),
+      );
+    }
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(PaginationResults),
+      );
+    }
+    if (object.props != null) {
+      yield r'props';
+      yield serializers.serialize(
+        object.props,
+        specifiedType: const FullType(NavigatorProps),
+      );
+    }
+    if (object.contextHint != null) {
+      yield r'context_hint';
+      yield serializers.serialize(
+        object.contextHint,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.recursionLimitReached != null) {
       yield r'recursion_limit_reached';
       yield serializers.serialize(
@@ -119,11 +129,13 @@ class _$ListResponseSerializer implements PrimitiveSerializer<ListResponse> {
         specifiedType: const FullType.nullable(bool),
       );
     }
-    yield r'mixed_type';
-    yield serializers.serialize(
-      object.mixedType,
-      specifiedType: const FullType(bool),
-    );
+    if (object.mixedType != null) {
+      yield r'mixed_type';
+      yield serializers.serialize(
+        object.mixedType,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.singleFileView != null) {
       yield r'single_file_view';
       yield serializers.serialize(

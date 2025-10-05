@@ -10,9 +10,9 @@ class _$ExtendedInfo extends ExtendedInfo {
   @override
   final ExtendedInfoStoragePolicy? storagePolicy;
   @override
-  final bool storagePolicyInherited;
+  final bool? storagePolicyInherited;
   @override
-  final int storageUsed;
+  final int? storageUsed;
   @override
   final BuiltList<Share>? shares;
   @override
@@ -27,8 +27,8 @@ class _$ExtendedInfo extends ExtendedInfo {
 
   _$ExtendedInfo._(
       {this.storagePolicy,
-      required this.storagePolicyInherited,
-      required this.storageUsed,
+      this.storagePolicyInherited,
+      this.storageUsed,
       this.shares,
       this.entities,
       this.permissions,
@@ -160,12 +160,8 @@ class ExtendedInfoBuilder
       _$result = _$v ??
           _$ExtendedInfo._(
             storagePolicy: _storagePolicy?.build(),
-            storagePolicyInherited: BuiltValueNullFieldError.checkNotNull(
-                storagePolicyInherited,
-                r'ExtendedInfo',
-                'storagePolicyInherited'),
-            storageUsed: BuiltValueNullFieldError.checkNotNull(
-                storageUsed, r'ExtendedInfo', 'storageUsed'),
+            storagePolicyInherited: storagePolicyInherited,
+            storageUsed: storageUsed,
             shares: _shares?.build(),
             entities: _entities?.build(),
             permissions: _permissions?.build(),

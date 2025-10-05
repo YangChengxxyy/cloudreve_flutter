@@ -17,7 +17,7 @@ part 'file_viewer_session_put200_response_data.g.dart';
 @BuiltValue()
 abstract class FileViewerSessionPut200ResponseData implements Built<FileViewerSessionPut200ResponseData, FileViewerSessionPut200ResponseDataBuilder> {
   @BuiltValueField(wireName: r'session')
-  FileViewerSessionPut200ResponseDataSession get session;
+  FileViewerSessionPut200ResponseDataSession? get session;
 
   /// [WOPISrc](https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/concepts#wopisrc) of the target WOPI viewer.
   @BuiltValueField(wireName: r'wopi_src')
@@ -46,11 +46,13 @@ class _$FileViewerSessionPut200ResponseDataSerializer implements PrimitiveSerial
     FileViewerSessionPut200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'session';
-    yield serializers.serialize(
-      object.session,
-      specifiedType: const FullType(FileViewerSessionPut200ResponseDataSession),
-    );
+    if (object.session != null) {
+      yield r'session';
+      yield serializers.serialize(
+        object.session,
+        specifiedType: const FullType(FileViewerSessionPut200ResponseDataSession),
+      );
+    }
     if (object.wopiSrc != null) {
       yield r'wopi_src';
       yield serializers.serialize(

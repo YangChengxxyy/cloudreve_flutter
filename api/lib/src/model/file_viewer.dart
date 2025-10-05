@@ -17,7 +17,7 @@ part 'file_viewer.g.dart';
 @BuiltValue()
 abstract class FileViewer implements Built<FileViewer, FileViewerBuilder> {
   @BuiltValueField(wireName: r'viewers')
-  BuiltList<FileViewerViewersInner> get viewers;
+  BuiltList<FileViewerViewersInner>? get viewers;
 
   FileViewer._();
 
@@ -42,11 +42,13 @@ class _$FileViewerSerializer implements PrimitiveSerializer<FileViewer> {
     FileViewer object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'viewers';
-    yield serializers.serialize(
-      object.viewers,
-      specifiedType: const FullType(BuiltList, [FullType(FileViewerViewersInner)]),
-    );
+    if (object.viewers != null) {
+      yield r'viewers';
+      yield serializers.serialize(
+        object.viewers,
+        specifiedType: const FullType(BuiltList, [FullType(FileViewerViewersInner)]),
+      );
+    }
   }
 
   @override

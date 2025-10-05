@@ -27,7 +27,7 @@ abstract class SessionPrepareGet200ResponseData implements Built<SessionPrepareG
 
   /// Whether this account can be logged in with password.
   @BuiltValueField(wireName: r'password_enabled')
-  bool get passwordEnabled;
+  bool? get passwordEnabled;
 
   /// Whether this account can be logged in with Tencent QQ.
   @BuiltValueField(wireName: r'qq_enabled')
@@ -70,11 +70,13 @@ class _$SessionPrepareGet200ResponseDataSerializer implements PrimitiveSerialize
         specifiedType: const FullType(bool),
       );
     }
-    yield r'password_enabled';
-    yield serializers.serialize(
-      object.passwordEnabled,
-      specifiedType: const FullType(bool),
-    );
+    if (object.passwordEnabled != null) {
+      yield r'password_enabled';
+      yield serializers.serialize(
+        object.passwordEnabled,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.qqEnabled != null) {
       yield r'qq_enabled';
       yield serializers.serialize(

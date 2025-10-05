@@ -9,7 +9,7 @@ part of 'session_openid_provider_id_delete200_response.dart';
 class _$SessionOpenidProviderIdDelete200Response
     extends SessionOpenidProviderIdDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,7 +24,7 @@ class _$SessionOpenidProviderIdDelete200Response
           ._build();
 
   _$SessionOpenidProviderIdDelete200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SessionOpenidProviderIdDelete200Response rebuild(
@@ -125,8 +125,7 @@ class SessionOpenidProviderIdDelete200ResponseBuilder
   _$SessionOpenidProviderIdDelete200Response _build() {
     final _$result = _$v ??
         _$SessionOpenidProviderIdDelete200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'SessionOpenidProviderIdDelete200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

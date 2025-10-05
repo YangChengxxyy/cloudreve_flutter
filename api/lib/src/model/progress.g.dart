@@ -8,17 +8,16 @@ part of 'progress.dart';
 
 class _$Progress extends Progress {
   @override
-  final int total;
+  final int? total;
   @override
-  final int current;
+  final int? current;
   @override
   final String? identifier;
 
   factory _$Progress([void Function(ProgressBuilder)? updates]) =>
       (ProgressBuilder()..update(updates))._build();
 
-  _$Progress._({required this.total, required this.current, this.identifier})
-      : super._();
+  _$Progress._({this.total, this.current, this.identifier}) : super._();
   @override
   Progress rebuild(void Function(ProgressBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -101,10 +100,8 @@ class ProgressBuilder implements Builder<Progress, ProgressBuilder> {
   _$Progress _build() {
     final _$result = _$v ??
         _$Progress._(
-          total: BuiltValueNullFieldError.checkNotNull(
-              total, r'Progress', 'total'),
-          current: BuiltValueNullFieldError.checkNotNull(
-              current, r'Progress', 'current'),
+          total: total,
+          current: current,
           identifier: identifier,
         );
     replace(_$result);

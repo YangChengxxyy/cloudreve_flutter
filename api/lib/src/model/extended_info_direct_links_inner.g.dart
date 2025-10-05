@@ -8,23 +8,20 @@ part of 'extended_info_direct_links_inner.dart';
 
 class _$ExtendedInfoDirectLinksInner extends ExtendedInfoDirectLinksInner {
   @override
-  final String id;
+  final String? id;
   @override
-  final String url;
+  final String? url;
   @override
-  final num downloaded;
+  final num? downloaded;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   factory _$ExtendedInfoDirectLinksInner(
           [void Function(ExtendedInfoDirectLinksInnerBuilder)? updates]) =>
       (ExtendedInfoDirectLinksInnerBuilder()..update(updates))._build();
 
   _$ExtendedInfoDirectLinksInner._(
-      {required this.id,
-      required this.url,
-      required this.downloaded,
-      required this.createdAt})
+      {this.id, this.url, this.downloaded, this.createdAt})
       : super._();
   @override
   ExtendedInfoDirectLinksInner rebuild(
@@ -121,14 +118,10 @@ class ExtendedInfoDirectLinksInnerBuilder
   _$ExtendedInfoDirectLinksInner _build() {
     final _$result = _$v ??
         _$ExtendedInfoDirectLinksInner._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'ExtendedInfoDirectLinksInner', 'id'),
-          url: BuiltValueNullFieldError.checkNotNull(
-              url, r'ExtendedInfoDirectLinksInner', 'url'),
-          downloaded: BuiltValueNullFieldError.checkNotNull(
-              downloaded, r'ExtendedInfoDirectLinksInner', 'downloaded'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'ExtendedInfoDirectLinksInner', 'createdAt'),
+          id: id,
+          url: url,
+          downloaded: downloaded,
+          createdAt: createdAt,
         );
     replace(_$result);
     return _$result;

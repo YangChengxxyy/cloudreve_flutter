@@ -18,12 +18,12 @@ part 'user_setting_get200_response_data_open_id_inner.g.dart';
 abstract class UserSettingGet200ResponseDataOpenIdInner implements Built<UserSettingGet200ResponseDataOpenIdInner, UserSettingGet200ResponseDataOpenIdInnerBuilder> {
   /// Provider type.
   @BuiltValueField(wireName: r'provider')
-  UserSettingGet200ResponseDataOpenIdInnerProviderEnum get provider;
+  UserSettingGet200ResponseDataOpenIdInnerProviderEnum? get provider;
   // enum providerEnum {  0,  1,  2,  };
 
   /// Datetime when the provider is linked.
   @BuiltValueField(wireName: r'linked_at')
-  String get linkedAt;
+  String? get linkedAt;
 
   UserSettingGet200ResponseDataOpenIdInner._();
 
@@ -48,16 +48,20 @@ class _$UserSettingGet200ResponseDataOpenIdInnerSerializer implements PrimitiveS
     UserSettingGet200ResponseDataOpenIdInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'provider';
-    yield serializers.serialize(
-      object.provider,
-      specifiedType: const FullType(UserSettingGet200ResponseDataOpenIdInnerProviderEnum),
-    );
-    yield r'linked_at';
-    yield serializers.serialize(
-      object.linkedAt,
-      specifiedType: const FullType(String),
-    );
+    if (object.provider != null) {
+      yield r'provider';
+      yield serializers.serialize(
+        object.provider,
+        specifiedType: const FullType(UserSettingGet200ResponseDataOpenIdInnerProviderEnum),
+      );
+    }
+    if (object.linkedAt != null) {
+      yield r'linked_at';
+      yield serializers.serialize(
+        object.linkedAt,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

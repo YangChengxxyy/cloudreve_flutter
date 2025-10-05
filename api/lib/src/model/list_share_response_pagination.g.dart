@@ -8,9 +8,9 @@ part of 'list_share_response_pagination.dart';
 
 class _$ListShareResponsePagination extends ListShareResponsePagination {
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
-  final String nextToken;
+  final String? nextToken;
   @override
   final bool? isCursor;
 
@@ -19,7 +19,7 @@ class _$ListShareResponsePagination extends ListShareResponsePagination {
       (ListShareResponsePaginationBuilder()..update(updates))._build();
 
   _$ListShareResponsePagination._(
-      {required this.pageSize, required this.nextToken, this.isCursor})
+      {this.pageSize, this.nextToken, this.isCursor})
       : super._();
   @override
   ListShareResponsePagination rebuild(
@@ -108,10 +108,8 @@ class ListShareResponsePaginationBuilder
   _$ListShareResponsePagination _build() {
     final _$result = _$v ??
         _$ListShareResponsePagination._(
-          pageSize: BuiltValueNullFieldError.checkNotNull(
-              pageSize, r'ListShareResponsePagination', 'pageSize'),
-          nextToken: BuiltValueNullFieldError.checkNotNull(
-              nextToken, r'ListShareResponsePagination', 'nextToken'),
+          pageSize: pageSize,
+          nextToken: nextToken,
           isCursor: isCursor,
         );
     replace(_$result);

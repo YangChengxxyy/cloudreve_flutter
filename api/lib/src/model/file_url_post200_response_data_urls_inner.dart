@@ -17,7 +17,7 @@ part 'file_url_post200_response_data_urls_inner.g.dart';
 abstract class FileUrlPost200ResponseDataUrlsInner implements Built<FileUrlPost200ResponseDataUrlsInner, FileUrlPost200ResponseDataUrlsInnerBuilder> {
   /// URL to get the file, without authorization header required.
   @BuiltValueField(wireName: r'url')
-  String get url;
+  String? get url;
 
   /// In some cases, browser/client should process the download with preferred download name. This field will be set to the preferred file name.
   @BuiltValueField(wireName: r'stream_saver_display_name')
@@ -46,11 +46,13 @@ class _$FileUrlPost200ResponseDataUrlsInnerSerializer implements PrimitiveSerial
     FileUrlPost200ResponseDataUrlsInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'url';
-    yield serializers.serialize(
-      object.url,
-      specifiedType: const FullType(String),
-    );
+    if (object.url != null) {
+      yield r'url';
+      yield serializers.serialize(
+        object.url,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.streamSaverDisplayName != null) {
       yield r'stream_saver_display_name';
       yield serializers.serialize(

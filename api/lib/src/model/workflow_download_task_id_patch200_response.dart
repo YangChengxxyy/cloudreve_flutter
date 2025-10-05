@@ -17,7 +17,7 @@ part 'workflow_download_task_id_patch200_response.g.dart';
 abstract class WorkflowDownloadTaskIdPatch200Response implements Built<WorkflowDownloadTaskIdPatch200Response, WorkflowDownloadTaskIdPatch200ResponseBuilder> {
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -47,11 +47,13 @@ class _$WorkflowDownloadTaskIdPatch200ResponseSerializer implements PrimitiveSer
     WorkflowDownloadTaskIdPatch200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

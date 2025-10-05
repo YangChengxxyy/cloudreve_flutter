@@ -35,7 +35,7 @@ abstract class SiteAbusePostRequest implements Built<SiteAbusePostRequest, SiteA
 
   /// Category of the report.
   @BuiltValueField(wireName: r'category')
-  SiteAbusePostRequestCategoryEnum get category;
+  SiteAbusePostRequestCategoryEnum? get category;
   // enum categoryEnum {  0,  1,  2,  3,  };
 
   /// Additional descriptions.
@@ -94,11 +94,13 @@ class _$SiteAbusePostRequestSerializer implements PrimitiveSerializer<SiteAbuseP
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'category';
-    yield serializers.serialize(
-      object.category,
-      specifiedType: const FullType(SiteAbusePostRequestCategoryEnum),
-    );
+    if (object.category != null) {
+      yield r'category';
+      yield serializers.serialize(
+        object.category,
+        specifiedType: const FullType(SiteAbusePostRequestCategoryEnum),
+      );
+    }
     if (object.description != null) {
       yield r'description';
       yield serializers.serialize(

@@ -8,13 +8,13 @@ part of 'file_archive_get200_response_data.dart';
 
 class _$FileArchiveGet200ResponseData extends FileArchiveGet200ResponseData {
   @override
-  final BuiltList<ArchivedFile> files;
+  final BuiltList<ArchivedFile>? files;
 
   factory _$FileArchiveGet200ResponseData(
           [void Function(FileArchiveGet200ResponseDataBuilder)? updates]) =>
       (FileArchiveGet200ResponseDataBuilder()..update(updates))._build();
 
-  _$FileArchiveGet200ResponseData._({required this.files}) : super._();
+  _$FileArchiveGet200ResponseData._({this.files}) : super._();
   @override
   FileArchiveGet200ResponseData rebuild(
           void Function(FileArchiveGet200ResponseDataBuilder) updates) =>
@@ -64,7 +64,7 @@ class FileArchiveGet200ResponseDataBuilder
   FileArchiveGet200ResponseDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _files = $v.files.toBuilder();
+      _files = $v.files?.toBuilder();
       _$v = null;
     }
     return this;
@@ -88,13 +88,13 @@ class FileArchiveGet200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$FileArchiveGet200ResponseData._(
-            files: files.build(),
+            files: _files?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'files';
-        files.build();
+        _files?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileArchiveGet200ResponseData', _$failedField, e.toString());

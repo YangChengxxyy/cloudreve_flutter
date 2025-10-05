@@ -22,23 +22,23 @@ part 'storage_product.g.dart';
 abstract class StorageProduct implements Built<StorageProduct, StorageProductBuilder> {
   /// UUID of the storage SKU.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Display name of the storage SKU.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Contained storage in bytes.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// Valid duration in seconds.
   @BuiltValueField(wireName: r'time')
-  int get time;
+  int? get time;
 
   /// Price in minimum currency unit.
   @BuiltValueField(wireName: r'price')
-  int get price;
+  int? get price;
 
   /// Chip text.
   @BuiltValueField(wireName: r'chip')
@@ -71,31 +71,41 @@ class _$StorageProductSerializer implements PrimitiveSerializer<StorageProduct> 
     StorageProduct object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
-    yield r'time';
-    yield serializers.serialize(
-      object.time,
-      specifiedType: const FullType(int),
-    );
-    yield r'price';
-    yield serializers.serialize(
-      object.price,
-      specifiedType: const FullType(int),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.time != null) {
+      yield r'time';
+      yield serializers.serialize(
+        object.time,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.price != null) {
+      yield r'price';
+      yield serializers.serialize(
+        object.price,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.chip != null) {
       yield r'chip';
       yield serializers.serialize(

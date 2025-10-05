@@ -19,7 +19,7 @@ part 'file_delete_request.g.dart';
 abstract class FileDeleteRequest implements Built<FileDeleteRequest, FileDeleteRequestBuilder> {
   /// List of [URI](https://docs.cloudreve.org/api/file-uri) of the target files.
   @BuiltValueField(wireName: r'uris')
-  BuiltList<String> get uris;
+  BuiltList<String>? get uris;
 
   /// Whether to keep physical files while recycling file blobs. This option only works if the user group have \"Advanced delete option` enabed.
   @BuiltValueField(wireName: r'unlink')
@@ -52,11 +52,13 @@ class _$FileDeleteRequestSerializer implements PrimitiveSerializer<FileDeleteReq
     FileDeleteRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uris';
-    yield serializers.serialize(
-      object.uris,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.uris != null) {
+      yield r'uris';
+      yield serializers.serialize(
+        object.uris,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
     if (object.unlink != null) {
       yield r'unlink';
       yield serializers.serialize(

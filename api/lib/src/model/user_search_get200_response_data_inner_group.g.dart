@@ -9,9 +9,9 @@ part of 'user_search_get200_response_data_inner_group.dart';
 class _$UserSearchGet200ResponseDataInnerGroup
     extends UserSearchGet200ResponseDataInnerGroup {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
 
   factory _$UserSearchGet200ResponseDataInnerGroup(
           [void Function(UserSearchGet200ResponseDataInnerGroupBuilder)?
@@ -19,9 +19,7 @@ class _$UserSearchGet200ResponseDataInnerGroup
       (UserSearchGet200ResponseDataInnerGroupBuilder()..update(updates))
           ._build();
 
-  _$UserSearchGet200ResponseDataInnerGroup._(
-      {required this.id, required this.name})
-      : super._();
+  _$UserSearchGet200ResponseDataInnerGroup._({this.id, this.name}) : super._();
   @override
   UserSearchGet200ResponseDataInnerGroup rebuild(
           void Function(UserSearchGet200ResponseDataInnerGroupBuilder)
@@ -104,10 +102,8 @@ class UserSearchGet200ResponseDataInnerGroupBuilder
   _$UserSearchGet200ResponseDataInnerGroup _build() {
     final _$result = _$v ??
         _$UserSearchGet200ResponseDataInnerGroup._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'UserSearchGet200ResponseDataInnerGroup', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'UserSearchGet200ResponseDataInnerGroup', 'name'),
+          id: id,
+          name: name,
         );
     replace(_$result);
     return _$result;

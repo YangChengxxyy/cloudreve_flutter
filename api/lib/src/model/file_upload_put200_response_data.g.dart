@@ -8,13 +8,13 @@ part of 'file_upload_put200_response_data.dart';
 
 class _$FileUploadPut200ResponseData extends FileUploadPut200ResponseData {
   @override
-  final String sessionId;
+  final String? sessionId;
   @override
   final String? uploadId;
   @override
-  final int chunkSize;
+  final int? chunkSize;
   @override
-  final int expires;
+  final int? expires;
   @override
   final BuiltList<String>? uploadUrls;
   @override
@@ -22,7 +22,7 @@ class _$FileUploadPut200ResponseData extends FileUploadPut200ResponseData {
   @override
   final String? completeURL;
   @override
-  final StoragePolicy storagePolicy;
+  final StoragePolicy? storagePolicy;
   @override
   final String? mimeType;
   @override
@@ -33,14 +33,14 @@ class _$FileUploadPut200ResponseData extends FileUploadPut200ResponseData {
       (FileUploadPut200ResponseDataBuilder()..update(updates))._build();
 
   _$FileUploadPut200ResponseData._(
-      {required this.sessionId,
+      {this.sessionId,
       this.uploadId,
-      required this.chunkSize,
-      required this.expires,
+      this.chunkSize,
+      this.expires,
       this.uploadUrls,
       this.credential,
       this.completeURL,
-      required this.storagePolicy,
+      this.storagePolicy,
       this.mimeType,
       this.uploadPolicy})
       : super._();
@@ -167,7 +167,7 @@ class FileUploadPut200ResponseDataBuilder
       _uploadUrls = $v.uploadUrls?.toBuilder();
       _credential = $v.credential;
       _completeURL = $v.completeURL;
-      _storagePolicy = $v.storagePolicy.toBuilder();
+      _storagePolicy = $v.storagePolicy?.toBuilder();
       _mimeType = $v.mimeType;
       _uploadPolicy = $v.uploadPolicy;
       _$v = null;
@@ -193,17 +193,14 @@ class FileUploadPut200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$FileUploadPut200ResponseData._(
-            sessionId: BuiltValueNullFieldError.checkNotNull(
-                sessionId, r'FileUploadPut200ResponseData', 'sessionId'),
+            sessionId: sessionId,
             uploadId: uploadId,
-            chunkSize: BuiltValueNullFieldError.checkNotNull(
-                chunkSize, r'FileUploadPut200ResponseData', 'chunkSize'),
-            expires: BuiltValueNullFieldError.checkNotNull(
-                expires, r'FileUploadPut200ResponseData', 'expires'),
+            chunkSize: chunkSize,
+            expires: expires,
             uploadUrls: _uploadUrls?.build(),
             credential: credential,
             completeURL: completeURL,
-            storagePolicy: storagePolicy.build(),
+            storagePolicy: _storagePolicy?.build(),
             mimeType: mimeType,
             uploadPolicy: uploadPolicy,
           );
@@ -214,7 +211,7 @@ class FileUploadPut200ResponseDataBuilder
         _uploadUrls?.build();
 
         _$failedField = 'storagePolicy';
-        storagePolicy.build();
+        _storagePolicy?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileUploadPut200ResponseData', _$failedField, e.toString());

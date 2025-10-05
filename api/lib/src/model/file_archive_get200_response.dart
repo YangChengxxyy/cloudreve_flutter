@@ -20,11 +20,11 @@ part 'file_archive_get200_response.g.dart';
 @BuiltValue()
 abstract class FileArchiveGet200Response implements Built<FileArchiveGet200Response, FileArchiveGet200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  FileArchiveGet200ResponseData get data;
+  FileArchiveGet200ResponseData? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$FileArchiveGet200ResponseSerializer implements PrimitiveSerializer<FileA
     FileArchiveGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(FileArchiveGet200ResponseData),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(FileArchiveGet200ResponseData),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

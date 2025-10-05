@@ -21,27 +21,27 @@ part 'dav_account.g.dart';
 abstract class DavAccount implements Built<DavAccount, DavAccountBuilder> {
   /// ID of the WebDAV account.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Datetime when the account is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   /// Annotation of this account.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the root folder.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Generated password of this account.
   @BuiltValueField(wireName: r'password')
-  String get password;
+  String? get password;
 
   /// [Boolset](https://docs.cloudreve.org/api/boolset) encoded account options.
   @BuiltValueField(wireName: r'options')
-  String get options;
+  String? get options;
 
   DavAccount._();
 
@@ -66,36 +66,48 @@ class _$DavAccountSerializer implements PrimitiveSerializer<DavAccount> {
     DavAccount object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
-    yield r'password';
-    yield serializers.serialize(
-      object.password,
-      specifiedType: const FullType(String),
-    );
-    yield r'options';
-    yield serializers.serialize(
-      object.options,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.password != null) {
+      yield r'password';
+      yield serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.options != null) {
+      yield r'options';
+      yield serializers.serialize(
+        object.options,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

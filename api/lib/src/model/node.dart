@@ -20,20 +20,20 @@ part 'node.g.dart';
 abstract class Node implements Built<Node, NodeBuilder> {
   /// ID of the node.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of the node.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Type of the node.
   @BuiltValueField(wireName: r'type')
-  NodeTypeEnum get type;
+  NodeTypeEnum? get type;
   // enum typeEnum {  master,  slave,  };
 
   /// [Boolset](https://docs.cloudreve.org/en/api/boolset) encoded node capabilities.
   @BuiltValueField(wireName: r'capabilities')
-  String get capabilities;
+  String? get capabilities;
 
   Node._();
 
@@ -58,26 +58,34 @@ class _$NodeSerializer implements PrimitiveSerializer<Node> {
     Node object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(NodeTypeEnum),
-    );
-    yield r'capabilities';
-    yield serializers.serialize(
-      object.capabilities,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(NodeTypeEnum),
+      );
+    }
+    if (object.capabilities != null) {
+      yield r'capabilities';
+      yield serializers.serialize(
+        object.capabilities,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

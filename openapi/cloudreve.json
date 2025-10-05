@@ -51,11 +51,7 @@
                           "description": "Response code.\n`0` - Success.",
                           "default": 0
                         }
-                      },
-                      "required": [
-                        "data",
-                        "code"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -72,9 +68,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg"
@@ -135,9 +128,6 @@
                           "description": "Whether to download this file."
                         }
                       },
-                      "required": [
-                        "index"
-                      ],
                       "x-apifox-orders": [
                         "index",
                         "download"
@@ -147,9 +137,6 @@
                     "description": "List of files to change."
                   }
                 },
-                "required": [
-                  "files"
-                ],
                 "x-apifox-orders": [
                   "files"
                 ],
@@ -206,9 +193,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg"
@@ -287,11 +271,7 @@
                             "qyt",
                             "duration"
                           ],
-                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "name",
-                            "qyt"
-                          ]
+                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                         }
                       }
                     }
@@ -324,10 +304,6 @@
                         "duration"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "name",
-                        "qyt"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -351,9 +327,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -445,9 +418,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg"
@@ -532,9 +502,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg"
@@ -619,9 +586,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg"
@@ -706,9 +670,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg"
@@ -799,9 +760,6 @@
                       "share_link_id",
                       "sku_id"
                     ],
-                    "required": [
-                      "type"
-                    ],
                     "description": "Target product.",
                     "x-apifox-ignore-properties": []
                   },
@@ -831,10 +789,6 @@
                   "provider_id",
                   "email",
                   "language"
-                ],
-                "required": [
-                  "product",
-                  "quantity"
                 ],
                 "x-apifox-ignore-properties": []
               },
@@ -913,9 +867,6 @@
                                 "x-apifox-orders": [
                                   "url",
                                   "stream_saver_display_name"
-                                ],
-                                "required": [
-                                  "url"
                                 ]
                               },
                               "description": "List of file URL."
@@ -991,11 +942,6 @@
                                 "id",
                                 "access_token",
                                 "expires"
-                              ],
-                              "required": [
-                                "id",
-                                "access_token",
-                                "expires"
                               ]
                             },
                             "wopi_src": {
@@ -1023,16 +969,6 @@
                             "wopi_src"
                           ],
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "payment",
-                            "request",
-                            "urls",
-                            "expires",
-                            "session_id",
-                            "chunk_size",
-                            "storage_policy",
-                            "session"
-                          ],
                           "$ref": "#/components/schemas/TaskResponse",
                           "items": {
                             "type": "object",
@@ -1047,10 +983,6 @@
                               }
                             },
                             "x-apifox-orders": [
-                              "link",
-                              "file_url"
-                            ],
-                            "required": [
                               "link",
                               "file_url"
                             ]
@@ -1127,10 +1059,6 @@
                         "wopi_src"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "payment",
-                        "request"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -1154,9 +1082,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -1217,11 +1142,7 @@
                         "data": {
                           "$ref": "#/components/schemas/DavAccount"
                         }
-                      },
-                      "required": [
-                        "data",
-                        "code"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -1252,10 +1173,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -1363,10 +1280,6 @@
                               "accounts",
                               "01K21F33KH7A27RS9K8BS1CMYC"
                             ],
-                            "required": [
-                              "pagination",
-                              "accounts"
-                            ],
                             "$ref": "#/components/schemas/StoragePolicy",
                             "x-apifox-refs": {
                               "01K21F33KH7A27RS9K8BS1CMYC": {
@@ -1425,11 +1338,6 @@
                                 "description": "Whether the response is using cursor pagination."
                               }
                             },
-                            "required": [
-                              "page",
-                              "page_size",
-                              "next_token"
-                            ],
                             "x-apifox-ignore-properties": [
                               "page",
                               "page_size",
@@ -1449,10 +1357,6 @@
                           "pagination",
                           "accounts",
                           "01K21F33KH7A27RS9K8BS1CMYC"
-                        ],
-                        "required": [
-                          "pagination",
-                          "accounts"
                         ],
                         "x-apifox-ignore-properties": []
                       },
@@ -1480,9 +1384,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -1556,11 +1457,7 @@
                         "type": "string",
                         "description": "URI of destination archive file."
                       }
-                    },
-                    "required": [
-                      "src",
-                      "dst"
-                    ]
+                    }
                   }
                 },
                 "x-apifox-orders": [
@@ -1596,10 +1493,6 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "src",
-                  "dst"
-                ],
                 "x-apifox-ignore-properties": [
                   "src",
                   "dst",
@@ -1636,10 +1529,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -1659,10 +1549,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -1729,9 +1615,6 @@
                 "x-apifox-orders": [
                   "uris"
                 ],
-                "required": [
-                  "uris"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -1771,10 +1654,6 @@
                             "x-apifox-orders": [
                               "link",
                               "file_url"
-                            ],
-                            "required": [
-                              "link",
-                              "file_url"
                             ]
                           },
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
@@ -1802,10 +1681,6 @@
                           }
                         },
                         "x-apifox-orders": [
-                          "link",
-                          "file_url"
-                        ],
-                        "required": [
                           "link",
                           "file_url"
                         ],
@@ -1855,10 +1730,6 @@
                               "x-apifox-orders": [
                                 "link",
                                 "file_url"
-                              ],
-                              "required": [
-                                "link",
-                                "file_url"
                               ]
                             },
                             "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
@@ -1866,9 +1737,6 @@
                           }
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -1879,9 +1747,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -1995,9 +1860,6 @@
                   "archive",
                   "no_cache"
                 ],
-                "required": [
-                  "uris"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -2035,9 +1897,6 @@
                                 "x-apifox-orders": [
                                   "url",
                                   "stream_saver_display_name"
-                                ],
-                                "required": [
-                                  "url"
                                 ]
                               },
                               "description": "List of file URL."
@@ -2052,21 +1911,14 @@
                             "urls",
                             "expires"
                           ],
-                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "urls",
-                            "expires"
-                          ]
+                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                         },
                         "error": {
                           "type": "string",
                           "description": "Internal error message, only visable in debug mode.",
                           "nullable": true
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -2095,9 +1947,6 @@
                               "url",
                               "stream_saver_display_name"
                             ],
-                            "required": [
-                              "url"
-                            ],
                             "x-apifox-ignore-properties": []
                           },
                           "description": "List of file URL."
@@ -2113,10 +1962,6 @@
                         "expires"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "urls",
-                        "expires"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -2164,9 +2009,6 @@
                                   "x-apifox-orders": [
                                     "url",
                                     "stream_saver_display_name"
-                                  ],
-                                  "required": [
-                                    "url"
                                   ]
                                 },
                                 "description": "List of file URL."
@@ -2181,25 +2023,15 @@
                               "urls",
                               "expires"
                             ],
-                            "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                            "required": [
-                              "urls",
-                              "expires"
-                            ]
+                            "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                           },
                           "error": {
                             "type": "string",
                             "description": "Internal error message, only visable in debug mode.",
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "data"
-                        ]
+                        }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -2210,10 +2042,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -2308,10 +2136,6 @@
                   "metadata",
                   "err_on_conflict"
                 ],
-                "required": [
-                  "uri",
-                  "type"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -2347,10 +2171,7 @@
                           ],
                           "properties": {}
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -2444,16 +2265,6 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "type",
-                        "id",
-                        "name",
-                        "created_at",
-                        "updated_at",
-                        "size",
-                        "path",
-                        "owned"
-                      ],
                       "x-apifox-ignore-properties": [
                         "type",
                         "id",
@@ -2490,10 +2301,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -2568,9 +2375,6 @@
                     "description": "ID of preferred node to process"
                   }
                 },
-                "required": [
-                  "dst"
-                ],
                 "x-apifox-orders": [
                   "dst",
                   "src_file",
@@ -2599,10 +2403,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -2622,10 +2423,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -2750,9 +2547,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -2920,9 +2714,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -3103,11 +2894,6 @@
                   "metadata",
                   "entity_type"
                 ],
-                "required": [
-                  "uri",
-                  "size",
-                  "policy_id"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -3198,12 +2984,6 @@
                             "upload_policy"
                           ],
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "session_id",
-                            "expires",
-                            "chunk_size",
-                            "storage_policy"
-                          ],
                           "nullable": true
                         },
                         "code": {
@@ -3211,10 +2991,7 @@
                           "description": "Response code.\n`0` - Success.",
                           "default": 0
                         }
-                      },
-                      "required": [
-                        "code"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -3287,12 +3064,6 @@
                         "upload_policy"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "session_id",
-                        "expires",
-                        "chunk_size",
-                        "storage_policy"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -3317,9 +3088,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -3396,10 +3164,6 @@
                   "id",
                   "uri"
                 ],
-                "required": [
-                  "id",
-                  "uri"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -3450,9 +3214,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -3542,11 +3303,6 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "uri",
-                  "preferred_action",
-                  "viewer_id"
-                ],
                 "x-apifox-orders": [
                   "uri",
                   "version",
@@ -3601,11 +3357,6 @@
                                 "id",
                                 "access_token",
                                 "expires"
-                              ],
-                              "required": [
-                                "id",
-                                "access_token",
-                                "expires"
                               ]
                             },
                             "wopi_src": {
@@ -3618,20 +3369,14 @@
                             "session",
                             "wopi_src"
                           ],
-                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "session"
-                          ]
+                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                         },
                         "code": {
                           "type": "integer",
                           "description": "Response code.\n`0` - Success.",
                           "default": 0
                         }
-                      },
-                      "required": [
-                        "code"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -3663,11 +3408,6 @@
                             "access_token",
                             "expires"
                           ],
-                          "required": [
-                            "id",
-                            "access_token",
-                            "expires"
-                          ],
                           "x-apifox-ignore-properties": []
                         },
                         "wopi_src": {
@@ -3681,9 +3421,6 @@
                         "wopi_src"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "session"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -3707,9 +3444,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -3806,9 +3540,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -3894,9 +3625,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -3982,9 +3710,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -4073,10 +3798,7 @@
                           ],
                           "properties": {}
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -4123,10 +3845,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -4220,9 +3938,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -4328,9 +4043,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -4404,9 +4116,6 @@
                   "unlink",
                   "skip_soft_delete"
                 ],
-                "required": [
-                  "uris"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -4458,9 +4167,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -4471,9 +4177,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -4597,10 +4300,7 @@
                           "description": "Response content",
                           "$ref": "#/components/schemas/ListResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -4632,10 +4332,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -4813,9 +4509,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -4871,11 +4564,6 @@
                   "u",
                   "ua"
                 ],
-                "required": [
-                  "response",
-                  "ua",
-                  "u"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -4902,10 +4590,7 @@
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
                           "$ref": "#/components/schemas/Passkey"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -4937,10 +4622,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -5003,10 +4684,7 @@
                           "x-apifox-orders": [
                             "publicKey"
                           ],
-                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "publicKey"
-                          ]
+                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                         }
                       }
                     }
@@ -5030,9 +4708,6 @@
                         "publicKey"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "publicKey"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -5056,9 +4731,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -5179,9 +4851,6 @@
                 "x-apifox-orders": [
                   "uris"
                 ],
-                "required": [
-                  "uris"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -5238,9 +4907,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -5251,9 +4917,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -5306,10 +4969,6 @@
                   }
                 },
                 "x-apifox-orders": [
-                  "uris",
-                  "setting"
-                ],
-                "required": [
                   "uris",
                   "setting"
                 ],
@@ -5378,9 +5037,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -5391,9 +5047,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -5479,9 +5132,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -5571,10 +5221,6 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "permissions",
-                  "uri"
-                ],
                 "x-apifox-ignore-properties": [
                   "permissions",
                   "uri",
@@ -5653,9 +5299,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -5709,10 +5352,7 @@
                         "minItems": 1,
                         "maxItems": 1
                       }
-                    },
-                    "required": [
-                      "src"
-                    ]
+                    }
                   }
                 },
                 "x-apifox-orders": [
@@ -5754,10 +5394,6 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "src",
-                  "dst"
-                ],
                 "x-apifox-ignore-properties": [
                   "src",
                   "dst",
@@ -5794,10 +5430,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -5817,10 +5450,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -5892,11 +5521,6 @@
                   "session_id",
                   "provider_id"
                 ],
-                "required": [
-                  "code",
-                  "provider_id",
-                  "session_id"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -5917,10 +5541,7 @@
                         "data": {
                           "$ref": "#/components/schemas/LoginResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -5951,10 +5572,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -6013,10 +5630,7 @@
                         "data": {
                           "$ref": "#/components/schemas/LoginResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -6044,9 +5658,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -6150,10 +5761,7 @@
                           "description": "Redirect URL for the 3rd party sign in.",
                           "format": "uri"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -6186,10 +5794,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -6245,10 +5849,6 @@
                   "response",
                   "session_id"
                 ],
-                "required": [
-                  "response",
-                  "session_id"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -6273,10 +5873,7 @@
                         "data": {
                           "$ref": "#/components/schemas/LoginResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -6307,10 +5904,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -6401,9 +5994,6 @@
                                 "01JSRK1R5F4NZ2CHDTQ44G3C82"
                               ],
                               "description": "A `CredentialAssertion` object that can be used by browser to initiate a authentification.",
-                              "required": [
-                                "01JSRK1R5F4NZ2CHDTQ44G3C82"
-                              ],
                               "additionalProperties": true
                             }
                           },
@@ -6411,16 +6001,9 @@
                             "session_id",
                             "options"
                           ],
-                          "description": "Response content",
-                          "required": [
-                            "session_id",
-                            "options"
-                          ]
+                          "description": "Response content"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -6442,9 +6025,6 @@
                             "01JSRK1R5F4NZ2CHDTQ44G3C82"
                           ],
                           "description": "A `CredentialAssertion` object that can be used by browser to initiate a authentification.",
-                          "required": [
-                            "01JSRK1R5F4NZ2CHDTQ44G3C82"
-                          ],
                           "additionalProperties": true,
                           "x-apifox-ignore-properties": []
                         }
@@ -6454,10 +6034,6 @@
                         "options"
                       ],
                       "description": "Response content",
-                      "required": [
-                        "session_id",
-                        "options"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -6481,10 +6057,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -6549,10 +6121,6 @@
                   "opt",
                   "session_id"
                 ],
-                "required": [
-                  "opt",
-                  "session_id"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -6573,11 +6141,7 @@
                         "data": {
                           "$ref": "#/components/schemas/LoginResponse"
                         }
-                      },
-                      "required": [
-                        "code",
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -6608,10 +6172,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -6705,9 +6265,6 @@
                 "x-apifox-orders": [
                   "tokens"
                 ],
-                "required": [
-                  "tokens"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -6759,9 +6316,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -6772,9 +6326,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -6905,10 +6456,6 @@
                                 "x-apifox-orders": [
                                   "provider",
                                   "linked_at"
-                                ],
-                                "required": [
-                                  "provider",
-                                  "linked_at"
                                 ]
                               },
                               "description": "List of linked external identity providers. Only presented in Pro edition.",
@@ -7016,17 +6563,6 @@
                                   "open_id_provider",
                                   "success",
                                   "webdav"
-                                ],
-                                "required": [
-                                  "created_at",
-                                  "ip",
-                                  "browser",
-                                  "device",
-                                  "os",
-                                  "login_with",
-                                  "open_id_provider",
-                                  "success",
-                                  "webdav"
                                 ]
                               },
                               "description": "List of recent login activities. Only presented in Pro edition.",
@@ -7057,12 +6593,6 @@
                                   }
                                 },
                                 "x-apifox-orders": [
-                                  "name",
-                                  "active_since",
-                                  "expire_at",
-                                  "size"
-                                ],
-                                "required": [
                                   "name",
                                   "active_since",
                                   "expire_at",
@@ -7177,11 +6707,6 @@
                                   "changed_at",
                                   "diff",
                                   "reason"
-                                ],
-                                "required": [
-                                  "changed_at",
-                                  "diff",
-                                  "reason"
                                 ]
                               }
                             },
@@ -7221,25 +6746,6 @@
                             "payments"
                           ],
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "files",
-                            "image",
-                            "ticket",
-                            "version_retention_enabled",
-                            "passwordless",
-                            "two_fa_enabled",
-                            "storage_packs",
-                            "credit",
-                            "disable_view_sync",
-                            "total",
-                            "storage_pack_total",
-                            "used",
-                            "url",
-                            "expires",
-                            "pagination",
-                            "changes",
-                            "payments"
-                          ],
                           "$ref": "#/components/schemas/ListShareResponse",
                           "nullable": true,
                           "anyOf": [
@@ -7281,10 +6787,7 @@
                                 "credit": null,
                                 "language": null,
                                 "disable_view_sync": null
-                              },
-                              "required": [
-                                "group"
-                              ]
+                              }
                             }
                           },
                           "items": {
@@ -7318,10 +6821,6 @@
                               "accounts",
                               "01K21F33KH7A27RS9K8BS1CMYC"
                             ],
-                            "required": [
-                              "pagination",
-                              "accounts"
-                            ],
                             "$ref": "#/components/schemas/StoragePolicy",
                             "x-apifox-refs": {
                               "01K21F33KH7A27RS9K8BS1CMYC": {
@@ -7335,10 +6834,7 @@
                             }
                           }
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -7384,9 +6880,6 @@
                         "payments"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "files"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -7410,10 +6903,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -7515,17 +7004,10 @@
                             "image",
                             "ticket"
                           ],
-                          "description": "The version of the Cloudreve instance. For pro edition, a `-pro` suffix will be added.",
-                          "required": [
-                            "image",
-                            "ticket"
-                          ]
+                          "description": "The version of the Cloudreve instance. For pro edition, a `-pro` suffix will be added."
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -7549,10 +7031,6 @@
                         "ticket"
                       ],
                       "description": "The version of the Cloudreve instance. For pro edition, a `-pro` suffix will be added.",
-                      "required": [
-                        "image",
-                        "ticket"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -7576,10 +7054,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -7682,10 +7156,7 @@
                         "data": {
                           "$ref": "#/components/schemas/FileResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -7716,10 +7187,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -7818,9 +7285,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -7926,10 +7390,6 @@
                                   }
                                 },
                                 "x-apifox-orders": [
-                                  "provider",
-                                  "linked_at"
-                                ],
-                                "required": [
                                   "provider",
                                   "linked_at"
                                 ]
@@ -8039,17 +7499,6 @@
                                   "open_id_provider",
                                   "success",
                                   "webdav"
-                                ],
-                                "required": [
-                                  "created_at",
-                                  "ip",
-                                  "browser",
-                                  "device",
-                                  "os",
-                                  "login_with",
-                                  "open_id_provider",
-                                  "success",
-                                  "webdav"
                                 ]
                               },
                               "description": "List of recent login activities. Only presented in Pro edition.",
@@ -8080,12 +7529,6 @@
                                   }
                                 },
                                 "x-apifox-orders": [
-                                  "name",
-                                  "active_since",
-                                  "expire_at",
-                                  "size"
-                                ],
-                                "required": [
                                   "name",
                                   "active_since",
                                   "expire_at",
@@ -8146,14 +7589,6 @@
                             "share_links_in_profile"
                           ],
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "version_retention_enabled",
-                            "passwordless",
-                            "two_fa_enabled",
-                            "storage_packs",
-                            "credit",
-                            "disable_view_sync"
-                          ],
                           "nullable": true
                         },
                         "aggregated_error": null,
@@ -8211,10 +7646,6 @@
                               }
                             },
                             "x-apifox-orders": [
-                              "provider",
-                              "linked_at"
-                            ],
-                            "required": [
                               "provider",
                               "linked_at"
                             ],
@@ -8326,17 +7757,6 @@
                               "success",
                               "webdav"
                             ],
-                            "required": [
-                              "created_at",
-                              "ip",
-                              "browser",
-                              "device",
-                              "os",
-                              "login_with",
-                              "open_id_provider",
-                              "success",
-                              "webdav"
-                            ],
                             "x-apifox-ignore-properties": []
                           },
                           "description": "List of recent login activities. Only presented in Pro edition.",
@@ -8367,12 +7787,6 @@
                               }
                             },
                             "x-apifox-orders": [
-                              "name",
-                              "active_since",
-                              "expire_at",
-                              "size"
-                            ],
-                            "required": [
                               "name",
                               "active_since",
                               "expire_at",
@@ -8434,14 +7848,6 @@
                         "share_links_in_profile"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "version_retention_enabled",
-                        "passwordless",
-                        "two_fa_enabled",
-                        "storage_packs",
-                        "credit",
-                        "disable_view_sync"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -8680,9 +8086,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -8912,9 +8315,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -9046,10 +8446,7 @@
                           "$ref": "#/components/schemas/SiteConfig"
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -9080,10 +8477,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -9187,11 +8580,6 @@
                             "storage_pack_total"
                           ],
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "total",
-                            "storage_pack_total",
-                            "used"
-                          ],
                           "nullable": true
                         }
                       }
@@ -9223,11 +8611,6 @@
                         "storage_pack_total"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "total",
-                        "storage_pack_total",
-                        "used"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -9252,9 +8635,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -9328,10 +8708,7 @@
                             "$ref": "#/components/schemas/Progress"
                           }
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -9358,10 +8735,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -9409,10 +8782,7 @@
                             "$ref": "#/components/schemas/Progress"
                           }
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -9462,10 +8832,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -9565,22 +8931,14 @@
                             "obfuscated",
                             "expires"
                           ],
-                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "url",
-                            "expires"
-                          ]
+                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                         },
                         "code": {
                           "type": "integer",
                           "description": "Response code.\n`0` - Success.",
                           "default": 0
                         }
-                      },
-                      "required": [
-                        "data",
-                        "code"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -9611,10 +8969,6 @@
                         "expires"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "url",
-                        "expires"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -9638,10 +8992,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -9725,10 +9075,7 @@
                                 "credit": null,
                                 "language": null,
                                 "disable_view_sync": null
-                              },
-                              "required": [
-                                "group"
-                              ]
+                              }
                             }
                           },
                           "x-apifox-orders": [
@@ -9736,10 +9083,7 @@
                           ],
                           "properties": {}
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -9776,10 +9120,7 @@
                             "credit": null,
                             "language": null,
                             "disable_view_sync": null
-                          },
-                          "required": [
-                            "group"
-                          ]
+                          }
                         }
                       },
                       "x-apifox-orders": [
@@ -9830,10 +9171,6 @@
                               "description": "Name of the group."
                             }
                           },
-                          "required": [
-                            "id",
-                            "name"
-                          ],
                           "x-apifox-ignore-properties": [
                             "id",
                             "name"
@@ -9888,13 +9225,6 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "id",
-                        "nickname",
-                        "created_at",
-                        "group",
-                        "avatar"
-                      ],
                       "x-apifox-ignore-properties": [
                         "id",
                         "email",
@@ -9926,10 +9256,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -10005,12 +9331,6 @@
                     "description": "ID of the storage policy which have to be imported files."
                   }
                 },
-                "required": [
-                  "src",
-                  "user_id",
-                  "policy_id",
-                  "dst"
-                ],
                 "x-apifox-orders": [
                   "src",
                   "dst",
@@ -10049,10 +9369,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -10072,10 +9389,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -10180,9 +9493,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -10300,9 +9610,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -10472,11 +9779,6 @@
                                   "changed_at",
                                   "diff",
                                   "reason"
-                                ],
-                                "required": [
-                                  "changed_at",
-                                  "diff",
-                                  "reason"
                                 ]
                               }
                             }
@@ -10485,17 +9787,10 @@
                             "pagination",
                             "changes"
                           ],
-                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "pagination",
-                            "changes"
-                          ]
+                          "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file."
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -10543,11 +9838,6 @@
                               "description": "Whether the response is using cursor pagination."
                             }
                           },
-                          "required": [
-                            "page",
-                            "page_size",
-                            "next_token"
-                          ],
                           "x-apifox-ignore-properties": [
                             "page",
                             "page_size",
@@ -10579,11 +9869,6 @@
                               "diff",
                               "reason"
                             ],
-                            "required": [
-                              "changed_at",
-                              "diff",
-                              "reason"
-                            ],
                             "x-apifox-ignore-properties": []
                           }
                         }
@@ -10593,10 +9878,6 @@
                         "changes"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "pagination",
-                        "changes"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -10620,10 +9901,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -10804,10 +10081,7 @@
                         "data": {
                           "$ref": "#/components/schemas/FileActivitiesResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -10838,10 +10112,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -10987,10 +10257,6 @@
                             "description": "Name of the group."
                           }
                         },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
                         "x-apifox-ignore-properties": [
                           "id",
                           "name"
@@ -11020,9 +10286,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -11159,10 +10422,6 @@
                             "payments"
                           ],
                           "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                          "required": [
-                            "pagination",
-                            "payments"
-                          ],
                           "nullable": true
                         }
                       }
@@ -11206,11 +10465,6 @@
                               "description": "Whether the response is using cursor pagination."
                             }
                           },
-                          "required": [
-                            "page",
-                            "page_size",
-                            "next_token"
-                          ],
                           "x-apifox-ignore-properties": [
                             "page",
                             "page_size",
@@ -11230,10 +10484,6 @@
                         "payments"
                       ],
                       "description": "Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file.",
-                      "required": [
-                        "pagination",
-                        "payments"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -11258,9 +10508,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -11417,10 +10664,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskListResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -11440,10 +10684,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -11590,10 +10830,7 @@
                         "data": {
                           "$ref": "#/components/schemas/ListShareResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -11624,10 +10861,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -11745,10 +10978,6 @@
                   "uri",
                   "policy_id"
                 ],
-                "required": [
-                  "uri",
-                  "policy_id"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -11799,9 +11028,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -11875,10 +11101,6 @@
                   "dst",
                   "copy"
                 ],
-                "required": [
-                  "uris",
-                  "dst"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -11937,9 +11159,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -11950,9 +11169,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -12022,10 +11238,6 @@
                     "$ref": "#/components/schemas/CaptchaFields"
                   }
                 },
-                "required": [
-                  "email",
-                  "password"
-                ],
                 "x-apifox-ignore-properties": [
                   "captcha",
                   "ticket"
@@ -12049,10 +11261,7 @@
                           "$ref": "#/components/schemas/LoginResponse"
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -12083,10 +11292,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -12160,10 +11365,7 @@
                           "$ref": "#/components/schemas/LoginResponse"
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -12224,10 +11426,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -12275,9 +11473,6 @@
                 "x-apifox-orders": [
                   "refresh_token"
                 ],
-                "required": [
-                  "refresh_token"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -12301,10 +11496,7 @@
                           "nullable": true,
                           "$ref": "#/components/schemas/User"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -12338,10 +11530,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -12427,19 +11615,12 @@
                         "value",
                         "remove"
                       ],
-                      "required": [
-                        "key"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "description": "List of metadata patches."
                   }
                 },
                 "x-apifox-orders": [
-                  "uris",
-                  "patches"
-                ],
-                "required": [
                   "uris",
                   "patches"
                 ],
@@ -12494,9 +11675,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -12507,9 +11685,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -12597,9 +11772,6 @@
                                 "01JSRK1R5F4NZ2CHDTQ44G3C82"
                               ],
                               "description": "A `CredentialAssertion` object that can be used by browser to initiate a authentification.",
-                              "required": [
-                                "01JSRK1R5F4NZ2CHDTQ44G3C82"
-                              ],
                               "additionalProperties": true
                             }
                           },
@@ -12612,19 +11784,10 @@
                             "session_id",
                             "options"
                           ],
-                          "required": [
-                            "password_enabled",
-                            "publicKey",
-                            "session_id",
-                            "options"
-                          ],
                           "format": "uri"
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -12673,9 +11836,6 @@
                             "01JSRK1R5F4NZ2CHDTQ44G3C82"
                           ],
                           "description": "A `CredentialAssertion` object that can be used by browser to initiate a authentification.",
-                          "required": [
-                            "01JSRK1R5F4NZ2CHDTQ44G3C82"
-                          ],
                           "additionalProperties": true
                         }
                       },
@@ -12684,12 +11844,6 @@
                         "sso_enabled",
                         "password_enabled",
                         "qq_enabled",
-                        "publicKey",
-                        "session_id",
-                        "options"
-                      ],
-                      "required": [
-                        "password_enabled",
                         "publicKey",
                         "session_id",
                         "options"
@@ -12717,10 +11871,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -12772,10 +11922,7 @@
                           "description": "TOTP secret."
                         },
                         "aggregated_error": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -12807,10 +11954,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -12911,9 +12054,6 @@
                                 "01JSRK1R5F4NZ2CHDTQ44G3C82"
                               ],
                               "description": "A `CredentialAssertion` object that can be used by browser to initiate a authentification.",
-                              "required": [
-                                "01JSRK1R5F4NZ2CHDTQ44G3C82"
-                              ],
                               "additionalProperties": true
                             }
                           },
@@ -12926,18 +12066,9 @@
                             "session_id",
                             "options"
                           ],
-                          "description": "Response content",
-                          "required": [
-                            "password_enabled",
-                            "publicKey",
-                            "session_id",
-                            "options"
-                          ]
+                          "description": "Response content"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -12974,9 +12105,6 @@
                         "options"
                       ],
                       "description": "Response content",
-                      "required": [
-                        "password_enabled"
-                      ],
                       "x-apifox-ignore-properties": []
                     },
                     "code": {
@@ -13000,10 +12128,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -13097,9 +12221,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -13147,9 +12268,6 @@
                 "x-apifox-orders": [
                   "refresh_token"
                 ],
-                "required": [
-                  "refresh_token"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -13170,10 +12288,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -13204,10 +12319,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -13267,10 +12378,6 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "src",
-                  "dst_policy_id"
-                ],
                 "x-apifox-orders": [
                   "src",
                   "dst_policy_id"
@@ -13304,10 +12411,7 @@
                         "data": {
                           "$ref": "#/components/schemas/TaskResponse"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -13327,10 +12431,6 @@
                       "description": "Human readable error message (if any)."
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -13477,16 +12577,6 @@
                     "nullable": true
                   }
                 },
-                "required": [
-                  "type",
-                  "id",
-                  "name",
-                  "created_at",
-                  "updated_at",
-                  "size",
-                  "path",
-                  "owned"
-                ],
                 "x-apifox-ignore-properties": [
                   "type",
                   "id",
@@ -13540,9 +12630,6 @@
                           "properties": {}
                         }
                       },
-                      "required": [
-                        "data"
-                      ],
                       "type": "object",
                       "properties": {}
                     }
@@ -13640,16 +12727,6 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "type",
-                        "id",
-                        "name",
-                        "created_at",
-                        "updated_at",
-                        "size",
-                        "path",
-                        "owned"
-                      ],
                       "x-apifox-ignore-properties": [
                         "type",
                         "id",
@@ -13686,10 +12763,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -13822,9 +12895,6 @@
                     "$ref": "#/components/schemas/CaptchaFields"
                   }
                 },
-                "required": [
-                  "category"
-                ],
                 "x-apifox-ignore-properties": [
                   "captcha",
                   "ticket"
@@ -13874,9 +12944,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -13942,10 +13009,6 @@
                   "password",
                   "secret"
                 ],
-                "required": [
-                  "password",
-                  "secret"
-                ],
                 "x-apifox-ignore-properties": []
               }
             }
@@ -13966,10 +13029,7 @@
                         "data": {
                           "$ref": "#/components/schemas/User"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -14000,10 +13060,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -14075,9 +13131,6 @@
                 "x-apifox-orders": [
                   "uris"
                 ],
-                "required": [
-                  "uris"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -14135,9 +13188,6 @@
                           "data": null
                         }
                       },
-                      "required": [
-                        "01JSRF01R97ZK0FE2NPYS810YS"
-                      ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
                     },
@@ -14148,9 +13198,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -14240,10 +13287,7 @@
                                   "credit": null,
                                   "language": null,
                                   "disable_view_sync": null
-                                },
-                                "required": [
-                                  "group"
-                                ]
+                                }
                               }
                             },
                             "x-apifox-orders": [
@@ -14292,10 +13336,7 @@
                               "credit": null,
                               "language": null,
                               "disable_view_sync": null
-                            },
-                            "required": [
-                              "group"
-                            ]
+                            }
                           }
                         },
                         "x-apifox-orders": [
@@ -14346,10 +13387,6 @@
                                 "description": "Name of the group."
                               }
                             },
-                            "required": [
-                              "id",
-                              "name"
-                            ],
                             "x-apifox-ignore-properties": [
                               "id",
                               "name"
@@ -14404,13 +13441,6 @@
                             "nullable": true
                           }
                         },
-                        "required": [
-                          "id",
-                          "nickname",
-                          "created_at",
-                          "group",
-                          "avatar"
-                        ],
                         "x-apifox-ignore-properties": [
                           "id",
                           "email",
@@ -14445,9 +13475,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -14531,9 +13558,6 @@
                   "01JSRMB066XGZ7BJGMHAFHBPZM",
                   "email"
                 ],
-                "required": [
-                  "email"
-                ],
                 "x-apifox-refs": {
                   "01JSRMB066XGZ7BJGMHAFHBPZM": {
                     "$ref": "#/components/schemas/CaptchaFields"
@@ -14588,9 +13612,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -14654,10 +13675,6 @@
                   "uri",
                   "version"
                 ],
-                "required": [
-                  "uri",
-                  "version"
-                ],
                 "x-apifox-ignore-properties": []
               },
               "example": {
@@ -14708,9 +13725,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -14782,10 +13796,6 @@
                   "language",
                   "01JSRKZD2J12J81K5PZH6NGF5D"
                 ],
-                "required": [
-                  "email",
-                  "password"
-                ],
                 "x-apifox-refs": {
                   "01JSRKZD2J12J81K5PZH6NGF5D": {
                     "$ref": "#/components/schemas/CaptchaFields"
@@ -14814,10 +13824,7 @@
                         "data": {
                           "$ref": "#/components/schemas/User"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -14848,10 +13855,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -14902,10 +13905,7 @@
                         "data": {
                           "$ref": "#/components/schemas/User"
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -14933,9 +13933,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -15016,10 +14013,7 @@
                       "x-apifox-overrides": {
                         "aggregated_error": null,
                         "data": null
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -15047,9 +14041,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -15164,10 +14155,7 @@
                           ],
                           "properties": {}
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     }
                   },
                   "x-apifox-orders": [
@@ -15261,16 +14249,6 @@
                           "nullable": true
                         }
                       },
-                      "required": [
-                        "type",
-                        "id",
-                        "name",
-                        "created_at",
-                        "updated_at",
-                        "size",
-                        "path",
-                        "owned"
-                      ],
                       "x-apifox-ignore-properties": [
                         "type",
                         "id",
@@ -15307,10 +14285,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "data",
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "data",
                     "code",
@@ -15410,9 +14384,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -15472,9 +14443,6 @@
                 "x-apifox-orders": [
                   "uri",
                   "view"
-                ],
-                "required": [
-                  "uri"
                 ],
                 "x-apifox-refs": {},
                 "x-apifox-ignore-properties": []
@@ -15548,9 +14516,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -15678,9 +14643,6 @@
                       "nullable": true
                     }
                   },
-                  "required": [
-                    "code"
-                  ],
                   "x-apifox-ignore-properties": [
                     "code",
                     "msg",
@@ -15750,15 +14712,8 @@
                   "description": "Response code.\n`0` - Success.",
                   "default": 0
                 }
-              },
-              "required": [
-                "data",
-                "code"
-              ]
+              }
             },
-            "required": [
-              "01JSRF01R97ZK0FE2NPYS810YS"
-            ],
             "x-apifox-ignore-properties": [],
             "nullable": true
           },
@@ -15776,10 +14731,6 @@
           "error",
           "aggregated_error",
           "correlation_id"
-        ],
-        "required": [
-          "data",
-          "code"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -15908,17 +14859,6 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "trade_no",
-          "name",
-          "price_one_unit",
-          "created_at",
-          "updated_at",
-          "product_type",
-          "status",
-          "qyt"
-        ],
         "x-apifox-orders": [
           "id",
           "trade_no",
@@ -15967,10 +14907,6 @@
           "readonly",
           "proxy"
         ],
-        "required": [
-          "uri",
-          "name"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -16004,14 +14940,6 @@
           }
         },
         "x-apifox-orders": [
-          "id",
-          "created_at",
-          "name",
-          "uri",
-          "password",
-          "options"
-        ],
-        "required": [
           "id",
           "created_at",
           "name",
@@ -16065,10 +14993,6 @@
           "encoding",
           "password",
           "file_mask"
-        ],
-        "required": [
-          "src",
-          "dst"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -16215,10 +15139,6 @@
               "phase",
               "props"
             ],
-            "required": [
-              "phase",
-              "props"
-            ],
             "x-apifox-ignore-properties": [],
             "nullable": true
           },
@@ -16255,14 +15175,6 @@
             "description": "Node of which this tasks is distributed onto."
           }
         },
-        "required": [
-          "created_at",
-          "updated_at",
-          "id",
-          "status",
-          "type",
-          "node"
-        ],
         "x-apifox-orders": [
           "created_at",
           "updated_at",
@@ -16316,12 +15228,6 @@
             "description": "[Boolset](https://docs.cloudreve.org/en/api/boolset) encoded node capabilities."
           }
         },
-        "required": [
-          "id",
-          "name",
-          "type",
-          "capabilities"
-        ],
         "x-apifox-orders": [
           "id",
           "name",
@@ -16389,7 +15295,8 @@
               "type": "string"
             },
             "description": "Key-value  map of all metadata.\nSome special metadata might affect the file's behavior, please refer to [Metadata](https://docs.cloudreve.org/en/api/metadata) for details.",
-            "x-apifox-ignore-properties": []
+            "x-apifox-ignore-properties": [],
+            "nullable": true
           },
           "path": {
             "type": "string",
@@ -16436,17 +15343,6 @@
             "description": "Statistics of this folder, by default it's not presented."
           }
         },
-        "required": [
-          "type",
-          "id",
-          "name",
-          "created_at",
-          "updated_at",
-          "size",
-          "path",
-          "owned",
-          "metadata"
-        ],
         "x-apifox-orders": [
           "type",
           "id",
@@ -16491,13 +15387,6 @@
             "description": "When the summary is calculated. It may be a cached result."
           }
         },
-        "required": [
-          "size",
-          "files",
-          "folders",
-          "completed",
-          "calculated_at"
-        ],
         "x-apifox-orders": [
           "size",
           "files",
@@ -16591,12 +15480,6 @@
                 "downloaded",
                 "created_at"
               ],
-              "required": [
-                "id",
-                "url",
-                "created_at",
-                "downloaded"
-              ],
               "x-apifox-ignore-properties": []
             },
             "description": "List of redirected direct links. Only visable to file owners or administrators.",
@@ -16611,10 +15494,6 @@
           "entities",
           "permissions",
           "direct_links"
-        ],
-        "required": [
-          "storage_policy_inherited",
-          "storage_used"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -16757,10 +15636,7 @@
                   },
                   "anonymous": null,
                   "avatar": null
-                },
-                "required": [
-                  "group"
-                ]
+                }
               }
             },
             "x-apifox-orders": [
@@ -16811,10 +15687,6 @@
                     "description": "Name of the group."
                   }
                 },
-                "required": [
-                  "id",
-                  "name"
-                ],
                 "x-apifox-ignore-properties": [
                   "id",
                   "name"
@@ -16874,13 +15746,6 @@
                 "nullable": true
               }
             },
-            "required": [
-              "id",
-              "nickname",
-              "created_at",
-              "group",
-              "avatar"
-            ],
             "x-apifox-ignore-properties": [
               "id",
               "email",
@@ -16893,13 +15758,6 @@
             ]
           }
         },
-        "required": [
-          "id",
-          "size",
-          "type",
-          "created_at",
-          "created_by"
-        ],
         "x-apifox-orders": [
           "id",
           "size",
@@ -17046,17 +15904,6 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "nickname",
-          "created_at",
-          "anonymous",
-          "group",
-          "avatar",
-          "preferred_theme",
-          "credit",
-          "language"
-        ],
         "x-apifox-orders": [
           "id",
           "email",
@@ -17099,13 +15946,6 @@
             "description": "The retention time in seconds of files in the trash bin, files will be permanently deleted after the expiration time. Changing this setting will not affect files already in the trash bin."
           }
         },
-        "required": [
-          "id",
-          "name",
-          "permission",
-          "direct_link_batch_size",
-          "trash_retention"
-        ],
         "x-apifox-orders": [
           "id",
           "name",
@@ -17194,10 +16034,7 @@
                   },
                   "anonymous": null,
                   "avatar": null
-                },
-                "required": [
-                  "group"
-                ]
+                }
               }
             },
             "x-apifox-orders": [
@@ -17264,12 +16101,6 @@
                 "nullable": true
               }
             },
-            "required": [
-              "id",
-              "nickname",
-              "created_at",
-              "group"
-            ],
             "x-apifox-ignore-properties": [
               "id",
               "email",
@@ -17321,14 +16152,6 @@
                 "x-apifox-ignore-properties": []
               }
             },
-            "required": [
-              "same_group",
-              "everyone",
-              "other",
-              "anonymous",
-              "group_explicit",
-              "user_explicit"
-            ],
             "x-apifox-orders": [
               "same_group",
               "everyone",
@@ -17369,11 +16192,6 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "unlocked",
-          "visited"
-        ],
         "x-apifox-orders": [
           "id",
           "name",
@@ -17554,12 +16372,6 @@
           "children",
           "chunk_concurrency"
         ],
-        "required": [
-          "id",
-          "max_size",
-          "type",
-          "name"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -17607,10 +16419,6 @@
             "nullable": true
           }
         },
-        "required": [
-          "permissions",
-          "uri"
-        ],
         "x-apifox-orders": [
           "permissions",
           "uri",
@@ -17641,9 +16449,6 @@
           "uri",
           "name"
         ],
-        "required": [
-          "uri"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -17658,10 +16463,6 @@
           }
         },
         "x-apifox-orders": [
-          "user",
-          "token"
-        ],
-        "required": [
           "user",
           "token"
         ],
@@ -17697,12 +16498,6 @@
           "refresh_token",
           "refresh_expires"
         ],
-        "required": [
-          "access_token",
-          "refresh_expires",
-          "refresh_token",
-          "access_expires"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -17735,11 +16530,6 @@
           "used_at",
           "created_at"
         ],
-        "required": [
-          "id",
-          "name",
-          "created_at"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -17765,11 +16555,6 @@
             "nullable": true
           }
         },
-        "required": [
-          "name",
-          "size",
-          "updated_at"
-        ],
         "x-apifox-orders": [
           "name",
           "size",
@@ -18153,11 +16938,6 @@
                   "description": "URL to reidrect to after user clicked this item."
                 }
               },
-              "required": [
-                "icon",
-                "name",
-                "url"
-              ],
               "x-apifox-orders": [
                 "01K06VAKAQ46KNQ8E46KCVE736",
                 ""
@@ -18235,10 +17015,6 @@
           "custom_nav_items",
           "custom_html"
         ],
-        "required": [
-          "captcha_cap_site_key",
-          "captcha_cap_instance_url"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -18289,11 +17065,6 @@
           "icon",
           "name",
           "url"
-        ],
-        "required": [
-          "icon",
-          "url",
-          "name"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -18397,11 +17168,6 @@
           "options",
           "icon"
         ],
-        "required": [
-          "id",
-          "type",
-          "name"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -18442,13 +17208,6 @@
             "description": "Description texts."
           }
         },
-        "required": [
-          "id",
-          "name",
-          "time",
-          "price",
-          "des"
-        ],
         "x-apifox-orders": [
           "id",
           "name",
@@ -18496,13 +17255,6 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "name",
-          "size",
-          "time",
-          "price"
-        ],
         "x-apifox-orders": [
           "id",
           "name",
@@ -18538,12 +17290,6 @@
             "description": "List of available payment method."
           }
         },
-        "required": [
-          "currency_code",
-          "currency_mark",
-          "currency_unit",
-          "providers"
-        ],
         "x-apifox-orders": [
           "currency_code",
           "currency_mark",
@@ -18607,10 +17353,6 @@
         "x-apifox-orders": [
           "id",
           "type",
-          "name"
-        ],
-        "required": [
-          "id",
           "name"
         ],
         "x-apifox-ignore-properties": [],
@@ -18679,15 +17421,6 @@
                   "nullable": true
                 }
               },
-              "required": [
-                "id",
-                "type",
-                "display_name",
-                "exts",
-                "icon",
-                "max_size",
-                "url"
-              ],
               "x-apifox-orders": [
                 "id",
                 "type",
@@ -18701,9 +17434,6 @@
             }
           }
         },
-        "required": [
-          "viewers"
-        ],
         "x-apifox-orders": [
           "viewers"
         ],
@@ -18730,10 +17460,6 @@
           "total",
           "current",
           "identifier"
-        ],
-        "required": [
-          "total",
-          "current"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -18768,11 +17494,6 @@
           "total_items",
           "next_token",
           "is_cursor"
-        ],
-        "required": [
-          "page",
-          "page_size",
-          "next_token"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -18817,11 +17538,6 @@
                 "description": "Whether the response is using cursor pagination."
               }
             },
-            "required": [
-              "page",
-              "page_size",
-              "next_token"
-            ],
             "x-apifox-ignore-properties": [
               "page",
               "page_size",
@@ -18831,10 +17547,6 @@
           }
         },
         "x-apifox-orders": [
-          "activities",
-          "pagination"
-        ],
-        "required": [
           "activities",
           "pagination"
         ],
@@ -18887,10 +17599,7 @@
                   "credit": null,
                   "language": null,
                   "disable_view_sync": null
-                },
-                "required": [
-                  "group"
-                ]
+                }
               }
             },
             "x-apifox-orders": [
@@ -18941,10 +17650,6 @@
                     "description": "Name of the group."
                   }
                 },
-                "required": [
-                  "id",
-                  "name"
-                ],
                 "x-apifox-ignore-properties": [
                   "id",
                   "name"
@@ -18999,13 +17704,6 @@
                 "nullable": true
               }
             },
-            "required": [
-              "id",
-              "nickname",
-              "created_at",
-              "group",
-              "avatar"
-            ],
             "x-apifox-ignore-properties": [
               "id",
               "email",
@@ -19029,11 +17727,6 @@
           "created_at",
           "user",
           "version_id"
-        ],
-        "required": [
-          "id",
-          "created_at",
-          "content"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -19101,9 +17794,6 @@
           "storage_policy_id",
           "storage_policy"
         ],
-        "required": [
-          "category"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -19167,14 +17857,6 @@
           "single_file_view",
           "storage_policy",
           "view"
-        ],
-        "required": [
-          "files",
-          "parent",
-          "pagination",
-          "props",
-          "context_hint",
-          "mixed_type"
         ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
@@ -19246,9 +17928,6 @@
             }
           }
         },
-        "required": [
-          "page_size"
-        ],
         "x-apifox-orders": [
           "page_size",
           "order",
@@ -19295,9 +17974,6 @@
           "width",
           "props"
         ],
-        "required": [
-          "type"
-        ],
         "x-apifox-ignore-properties": [],
         "x-apifox-folder": ""
       },
@@ -19328,12 +18004,6 @@
           }
         },
         "x-apifox-orders": [
-          "capability",
-          "max_page_size",
-          "order_by_options",
-          "order_direction_options"
-        ],
-        "required": [
           "capability",
           "max_page_size",
           "order_by_options",
@@ -19381,10 +18051,6 @@
                 "description": "Whether the response is using cursor pagination."
               }
             },
-            "required": [
-              "page_size",
-              "next_token"
-            ],
             "x-apifox-ignore-properties": [
               "page_size",
               "next_token",
@@ -19393,10 +18059,6 @@
           }
         },
         "x-apifox-orders": [
-          "shares",
-          "pagination"
-        ],
-        "required": [
           "shares",
           "pagination"
         ],
@@ -19434,10 +18096,6 @@
                 "description": "Whether the response is using cursor pagination."
               }
             },
-            "required": [
-              "page_size",
-              "next_token"
-            ],
             "x-apifox-ignore-properties": [
               "page_size",
               "next_token",
@@ -19452,10 +18110,6 @@
           }
         },
         "x-apifox-orders": [
-          "pagination",
-          "tasks"
-        ],
-        "required": [
           "pagination",
           "tasks"
         ],

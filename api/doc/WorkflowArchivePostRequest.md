@@ -8,8 +8,8 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**src** | **BuiltList&lt;String&gt;** | Source file URIs. | 
-**dst** | **String** | URI of destination archive file. | 
+**src** | **BuiltList&lt;String&gt;** | Source file URIs. | [optional] 
+**dst** | **String** | URI of destination archive file. | [optional] 
 **preferredNodeId** | **String** | Select preferred node to handle this task. Only available in pro edition. Option of nodes can be get from [List available nodes](./list-available-nodes-308315715e0). | [optional] 
 **password** | **String** | Optional paassword for `zip` or `7z` archive files. | [optional] 
 **fileMask** | **BuiltList&lt;String&gt;** | List of files to select. If presented, only files in this list, or contains any of it as prefix will be extracted. | [optional] 

@@ -17,11 +17,11 @@ part 'file_source_put200_response_data_inner.g.dart';
 abstract class FileSourcePut200ResponseDataInner implements Built<FileSourcePut200ResponseDataInner, FileSourcePut200ResponseDataInnerBuilder> {
   /// URL of the direct link.
   @BuiltValueField(wireName: r'link')
-  String get link;
+  String? get link;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   @BuiltValueField(wireName: r'file_url')
-  String get fileUrl;
+  String? get fileUrl;
 
   FileSourcePut200ResponseDataInner._();
 
@@ -46,16 +46,20 @@ class _$FileSourcePut200ResponseDataInnerSerializer implements PrimitiveSerializ
     FileSourcePut200ResponseDataInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'link';
-    yield serializers.serialize(
-      object.link,
-      specifiedType: const FullType(String),
-    );
-    yield r'file_url';
-    yield serializers.serialize(
-      object.fileUrl,
-      specifiedType: const FullType(String),
-    );
+    if (object.link != null) {
+      yield r'link';
+      yield serializers.serialize(
+        object.link,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.fileUrl != null) {
+      yield r'file_url';
+      yield serializers.serialize(
+        object.fileUrl,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

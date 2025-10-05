@@ -19,7 +19,7 @@ part 'user_setting_avatar_put200_response.g.dart';
 abstract class UserSettingAvatarPut200Response implements Built<UserSettingAvatarPut200Response, UserSettingAvatarPut200ResponseBuilder> {
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -57,11 +57,13 @@ class _$UserSettingAvatarPut200ResponseSerializer implements PrimitiveSerializer
     UserSettingAvatarPut200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

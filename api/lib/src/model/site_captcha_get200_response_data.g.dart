@@ -8,16 +8,15 @@ part of 'site_captcha_get200_response_data.dart';
 
 class _$SiteCaptchaGet200ResponseData extends SiteCaptchaGet200ResponseData {
   @override
-  final String image;
+  final String? image;
   @override
-  final String ticket;
+  final String? ticket;
 
   factory _$SiteCaptchaGet200ResponseData(
           [void Function(SiteCaptchaGet200ResponseDataBuilder)? updates]) =>
       (SiteCaptchaGet200ResponseDataBuilder()..update(updates))._build();
 
-  _$SiteCaptchaGet200ResponseData._({required this.image, required this.ticket})
-      : super._();
+  _$SiteCaptchaGet200ResponseData._({this.image, this.ticket}) : super._();
   @override
   SiteCaptchaGet200ResponseData rebuild(
           void Function(SiteCaptchaGet200ResponseDataBuilder) updates) =>
@@ -97,10 +96,8 @@ class SiteCaptchaGet200ResponseDataBuilder
   _$SiteCaptchaGet200ResponseData _build() {
     final _$result = _$v ??
         _$SiteCaptchaGet200ResponseData._(
-          image: BuiltValueNullFieldError.checkNotNull(
-              image, r'SiteCaptchaGet200ResponseData', 'image'),
-          ticket: BuiltValueNullFieldError.checkNotNull(
-              ticket, r'SiteCaptchaGet200ResponseData', 'ticket'),
+          image: image,
+          ticket: ticket,
         );
     replace(_$result);
     return _$result;

@@ -9,8 +9,8 @@ import 'package:cloudreve_api_client/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **storagePolicy** | [**ExtendedInfoStoragePolicy**](ExtendedInfoStoragePolicy.md) |  | [optional] 
-**storagePolicyInherited** | **bool** | Only applies to folders. Indicating whether this storage policy setting is inherited from parent folders. | 
-**storageUsed** | **int** | Storage used by this file, equals to sum of size for all referred blobs. | 
+**storagePolicyInherited** | **bool** | Only applies to folders. Indicating whether this storage policy setting is inherited from parent folders. | [optional] 
+**storageUsed** | **int** | Storage used by this file, equals to sum of size for all referred blobs. | [optional] 
 **shares** | [**BuiltList&lt;Share&gt;**](Share.md) | List of share links for this file. | [optional] 
 **entities** | [**BuiltList&lt;Entity&gt;**](Entity.md) |  | [optional] 
 **permissions** | [**PermissionSetting**](PermissionSetting.md) |  | [optional] 

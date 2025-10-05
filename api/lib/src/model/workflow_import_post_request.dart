@@ -21,11 +21,11 @@ part 'workflow_import_post_request.g.dart';
 abstract class WorkflowImportPostRequest implements Built<WorkflowImportPostRequest, WorkflowImportPostRequestBuilder> {
   /// Path of the folder to be imported in external storage provider.
   @BuiltValueField(wireName: r'src')
-  String get src;
+  String? get src;
 
   /// Path of the folder to store imported files in user's `my` filesystem.
   @BuiltValueField(wireName: r'dst')
-  String get dst;
+  String? get dst;
 
   /// Whether to extract media metadata right after a file is imported.
   @BuiltValueField(wireName: r'extract_media_meta')
@@ -33,7 +33,7 @@ abstract class WorkflowImportPostRequest implements Built<WorkflowImportPostRequ
 
   /// ID of the user that files are imported to.
   @BuiltValueField(wireName: r'user_id')
-  String get userId;
+  String? get userId;
 
   /// Whether to recursively import child folders.
   @BuiltValueField(wireName: r'recursive')
@@ -41,7 +41,7 @@ abstract class WorkflowImportPostRequest implements Built<WorkflowImportPostRequ
 
   /// ID of the storage policy which have to be imported files.
   @BuiltValueField(wireName: r'policy_id')
-  int get policyId;
+  int? get policyId;
 
   WorkflowImportPostRequest._();
 
@@ -66,16 +66,20 @@ class _$WorkflowImportPostRequestSerializer implements PrimitiveSerializer<Workf
     WorkflowImportPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'src';
-    yield serializers.serialize(
-      object.src,
-      specifiedType: const FullType(String),
-    );
-    yield r'dst';
-    yield serializers.serialize(
-      object.dst,
-      specifiedType: const FullType(String),
-    );
+    if (object.src != null) {
+      yield r'src';
+      yield serializers.serialize(
+        object.src,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.dst != null) {
+      yield r'dst';
+      yield serializers.serialize(
+        object.dst,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.extractMediaMeta != null) {
       yield r'extract_media_meta';
       yield serializers.serialize(
@@ -83,11 +87,13 @@ class _$WorkflowImportPostRequestSerializer implements PrimitiveSerializer<Workf
         specifiedType: const FullType(bool),
       );
     }
-    yield r'user_id';
-    yield serializers.serialize(
-      object.userId,
-      specifiedType: const FullType(String),
-    );
+    if (object.userId != null) {
+      yield r'user_id';
+      yield serializers.serialize(
+        object.userId,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.recursive != null) {
       yield r'recursive';
       yield serializers.serialize(
@@ -95,11 +101,13 @@ class _$WorkflowImportPostRequestSerializer implements PrimitiveSerializer<Workf
         specifiedType: const FullType(bool),
       );
     }
-    yield r'policy_id';
-    yield serializers.serialize(
-      object.policyId,
-      specifiedType: const FullType(int),
-    );
+    if (object.policyId != null) {
+      yield r'policy_id';
+      yield serializers.serialize(
+        object.policyId,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override

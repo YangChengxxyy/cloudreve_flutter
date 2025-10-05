@@ -23,19 +23,19 @@ part 'group_sku.g.dart';
 abstract class GroupSKU implements Built<GroupSKU, GroupSKUBuilder> {
   /// UUID of the membership SKU.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of the membership SKU.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Valid duration of the membership SKU.
   @BuiltValueField(wireName: r'time')
-  int get time;
+  int? get time;
 
   /// Price in minimum currency unit.
   @BuiltValueField(wireName: r'price')
-  int get price;
+  int? get price;
 
   /// Chip text.
   @BuiltValueField(wireName: r'chip')
@@ -47,7 +47,7 @@ abstract class GroupSKU implements Built<GroupSKU, GroupSKUBuilder> {
 
   /// Description texts.
   @BuiltValueField(wireName: r'des')
-  BuiltList<String> get des;
+  BuiltList<String>? get des;
 
   GroupSKU._();
 
@@ -72,26 +72,34 @@ class _$GroupSKUSerializer implements PrimitiveSerializer<GroupSKU> {
     GroupSKU object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'time';
-    yield serializers.serialize(
-      object.time,
-      specifiedType: const FullType(int),
-    );
-    yield r'price';
-    yield serializers.serialize(
-      object.price,
-      specifiedType: const FullType(int),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.time != null) {
+      yield r'time';
+      yield serializers.serialize(
+        object.time,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.price != null) {
+      yield r'price';
+      yield serializers.serialize(
+        object.price,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.chip != null) {
       yield r'chip';
       yield serializers.serialize(
@@ -106,11 +114,13 @@ class _$GroupSKUSerializer implements PrimitiveSerializer<GroupSKU> {
         specifiedType: const FullType.nullable(int),
       );
     }
-    yield r'des';
-    yield serializers.serialize(
-      object.des,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.des != null) {
+      yield r'des';
+      yield serializers.serialize(
+        object.des,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
   }
 
   @override

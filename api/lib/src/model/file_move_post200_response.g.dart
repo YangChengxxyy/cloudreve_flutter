@@ -8,7 +8,7 @@ part of 'file_move_post200_response.dart';
 
 class _$FileMovePost200Response extends FileMovePost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$FileMovePost200Response extends FileMovePost200Response {
       (FileMovePost200ResponseBuilder()..update(updates))._build();
 
   _$FileMovePost200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -136,8 +136,7 @@ class FileMovePost200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileMovePost200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileMovePost200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

@@ -9,9 +9,9 @@ part of 'vas_giftcode_code_get200_response_data.dart';
 class _$VasGiftcodeCodeGet200ResponseData
     extends VasGiftcodeCodeGet200ResponseData {
   @override
-  final String name;
+  final String? name;
   @override
-  final num qyt;
+  final num? qyt;
   @override
   final int? duration;
 
@@ -19,8 +19,7 @@ class _$VasGiftcodeCodeGet200ResponseData
           [void Function(VasGiftcodeCodeGet200ResponseDataBuilder)? updates]) =>
       (VasGiftcodeCodeGet200ResponseDataBuilder()..update(updates))._build();
 
-  _$VasGiftcodeCodeGet200ResponseData._(
-      {required this.name, required this.qyt, this.duration})
+  _$VasGiftcodeCodeGet200ResponseData._({this.name, this.qyt, this.duration})
       : super._();
   @override
   VasGiftcodeCodeGet200ResponseData rebuild(
@@ -110,10 +109,8 @@ class VasGiftcodeCodeGet200ResponseDataBuilder
   _$VasGiftcodeCodeGet200ResponseData _build() {
     final _$result = _$v ??
         _$VasGiftcodeCodeGet200ResponseData._(
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'VasGiftcodeCodeGet200ResponseData', 'name'),
-          qyt: BuiltValueNullFieldError.checkNotNull(
-              qyt, r'VasGiftcodeCodeGet200ResponseData', 'qyt'),
+          name: name,
+          qyt: qyt,
           duration: duration,
         );
     replace(_$result);

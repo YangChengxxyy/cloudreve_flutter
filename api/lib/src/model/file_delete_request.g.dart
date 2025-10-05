@@ -8,7 +8,7 @@ part of 'file_delete_request.dart';
 
 class _$FileDeleteRequest extends FileDeleteRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
   @override
   final bool? unlink;
   @override
@@ -18,7 +18,7 @@ class _$FileDeleteRequest extends FileDeleteRequest {
           [void Function(FileDeleteRequestBuilder)? updates]) =>
       (FileDeleteRequestBuilder()..update(updates))._build();
 
-  _$FileDeleteRequest._({required this.uris, this.unlink, this.skipSoftDelete})
+  _$FileDeleteRequest._({this.uris, this.unlink, this.skipSoftDelete})
       : super._();
   @override
   FileDeleteRequest rebuild(void Function(FileDeleteRequestBuilder) updates) =>
@@ -81,7 +81,7 @@ class FileDeleteRequestBuilder
   FileDeleteRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
+      _uris = $v.uris?.toBuilder();
       _unlink = $v.unlink;
       _skipSoftDelete = $v.skipSoftDelete;
       _$v = null;
@@ -107,7 +107,7 @@ class FileDeleteRequestBuilder
     try {
       _$result = _$v ??
           _$FileDeleteRequest._(
-            uris: uris.build(),
+            uris: _uris?.build(),
             unlink: unlink,
             skipSoftDelete: skipSoftDelete,
           );
@@ -115,7 +115,7 @@ class FileDeleteRequestBuilder
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileDeleteRequest', _$failedField, e.toString());

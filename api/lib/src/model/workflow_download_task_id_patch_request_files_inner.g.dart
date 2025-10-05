@@ -9,7 +9,7 @@ part of 'workflow_download_task_id_patch_request_files_inner.dart';
 class _$WorkflowDownloadTaskIdPatchRequestFilesInner
     extends WorkflowDownloadTaskIdPatchRequestFilesInner {
   @override
-  final int index;
+  final int? index;
   @override
   final bool? download;
 
@@ -19,8 +19,7 @@ class _$WorkflowDownloadTaskIdPatchRequestFilesInner
       (WorkflowDownloadTaskIdPatchRequestFilesInnerBuilder()..update(updates))
           ._build();
 
-  _$WorkflowDownloadTaskIdPatchRequestFilesInner._(
-      {required this.index, this.download})
+  _$WorkflowDownloadTaskIdPatchRequestFilesInner._({this.index, this.download})
       : super._();
   @override
   WorkflowDownloadTaskIdPatchRequestFilesInner rebuild(
@@ -105,8 +104,7 @@ class WorkflowDownloadTaskIdPatchRequestFilesInnerBuilder
   _$WorkflowDownloadTaskIdPatchRequestFilesInner _build() {
     final _$result = _$v ??
         _$WorkflowDownloadTaskIdPatchRequestFilesInner._(
-          index: BuiltValueNullFieldError.checkNotNull(
-              index, r'WorkflowDownloadTaskIdPatchRequestFilesInner', 'index'),
+          index: index,
           download: download,
         );
     replace(_$result);

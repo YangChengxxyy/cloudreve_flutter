@@ -18,11 +18,11 @@ part 'user_capacity_get200_response_data.g.dart';
 abstract class UserCapacityGet200ResponseData implements Built<UserCapacityGet200ResponseData, UserCapacityGet200ResponseDataBuilder> {
   /// Total storage capacity in bytes.
   @BuiltValueField(wireName: r'total')
-  int get total;
+  int? get total;
 
   /// Currently used storage in bytes.
   @BuiltValueField(wireName: r'used')
-  int get used;
+  int? get used;
 
   /// Available storage packs in bytes. Ony presented in Pro edition.
   @BuiltValueField(wireName: r'storage_pack_total')
@@ -51,16 +51,20 @@ class _$UserCapacityGet200ResponseDataSerializer implements PrimitiveSerializer<
     UserCapacityGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'total';
-    yield serializers.serialize(
-      object.total,
-      specifiedType: const FullType(int),
-    );
-    yield r'used';
-    yield serializers.serialize(
-      object.used,
-      specifiedType: const FullType(int),
-    );
+    if (object.total != null) {
+      yield r'total';
+      yield serializers.serialize(
+        object.total,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.used != null) {
+      yield r'used';
+      yield serializers.serialize(
+        object.used,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.storagePackTotal != null) {
       yield r'storage_pack_total';
       yield serializers.serialize(
@@ -108,9 +112,8 @@ class _$UserCapacityGet200ResponseDataSerializer implements PrimitiveSerializer<
         case r'storage_pack_total':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(int),
-          ) as int?;
-          if (valueDes == null) continue;
+            specifiedType: const FullType(int),
+          ) as int;
           result.storagePackTotal = valueDes;
           break;
         default:
@@ -141,3 +144,4 @@ class _$UserCapacityGet200ResponseDataSerializer implements PrimitiveSerializer<
     return result.build();
   }
 }
+

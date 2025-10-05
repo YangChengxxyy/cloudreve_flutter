@@ -66,9 +66,9 @@ class _$FileCreatePostRequestTypeEnumSerializer
 
 class _$FileCreatePostRequest extends FileCreatePostRequest {
   @override
-  final String uri;
+  final String? uri;
   @override
-  final FileCreatePostRequestTypeEnum type;
+  final FileCreatePostRequestTypeEnum? type;
   @override
   final BuiltMap<String, String>? metadata;
   @override
@@ -79,10 +79,7 @@ class _$FileCreatePostRequest extends FileCreatePostRequest {
       (FileCreatePostRequestBuilder()..update(updates))._build();
 
   _$FileCreatePostRequest._(
-      {required this.uri,
-      required this.type,
-      this.metadata,
-      this.errOnConflict})
+      {this.uri, this.type, this.metadata, this.errOnConflict})
       : super._();
   @override
   FileCreatePostRequest rebuild(
@@ -182,10 +179,8 @@ class FileCreatePostRequestBuilder
     try {
       _$result = _$v ??
           _$FileCreatePostRequest._(
-            uri: BuiltValueNullFieldError.checkNotNull(
-                uri, r'FileCreatePostRequest', 'uri'),
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'FileCreatePostRequest', 'type'),
+            uri: uri,
+            type: type,
             metadata: _metadata?.build(),
             errOnConflict: errOnConflict,
           );

@@ -20,11 +20,11 @@ part 'user_post_request.g.dart';
 abstract class UserPostRequest implements Built<UserPostRequest, UserPostRequestBuilder> {
   /// Account email.
   @BuiltValueField(wireName: r'email')
-  String get email;
+  String? get email;
 
   /// Account password.
   @BuiltValueField(wireName: r'password')
-  String get password;
+  String? get password;
 
   /// Primary UI and Email language code, should be a registered language in [i18n.ts](https://github.com/cloudreve/frontend/blob/master/src/i18n.ts#L44).
   @BuiltValueField(wireName: r'language')
@@ -61,16 +61,20 @@ class _$UserPostRequestSerializer implements PrimitiveSerializer<UserPostRequest
     UserPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
-    yield r'password';
-    yield serializers.serialize(
-      object.password,
-      specifiedType: const FullType(String),
-    );
+    if (object.email != null) {
+      yield r'email';
+      yield serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.password != null) {
+      yield r'password';
+      yield serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.language != null) {
       yield r'language';
       yield serializers.serialize(

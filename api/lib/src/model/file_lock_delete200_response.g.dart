@@ -8,7 +8,7 @@ part of 'file_lock_delete200_response.dart';
 
 class _$FileLockDelete200Response extends FileLockDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$FileLockDelete200Response extends FileLockDelete200Response {
       (FileLockDelete200ResponseBuilder()..update(updates))._build();
 
   _$FileLockDelete200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -136,8 +136,7 @@ class FileLockDelete200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileLockDelete200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileLockDelete200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

@@ -9,14 +9,13 @@ part of 'site_ping_get200_response_data_options.dart';
 class _$SitePingGet200ResponseDataOptions
     extends SitePingGet200ResponseDataOptions {
   @override
-  final String n01jSRK1R5F4NZ2CHDTQ44G3C82;
+  final String? n01jSRK1R5F4NZ2CHDTQ44G3C82;
 
   factory _$SitePingGet200ResponseDataOptions(
           [void Function(SitePingGet200ResponseDataOptionsBuilder)? updates]) =>
       (SitePingGet200ResponseDataOptionsBuilder()..update(updates))._build();
 
-  _$SitePingGet200ResponseDataOptions._(
-      {required this.n01jSRK1R5F4NZ2CHDTQ44G3C82})
+  _$SitePingGet200ResponseDataOptions._({this.n01jSRK1R5F4NZ2CHDTQ44G3C82})
       : super._();
   @override
   SitePingGet200ResponseDataOptions rebuild(
@@ -92,10 +91,7 @@ class SitePingGet200ResponseDataOptionsBuilder
   _$SitePingGet200ResponseDataOptions _build() {
     final _$result = _$v ??
         _$SitePingGet200ResponseDataOptions._(
-          n01jSRK1R5F4NZ2CHDTQ44G3C82: BuiltValueNullFieldError.checkNotNull(
-              n01jSRK1R5F4NZ2CHDTQ44G3C82,
-              r'SitePingGet200ResponseDataOptions',
-              'n01jSRK1R5F4NZ2CHDTQ44G3C82'),
+          n01jSRK1R5F4NZ2CHDTQ44G3C82: n01jSRK1R5F4NZ2CHDTQ44G3C82,
         );
     replace(_$result);
     return _$result;

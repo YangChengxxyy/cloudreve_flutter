@@ -8,25 +8,21 @@ part of 'folder_summary.dart';
 
 class _$FolderSummary extends FolderSummary {
   @override
-  final int size;
+  final int? size;
   @override
-  final int files;
+  final int? files;
   @override
-  final int folders;
+  final int? folders;
   @override
-  final bool completed;
+  final bool? completed;
   @override
-  final String calculatedAt;
+  final String? calculatedAt;
 
   factory _$FolderSummary([void Function(FolderSummaryBuilder)? updates]) =>
       (FolderSummaryBuilder()..update(updates))._build();
 
   _$FolderSummary._(
-      {required this.size,
-      required this.files,
-      required this.folders,
-      required this.completed,
-      required this.calculatedAt})
+      {this.size, this.files, this.folders, this.completed, this.calculatedAt})
       : super._();
   @override
   FolderSummary rebuild(void Function(FolderSummaryBuilder) updates) =>
@@ -127,16 +123,11 @@ class FolderSummaryBuilder
   _$FolderSummary _build() {
     final _$result = _$v ??
         _$FolderSummary._(
-          size: BuiltValueNullFieldError.checkNotNull(
-              size, r'FolderSummary', 'size'),
-          files: BuiltValueNullFieldError.checkNotNull(
-              files, r'FolderSummary', 'files'),
-          folders: BuiltValueNullFieldError.checkNotNull(
-              folders, r'FolderSummary', 'folders'),
-          completed: BuiltValueNullFieldError.checkNotNull(
-              completed, r'FolderSummary', 'completed'),
-          calculatedAt: BuiltValueNullFieldError.checkNotNull(
-              calculatedAt, r'FolderSummary', 'calculatedAt'),
+          size: size,
+          files: files,
+          folders: folders,
+          completed: completed,
+          calculatedAt: calculatedAt,
         );
     replace(_$result);
     return _$result;

@@ -27,11 +27,11 @@ abstract class SessionTokenPostRequest implements Built<SessionTokenPostRequest,
 
   /// Email of the desired user.
   @BuiltValueField(wireName: r'email')
-  String get email;
+  String? get email;
 
   /// Password of the desired user.
   @BuiltValueField(wireName: r'password')
-  String get password;
+  String? get password;
 
   SessionTokenPostRequest._();
 
@@ -70,16 +70,20 @@ class _$SessionTokenPostRequestSerializer implements PrimitiveSerializer<Session
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
-    yield r'password';
-    yield serializers.serialize(
-      object.password,
-      specifiedType: const FullType(String),
-    );
+    if (object.email != null) {
+      yield r'email';
+      yield serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.password != null) {
+      yield r'password';
+      yield serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

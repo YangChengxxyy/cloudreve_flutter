@@ -68,15 +68,15 @@ class _$FileUploadPutRequestEntityTypeEnumSerializer
 
 class _$FileUploadPutRequest extends FileUploadPutRequest {
   @override
-  final String uri;
+  final String? uri;
   @override
-  final int size;
+  final int? size;
   @override
   final int? lastModified;
   @override
   final String? mimeType;
   @override
-  final String policyId;
+  final String? policyId;
   @override
   final BuiltMap<String, String>? metadata;
   @override
@@ -87,11 +87,11 @@ class _$FileUploadPutRequest extends FileUploadPutRequest {
       (FileUploadPutRequestBuilder()..update(updates))._build();
 
   _$FileUploadPutRequest._(
-      {required this.uri,
-      required this.size,
+      {this.uri,
+      this.size,
       this.lastModified,
       this.mimeType,
-      required this.policyId,
+      this.policyId,
       this.metadata,
       this.entityType})
       : super._();
@@ -217,14 +217,11 @@ class FileUploadPutRequestBuilder
     try {
       _$result = _$v ??
           _$FileUploadPutRequest._(
-            uri: BuiltValueNullFieldError.checkNotNull(
-                uri, r'FileUploadPutRequest', 'uri'),
-            size: BuiltValueNullFieldError.checkNotNull(
-                size, r'FileUploadPutRequest', 'size'),
+            uri: uri,
+            size: size,
             lastModified: lastModified,
             mimeType: mimeType,
-            policyId: BuiltValueNullFieldError.checkNotNull(
-                policyId, r'FileUploadPutRequest', 'policyId'),
+            policyId: policyId,
             metadata: _metadata?.build(),
             entityType: entityType,
           );

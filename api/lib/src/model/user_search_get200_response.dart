@@ -26,7 +26,7 @@ abstract class UserSearchGet200Response implements Built<UserSearchGet200Respons
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -71,11 +71,13 @@ class _$UserSearchGet200ResponseSerializer implements PrimitiveSerializer<UserSe
         specifiedType: const FullType.nullable(BuiltList, [FullType(UserSearchGet200ResponseDataInner)]),
       );
     }
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

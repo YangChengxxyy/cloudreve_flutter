@@ -20,11 +20,11 @@ part 'user_setting2fa_get200_response.g.dart';
 abstract class UserSetting2faGet200Response implements Built<UserSetting2faGet200Response, UserSetting2faGet200ResponseBuilder> {
   /// TOTP secret.
   @BuiltValueField(wireName: r'data')
-  String get data;
+  String? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$UserSetting2faGet200ResponseSerializer implements PrimitiveSerializer<Us
     UserSetting2faGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(String),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

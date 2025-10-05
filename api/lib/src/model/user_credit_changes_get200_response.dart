@@ -20,11 +20,11 @@ part 'user_credit_changes_get200_response.g.dart';
 @BuiltValue()
 abstract class UserCreditChangesGet200Response implements Built<UserCreditChangesGet200Response, UserCreditChangesGet200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  UserCreditChangesGet200ResponseData get data;
+  UserCreditChangesGet200ResponseData? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$UserCreditChangesGet200ResponseSerializer implements PrimitiveSerializer
     UserCreditChangesGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(UserCreditChangesGet200ResponseData),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(UserCreditChangesGet200ResponseData),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

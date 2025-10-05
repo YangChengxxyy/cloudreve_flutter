@@ -8,9 +8,9 @@ part of 'share_id_post_request.dart';
 
 class _$ShareIdPostRequest extends ShareIdPostRequest {
   @override
-  final PermissionSetting permissions;
+  final PermissionSetting? permissions;
   @override
-  final String uri;
+  final String? uri;
   @override
   final bool? shareView;
   @override
@@ -25,8 +25,8 @@ class _$ShareIdPostRequest extends ShareIdPostRequest {
       (ShareIdPostRequestBuilder()..update(updates))._build();
 
   _$ShareIdPostRequest._(
-      {required this.permissions,
-      required this.uri,
+      {this.permissions,
+      this.uri,
       this.shareView,
       this.expire,
       this.price,
@@ -116,7 +116,7 @@ class ShareIdPostRequestBuilder
   ShareIdPostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _permissions = $v.permissions.toBuilder();
+      _permissions = $v.permissions?.toBuilder();
       _uri = $v.uri;
       _shareView = $v.shareView;
       _expire = $v.expire;
@@ -145,9 +145,8 @@ class ShareIdPostRequestBuilder
     try {
       _$result = _$v ??
           _$ShareIdPostRequest._(
-            permissions: permissions.build(),
-            uri: BuiltValueNullFieldError.checkNotNull(
-                uri, r'ShareIdPostRequest', 'uri'),
+            permissions: _permissions?.build(),
+            uri: uri,
             shareView: shareView,
             expire: expire,
             price: price,
@@ -157,7 +156,7 @@ class ShareIdPostRequestBuilder
       late String _$failedField;
       try {
         _$failedField = 'permissions';
-        permissions.build();
+        _permissions?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'ShareIdPostRequest', _$failedField, e.toString());

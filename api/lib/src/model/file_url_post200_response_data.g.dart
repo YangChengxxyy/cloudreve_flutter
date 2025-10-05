@@ -8,16 +8,15 @@ part of 'file_url_post200_response_data.dart';
 
 class _$FileUrlPost200ResponseData extends FileUrlPost200ResponseData {
   @override
-  final BuiltList<FileUrlPost200ResponseDataUrlsInner> urls;
+  final BuiltList<FileUrlPost200ResponseDataUrlsInner>? urls;
   @override
-  final int expires;
+  final int? expires;
 
   factory _$FileUrlPost200ResponseData(
           [void Function(FileUrlPost200ResponseDataBuilder)? updates]) =>
       (FileUrlPost200ResponseDataBuilder()..update(updates))._build();
 
-  _$FileUrlPost200ResponseData._({required this.urls, required this.expires})
-      : super._();
+  _$FileUrlPost200ResponseData._({this.urls, this.expires}) : super._();
   @override
   FileUrlPost200ResponseData rebuild(
           void Function(FileUrlPost200ResponseDataBuilder) updates) =>
@@ -75,7 +74,7 @@ class FileUrlPost200ResponseDataBuilder
   FileUrlPost200ResponseDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _urls = $v.urls.toBuilder();
+      _urls = $v.urls?.toBuilder();
       _expires = $v.expires;
       _$v = null;
     }
@@ -100,15 +99,14 @@ class FileUrlPost200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$FileUrlPost200ResponseData._(
-            urls: urls.build(),
-            expires: BuiltValueNullFieldError.checkNotNull(
-                expires, r'FileUrlPost200ResponseData', 'expires'),
+            urls: _urls?.build(),
+            expires: expires,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'urls';
-        urls.build();
+        _urls?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileUrlPost200ResponseData', _$failedField, e.toString());

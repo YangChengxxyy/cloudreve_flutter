@@ -70,27 +70,27 @@ class _$FileRenamePost200ResponseDataTypeEnumSerializer
 
 class _$FileRenamePost200ResponseData extends FileRenamePost200ResponseData {
   @override
-  final FileRenamePost200ResponseDataTypeEnum type;
+  final FileRenamePost200ResponseDataTypeEnum? type;
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
   final String? permission;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
-  final int size;
+  final int? size;
   @override
-  final String path;
+  final String? path;
   @override
   final bool? shared;
   @override
   final String? capability;
   @override
-  final bool owned;
+  final bool? owned;
   @override
   final String? primaryEntity;
 
@@ -99,17 +99,17 @@ class _$FileRenamePost200ResponseData extends FileRenamePost200ResponseData {
       (FileRenamePost200ResponseDataBuilder()..update(updates))._build();
 
   _$FileRenamePost200ResponseData._(
-      {required this.type,
-      required this.id,
-      required this.name,
+      {this.type,
+      this.id,
+      this.name,
       this.permission,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.size,
-      required this.path,
+      this.createdAt,
+      this.updatedAt,
+      this.size,
+      this.path,
       this.shared,
       this.capability,
-      required this.owned,
+      this.owned,
       this.primaryEntity})
       : super._();
   @override
@@ -272,25 +272,17 @@ class FileRenamePost200ResponseDataBuilder
   _$FileRenamePost200ResponseData _build() {
     final _$result = _$v ??
         _$FileRenamePost200ResponseData._(
-          type: BuiltValueNullFieldError.checkNotNull(
-              type, r'FileRenamePost200ResponseData', 'type'),
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'FileRenamePost200ResponseData', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'FileRenamePost200ResponseData', 'name'),
+          type: type,
+          id: id,
+          name: name,
           permission: permission,
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'FileRenamePost200ResponseData', 'createdAt'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'FileRenamePost200ResponseData', 'updatedAt'),
-          size: BuiltValueNullFieldError.checkNotNull(
-              size, r'FileRenamePost200ResponseData', 'size'),
-          path: BuiltValueNullFieldError.checkNotNull(
-              path, r'FileRenamePost200ResponseData', 'path'),
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          size: size,
+          path: path,
           shared: shared,
           capability: capability,
-          owned: BuiltValueNullFieldError.checkNotNull(
-              owned, r'FileRenamePost200ResponseData', 'owned'),
+          owned: owned,
           primaryEntity: primaryEntity,
         );
     replace(_$result);

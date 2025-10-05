@@ -68,28 +68,28 @@ class _$EntityTypeEnumSerializer
 
 class _$Entity extends Entity {
   @override
-  final String id;
+  final String? id;
   @override
-  final int size;
+  final int? size;
   @override
-  final EntityTypeEnum type;
+  final EntityTypeEnum? type;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   final EntityStoragePolicy? storagePolicy;
   @override
-  final EntityCreatedBy createdBy;
+  final EntityCreatedBy? createdBy;
 
   factory _$Entity([void Function(EntityBuilder)? updates]) =>
       (EntityBuilder()..update(updates))._build();
 
   _$Entity._(
-      {required this.id,
-      required this.size,
-      required this.type,
-      required this.createdAt,
+      {this.id,
+      this.size,
+      this.type,
+      this.createdAt,
       this.storagePolicy,
-      required this.createdBy})
+      this.createdBy})
       : super._();
   @override
   Entity rebuild(void Function(EntityBuilder) updates) =>
@@ -179,7 +179,7 @@ class EntityBuilder implements Builder<Entity, EntityBuilder> {
       _type = $v.type;
       _createdAt = $v.createdAt;
       _storagePolicy = $v.storagePolicy?.toBuilder();
-      _createdBy = $v.createdBy.toBuilder();
+      _createdBy = $v.createdBy?.toBuilder();
       _$v = null;
     }
     return this;
@@ -203,15 +203,12 @@ class EntityBuilder implements Builder<Entity, EntityBuilder> {
     try {
       _$result = _$v ??
           _$Entity._(
-            id: BuiltValueNullFieldError.checkNotNull(id, r'Entity', 'id'),
-            size:
-                BuiltValueNullFieldError.checkNotNull(size, r'Entity', 'size'),
-            type:
-                BuiltValueNullFieldError.checkNotNull(type, r'Entity', 'type'),
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'Entity', 'createdAt'),
+            id: id,
+            size: size,
+            type: type,
+            createdAt: createdAt,
             storagePolicy: _storagePolicy?.build(),
-            createdBy: createdBy.build(),
+            createdBy: _createdBy?.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -219,7 +216,7 @@ class EntityBuilder implements Builder<Entity, EntityBuilder> {
         _$failedField = 'storagePolicy';
         _storagePolicy?.build();
         _$failedField = 'createdBy';
-        createdBy.build();
+        _createdBy?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'Entity', _$failedField, e.toString());

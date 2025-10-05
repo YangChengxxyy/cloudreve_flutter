@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **captcha** | **String** | User input value of the graphical CAPTCHA. Required if graphic CAPTCHA enabled for current action. | [optional] 
 **ticket** | **String** | Ticket/Token of the CAPTCHA. Required if CAPTCHA is enabled for current action. Can be obtained from [Get CAPTCHA](https://cloudrevev4.apifox.cn/get-captcha-289470260e0.md). | [optional] 
-**email** | **String** | Account ematil. | 
+**email** | **String** | Account ematil. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

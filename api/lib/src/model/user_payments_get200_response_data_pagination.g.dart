@@ -9,11 +9,11 @@ part of 'user_payments_get200_response_data_pagination.dart';
 class _$UserPaymentsGet200ResponseDataPagination
     extends UserPaymentsGet200ResponseDataPagination {
   @override
-  final int page;
+  final int? page;
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
-  final String nextToken;
+  final String? nextToken;
   @override
   final bool? isCursor;
 
@@ -24,10 +24,7 @@ class _$UserPaymentsGet200ResponseDataPagination
           ._build();
 
   _$UserPaymentsGet200ResponseDataPagination._(
-      {required this.page,
-      required this.pageSize,
-      required this.nextToken,
-      this.isCursor})
+      {this.page, this.pageSize, this.nextToken, this.isCursor})
       : super._();
   @override
   UserPaymentsGet200ResponseDataPagination rebuild(
@@ -127,12 +124,9 @@ class UserPaymentsGet200ResponseDataPaginationBuilder
   _$UserPaymentsGet200ResponseDataPagination _build() {
     final _$result = _$v ??
         _$UserPaymentsGet200ResponseDataPagination._(
-          page: BuiltValueNullFieldError.checkNotNull(
-              page, r'UserPaymentsGet200ResponseDataPagination', 'page'),
-          pageSize: BuiltValueNullFieldError.checkNotNull(pageSize,
-              r'UserPaymentsGet200ResponseDataPagination', 'pageSize'),
-          nextToken: BuiltValueNullFieldError.checkNotNull(nextToken,
-              r'UserPaymentsGet200ResponseDataPagination', 'nextToken'),
+          page: page,
+          pageSize: pageSize,
+          nextToken: nextToken,
           isCursor: isCursor,
         );
     replace(_$result);

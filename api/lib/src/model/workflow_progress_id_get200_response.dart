@@ -20,11 +20,11 @@ part 'workflow_progress_id_get200_response.g.dart';
 abstract class WorkflowProgressIdGet200Response implements Built<WorkflowProgressIdGet200Response, WorkflowProgressIdGet200ResponseBuilder> {
   /// Map of progress type and the progress content.
   @BuiltValueField(wireName: r'data')
-  BuiltMap<String, Progress> get data;
+  BuiltMap<String, Progress>? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -54,16 +54,20 @@ class _$WorkflowProgressIdGet200ResponseSerializer implements PrimitiveSerialize
     WorkflowProgressIdGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Progress)]),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Progress)]),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

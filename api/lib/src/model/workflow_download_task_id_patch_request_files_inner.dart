@@ -17,7 +17,7 @@ part 'workflow_download_task_id_patch_request_files_inner.g.dart';
 abstract class WorkflowDownloadTaskIdPatchRequestFilesInner implements Built<WorkflowDownloadTaskIdPatchRequestFilesInner, WorkflowDownloadTaskIdPatchRequestFilesInnerBuilder> {
   /// Index of the file in file list of the task props.
   @BuiltValueField(wireName: r'index')
-  int get index;
+  int? get index;
 
   /// Whether to download this file.
   @BuiltValueField(wireName: r'download')
@@ -46,11 +46,13 @@ class _$WorkflowDownloadTaskIdPatchRequestFilesInnerSerializer implements Primit
     WorkflowDownloadTaskIdPatchRequestFilesInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'index';
-    yield serializers.serialize(
-      object.index,
-      specifiedType: const FullType(int),
-    );
+    if (object.index != null) {
+      yield r'index';
+      yield serializers.serialize(
+        object.index,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.download != null) {
       yield r'download';
       yield serializers.serialize(

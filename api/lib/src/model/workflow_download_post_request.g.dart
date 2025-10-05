@@ -8,7 +8,7 @@ part of 'workflow_download_post_request.dart';
 
 class _$WorkflowDownloadPostRequest extends WorkflowDownloadPostRequest {
   @override
-  final String dst;
+  final String? dst;
   @override
   final String? srcFile;
   @override
@@ -21,7 +21,7 @@ class _$WorkflowDownloadPostRequest extends WorkflowDownloadPostRequest {
       (WorkflowDownloadPostRequestBuilder()..update(updates))._build();
 
   _$WorkflowDownloadPostRequest._(
-      {required this.dst, this.srcFile, this.src, this.preferredNodeId})
+      {this.dst, this.srcFile, this.src, this.preferredNodeId})
       : super._();
   @override
   WorkflowDownloadPostRequest rebuild(
@@ -121,8 +121,7 @@ class WorkflowDownloadPostRequestBuilder
     try {
       _$result = _$v ??
           _$WorkflowDownloadPostRequest._(
-            dst: BuiltValueNullFieldError.checkNotNull(
-                dst, r'WorkflowDownloadPostRequest', 'dst'),
+            dst: dst,
             srcFile: srcFile,
             src: _src?.build(),
             preferredNodeId: preferredNodeId,

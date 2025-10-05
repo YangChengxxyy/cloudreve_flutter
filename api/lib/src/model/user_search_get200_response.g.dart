@@ -10,7 +10,7 @@ class _$UserSearchGet200Response extends UserSearchGet200Response {
   @override
   final BuiltList<UserSearchGet200ResponseDataInner>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$UserSearchGet200Response extends UserSearchGet200Response {
       (UserSearchGet200ResponseBuilder()..update(updates))._build();
 
   _$UserSearchGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserSearchGet200Response rebuild(
@@ -133,8 +133,7 @@ class UserSearchGet200ResponseBuilder
       _$result = _$v ??
           _$UserSearchGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserSearchGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

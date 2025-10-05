@@ -28,7 +28,7 @@ abstract class FileSourcePut200Response implements Built<FileSourcePut200Respons
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -77,11 +77,13 @@ class _$FileSourcePut200ResponseSerializer implements PrimitiveSerializer<FileSo
         specifiedType: const FullType.nullable(BuiltList, [FullType(FileSourcePut200ResponseDataInner)]),
       );
     }
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

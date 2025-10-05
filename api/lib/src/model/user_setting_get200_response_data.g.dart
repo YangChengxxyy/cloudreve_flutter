@@ -86,26 +86,26 @@ class _$UserSettingGet200ResponseData extends UserSettingGet200ResponseData {
   @override
   final BuiltList<UserSettingGet200ResponseDataOpenIdInner>? openId;
   @override
-  final bool versionRetentionEnabled;
+  final bool? versionRetentionEnabled;
   @override
   final BuiltList<String>? versionRetentionExt;
   @override
   final int? versionRetentionMax;
   @override
-  final bool passwordless;
+  final bool? passwordless;
   @override
-  final bool twoFaEnabled;
+  final bool? twoFaEnabled;
   @override
   final BuiltList<Passkey>? passkeys;
   @override
   final BuiltList<UserSettingGet200ResponseDataLoginActivityInner>?
       loginActivity;
   @override
-  final BuiltList<UserSettingGet200ResponseDataStoragePacksInner> storagePacks;
+  final BuiltList<UserSettingGet200ResponseDataStoragePacksInner>? storagePacks;
   @override
-  final int credit;
+  final int? credit;
   @override
-  final bool disableViewSync;
+  final bool? disableViewSync;
   @override
   final UserSettingGet200ResponseDataShareLinksInProfileEnum?
       shareLinksInProfile;
@@ -117,16 +117,16 @@ class _$UserSettingGet200ResponseData extends UserSettingGet200ResponseData {
   _$UserSettingGet200ResponseData._(
       {this.groupExpires,
       this.openId,
-      required this.versionRetentionEnabled,
+      this.versionRetentionEnabled,
       this.versionRetentionExt,
       this.versionRetentionMax,
-      required this.passwordless,
-      required this.twoFaEnabled,
+      this.passwordless,
+      this.twoFaEnabled,
       this.passkeys,
       this.loginActivity,
-      required this.storagePacks,
-      required this.credit,
-      required this.disableViewSync,
+      this.storagePacks,
+      this.credit,
+      this.disableViewSync,
       this.shareLinksInProfile})
       : super._();
   @override
@@ -295,7 +295,7 @@ class UserSettingGet200ResponseDataBuilder
       _twoFaEnabled = $v.twoFaEnabled;
       _passkeys = $v.passkeys?.toBuilder();
       _loginActivity = $v.loginActivity?.toBuilder();
-      _storagePacks = $v.storagePacks.toBuilder();
+      _storagePacks = $v.storagePacks?.toBuilder();
       _credit = $v.credit;
       _disableViewSync = $v.disableViewSync;
       _shareLinksInProfile = $v.shareLinksInProfile;
@@ -324,25 +324,16 @@ class UserSettingGet200ResponseDataBuilder
           _$UserSettingGet200ResponseData._(
             groupExpires: groupExpires,
             openId: _openId?.build(),
-            versionRetentionEnabled: BuiltValueNullFieldError.checkNotNull(
-                versionRetentionEnabled,
-                r'UserSettingGet200ResponseData',
-                'versionRetentionEnabled'),
+            versionRetentionEnabled: versionRetentionEnabled,
             versionRetentionExt: _versionRetentionExt?.build(),
             versionRetentionMax: versionRetentionMax,
-            passwordless: BuiltValueNullFieldError.checkNotNull(
-                passwordless, r'UserSettingGet200ResponseData', 'passwordless'),
-            twoFaEnabled: BuiltValueNullFieldError.checkNotNull(
-                twoFaEnabled, r'UserSettingGet200ResponseData', 'twoFaEnabled'),
+            passwordless: passwordless,
+            twoFaEnabled: twoFaEnabled,
             passkeys: _passkeys?.build(),
             loginActivity: _loginActivity?.build(),
-            storagePacks: storagePacks.build(),
-            credit: BuiltValueNullFieldError.checkNotNull(
-                credit, r'UserSettingGet200ResponseData', 'credit'),
-            disableViewSync: BuiltValueNullFieldError.checkNotNull(
-                disableViewSync,
-                r'UserSettingGet200ResponseData',
-                'disableViewSync'),
+            storagePacks: _storagePacks?.build(),
+            credit: credit,
+            disableViewSync: disableViewSync,
             shareLinksInProfile: shareLinksInProfile,
           );
     } catch (_) {
@@ -359,7 +350,7 @@ class UserSettingGet200ResponseDataBuilder
         _$failedField = 'loginActivity';
         _loginActivity?.build();
         _$failedField = 'storagePacks';
-        storagePacks.build();
+        _storagePacks?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'UserSettingGet200ResponseData', _$failedField, e.toString());

@@ -10,7 +10,7 @@ class _$GroupListGet200Response extends GroupListGet200Response {
   @override
   final BuiltList<GroupListGet200ResponseDataInner>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$GroupListGet200Response extends GroupListGet200Response {
       (GroupListGet200ResponseBuilder()..update(updates))._build();
 
   _$GroupListGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   GroupListGet200Response rebuild(
@@ -133,8 +133,7 @@ class GroupListGet200ResponseBuilder
       _$result = _$v ??
           _$GroupListGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'GroupListGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

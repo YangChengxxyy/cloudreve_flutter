@@ -25,14 +25,15 @@ class MFile {
   }
 
   factory MFile.fromFileResponse(cloudreve_api.FileResponse file) {
-    final metadataMap = file.metadata.asMap();
+    final metadata = file.metadata?.asMap() ?? const <String, String>{};
+    final updatedAt = file.updatedAt ?? file.createdAt;
     return MFile(
-      file.updatedAt.toIso8601String(),
-      file.id,
-      file.name,
-      file.path,
-      metadataMap.isEmpty ? '' : jsonEncode(metadataMap),
-      file.size,
+      updatedAt?.toIso8601String() ?? '',
+      file.id ?? '',
+      file.name ?? '',
+      file.path ?? '',
+      metadata.isEmpty ? '' : jsonEncode(metadata),
+      file.size ?? 0,
       file.type == cloudreve_api.FileResponseTypeEnum.number1 ? 'dir' : 'file',
     );
   }

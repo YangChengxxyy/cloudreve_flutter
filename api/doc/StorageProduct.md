@@ -8,11 +8,11 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | UUID of the storage SKU. | 
-**name** | **String** | Display name of the storage SKU. | 
-**size** | **int** | Contained storage in bytes. | 
-**time** | **int** | Valid duration in seconds. | 
-**price** | **int** | Price in minimum currency unit. | 
+**id** | **String** | UUID of the storage SKU. | [optional] 
+**name** | **String** | Display name of the storage SKU. | [optional] 
+**size** | **int** | Contained storage in bytes. | [optional] 
+**time** | **int** | Valid duration in seconds. | [optional] 
+**price** | **int** | Price in minimum currency unit. | [optional] 
 **chip** | **String** | Chip text. | [optional] 
 **points** | **int** | Price in points. Empty value indicate paying with points is disabled. | [optional] 
 

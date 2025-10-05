@@ -9,7 +9,7 @@ part of 'file_version_current_post200_response.dart';
 class _$FileVersionCurrentPost200Response
     extends FileVersionCurrentPost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -22,7 +22,7 @@ class _$FileVersionCurrentPost200Response
       (FileVersionCurrentPost200ResponseBuilder()..update(updates))._build();
 
   _$FileVersionCurrentPost200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileVersionCurrentPost200Response rebuild(
@@ -121,8 +121,7 @@ class FileVersionCurrentPost200ResponseBuilder
   _$FileVersionCurrentPost200Response _build() {
     final _$result = _$v ??
         _$FileVersionCurrentPost200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'FileVersionCurrentPost200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

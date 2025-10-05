@@ -8,17 +8,15 @@ part of 'file_activities_response.dart';
 
 class _$FileActivitiesResponse extends FileActivitiesResponse {
   @override
-  final BuiltList<Activity> activities;
+  final BuiltList<Activity>? activities;
   @override
-  final FileActivitiesResponsePagination pagination;
+  final FileActivitiesResponsePagination? pagination;
 
   factory _$FileActivitiesResponse(
           [void Function(FileActivitiesResponseBuilder)? updates]) =>
       (FileActivitiesResponseBuilder()..update(updates))._build();
 
-  _$FileActivitiesResponse._(
-      {required this.activities, required this.pagination})
-      : super._();
+  _$FileActivitiesResponse._({this.activities, this.pagination}) : super._();
   @override
   FileActivitiesResponse rebuild(
           void Function(FileActivitiesResponseBuilder) updates) =>
@@ -77,8 +75,8 @@ class FileActivitiesResponseBuilder
   FileActivitiesResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _activities = $v.activities.toBuilder();
-      _pagination = $v.pagination.toBuilder();
+      _activities = $v.activities?.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
       _$v = null;
     }
     return this;
@@ -102,16 +100,16 @@ class FileActivitiesResponseBuilder
     try {
       _$result = _$v ??
           _$FileActivitiesResponse._(
-            activities: activities.build(),
-            pagination: pagination.build(),
+            activities: _activities?.build(),
+            pagination: _pagination?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'activities';
-        activities.build();
+        _activities?.build();
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileActivitiesResponse', _$failedField, e.toString());

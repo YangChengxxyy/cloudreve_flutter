@@ -4,11 +4,9 @@ import 'dart:typed_data';
 import 'package:cloudreve/component/RenameNickDialog.dart';
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
-import 'package:cloudreve/entity/SettingData.dart';
 import 'package:cloudreve/utils/CacheUtil.dart';
 import 'package:cloudreve/utils/GlobalSetting.dart';
-import 'package:cloudreve/utils/Service.dart';
-import 'package:dio/dio.dart';
+import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +26,10 @@ class Setting extends StatelessWidget {
       time = time.add(Duration(days: 3));
       if (time.isBefore(now)) {
         try {
-          Uint8List data = (await avatar(userData.id, "s")).data;
+          final response = await CloudreveRepository.fetchAvatar(
+            userId: userData.id,
+          );
+          final data = response.data ?? Uint8List.fromList(const [1]);
           final file = await File(avatarPath).create();
           file.writeAsBytesSync(data);
           return data;
@@ -39,7 +40,10 @@ class Setting extends StatelessWidget {
       return file.readAsBytesSync();
     } else {
       try {
-        Uint8List data = (await avatar(userData.id, "s")).data;
+        final response = await CloudreveRepository.fetchAvatar(
+          userId: userData.id,
+        );
+        final data = response.data ?? Uint8List.fromList([1]);
         final file = await File(avatarPath).create();
         file.writeAsBytesSync(data);
         return data;
@@ -115,36 +119,33 @@ class Setting extends StatelessWidget {
                                 ),
                                 title: Text("从文件上传"),
                                 onTap: () async {
-                                  var result =
+                                  final result =
                                       await FilePicker.platform.pickFiles();
-                                  if (result != null) {
-                                    FormData formData = FormData();
-                                    formData.files.add(
-                                      MapEntry(
-                                        "avatar",
-                                        await MultipartFile.fromFile(
-                                          result.files.first.path.toString(),
-                                        ),
-                                      ),
-                                    );
-                                    Response response =
-                                        await setFileAsAvatar(formData);
-                                    if (response.data['msg'] == '') {
-                                      Navigator.pop(buildContext);
+                                  if (result != null &&
+                                      result.files.isNotEmpty &&
+                                      result.files.first.path != null) {
+                                    final filePath = result.files.first.path!;
+                                    final fileBytes =
+                                        await File(filePath).readAsBytes();
+                                    final response = await CloudreveRepository
+                                        .uploadAvatarBytes(fileBytes);
+                                    Navigator.pop(buildContext);
+                                    if (response != null &&
+                                        (response.msg?.isEmpty ?? true)) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        SnackBar(
+                                        const SnackBar(
                                           content: Text("上传成功"),
                                         ),
                                       );
                                       CacheUtil.clear(cacheAvatarPath);
                                       refresh(true);
                                     } else {
-                                      Navigator.pop(buildContext);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          content: Text(response.data['msg']),
+                                          content:
+                                              Text(response?.msg ?? "上传失败"),
                                         ),
                                       );
                                     }
@@ -158,15 +159,24 @@ class Setting extends StatelessWidget {
                                 ),
                                 title: Text("使用 Gravatar 头像 "),
                                 onTap: () async {
-                                  Response response = await setAvatar();
-                                  if (response.data['msg'] == '') {
-                                    Navigator.pop(buildContext);
+                                  final response = await CloudreveRepository
+                                      .setAvatarFromGravatar();
+                                  Navigator.pop(buildContext);
+                                  if (response != null &&
+                                      (response.msg?.isEmpty ?? true)) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text("设置成功"),
                                       ),
                                     );
+                                    CacheUtil.clear(cacheAvatarPath);
                                     refresh(true);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(response?.msg ?? "设置失败"),
+                                      ),
+                                    );
                                   }
                                 },
                               ),
@@ -183,19 +193,7 @@ class Setting extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.contacts_rounded),
                   title: Text("UID"),
-                  trailing: FutureBuilder(
-                    future: setting(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Response> snapshot) {
-                      if (snapshot.hasData) {
-                        SettingData settingData =
-                            SettingData.fromJson(snapshot.data!.data["data"]);
-                        return Text(settingData.uid.toString());
-                      } else {
-                        return Text("Loading");
-                      }
-                    },
-                  ),
+                  trailing: Text(userData.id),
                 ),
                 Divider(
                   height: 0,

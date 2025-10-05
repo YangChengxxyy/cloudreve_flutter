@@ -9,7 +9,7 @@ part of 'vas_giftcode_code_redeem_post200_response.dart';
 class _$VasGiftcodeCodeRedeemPost200Response
     extends VasGiftcodeCodeRedeemPost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$VasGiftcodeCodeRedeemPost200Response
       (VasGiftcodeCodeRedeemPost200ResponseBuilder()..update(updates))._build();
 
   _$VasGiftcodeCodeRedeemPost200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   VasGiftcodeCodeRedeemPost200Response rebuild(
@@ -122,8 +122,7 @@ class VasGiftcodeCodeRedeemPost200ResponseBuilder
   _$VasGiftcodeCodeRedeemPost200Response _build() {
     final _$result = _$v ??
         _$VasGiftcodeCodeRedeemPost200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'VasGiftcodeCodeRedeemPost200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

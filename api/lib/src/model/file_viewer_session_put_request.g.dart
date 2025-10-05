@@ -71,13 +71,13 @@ class _$FileViewerSessionPutRequestPreferredActionEnumSerializer
 
 class _$FileViewerSessionPutRequest extends FileViewerSessionPutRequest {
   @override
-  final String uri;
+  final String? uri;
   @override
   final String? version;
   @override
-  final String viewerId;
+  final String? viewerId;
   @override
-  final FileViewerSessionPutRequestPreferredActionEnum preferredAction;
+  final FileViewerSessionPutRequestPreferredActionEnum? preferredAction;
   @override
   final String? parentUri;
 
@@ -86,10 +86,10 @@ class _$FileViewerSessionPutRequest extends FileViewerSessionPutRequest {
       (FileViewerSessionPutRequestBuilder()..update(updates))._build();
 
   _$FileViewerSessionPutRequest._(
-      {required this.uri,
+      {this.uri,
       this.version,
-      required this.viewerId,
-      required this.preferredAction,
+      this.viewerId,
+      this.preferredAction,
       this.parentUri})
       : super._();
   @override
@@ -198,15 +198,10 @@ class FileViewerSessionPutRequestBuilder
   _$FileViewerSessionPutRequest _build() {
     final _$result = _$v ??
         _$FileViewerSessionPutRequest._(
-          uri: BuiltValueNullFieldError.checkNotNull(
-              uri, r'FileViewerSessionPutRequest', 'uri'),
+          uri: uri,
           version: version,
-          viewerId: BuiltValueNullFieldError.checkNotNull(
-              viewerId, r'FileViewerSessionPutRequest', 'viewerId'),
-          preferredAction: BuiltValueNullFieldError.checkNotNull(
-              preferredAction,
-              r'FileViewerSessionPutRequest',
-              'preferredAction'),
+          viewerId: viewerId,
+          preferredAction: preferredAction,
           parentUri: parentUri,
         );
     replace(_$result);

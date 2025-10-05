@@ -8,12 +8,12 @@ part of 'file_viewer.dart';
 
 class _$FileViewer extends FileViewer {
   @override
-  final BuiltList<FileViewerViewersInner> viewers;
+  final BuiltList<FileViewerViewersInner>? viewers;
 
   factory _$FileViewer([void Function(FileViewerBuilder)? updates]) =>
       (FileViewerBuilder()..update(updates))._build();
 
-  _$FileViewer._({required this.viewers}) : super._();
+  _$FileViewer._({this.viewers}) : super._();
   @override
   FileViewer rebuild(void Function(FileViewerBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -58,7 +58,7 @@ class FileViewerBuilder implements Builder<FileViewer, FileViewerBuilder> {
   FileViewerBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _viewers = $v.viewers.toBuilder();
+      _viewers = $v.viewers?.toBuilder();
       _$v = null;
     }
     return this;
@@ -82,13 +82,13 @@ class FileViewerBuilder implements Builder<FileViewer, FileViewerBuilder> {
     try {
       _$result = _$v ??
           _$FileViewer._(
-            viewers: viewers.build(),
+            viewers: _viewers?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'viewers';
-        viewers.build();
+        _viewers?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileViewer', _$failedField, e.toString());

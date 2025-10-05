@@ -20,7 +20,7 @@ part 'workflow_download_post_request.g.dart';
 abstract class WorkflowDownloadPostRequest implements Built<WorkflowDownloadPostRequest, WorkflowDownloadPostRequestBuilder> {
   /// URI of the destination folder.
   @BuiltValueField(wireName: r'dst')
-  String get dst;
+  String? get dst;
 
   /// URI of the source torrent file. If this field is empty, `src` is required.
   @BuiltValueField(wireName: r'src_file')
@@ -57,11 +57,13 @@ class _$WorkflowDownloadPostRequestSerializer implements PrimitiveSerializer<Wor
     WorkflowDownloadPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'dst';
-    yield serializers.serialize(
-      object.dst,
-      specifiedType: const FullType(String),
-    );
+    if (object.dst != null) {
+      yield r'dst';
+      yield serializers.serialize(
+        object.dst,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.srcFile != null) {
       yield r'src_file';
       yield serializers.serialize(

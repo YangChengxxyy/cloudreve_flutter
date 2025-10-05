@@ -8,9 +8,9 @@ part of 'file_archive_get200_response.dart';
 
 class _$FileArchiveGet200Response extends FileArchiveGet200Response {
   @override
-  final FileArchiveGet200ResponseData data;
+  final FileArchiveGet200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$FileArchiveGet200Response extends FileArchiveGet200Response {
       (FileArchiveGet200ResponseBuilder()..update(updates))._build();
 
   _$FileArchiveGet200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileArchiveGet200Response rebuild(
@@ -107,7 +103,7 @@ class FileArchiveGet200ResponseBuilder
   FileArchiveGet200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -135,9 +131,8 @@ class FileArchiveGet200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileArchiveGet200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileArchiveGet200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -146,7 +141,7 @@ class FileArchiveGet200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileArchiveGet200Response', _$failedField, e.toString());

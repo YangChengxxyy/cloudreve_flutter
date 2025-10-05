@@ -19,11 +19,11 @@ part 'passkey.g.dart';
 abstract class Passkey implements Built<Passkey, PasskeyBuilder> {
   /// ID of the passkey.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of the passkey platform.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Datetime when the passkey is lastly used.
   @BuiltValueField(wireName: r'used_at')
@@ -31,7 +31,7 @@ abstract class Passkey implements Built<Passkey, PasskeyBuilder> {
 
   /// Datetime when the passkey is created.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   Passkey._();
 
@@ -56,16 +56,20 @@ class _$PasskeySerializer implements PrimitiveSerializer<Passkey> {
     Passkey object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.usedAt != null) {
       yield r'used_at';
       yield serializers.serialize(
@@ -73,11 +77,13 @@ class _$PasskeySerializer implements PrimitiveSerializer<Passkey> {
         specifiedType: const FullType.nullable(DateTime),
       );
     }
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
   }
 
   @override

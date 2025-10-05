@@ -9,9 +9,9 @@ part of 'user_info_user_id_get200_response_data_group.dart';
 class _$UserInfoUserIdGet200ResponseDataGroup
     extends UserInfoUserIdGet200ResponseDataGroup {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
 
   factory _$UserInfoUserIdGet200ResponseDataGroup(
           [void Function(UserInfoUserIdGet200ResponseDataGroupBuilder)?
@@ -19,9 +19,7 @@ class _$UserInfoUserIdGet200ResponseDataGroup
       (UserInfoUserIdGet200ResponseDataGroupBuilder()..update(updates))
           ._build();
 
-  _$UserInfoUserIdGet200ResponseDataGroup._(
-      {required this.id, required this.name})
-      : super._();
+  _$UserInfoUserIdGet200ResponseDataGroup._({this.id, this.name}) : super._();
   @override
   UserInfoUserIdGet200ResponseDataGroup rebuild(
           void Function(UserInfoUserIdGet200ResponseDataGroupBuilder)
@@ -104,10 +102,8 @@ class UserInfoUserIdGet200ResponseDataGroupBuilder
   _$UserInfoUserIdGet200ResponseDataGroup _build() {
     final _$result = _$v ??
         _$UserInfoUserIdGet200ResponseDataGroup._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'UserInfoUserIdGet200ResponseDataGroup', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'UserInfoUserIdGet200ResponseDataGroup', 'name'),
+          id: id,
+          name: name,
         );
     replace(_$result);
     return _$result;

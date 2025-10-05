@@ -8,16 +8,15 @@ part of 'task_list_response.dart';
 
 class _$TaskListResponse extends TaskListResponse {
   @override
-  final TaskListResponsePagination pagination;
+  final TaskListResponsePagination? pagination;
   @override
-  final BuiltList<TaskResponse> tasks;
+  final BuiltList<TaskResponse>? tasks;
 
   factory _$TaskListResponse(
           [void Function(TaskListResponseBuilder)? updates]) =>
       (TaskListResponseBuilder()..update(updates))._build();
 
-  _$TaskListResponse._({required this.pagination, required this.tasks})
-      : super._();
+  _$TaskListResponse._({this.pagination, this.tasks}) : super._();
   @override
   TaskListResponse rebuild(void Function(TaskListResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -74,8 +73,8 @@ class TaskListResponseBuilder
   TaskListResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _pagination = $v.pagination.toBuilder();
-      _tasks = $v.tasks.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
+      _tasks = $v.tasks?.toBuilder();
       _$v = null;
     }
     return this;
@@ -99,16 +98,16 @@ class TaskListResponseBuilder
     try {
       _$result = _$v ??
           _$TaskListResponse._(
-            pagination: pagination.build(),
-            tasks: tasks.build(),
+            pagination: _pagination?.build(),
+            tasks: _tasks?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
         _$failedField = 'tasks';
-        tasks.build();
+        _tasks?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'TaskListResponse', _$failedField, e.toString());

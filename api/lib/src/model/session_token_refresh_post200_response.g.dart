@@ -9,9 +9,9 @@ part of 'session_token_refresh_post200_response.dart';
 class _$SessionTokenRefreshPost200Response
     extends SessionTokenRefreshPost200Response {
   @override
-  final TaskResponse data;
+  final TaskResponse? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -25,11 +25,7 @@ class _$SessionTokenRefreshPost200Response
       (SessionTokenRefreshPost200ResponseBuilder()..update(updates))._build();
 
   _$SessionTokenRefreshPost200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SessionTokenRefreshPost200Response rebuild(
@@ -109,7 +105,7 @@ class SessionTokenRefreshPost200ResponseBuilder
   SessionTokenRefreshPost200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -138,9 +134,8 @@ class SessionTokenRefreshPost200ResponseBuilder
     try {
       _$result = _$v ??
           _$SessionTokenRefreshPost200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'SessionTokenRefreshPost200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -149,7 +144,7 @@ class SessionTokenRefreshPost200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SessionTokenRefreshPost200Response', _$failedField, e.toString());

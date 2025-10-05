@@ -20,23 +20,23 @@ part 'folder_summary.g.dart';
 abstract class FolderSummary implements Built<FolderSummary, FolderSummaryBuilder> {
   /// Total size of this folder.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// Count of files under this folder (recursive).
   @BuiltValueField(wireName: r'files')
-  int get files;
+  int? get files;
 
   /// Count of folders under this folder (recursive).
   @BuiltValueField(wireName: r'folders')
-  int get folders;
+  int? get folders;
 
   /// Whether the size calculation is completed. If there're too many children under this folder, it may exceed the limit, in this case only subset of files are counted.
   @BuiltValueField(wireName: r'completed')
-  bool get completed;
+  bool? get completed;
 
   /// When the summary is calculated. It may be a cached result.
   @BuiltValueField(wireName: r'calculated_at')
-  String get calculatedAt;
+  String? get calculatedAt;
 
   FolderSummary._();
 
@@ -61,31 +61,41 @@ class _$FolderSummarySerializer implements PrimitiveSerializer<FolderSummary> {
     FolderSummary object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
-    yield r'files';
-    yield serializers.serialize(
-      object.files,
-      specifiedType: const FullType(int),
-    );
-    yield r'folders';
-    yield serializers.serialize(
-      object.folders,
-      specifiedType: const FullType(int),
-    );
-    yield r'completed';
-    yield serializers.serialize(
-      object.completed,
-      specifiedType: const FullType(bool),
-    );
-    yield r'calculated_at';
-    yield serializers.serialize(
-      object.calculatedAt,
-      specifiedType: const FullType(String),
-    );
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.files != null) {
+      yield r'files';
+      yield serializers.serialize(
+        object.files,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.folders != null) {
+      yield r'folders';
+      yield serializers.serialize(
+        object.folders,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.completed != null) {
+      yield r'completed';
+      yield serializers.serialize(
+        object.completed,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.calculatedAt != null) {
+      yield r'calculated_at';
+      yield serializers.serialize(
+        object.calculatedAt,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

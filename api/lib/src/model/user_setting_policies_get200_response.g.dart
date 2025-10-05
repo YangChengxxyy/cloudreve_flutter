@@ -11,7 +11,7 @@ class _$UserSettingPoliciesGet200Response
   @override
   final BuiltList<StoragePolicy>? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,7 +24,7 @@ class _$UserSettingPoliciesGet200Response
       (UserSettingPoliciesGet200ResponseBuilder()..update(updates))._build();
 
   _$UserSettingPoliciesGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserSettingPoliciesGet200Response rebuild(
@@ -135,8 +135,7 @@ class UserSettingPoliciesGet200ResponseBuilder
       _$result = _$v ??
           _$UserSettingPoliciesGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserSettingPoliciesGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

@@ -11,7 +11,7 @@ class _$FileViewerSessionPut200Response
   @override
   final FileViewerSessionPut200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,7 +24,7 @@ class _$FileViewerSessionPut200Response
       (FileViewerSessionPut200ResponseBuilder()..update(updates))._build();
 
   _$FileViewerSessionPut200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileViewerSessionPut200Response rebuild(
@@ -135,8 +135,7 @@ class FileViewerSessionPut200ResponseBuilder
       _$result = _$v ??
           _$FileViewerSessionPut200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileViewerSessionPut200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

@@ -24,7 +24,7 @@ abstract class VasPaymentStatusIdTradeNoGet200Response implements Built<VasPayme
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -69,11 +69,13 @@ class _$VasPaymentStatusIdTradeNoGet200ResponseSerializer implements PrimitiveSe
         specifiedType: const FullType(Payment),
       );
     }
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

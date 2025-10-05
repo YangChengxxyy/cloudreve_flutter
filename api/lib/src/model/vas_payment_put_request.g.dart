@@ -8,9 +8,9 @@ part of 'vas_payment_put_request.dart';
 
 class _$VasPaymentPutRequest extends VasPaymentPutRequest {
   @override
-  final VasPaymentPutRequestProduct product;
+  final VasPaymentPutRequestProduct? product;
   @override
-  final int quantity;
+  final int? quantity;
   @override
   final String? providerId;
   @override
@@ -23,11 +23,7 @@ class _$VasPaymentPutRequest extends VasPaymentPutRequest {
       (VasPaymentPutRequestBuilder()..update(updates))._build();
 
   _$VasPaymentPutRequest._(
-      {required this.product,
-      required this.quantity,
-      this.providerId,
-      this.email,
-      this.language})
+      {this.product, this.quantity, this.providerId, this.email, this.language})
       : super._();
   @override
   VasPaymentPutRequest rebuild(
@@ -106,7 +102,7 @@ class VasPaymentPutRequestBuilder
   VasPaymentPutRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _product = $v.product.toBuilder();
+      _product = $v.product?.toBuilder();
       _quantity = $v.quantity;
       _providerId = $v.providerId;
       _email = $v.email;
@@ -134,9 +130,8 @@ class VasPaymentPutRequestBuilder
     try {
       _$result = _$v ??
           _$VasPaymentPutRequest._(
-            product: product.build(),
-            quantity: BuiltValueNullFieldError.checkNotNull(
-                quantity, r'VasPaymentPutRequest', 'quantity'),
+            product: _product?.build(),
+            quantity: quantity,
             providerId: providerId,
             email: email,
             language: language,
@@ -145,7 +140,7 @@ class VasPaymentPutRequestBuilder
       late String _$failedField;
       try {
         _$failedField = 'product';
-        product.build();
+        _product?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'VasPaymentPutRequest', _$failedField, e.toString());

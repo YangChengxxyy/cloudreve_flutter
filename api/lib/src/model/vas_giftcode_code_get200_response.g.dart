@@ -10,7 +10,7 @@ class _$VasGiftcodeCodeGet200Response extends VasGiftcodeCodeGet200Response {
   @override
   final VasGiftcodeCodeGet200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$VasGiftcodeCodeGet200Response extends VasGiftcodeCodeGet200Response {
       (VasGiftcodeCodeGet200ResponseBuilder()..update(updates))._build();
 
   _$VasGiftcodeCodeGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   VasGiftcodeCodeGet200Response rebuild(
@@ -134,8 +134,7 @@ class VasGiftcodeCodeGet200ResponseBuilder
       _$result = _$v ??
           _$VasGiftcodeCodeGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'VasGiftcodeCodeGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

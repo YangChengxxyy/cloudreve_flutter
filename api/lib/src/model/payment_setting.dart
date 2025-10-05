@@ -21,19 +21,19 @@ part 'payment_setting.g.dart';
 abstract class PaymentSetting implements Built<PaymentSetting, PaymentSettingBuilder> {
   /// Currency code.
   @BuiltValueField(wireName: r'currency_code')
-  String get currencyCode;
+  String? get currencyCode;
 
   /// Currency symbol.
   @BuiltValueField(wireName: r'currency_mark')
-  String get currencyMark;
+  String? get currencyMark;
 
   /// Minimum currency unit (e.g., 100 for dollars/cents)
   @BuiltValueField(wireName: r'currency_unit')
-  int get currencyUnit;
+  int? get currencyUnit;
 
   /// List of available payment method.
   @BuiltValueField(wireName: r'providers')
-  BuiltList<PaymentProvider> get providers;
+  BuiltList<PaymentProvider>? get providers;
 
   PaymentSetting._();
 
@@ -58,26 +58,34 @@ class _$PaymentSettingSerializer implements PrimitiveSerializer<PaymentSetting> 
     PaymentSetting object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'currency_code';
-    yield serializers.serialize(
-      object.currencyCode,
-      specifiedType: const FullType(String),
-    );
-    yield r'currency_mark';
-    yield serializers.serialize(
-      object.currencyMark,
-      specifiedType: const FullType(String),
-    );
-    yield r'currency_unit';
-    yield serializers.serialize(
-      object.currencyUnit,
-      specifiedType: const FullType(int),
-    );
-    yield r'providers';
-    yield serializers.serialize(
-      object.providers,
-      specifiedType: const FullType(BuiltList, [FullType(PaymentProvider)]),
-    );
+    if (object.currencyCode != null) {
+      yield r'currency_code';
+      yield serializers.serialize(
+        object.currencyCode,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.currencyMark != null) {
+      yield r'currency_mark';
+      yield serializers.serialize(
+        object.currencyMark,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.currencyUnit != null) {
+      yield r'currency_unit';
+      yield serializers.serialize(
+        object.currencyUnit,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.providers != null) {
+      yield r'providers';
+      yield serializers.serialize(
+        object.providers,
+        specifiedType: const FullType(BuiltList, [FullType(PaymentProvider)]),
+      );
+    }
   }
 
   @override

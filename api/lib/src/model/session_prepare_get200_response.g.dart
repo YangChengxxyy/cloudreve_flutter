@@ -8,9 +8,9 @@ part of 'session_prepare_get200_response.dart';
 
 class _$SessionPrepareGet200Response extends SessionPrepareGet200Response {
   @override
-  final SessionPrepareGet200ResponseData data;
+  final SessionPrepareGet200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$SessionPrepareGet200Response extends SessionPrepareGet200Response {
       (SessionPrepareGet200ResponseBuilder()..update(updates))._build();
 
   _$SessionPrepareGet200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   SessionPrepareGet200Response rebuild(
@@ -109,7 +105,7 @@ class SessionPrepareGet200ResponseBuilder
   SessionPrepareGet200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -137,9 +133,8 @@ class SessionPrepareGet200ResponseBuilder
     try {
       _$result = _$v ??
           _$SessionPrepareGet200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'SessionPrepareGet200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -148,7 +143,7 @@ class SessionPrepareGet200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SessionPrepareGet200Response', _$failedField, e.toString());

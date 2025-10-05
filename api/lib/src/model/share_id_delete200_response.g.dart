@@ -8,7 +8,7 @@ part of 'share_id_delete200_response.dart';
 
 class _$ShareIdDelete200Response extends ShareIdDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$ShareIdDelete200Response extends ShareIdDelete200Response {
       (ShareIdDelete200ResponseBuilder()..update(updates))._build();
 
   _$ShareIdDelete200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   ShareIdDelete200Response rebuild(
@@ -118,8 +118,7 @@ class ShareIdDelete200ResponseBuilder
   _$ShareIdDelete200Response _build() {
     final _$result = _$v ??
         _$ShareIdDelete200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'ShareIdDelete200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

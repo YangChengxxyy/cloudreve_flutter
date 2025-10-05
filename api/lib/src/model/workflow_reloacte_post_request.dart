@@ -18,10 +18,10 @@ part 'workflow_reloacte_post_request.g.dart';
 abstract class WorkflowReloactePostRequest implements Built<WorkflowReloactePostRequest, WorkflowReloactePostRequestBuilder> {
   /// URI of files or folders to be relocated.
   @BuiltValueField(wireName: r'src')
-  BuiltList<String> get src;
+  BuiltList<String>? get src;
 
   @BuiltValueField(wireName: r'dst_policy_id')
-  String get dstPolicyId;
+  String? get dstPolicyId;
 
   WorkflowReloactePostRequest._();
 
@@ -46,16 +46,20 @@ class _$WorkflowReloactePostRequestSerializer implements PrimitiveSerializer<Wor
     WorkflowReloactePostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'src';
-    yield serializers.serialize(
-      object.src,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'dst_policy_id';
-    yield serializers.serialize(
-      object.dstPolicyId,
-      specifiedType: const FullType(String),
-    );
+    if (object.src != null) {
+      yield r'src';
+      yield serializers.serialize(
+        object.src,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.dstPolicyId != null) {
+      yield r'dst_policy_id';
+      yield serializers.serialize(
+        object.dstPolicyId,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

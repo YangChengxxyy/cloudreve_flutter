@@ -19,10 +19,10 @@ part 'file_activities_response.g.dart';
 @BuiltValue()
 abstract class FileActivitiesResponse implements Built<FileActivitiesResponse, FileActivitiesResponseBuilder> {
   @BuiltValueField(wireName: r'activities')
-  BuiltList<Activity> get activities;
+  BuiltList<Activity>? get activities;
 
   @BuiltValueField(wireName: r'pagination')
-  FileActivitiesResponsePagination get pagination;
+  FileActivitiesResponsePagination? get pagination;
 
   FileActivitiesResponse._();
 
@@ -47,16 +47,20 @@ class _$FileActivitiesResponseSerializer implements PrimitiveSerializer<FileActi
     FileActivitiesResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'activities';
-    yield serializers.serialize(
-      object.activities,
-      specifiedType: const FullType(BuiltList, [FullType(Activity)]),
-    );
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(FileActivitiesResponsePagination),
-    );
+    if (object.activities != null) {
+      yield r'activities';
+      yield serializers.serialize(
+        object.activities,
+        specifiedType: const FullType(BuiltList, [FullType(Activity)]),
+      );
+    }
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(FileActivitiesResponsePagination),
+      );
+    }
   }
 
   @override

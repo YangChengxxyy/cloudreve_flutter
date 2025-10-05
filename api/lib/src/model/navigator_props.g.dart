@@ -8,22 +8,22 @@ part of 'navigator_props.dart';
 
 class _$NavigatorProps extends NavigatorProps {
   @override
-  final String capability;
+  final String? capability;
   @override
-  final int maxPageSize;
+  final int? maxPageSize;
   @override
-  final BuiltList<String> orderByOptions;
+  final BuiltList<String>? orderByOptions;
   @override
-  final BuiltList<String> orderDirectionOptions;
+  final BuiltList<String>? orderDirectionOptions;
 
   factory _$NavigatorProps([void Function(NavigatorPropsBuilder)? updates]) =>
       (NavigatorPropsBuilder()..update(updates))._build();
 
   _$NavigatorProps._(
-      {required this.capability,
-      required this.maxPageSize,
-      required this.orderByOptions,
-      required this.orderDirectionOptions})
+      {this.capability,
+      this.maxPageSize,
+      this.orderByOptions,
+      this.orderDirectionOptions})
       : super._();
   @override
   NavigatorProps rebuild(void Function(NavigatorPropsBuilder) updates) =>
@@ -97,8 +97,8 @@ class NavigatorPropsBuilder
     if ($v != null) {
       _capability = $v.capability;
       _maxPageSize = $v.maxPageSize;
-      _orderByOptions = $v.orderByOptions.toBuilder();
-      _orderDirectionOptions = $v.orderDirectionOptions.toBuilder();
+      _orderByOptions = $v.orderByOptions?.toBuilder();
+      _orderDirectionOptions = $v.orderDirectionOptions?.toBuilder();
       _$v = null;
     }
     return this;
@@ -122,20 +122,18 @@ class NavigatorPropsBuilder
     try {
       _$result = _$v ??
           _$NavigatorProps._(
-            capability: BuiltValueNullFieldError.checkNotNull(
-                capability, r'NavigatorProps', 'capability'),
-            maxPageSize: BuiltValueNullFieldError.checkNotNull(
-                maxPageSize, r'NavigatorProps', 'maxPageSize'),
-            orderByOptions: orderByOptions.build(),
-            orderDirectionOptions: orderDirectionOptions.build(),
+            capability: capability,
+            maxPageSize: maxPageSize,
+            orderByOptions: _orderByOptions?.build(),
+            orderDirectionOptions: _orderDirectionOptions?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'orderByOptions';
-        orderByOptions.build();
+        _orderByOptions?.build();
         _$failedField = 'orderDirectionOptions';
-        orderDirectionOptions.build();
+        _orderDirectionOptions?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'NavigatorProps', _$failedField, e.toString());

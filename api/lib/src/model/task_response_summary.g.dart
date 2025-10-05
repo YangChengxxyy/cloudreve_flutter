@@ -8,16 +8,15 @@ part of 'task_response_summary.dart';
 
 class _$TaskResponseSummary extends TaskResponseSummary {
   @override
-  final String phase;
+  final String? phase;
   @override
-  final BuiltMap<String, String> props;
+  final BuiltMap<String, String>? props;
 
   factory _$TaskResponseSummary(
           [void Function(TaskResponseSummaryBuilder)? updates]) =>
       (TaskResponseSummaryBuilder()..update(updates))._build();
 
-  _$TaskResponseSummary._({required this.phase, required this.props})
-      : super._();
+  _$TaskResponseSummary._({this.phase, this.props}) : super._();
   @override
   TaskResponseSummary rebuild(
           void Function(TaskResponseSummaryBuilder) updates) =>
@@ -74,7 +73,7 @@ class TaskResponseSummaryBuilder
     final $v = _$v;
     if ($v != null) {
       _phase = $v.phase;
-      _props = $v.props.toBuilder();
+      _props = $v.props?.toBuilder();
       _$v = null;
     }
     return this;
@@ -98,15 +97,14 @@ class TaskResponseSummaryBuilder
     try {
       _$result = _$v ??
           _$TaskResponseSummary._(
-            phase: BuiltValueNullFieldError.checkNotNull(
-                phase, r'TaskResponseSummary', 'phase'),
-            props: props.build(),
+            phase: phase,
+            props: _props?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'props';
-        props.build();
+        _props?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'TaskResponseSummary', _$failedField, e.toString());

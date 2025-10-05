@@ -19,19 +19,19 @@ part 'token.g.dart';
 abstract class Token implements Built<Token, TokenBuilder> {
   /// Access token that can be used to request API on user's behalf.
   @BuiltValueField(wireName: r'access_token')
-  String get accessToken;
+  String? get accessToken;
 
   /// Expiration date of the access token.
   @BuiltValueField(wireName: r'access_expires')
-  DateTime get accessExpires;
+  DateTime? get accessExpires;
 
   /// Refresh token that can be used to refresh a new pair of access token and refresh token.
   @BuiltValueField(wireName: r'refresh_token')
-  String get refreshToken;
+  String? get refreshToken;
 
   /// Expiration date of the refresh token.
   @BuiltValueField(wireName: r'refresh_expires')
-  DateTime get refreshExpires;
+  DateTime? get refreshExpires;
 
   Token._();
 
@@ -56,26 +56,34 @@ class _$TokenSerializer implements PrimitiveSerializer<Token> {
     Token object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'access_token';
-    yield serializers.serialize(
-      object.accessToken,
-      specifiedType: const FullType(String),
-    );
-    yield r'access_expires';
-    yield serializers.serialize(
-      object.accessExpires,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'refresh_token';
-    yield serializers.serialize(
-      object.refreshToken,
-      specifiedType: const FullType(String),
-    );
-    yield r'refresh_expires';
-    yield serializers.serialize(
-      object.refreshExpires,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.accessToken != null) {
+      yield r'access_token';
+      yield serializers.serialize(
+        object.accessToken,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.accessExpires != null) {
+      yield r'access_expires';
+      yield serializers.serialize(
+        object.accessExpires,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.refreshToken != null) {
+      yield r'refresh_token';
+      yield serializers.serialize(
+        object.refreshToken,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.refreshExpires != null) {
+      yield r'refresh_expires';
+      yield serializers.serialize(
+        object.refreshExpires,
+        specifiedType: const FullType(DateTime),
+      );
+    }
   }
 
   @override

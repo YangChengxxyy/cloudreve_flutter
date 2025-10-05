@@ -19,8 +19,8 @@ Name | Type | Description | Notes
 **authn** | **bool** | Whether Passkey is enabled. | [optional] 
 **user** | [**User**](User.md) |  | [optional] 
 **captchaReCaptchaKey** | **String** | Site key of Google reCaptcha (if configured). | [optional] 
-**captchaCapInstanceUrl** | **String** | Instance URL for Cap V2. | 
-**captchaCapSiteKey** | **String** | Site key for Cap V2. | 
+**captchaCapInstanceUrl** | **String** | Instance URL for Cap V2. | [optional] 
+**captchaCapSiteKey** | **String** | Site key for Cap V2. | [optional] 
 **siteNotice** | **String** | Global site announcement (if configured). | [optional] 
 **captchaType** | **String** | Provider type of the captcha. | [optional] 
 **turnstileSiteId** | **String** | Cloudflare Turnstile Site ID (if configured). | [optional] 

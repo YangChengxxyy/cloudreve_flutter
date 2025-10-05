@@ -18,7 +18,7 @@ part 'file_view_patch_request.g.dart';
 abstract class FileViewPatchRequest implements Built<FileViewPatchRequest, FileViewPatchRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target folder.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   @BuiltValueField(wireName: r'view')
   ExplorerView? get view;
@@ -46,11 +46,13 @@ class _$FileViewPatchRequestSerializer implements PrimitiveSerializer<FileViewPa
     FileViewPatchRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.view != null) {
       yield r'view';
       yield serializers.serialize(

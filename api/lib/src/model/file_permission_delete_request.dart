@@ -17,7 +17,7 @@ part 'file_permission_delete_request.g.dart';
 abstract class FilePermissionDeleteRequest implements Built<FilePermissionDeleteRequest, FilePermissionDeleteRequestBuilder> {
   /// List of [URI](https://docs.cloudreve.org/api/file-uri) of the target files.
   @BuiltValueField(wireName: r'uris')
-  BuiltList<String> get uris;
+  BuiltList<String>? get uris;
 
   FilePermissionDeleteRequest._();
 
@@ -42,11 +42,13 @@ class _$FilePermissionDeleteRequestSerializer implements PrimitiveSerializer<Fil
     FilePermissionDeleteRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uris';
-    yield serializers.serialize(
-      object.uris,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
+    if (object.uris != null) {
+      yield r'uris';
+      yield serializers.serialize(
+        object.uris,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
   }
 
   @override

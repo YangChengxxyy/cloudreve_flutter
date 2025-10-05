@@ -57,23 +57,18 @@ class _$NodeTypeEnumSerializer implements PrimitiveSerializer<NodeTypeEnum> {
 
 class _$Node extends Node {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final NodeTypeEnum type;
+  final NodeTypeEnum? type;
   @override
-  final String capabilities;
+  final String? capabilities;
 
   factory _$Node([void Function(NodeBuilder)? updates]) =>
       (NodeBuilder()..update(updates))._build();
 
-  _$Node._(
-      {required this.id,
-      required this.name,
-      required this.type,
-      required this.capabilities})
-      : super._();
+  _$Node._({this.id, this.name, this.type, this.capabilities}) : super._();
   @override
   Node rebuild(void Function(NodeBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -164,11 +159,10 @@ class NodeBuilder implements Builder<Node, NodeBuilder> {
   _$Node _build() {
     final _$result = _$v ??
         _$Node._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'Node', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(name, r'Node', 'name'),
-          type: BuiltValueNullFieldError.checkNotNull(type, r'Node', 'type'),
-          capabilities: BuiltValueNullFieldError.checkNotNull(
-              capabilities, r'Node', 'capabilities'),
+          id: id,
+          name: name,
+          type: type,
+          capabilities: capabilities,
         );
     replace(_$result);
     return _$result;

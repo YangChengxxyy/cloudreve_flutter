@@ -19,7 +19,7 @@ part 'list_view_column.g.dart';
 abstract class ListViewColumn implements Built<ListViewColumn, ListViewColumnBuilder> {
   /// Column type ID, predefined in [Column.tsx](https://github.com/cloudreve/frontend/blob/master/src/component/FileManager/Explorer/ListView/Column.tsx).
   @BuiltValueField(wireName: r'type')
-  int get type;
+  int? get type;
 
   /// Width of the column in px. Default width will be used for null value.
   @BuiltValueField(wireName: r'width')
@@ -51,11 +51,13 @@ class _$ListViewColumnSerializer implements PrimitiveSerializer<ListViewColumn> 
     ListViewColumn object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(int),
-    );
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.width != null) {
       yield r'width';
       yield serializers.serialize(

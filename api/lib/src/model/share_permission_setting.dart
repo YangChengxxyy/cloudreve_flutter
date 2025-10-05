@@ -24,19 +24,19 @@ abstract class SharePermissionSetting implements Built<SharePermissionSetting, S
   JsonObject? get sameGroup;
 
   @BuiltValueField(wireName: r'everyone')
-  String get everyone;
+  String? get everyone;
 
   @BuiltValueField(wireName: r'other')
   JsonObject? get other;
 
   @BuiltValueField(wireName: r'anonymous')
-  String get anonymous;
+  String? get anonymous;
 
   @BuiltValueField(wireName: r'group_explicit')
-  JsonObject get groupExplicit;
+  JsonObject? get groupExplicit;
 
   @BuiltValueField(wireName: r'user_explicit')
-  JsonObject get userExplicit;
+  JsonObject? get userExplicit;
 
   SharePermissionSetting._();
 
@@ -61,36 +61,48 @@ class _$SharePermissionSettingSerializer implements PrimitiveSerializer<SharePer
     SharePermissionSetting object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'same_group';
-    yield object.sameGroup == null ? null : serializers.serialize(
-      object.sameGroup,
-      specifiedType: const FullType.nullable(JsonObject),
-    );
-    yield r'everyone';
-    yield serializers.serialize(
-      object.everyone,
-      specifiedType: const FullType(String),
-    );
-    yield r'other';
-    yield object.other == null ? null : serializers.serialize(
-      object.other,
-      specifiedType: const FullType.nullable(JsonObject),
-    );
-    yield r'anonymous';
-    yield serializers.serialize(
-      object.anonymous,
-      specifiedType: const FullType(String),
-    );
-    yield r'group_explicit';
-    yield serializers.serialize(
-      object.groupExplicit,
-      specifiedType: const FullType(JsonObject),
-    );
-    yield r'user_explicit';
-    yield serializers.serialize(
-      object.userExplicit,
-      specifiedType: const FullType(JsonObject),
-    );
+    if (object.sameGroup != null) {
+      yield r'same_group';
+      yield serializers.serialize(
+        object.sameGroup,
+        specifiedType: const FullType.nullable(JsonObject),
+      );
+    }
+    if (object.everyone != null) {
+      yield r'everyone';
+      yield serializers.serialize(
+        object.everyone,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.other != null) {
+      yield r'other';
+      yield serializers.serialize(
+        object.other,
+        specifiedType: const FullType.nullable(JsonObject),
+      );
+    }
+    if (object.anonymous != null) {
+      yield r'anonymous';
+      yield serializers.serialize(
+        object.anonymous,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.groupExplicit != null) {
+      yield r'group_explicit';
+      yield serializers.serialize(
+        object.groupExplicit,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.userExplicit != null) {
+      yield r'user_explicit';
+      yield serializers.serialize(
+        object.userExplicit,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
   }
 
   @override

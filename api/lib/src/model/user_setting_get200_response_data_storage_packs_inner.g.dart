@@ -9,13 +9,13 @@ part of 'user_setting_get200_response_data_storage_packs_inner.dart';
 class _$UserSettingGet200ResponseDataStoragePacksInner
     extends UserSettingGet200ResponseDataStoragePacksInner {
   @override
-  final String name;
+  final String? name;
   @override
-  final DateTime activeSince;
+  final DateTime? activeSince;
   @override
-  final DateTime expireAt;
+  final DateTime? expireAt;
   @override
-  final int size;
+  final int? size;
 
   factory _$UserSettingGet200ResponseDataStoragePacksInner(
           [void Function(UserSettingGet200ResponseDataStoragePacksInnerBuilder)?
@@ -24,10 +24,7 @@ class _$UserSettingGet200ResponseDataStoragePacksInner
           ._build();
 
   _$UserSettingGet200ResponseDataStoragePacksInner._(
-      {required this.name,
-      required this.activeSince,
-      required this.expireAt,
-      required this.size})
+      {this.name, this.activeSince, this.expireAt, this.size})
       : super._();
   @override
   UserSettingGet200ResponseDataStoragePacksInner rebuild(
@@ -128,14 +125,10 @@ class UserSettingGet200ResponseDataStoragePacksInnerBuilder
   _$UserSettingGet200ResponseDataStoragePacksInner _build() {
     final _$result = _$v ??
         _$UserSettingGet200ResponseDataStoragePacksInner._(
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'UserSettingGet200ResponseDataStoragePacksInner', 'name'),
-          activeSince: BuiltValueNullFieldError.checkNotNull(activeSince,
-              r'UserSettingGet200ResponseDataStoragePacksInner', 'activeSince'),
-          expireAt: BuiltValueNullFieldError.checkNotNull(expireAt,
-              r'UserSettingGet200ResponseDataStoragePacksInner', 'expireAt'),
-          size: BuiltValueNullFieldError.checkNotNull(
-              size, r'UserSettingGet200ResponseDataStoragePacksInner', 'size'),
+          name: name,
+          activeSince: activeSince,
+          expireAt: expireAt,
+          size: size,
         );
     replace(_$result);
     return _$result;

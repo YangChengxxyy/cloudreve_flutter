@@ -8,7 +8,7 @@ part of 'file_metadata_patch200_response.dart';
 
 class _$FileMetadataPatch200Response extends FileMetadataPatch200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$FileMetadataPatch200Response extends FileMetadataPatch200Response {
       (FileMetadataPatch200ResponseBuilder()..update(updates))._build();
 
   _$FileMetadataPatch200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -137,8 +137,7 @@ class FileMetadataPatch200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileMetadataPatch200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileMetadataPatch200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

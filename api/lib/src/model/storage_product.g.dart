@@ -8,15 +8,15 @@ part of 'storage_product.dart';
 
 class _$StorageProduct extends StorageProduct {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final int size;
+  final int? size;
   @override
-  final int time;
+  final int? time;
   @override
-  final int price;
+  final int? price;
   @override
   final String? chip;
   @override
@@ -26,11 +26,11 @@ class _$StorageProduct extends StorageProduct {
       (StorageProductBuilder()..update(updates))._build();
 
   _$StorageProduct._(
-      {required this.id,
-      required this.name,
-      required this.size,
-      required this.time,
-      required this.price,
+      {this.id,
+      this.name,
+      this.size,
+      this.time,
+      this.price,
       this.chip,
       this.points})
       : super._();
@@ -149,16 +149,11 @@ class StorageProductBuilder
   _$StorageProduct _build() {
     final _$result = _$v ??
         _$StorageProduct._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'StorageProduct', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'StorageProduct', 'name'),
-          size: BuiltValueNullFieldError.checkNotNull(
-              size, r'StorageProduct', 'size'),
-          time: BuiltValueNullFieldError.checkNotNull(
-              time, r'StorageProduct', 'time'),
-          price: BuiltValueNullFieldError.checkNotNull(
-              price, r'StorageProduct', 'price'),
+          id: id,
+          name: name,
+          size: size,
+          time: time,
+          price: price,
           chip: chip,
           points: points,
         );

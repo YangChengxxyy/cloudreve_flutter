@@ -17,7 +17,7 @@ part 'user_authn_put200_response_data.g.dart';
 abstract class UserAuthnPut200ResponseData implements Built<UserAuthnPut200ResponseData, UserAuthnPut200ResponseDataBuilder> {
   /// A [PublicKeyCredentialCreationOptions](https://www.w3.org/TR/webauthn/#dictionary-makecredentialoptions) object that can be used to invoke passkey registration from browser.
   @BuiltValueField(wireName: r'publicKey')
-  JsonObject get publicKey;
+  JsonObject? get publicKey;
 
   UserAuthnPut200ResponseData._();
 
@@ -42,11 +42,13 @@ class _$UserAuthnPut200ResponseDataSerializer implements PrimitiveSerializer<Use
     UserAuthnPut200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'publicKey';
-    yield serializers.serialize(
-      object.publicKey,
-      specifiedType: const FullType(JsonObject),
-    );
+    if (object.publicKey != null) {
+      yield r'publicKey';
+      yield serializers.serialize(
+        object.publicKey,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
   }
 
   @override

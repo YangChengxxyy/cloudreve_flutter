@@ -8,17 +8,17 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** | ID of the user. | 
+**id** | **String** | ID of the user. | [optional] 
 **email** | **String** | Email of the user. For anonymous session, it is empty. | [optional] 
-**nickname** | **String** | Display name of the user. | 
-**createdAt** | [**DateTime**](DateTime.md) | Time at which the user is created. For anonymous session, this value is invalid. | 
-**anonymous** | **bool** | Indicating whether the session is anonymous. | 
-**group** | [**Group**](Group.md) |  | 
+**nickname** | **String** | Display name of the user. | [optional] 
+**createdAt** | [**DateTime**](DateTime.md) | Time at which the user is created. For anonymous session, this value is invalid. | [optional] 
+**anonymous** | **bool** | Indicating whether the session is anonymous. | [optional] 
+**group** | [**Group**](Group.md) |  | [optional] 
 **status** | **String** |  | [optional] 
-**avatar** | **String** | Source type of the profile picture. Empty value indicates no profile picture. | 
-**preferredTheme** | **String** | Primary color of preferred theme. | 
-**credit** | **int** | Credit balance. | 
-**language** | **String** | Primary language. | 
+**avatar** | **String** | Source type of the profile picture. Empty value indicates no profile picture. | [optional] 
+**preferredTheme** | **String** | Primary color of preferred theme. | [optional] 
+**credit** | **int** | Credit balance. | [optional] 
+**language** | **String** | Primary language. | [optional] 
 **disableViewSync** | **String** | Whether syncing view setting to server is enabled. | [optional] 
 **shareLinksInProfile** | **String** | What type of share link is visable in user's profile. | [optional] 
 

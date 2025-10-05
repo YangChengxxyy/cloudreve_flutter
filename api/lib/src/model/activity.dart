@@ -22,14 +22,14 @@ part 'activity.g.dart';
 abstract class Activity implements Built<Activity, ActivityBuilder> {
   /// ID of the activity.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   @BuiltValueField(wireName: r'content')
-  LogEntry get content;
+  LogEntry? get content;
 
   /// Datetime when the activity is triggered.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   @BuiltValueField(wireName: r'user')
   ActivityUser? get user;
@@ -61,21 +61,27 @@ class _$ActivitySerializer implements PrimitiveSerializer<Activity> {
     Activity object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'content';
-    yield serializers.serialize(
-      object.content,
-      specifiedType: const FullType(LogEntry),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.content != null) {
+      yield r'content';
+      yield serializers.serialize(
+        object.content,
+        specifiedType: const FullType(LogEntry),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
     if (object.user != null) {
       yield r'user';
       yield serializers.serialize(

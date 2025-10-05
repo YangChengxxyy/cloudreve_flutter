@@ -20,23 +20,23 @@ part 'group.g.dart';
 abstract class Group implements Built<Group, GroupBuilder> {
   /// ID of the group.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Name of the group.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   /// Permission boolset of the group. Refer to [Boolset](https://docs.cloudreve.org/api/boolset) for how to read it.
   @BuiltValueField(wireName: r'permission')
-  String get permission;
+  String? get permission;
 
   /// The maximum number of files allowed for users to obtain direct links in a single batch, fill in 0 means no batch generation of direct links is allowed.
   @BuiltValueField(wireName: r'direct_link_batch_size')
-  int get directLinkBatchSize;
+  int? get directLinkBatchSize;
 
   /// The retention time in seconds of files in the trash bin, files will be permanently deleted after the expiration time. Changing this setting will not affect files already in the trash bin.
   @BuiltValueField(wireName: r'trash_retention')
-  int get trashRetention;
+  int? get trashRetention;
 
   Group._();
 
@@ -61,31 +61,41 @@ class _$GroupSerializer implements PrimitiveSerializer<Group> {
     Group object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
-    yield r'permission';
-    yield serializers.serialize(
-      object.permission,
-      specifiedType: const FullType(String),
-    );
-    yield r'direct_link_batch_size';
-    yield serializers.serialize(
-      object.directLinkBatchSize,
-      specifiedType: const FullType(int),
-    );
-    yield r'trash_retention';
-    yield serializers.serialize(
-      object.trashRetention,
-      specifiedType: const FullType(int),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.permission != null) {
+      yield r'permission';
+      yield serializers.serialize(
+        object.permission,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.directLinkBatchSize != null) {
+      yield r'direct_link_batch_size';
+      yield serializers.serialize(
+        object.directLinkBatchSize,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.trashRetention != null) {
+      yield r'trash_retention';
+      yield serializers.serialize(
+        object.trashRetention,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override

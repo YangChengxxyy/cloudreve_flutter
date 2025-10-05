@@ -31,10 +31,11 @@ class LoginResult {
   factory LoginResult.fromApi(
     cloudreve_api.SessionTokenPost200Response response,
   ) {
-    final loginData = LoginData.fromApi(response.data);
+    final loginResponse = response.data;
     return LoginResult(
-      code: response.code,
-      data: loginData,
+      code: response.code ?? -1,
+      data:
+          loginResponse != null ? LoginData.fromApi(loginResponse) : null,
       msg: response.msg,
       error: response.error,
       correlationId: response.correlationId,
@@ -59,10 +60,10 @@ class LoginData {
     );
   }
 
-  factory LoginData.fromApi(cloudreve_api.LoginResponse response) {
+  factory LoginData.fromApi(cloudreve_api.LoginResponse? response) {
     return LoginData(
-      user: UserData.fromApi(response.user),
-      token: TokenData.fromApi(response.token),
+      user: UserData.fromApi(response?.user),
+      token: TokenData.fromApi(response?.token),
     );
   }
 }
@@ -79,6 +80,12 @@ class TokenData {
   final DateTime accessExpires;
   final String refreshToken;
   final DateTime refreshExpires;
+
+  TokenData.empty()
+      : accessToken = '',
+        accessExpires = DateTime.fromMillisecondsSinceEpoch(0),
+        refreshToken = '',
+        refreshExpires = DateTime.fromMillisecondsSinceEpoch(0);
 
   factory TokenData.fromJson(Map<String, dynamic> json) {
     DateTime _parseDate(dynamic value) {
@@ -103,12 +110,17 @@ class TokenData {
     );
   }
 
-  factory TokenData.fromApi(cloudreve_api.Token token) {
+  factory TokenData.fromApi(cloudreve_api.Token? token) {
+    if (token == null) {
+      return TokenData.empty();
+    }
     return TokenData(
-      accessToken: token.accessToken,
-      accessExpires: token.accessExpires,
-      refreshToken: token.refreshToken,
-      refreshExpires: token.refreshExpires,
+      accessToken: token.accessToken ?? '',
+      accessExpires:
+          token.accessExpires ?? DateTime.fromMillisecondsSinceEpoch(0),
+      refreshToken: token.refreshToken ?? '',
+      refreshExpires:
+          token.refreshExpires ?? DateTime.fromMillisecondsSinceEpoch(0),
     );
   }
 }
@@ -140,6 +152,19 @@ class UserData {
   final int? credit;
   final Group? group;
 
+  UserData.empty()
+      : id = '',
+        userName = '',
+        nickname = '',
+        status = '',
+        avatar = '',
+        createdAt = '',
+        preferredTheme = '',
+        anonymous = false,
+        language = '',
+        credit = null,
+        group = null;
+
   factory UserData.fromJson(Map<String, dynamic> json) {
     final groupJson = json['group'];
     return UserData(
@@ -158,18 +183,21 @@ class UserData {
     );
   }
 
-  factory UserData.fromApi(cloudreve_api.User user) {
+  factory UserData.fromApi(cloudreve_api.User? user) {
+    if (user == null) {
+      return UserData.empty();
+    }
     final group = user.group;
     return UserData(
-      id: user.id,
+      id: user.id ?? '',
       userName: user.email ?? '',
       nickname: user.nickname ?? '',
       status: user.status?.name ?? '',
       avatar: user.avatar?.name ?? '',
-      createdAt: user.createdAt.toIso8601String(),
+      createdAt: user.createdAt?.toIso8601String() ?? '',
       preferredTheme: user.preferredTheme ?? '',
       anonymous: user.anonymous ?? false,
-      language: user.language,
+      language: user.language ?? '',
       credit: user.credit,
       group: Group.fromApi(group),
     );
@@ -191,6 +219,13 @@ class Group {
   final int directLinkBatchSize;
   final int trashRetention;
 
+  Group.empty()
+      : id = '',
+        name = '',
+        permission = '',
+        directLinkBatchSize = 0,
+        trashRetention = 0;
+
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
       id: (json['id'] ?? '').toString(),
@@ -205,13 +240,16 @@ class Group {
     );
   }
 
-  factory Group.fromApi(cloudreve_api.Group group) {
+  static Group? fromApi(cloudreve_api.Group? group) {
+    if (group == null) {
+      return null;
+    }
     return Group(
-      id: group.id,
-      name: group.name,
-      permission: group.permission,
-      directLinkBatchSize: group.directLinkBatchSize,
-      trashRetention: group.trashRetention,
+      id: group.id ?? '',
+      name: group.name ?? '',
+      permission: group.permission ?? '',
+      directLinkBatchSize: group.directLinkBatchSize ?? 0,
+      trashRetention: group.trashRetention ?? 0,
     );
   }
 }

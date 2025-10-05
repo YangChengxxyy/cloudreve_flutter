@@ -19,10 +19,10 @@ part 'user_payments_get200_response_data.g.dart';
 @BuiltValue()
 abstract class UserPaymentsGet200ResponseData implements Built<UserPaymentsGet200ResponseData, UserPaymentsGet200ResponseDataBuilder> {
   @BuiltValueField(wireName: r'pagination')
-  UserPaymentsGet200ResponseDataPagination get pagination;
+  UserPaymentsGet200ResponseDataPagination? get pagination;
 
   @BuiltValueField(wireName: r'payments')
-  BuiltList<Payment> get payments;
+  BuiltList<Payment>? get payments;
 
   UserPaymentsGet200ResponseData._();
 
@@ -47,16 +47,20 @@ class _$UserPaymentsGet200ResponseDataSerializer implements PrimitiveSerializer<
     UserPaymentsGet200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(UserPaymentsGet200ResponseDataPagination),
-    );
-    yield r'payments';
-    yield serializers.serialize(
-      object.payments,
-      specifiedType: const FullType(BuiltList, [FullType(Payment)]),
-    );
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(UserPaymentsGet200ResponseDataPagination),
+      );
+    }
+    if (object.payments != null) {
+      yield r'payments';
+      yield serializers.serialize(
+        object.payments,
+        specifiedType: const FullType(BuiltList, [FullType(Payment)]),
+      );
+    }
   }
 
   @override

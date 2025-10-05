@@ -20,11 +20,11 @@ part 'session_token_delete200_response.g.dart';
 @BuiltValue()
 abstract class SessionTokenDelete200Response implements Built<SessionTokenDelete200Response, SessionTokenDelete200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  User get data;
+  User? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$SessionTokenDelete200ResponseSerializer implements PrimitiveSerializer<S
     SessionTokenDelete200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(User),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(User),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

@@ -9,7 +9,7 @@ import 'package:cloudreve_api_client/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **data** | [**BuiltList&lt;FileSourcePut200ResponseDataInner&gt;**](FileSourcePut200ResponseDataInner.md) | Response content. In some error type, e.g. lock conflicting errors, this field wil present details of the error, e.g. who is locking the current file. | [optional] 
-**code** | **int** | Response code. `0` - Success. | [default to 0]
+**code** | **int** | Response code. `0` - Success. | [optional] [default to 0]
 **msg** | **String** | Human readable error message (if any). | [optional] 
 **error** | **String** | Internal error message, only visable in debug mode. | [optional] 
 **aggregatedError** | [**BuiltMap&lt;String, Response&gt;**](Response.md) | Map of multiple error in batch request. The key is the failed resource ID, it could be a file URI or a resource ID, the value is a `Response`. | [optional] 

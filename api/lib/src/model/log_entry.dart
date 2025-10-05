@@ -26,7 +26,7 @@ part 'log_entry.g.dart';
 abstract class LogEntry implements Built<LogEntry, LogEntryBuilder> {
   /// Category of this log. Definition can be found in [`explorer.ts`](https://github.com/cloudreve/frontend/blob/master/src/api/explorer.ts#L20).
   @BuiltValueField(wireName: r'category')
-  int get category;
+  int? get category;
 
   /// Extra key-value props.
   @BuiltValueField(wireName: r'exts')
@@ -83,11 +83,13 @@ class _$LogEntrySerializer implements PrimitiveSerializer<LogEntry> {
     LogEntry object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'category';
-    yield serializers.serialize(
-      object.category,
-      specifiedType: const FullType(int),
-    );
+    if (object.category != null) {
+      yield r'category';
+      yield serializers.serialize(
+        object.category,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.exts != null) {
       yield r'exts';
       yield serializers.serialize(

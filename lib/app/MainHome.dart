@@ -3,11 +3,9 @@ import 'dart:io';
 
 import 'package:cloudreve/component/CustomSearchDelegate.dart';
 import 'package:cloudreve/component/MDrawer.dart';
-import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/entity/MFile.dart';
-import 'package:cloudreve/entity/Storage.dart';
+import 'package:cloudreve/state/app_state.dart';
 import 'package:cloudreve/utils/DarkModeProvider.dart';
-import 'package:cloudreve/utils/GlobalSetting.dart';
 import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:cloudreve/view/Home.dart';
 import 'package:cloudreve/view/Setting.dart';
@@ -16,21 +14,18 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Map<int, CancelToken> uploadCancelTokenMap = {};
 
+enum MainTab { files, settings }
+
 class MainHome extends StatefulWidget {
-  /// 用户数据
-  final UserData userData;
+  final MainTab initialTab;
 
-  /// 用户存储信息
-  final Storage storage;
-
-  const MainHome({Key? key, required this.userData, required this.storage})
-      : super(key: key);
+  const MainHome({Key? key, this.initialTab = MainTab.files}) : super(key: key);
 
   @override
   State<MainHome> createState() => _MainHomeState();
@@ -56,9 +51,6 @@ class _MainHomeState extends State<MainHome> {
 
   MFile? _openFile;
 
-  late Storage _storage;
-  late UserData _userData;
-
   _MainHomeState() {
     _fileResp = CloudreveRepository.listFiles(_path);
   }
@@ -68,8 +60,7 @@ class _MainHomeState extends State<MainHome> {
   @override
   void initState() {
     super.initState();
-    _storage = widget.storage;
-    _userData = widget.userData;
+    _selectedIndex = widget.initialTab.index;
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var android =
         AndroidInitializationSettings('@mipmap/ic_launcher2_foreground');
@@ -77,6 +68,15 @@ class _MainHomeState extends State<MainHome> {
     var initSetttings = InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin?.initialize(initSetttings,
         onDidReceiveNotificationResponse: _onSelectNotification);
+  }
+
+  @override
+  void didUpdateWidget(covariant MainHome oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final newIndex = widget.initialTab.index;
+    if (newIndex != _selectedIndex) {
+      _selectedIndex = newIndex;
+    }
   }
 
   static final _compareFunctions = <CompareFunction>[
@@ -122,6 +122,16 @@ class _MainHomeState extends State<MainHome> {
   Widget build(BuildContext context) {
     _refresh(false);
     var darkMode = Provider.of<DarkModeProvider>(context).darkMode;
+    final appState = context.watch<AppState>();
+    final storage = appState.storage;
+    final userData = appState.userData;
+
+    if (storage == null || userData == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Cloudreve')),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
         appBar: AppBar(
           title: const Text('Cloudreve'),
@@ -235,8 +245,8 @@ class _MainHomeState extends State<MainHome> {
               : null,
         ),
         drawer: MDrawer(
-          storage: _storage,
-          userData: _userData,
+          storage: storage,
+          userData: userData,
         ),
         body: Center(
           child: IndexedStack(
@@ -260,7 +270,7 @@ class _MainHomeState extends State<MainHome> {
                 },
               ),
               Setting(
-                userData: _userData,
+                userData: userData,
                 refresh: _refresh,
               )
             ],
@@ -372,54 +382,42 @@ class _MainHomeState extends State<MainHome> {
   }
 
   void _onItemTapped(int index) {
+    if (_selectedIndex == index) {
+      return;
+    }
     setState(() {
       _selectedIndex = index;
     });
+    switch (index) {
+      case 0:
+        context.go('/home/files');
+        break;
+      case 1:
+        context.go('/home/settings');
+        break;
+    }
   }
 
   /// 刷新 [immediately]表示是否强制
   void _refresh(bool immediately) async {
+    final appState = context.read<AppState>();
     if (immediately) {
       _lastRequest = DateTime.now().millisecondsSinceEpoch;
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String username = prefs.getString(usernameKey)!;
-      String password = prefs.getString(passwordKey)!;
-      final loginResult =
-          await CloudreveRepository.signIn(email: username, password: password);
-      final storageData = await CloudreveRepository.fetchStorage();
-
-      final Storage storage = storageData ?? _storage;
-      final UserData userData =
-          loginResult.data != null ? loginResult.data!.user : _userData;
-      var fileResp = CloudreveRepository.listFiles(_path);
-
+      await appState.refreshSession();
+      final fileResp = CloudreveRepository.listFiles(_path);
+      if (!mounted) return;
       setState(() {
         _fileResp = fileResp;
-        _storage = storage;
-        _userData = userData;
       });
     } else {
-      int now = DateTime.now().millisecondsSinceEpoch;
+      final now = DateTime.now().millisecondsSinceEpoch;
       if (_lastRequest == -1 || (now - _lastRequest) / 1000 / 60 > 1) {
-        _lastRequest = DateTime.now().millisecondsSinceEpoch;
-
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        String username = prefs.getString(usernameKey)!;
-        String password = prefs.getString(passwordKey)!;
-        final loginResult = await CloudreveRepository.signIn(
-            email: username, password: password);
-        final storageData = await CloudreveRepository.fetchStorage();
-
-        final Storage storage = storageData ?? _storage;
-        final UserData userData =
-            loginResult.data != null ? loginResult.data!.user : _userData;
-        var fileResp = CloudreveRepository.listFiles(_path);
-
+        _lastRequest = now;
+        await appState.refreshSession();
+        final fileResp = CloudreveRepository.listFiles(_path);
+        if (!mounted) return;
         setState(() {
           _fileResp = fileResp;
-          _storage = storage;
-          _userData = userData;
         });
       }
     }

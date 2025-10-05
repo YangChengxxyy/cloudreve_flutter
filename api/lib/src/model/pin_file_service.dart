@@ -17,7 +17,7 @@ part 'pin_file_service.g.dart';
 abstract class PinFileService implements Built<PinFileService, PinFileServiceBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target folder or search view.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Option display name of the sidebar item. Default name will be used if this value is null.
   @BuiltValueField(wireName: r'name')
@@ -46,11 +46,13 @@ class _$PinFileServiceSerializer implements PrimitiveSerializer<PinFileService> 
     PinFileService object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.name != null) {
       yield r'name';
       yield serializers.serialize(

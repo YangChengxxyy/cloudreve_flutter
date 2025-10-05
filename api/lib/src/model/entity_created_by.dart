@@ -25,7 +25,7 @@ part 'entity_created_by.g.dart';
 abstract class EntityCreatedBy implements Built<EntityCreatedBy, EntityCreatedByBuilder> {
   /// ID of the user.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Email of the user. For anonymous session, it is empty.
   @BuiltValueField(wireName: r'email')
@@ -37,10 +37,10 @@ abstract class EntityCreatedBy implements Built<EntityCreatedBy, EntityCreatedBy
 
   /// Time at which the user is created. For anonymous session, this value is invalid.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   @BuiltValueField(wireName: r'group')
-  EntityCreatedByGroup get group;
+  EntityCreatedByGroup? get group;
 
   /// Source type of the profile picture. Empty value indicates no profile picture.
   @BuiltValueField(wireName: r'avatar')
@@ -79,11 +79,13 @@ class _$EntityCreatedBySerializer implements PrimitiveSerializer<EntityCreatedBy
     EntityCreatedBy object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.email != null) {
       yield r'email';
       yield serializers.serialize(
@@ -91,26 +93,34 @@ class _$EntityCreatedBySerializer implements PrimitiveSerializer<EntityCreatedBy
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'nickname';
-    yield object.nickname == null ? null : serializers.serialize(
-      object.nickname,
-      specifiedType: const FullType.nullable(String),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'group';
-    yield serializers.serialize(
-      object.group,
-      specifiedType: const FullType(EntityCreatedByGroup),
-    );
-    yield r'avatar';
-    yield object.avatar == null ? null : serializers.serialize(
-      object.avatar,
-      specifiedType: const FullType.nullable(EntityCreatedByAvatarEnum),
-    );
+    if (object.nickname != null) {
+      yield r'nickname';
+      yield serializers.serialize(
+        object.nickname,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.group != null) {
+      yield r'group';
+      yield serializers.serialize(
+        object.group,
+        specifiedType: const FullType(EntityCreatedByGroup),
+      );
+    }
+    if (object.avatar != null) {
+      yield r'avatar';
+      yield serializers.serialize(
+        object.avatar,
+        specifiedType: const FullType.nullable(EntityCreatedByAvatarEnum),
+      );
+    }
     if (object.disableViewSync != null) {
       yield r'disable_view_sync';
       yield serializers.serialize(

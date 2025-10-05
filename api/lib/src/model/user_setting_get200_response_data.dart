@@ -41,7 +41,7 @@ abstract class UserSettingGet200ResponseData implements Built<UserSettingGet200R
 
   /// Whether file version retention is enabled.
   @BuiltValueField(wireName: r'version_retention_enabled')
-  bool get versionRetentionEnabled;
+  bool? get versionRetentionEnabled;
 
   /// List of file extensions enabling file version retention. For null or empty list, all extensions are enabled.
   @BuiltValueField(wireName: r'version_retention_ext')
@@ -53,11 +53,11 @@ abstract class UserSettingGet200ResponseData implements Built<UserSettingGet200R
 
   /// Whether this account is passwordless (sign in via 3rd party identity provider).
   @BuiltValueField(wireName: r'passwordless')
-  bool get passwordless;
+  bool? get passwordless;
 
   /// Whether 2FA is enabled.
   @BuiltValueField(wireName: r'two_fa_enabled')
-  bool get twoFaEnabled;
+  bool? get twoFaEnabled;
 
   /// List of registered passkeys.
   @BuiltValueField(wireName: r'passkeys')
@@ -69,15 +69,15 @@ abstract class UserSettingGet200ResponseData implements Built<UserSettingGet200R
 
   /// List of available extra storage packs
   @BuiltValueField(wireName: r'storage_packs')
-  BuiltList<UserSettingGet200ResponseDataStoragePacksInner> get storagePacks;
+  BuiltList<UserSettingGet200ResponseDataStoragePacksInner>? get storagePacks;
 
   /// Available points balance.
   @BuiltValueField(wireName: r'credit')
-  int get credit;
+  int? get credit;
 
   /// Whether explorer view setting sync is disabled.
   @BuiltValueField(wireName: r'disable_view_sync')
-  bool get disableViewSync;
+  bool? get disableViewSync;
 
   /// What type of share link is visable in user's profile.
   @BuiltValueField(wireName: r'share_links_in_profile')
@@ -121,11 +121,13 @@ class _$UserSettingGet200ResponseDataSerializer implements PrimitiveSerializer<U
         specifiedType: const FullType.nullable(BuiltList, [FullType(UserSettingGet200ResponseDataOpenIdInner)]),
       );
     }
-    yield r'version_retention_enabled';
-    yield serializers.serialize(
-      object.versionRetentionEnabled,
-      specifiedType: const FullType(bool),
-    );
+    if (object.versionRetentionEnabled != null) {
+      yield r'version_retention_enabled';
+      yield serializers.serialize(
+        object.versionRetentionEnabled,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.versionRetentionExt != null) {
       yield r'version_retention_ext';
       yield serializers.serialize(
@@ -140,16 +142,20 @@ class _$UserSettingGet200ResponseDataSerializer implements PrimitiveSerializer<U
         specifiedType: const FullType.nullable(int),
       );
     }
-    yield r'passwordless';
-    yield serializers.serialize(
-      object.passwordless,
-      specifiedType: const FullType(bool),
-    );
-    yield r'two_fa_enabled';
-    yield serializers.serialize(
-      object.twoFaEnabled,
-      specifiedType: const FullType(bool),
-    );
+    if (object.passwordless != null) {
+      yield r'passwordless';
+      yield serializers.serialize(
+        object.passwordless,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.twoFaEnabled != null) {
+      yield r'two_fa_enabled';
+      yield serializers.serialize(
+        object.twoFaEnabled,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.passkeys != null) {
       yield r'passkeys';
       yield serializers.serialize(
@@ -164,21 +170,27 @@ class _$UserSettingGet200ResponseDataSerializer implements PrimitiveSerializer<U
         specifiedType: const FullType.nullable(BuiltList, [FullType(UserSettingGet200ResponseDataLoginActivityInner)]),
       );
     }
-    yield r'storage_packs';
-    yield serializers.serialize(
-      object.storagePacks,
-      specifiedType: const FullType(BuiltList, [FullType(UserSettingGet200ResponseDataStoragePacksInner)]),
-    );
-    yield r'credit';
-    yield serializers.serialize(
-      object.credit,
-      specifiedType: const FullType(int),
-    );
-    yield r'disable_view_sync';
-    yield serializers.serialize(
-      object.disableViewSync,
-      specifiedType: const FullType(bool),
-    );
+    if (object.storagePacks != null) {
+      yield r'storage_packs';
+      yield serializers.serialize(
+        object.storagePacks,
+        specifiedType: const FullType(BuiltList, [FullType(UserSettingGet200ResponseDataStoragePacksInner)]),
+      );
+    }
+    if (object.credit != null) {
+      yield r'credit';
+      yield serializers.serialize(
+        object.credit,
+        specifiedType: const FullType(int),
+      );
+    }
+    if (object.disableViewSync != null) {
+      yield r'disable_view_sync';
+      yield serializers.serialize(
+        object.disableViewSync,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.shareLinksInProfile != null) {
       yield r'share_links_in_profile';
       yield serializers.serialize(

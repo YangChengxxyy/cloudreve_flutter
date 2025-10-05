@@ -20,11 +20,11 @@ part 'session_token_refresh_post200_response.g.dart';
 @BuiltValue()
 abstract class SessionTokenRefreshPost200Response implements Built<SessionTokenRefreshPost200Response, SessionTokenRefreshPost200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  TaskResponse get data;
+  TaskResponse? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$SessionTokenRefreshPost200ResponseSerializer implements PrimitiveSeriali
     SessionTokenRefreshPost200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(TaskResponse),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(TaskResponse),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

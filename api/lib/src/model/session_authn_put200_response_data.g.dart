@@ -8,16 +8,15 @@ part of 'session_authn_put200_response_data.dart';
 
 class _$SessionAuthnPut200ResponseData extends SessionAuthnPut200ResponseData {
   @override
-  final String sessionId;
+  final String? sessionId;
   @override
-  final BuiltMap<String, JsonObject?> options;
+  final BuiltMap<String, JsonObject?>? options;
 
   factory _$SessionAuthnPut200ResponseData(
           [void Function(SessionAuthnPut200ResponseDataBuilder)? updates]) =>
       (SessionAuthnPut200ResponseDataBuilder()..update(updates))._build();
 
-  _$SessionAuthnPut200ResponseData._(
-      {required this.sessionId, required this.options})
+  _$SessionAuthnPut200ResponseData._({this.sessionId, this.options})
       : super._();
   @override
   SessionAuthnPut200ResponseData rebuild(
@@ -78,7 +77,7 @@ class SessionAuthnPut200ResponseDataBuilder
     final $v = _$v;
     if ($v != null) {
       _sessionId = $v.sessionId;
-      _options = $v.options.toBuilder();
+      _options = $v.options?.toBuilder();
       _$v = null;
     }
     return this;
@@ -102,15 +101,14 @@ class SessionAuthnPut200ResponseDataBuilder
     try {
       _$result = _$v ??
           _$SessionAuthnPut200ResponseData._(
-            sessionId: BuiltValueNullFieldError.checkNotNull(
-                sessionId, r'SessionAuthnPut200ResponseData', 'sessionId'),
-            options: options.build(),
+            sessionId: sessionId,
+            options: _options?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'options';
-        options.build();
+        _options?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SessionAuthnPut200ResponseData', _$failedField, e.toString());

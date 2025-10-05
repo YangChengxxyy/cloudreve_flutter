@@ -9,7 +9,7 @@ part of 'workflow_download_task_id_patch200_response.dart';
 class _$WorkflowDownloadTaskIdPatch200Response
     extends WorkflowDownloadTaskIdPatch200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
 
@@ -19,8 +19,7 @@ class _$WorkflowDownloadTaskIdPatch200Response
       (WorkflowDownloadTaskIdPatch200ResponseBuilder()..update(updates))
           ._build();
 
-  _$WorkflowDownloadTaskIdPatch200Response._({required this.code, this.msg})
-      : super._();
+  _$WorkflowDownloadTaskIdPatch200Response._({this.code, this.msg}) : super._();
   @override
   WorkflowDownloadTaskIdPatch200Response rebuild(
           void Function(WorkflowDownloadTaskIdPatch200ResponseBuilder)
@@ -103,8 +102,7 @@ class WorkflowDownloadTaskIdPatch200ResponseBuilder
   _$WorkflowDownloadTaskIdPatch200Response _build() {
     final _$result = _$v ??
         _$WorkflowDownloadTaskIdPatch200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'WorkflowDownloadTaskIdPatch200Response', 'code'),
+          code: code,
           msg: msg,
         );
     replace(_$result);

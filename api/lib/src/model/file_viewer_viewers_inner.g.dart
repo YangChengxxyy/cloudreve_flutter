@@ -78,17 +78,17 @@ class _$FileViewerViewersInnerDisplayNameEnumSerializer
 
 class _$FileViewerViewersInner extends FileViewerViewersInner {
   @override
-  final String id;
+  final String? id;
   @override
-  final String type;
+  final String? type;
   @override
-  final FileViewerViewersInnerDisplayNameEnum displayName;
+  final FileViewerViewersInnerDisplayNameEnum? displayName;
   @override
-  final BuiltList<String> exts;
+  final BuiltList<String>? exts;
   @override
-  final String icon;
+  final String? icon;
   @override
-  final int maxSize;
+  final int? maxSize;
   @override
   final String? url;
 
@@ -97,12 +97,12 @@ class _$FileViewerViewersInner extends FileViewerViewersInner {
       (FileViewerViewersInnerBuilder()..update(updates))._build();
 
   _$FileViewerViewersInner._(
-      {required this.id,
-      required this.type,
-      required this.displayName,
-      required this.exts,
-      required this.icon,
-      required this.maxSize,
+      {this.id,
+      this.type,
+      this.displayName,
+      this.exts,
+      this.icon,
+      this.maxSize,
       this.url})
       : super._();
   @override
@@ -198,7 +198,7 @@ class FileViewerViewersInnerBuilder
       _id = $v.id;
       _type = $v.type;
       _displayName = $v.displayName;
-      _exts = $v.exts.toBuilder();
+      _exts = $v.exts?.toBuilder();
       _icon = $v.icon;
       _maxSize = $v.maxSize;
       _url = $v.url;
@@ -225,24 +225,19 @@ class FileViewerViewersInnerBuilder
     try {
       _$result = _$v ??
           _$FileViewerViewersInner._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'FileViewerViewersInner', 'id'),
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'FileViewerViewersInner', 'type'),
-            displayName: BuiltValueNullFieldError.checkNotNull(
-                displayName, r'FileViewerViewersInner', 'displayName'),
-            exts: exts.build(),
-            icon: BuiltValueNullFieldError.checkNotNull(
-                icon, r'FileViewerViewersInner', 'icon'),
-            maxSize: BuiltValueNullFieldError.checkNotNull(
-                maxSize, r'FileViewerViewersInner', 'maxSize'),
+            id: id,
+            type: type,
+            displayName: displayName,
+            exts: _exts?.build(),
+            icon: icon,
+            maxSize: maxSize,
             url: url,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'exts';
-        exts.build();
+        _exts?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileViewerViewersInner', _$failedField, e.toString());

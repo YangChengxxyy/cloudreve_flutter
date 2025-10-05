@@ -86,7 +86,7 @@ class _$SiteAbusePostRequest extends SiteAbusePostRequest {
   @override
   final String? fileUri;
   @override
-  final SiteAbusePostRequestCategoryEnum category;
+  final SiteAbusePostRequestCategoryEnum? category;
   @override
   final String? description;
   @override
@@ -102,7 +102,7 @@ class _$SiteAbusePostRequest extends SiteAbusePostRequest {
       {this.captcha,
       this.ticket,
       this.fileUri,
-      required this.category,
+      this.category,
       this.description,
       this.shareId,
       this.userId})
@@ -228,8 +228,7 @@ class SiteAbusePostRequestBuilder
           captcha: captcha,
           ticket: ticket,
           fileUri: fileUri,
-          category: BuiltValueNullFieldError.checkNotNull(
-              category, r'SiteAbusePostRequest', 'category'),
+          category: category,
           description: description,
           shareId: shareId,
           userId: userId,

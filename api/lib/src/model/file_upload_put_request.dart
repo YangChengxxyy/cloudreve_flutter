@@ -23,11 +23,11 @@ part 'file_upload_put_request.g.dart';
 abstract class FileUploadPutRequest implements Built<FileUploadPutRequest, FileUploadPutRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Size of the file.
   @BuiltValueField(wireName: r'size')
-  int get size;
+  int? get size;
 
   /// Optional Unix milliseconds timestamp of when the file is last modified.
   @BuiltValueField(wireName: r'last_modified')
@@ -39,7 +39,7 @@ abstract class FileUploadPutRequest implements Built<FileUploadPutRequest, FileU
 
   /// ID of the storage policy to use.
   @BuiltValueField(wireName: r'policy_id')
-  String get policyId;
+  String? get policyId;
 
   /// Optional key-value of file metadata.
   @BuiltValueField(wireName: r'metadata')
@@ -73,16 +73,20 @@ class _$FileUploadPutRequestSerializer implements PrimitiveSerializer<FileUpload
     FileUploadPutRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
-    yield r'size';
-    yield serializers.serialize(
-      object.size,
-      specifiedType: const FullType(int),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.size != null) {
+      yield r'size';
+      yield serializers.serialize(
+        object.size,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.lastModified != null) {
       yield r'last_modified';
       yield serializers.serialize(
@@ -97,11 +101,13 @@ class _$FileUploadPutRequestSerializer implements PrimitiveSerializer<FileUpload
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'policy_id';
-    yield serializers.serialize(
-      object.policyId,
-      specifiedType: const FullType(String),
-    );
+    if (object.policyId != null) {
+      yield r'policy_id';
+      yield serializers.serialize(
+        object.policyId,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.metadata != null) {
       yield r'metadata';
       yield serializers.serialize(

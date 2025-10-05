@@ -8,13 +8,13 @@ part of 'file_lock_delete_request.dart';
 
 class _$FileLockDeleteRequest extends FileLockDeleteRequest {
   @override
-  final BuiltList<String> tokens;
+  final BuiltList<String>? tokens;
 
   factory _$FileLockDeleteRequest(
           [void Function(FileLockDeleteRequestBuilder)? updates]) =>
       (FileLockDeleteRequestBuilder()..update(updates))._build();
 
-  _$FileLockDeleteRequest._({required this.tokens}) : super._();
+  _$FileLockDeleteRequest._({this.tokens}) : super._();
   @override
   FileLockDeleteRequest rebuild(
           void Function(FileLockDeleteRequestBuilder) updates) =>
@@ -61,7 +61,7 @@ class FileLockDeleteRequestBuilder
   FileLockDeleteRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _tokens = $v.tokens.toBuilder();
+      _tokens = $v.tokens?.toBuilder();
       _$v = null;
     }
     return this;
@@ -85,13 +85,13 @@ class FileLockDeleteRequestBuilder
     try {
       _$result = _$v ??
           _$FileLockDeleteRequest._(
-            tokens: tokens.build(),
+            tokens: _tokens?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'tokens';
-        tokens.build();
+        _tokens?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileLockDeleteRequest', _$failedField, e.toString());

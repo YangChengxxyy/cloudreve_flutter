@@ -8,14 +8,14 @@ part of 'login_response.dart';
 
 class _$LoginResponse extends LoginResponse {
   @override
-  final User user;
+  final User? user;
   @override
-  final Token token;
+  final Token? token;
 
   factory _$LoginResponse([void Function(LoginResponseBuilder)? updates]) =>
       (LoginResponseBuilder()..update(updates))._build();
 
-  _$LoginResponse._({required this.user, required this.token}) : super._();
+  _$LoginResponse._({this.user, this.token}) : super._();
   @override
   LoginResponse rebuild(void Function(LoginResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -66,8 +66,8 @@ class LoginResponseBuilder
   LoginResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _user = $v.user.toBuilder();
-      _token = $v.token.toBuilder();
+      _user = $v.user?.toBuilder();
+      _token = $v.token?.toBuilder();
       _$v = null;
     }
     return this;
@@ -91,16 +91,16 @@ class LoginResponseBuilder
     try {
       _$result = _$v ??
           _$LoginResponse._(
-            user: user.build(),
-            token: token.build(),
+            user: _user?.build(),
+            token: _token?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'user';
-        user.build();
+        _user?.build();
         _$failedField = 'token';
-        token.build();
+        _token?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'LoginResponse', _$failedField, e.toString());

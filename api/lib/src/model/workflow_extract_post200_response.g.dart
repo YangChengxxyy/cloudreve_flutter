@@ -8,9 +8,9 @@ part of 'workflow_extract_post200_response.dart';
 
 class _$WorkflowExtractPost200Response extends WorkflowExtractPost200Response {
   @override
-  final TaskResponse data;
+  final TaskResponse? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
 
@@ -18,8 +18,7 @@ class _$WorkflowExtractPost200Response extends WorkflowExtractPost200Response {
           [void Function(WorkflowExtractPost200ResponseBuilder)? updates]) =>
       (WorkflowExtractPost200ResponseBuilder()..update(updates))._build();
 
-  _$WorkflowExtractPost200Response._(
-      {required this.data, required this.code, this.msg})
+  _$WorkflowExtractPost200Response._({this.data, this.code, this.msg})
       : super._();
   @override
   WorkflowExtractPost200Response rebuild(
@@ -84,7 +83,7 @@ class WorkflowExtractPost200ResponseBuilder
   WorkflowExtractPost200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _$v = null;
@@ -110,16 +109,15 @@ class WorkflowExtractPost200ResponseBuilder
     try {
       _$result = _$v ??
           _$WorkflowExtractPost200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'WorkflowExtractPost200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'WorkflowExtractPost200Response', _$failedField, e.toString());

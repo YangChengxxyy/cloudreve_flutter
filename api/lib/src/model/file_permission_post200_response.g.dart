@@ -8,7 +8,7 @@ part of 'file_permission_post200_response.dart';
 
 class _$FilePermissionPost200Response extends FilePermissionPost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$FilePermissionPost200Response extends FilePermissionPost200Response {
       (FilePermissionPost200ResponseBuilder()..update(updates))._build();
 
   _$FilePermissionPost200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -137,8 +137,7 @@ class FilePermissionPost200ResponseBuilder
     try {
       _$result = _$v ??
           _$FilePermissionPost200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FilePermissionPost200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

@@ -16,7 +16,7 @@ part 'session_token_delete_request.g.dart';
 abstract class SessionTokenDeleteRequest implements Built<SessionTokenDeleteRequest, SessionTokenDeleteRequestBuilder> {
   /// Refresh token.
   @BuiltValueField(wireName: r'refresh_token')
-  String get refreshToken;
+  String? get refreshToken;
 
   SessionTokenDeleteRequest._();
 
@@ -41,11 +41,13 @@ class _$SessionTokenDeleteRequestSerializer implements PrimitiveSerializer<Sessi
     SessionTokenDeleteRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'refresh_token';
-    yield serializers.serialize(
-      object.refreshToken,
-      specifiedType: const FullType(String),
-    );
+    if (object.refreshToken != null) {
+      yield r'refresh_token';
+      yield serializers.serialize(
+        object.refreshToken,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

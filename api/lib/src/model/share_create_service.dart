@@ -23,11 +23,11 @@ part 'share_create_service.g.dart';
 @BuiltValue()
 abstract class ShareCreateService implements Built<ShareCreateService, ShareCreateServiceBuilder> {
   @BuiltValueField(wireName: r'permissions')
-  PermissionSetting get permissions;
+  PermissionSetting? get permissions;
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the shared file or folder.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Whether this share link is protected with addition password and hidden in user's profile.
   @BuiltValueField(wireName: r'is_private')
@@ -76,16 +76,20 @@ class _$ShareCreateServiceSerializer implements PrimitiveSerializer<ShareCreateS
     ShareCreateService object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'permissions';
-    yield serializers.serialize(
-      object.permissions,
-      specifiedType: const FullType(PermissionSetting),
-    );
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
+    if (object.permissions != null) {
+      yield r'permissions';
+      yield serializers.serialize(
+        object.permissions,
+        specifiedType: const FullType(PermissionSetting),
+      );
+    }
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.isPrivate != null) {
       yield r'is_private';
       yield serializers.serialize(

@@ -8,13 +8,13 @@ part of 'file_permission_delete_request.dart';
 
 class _$FilePermissionDeleteRequest extends FilePermissionDeleteRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
 
   factory _$FilePermissionDeleteRequest(
           [void Function(FilePermissionDeleteRequestBuilder)? updates]) =>
       (FilePermissionDeleteRequestBuilder()..update(updates))._build();
 
-  _$FilePermissionDeleteRequest._({required this.uris}) : super._();
+  _$FilePermissionDeleteRequest._({this.uris}) : super._();
   @override
   FilePermissionDeleteRequest rebuild(
           void Function(FilePermissionDeleteRequestBuilder) updates) =>
@@ -63,7 +63,7 @@ class FilePermissionDeleteRequestBuilder
   FilePermissionDeleteRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
+      _uris = $v.uris?.toBuilder();
       _$v = null;
     }
     return this;
@@ -87,13 +87,13 @@ class FilePermissionDeleteRequestBuilder
     try {
       _$result = _$v ??
           _$FilePermissionDeleteRequest._(
-            uris: uris.build(),
+            uris: _uris?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FilePermissionDeleteRequest', _$failedField, e.toString());

@@ -8,9 +8,9 @@ part of 'response.dart';
 
 class _$Response extends Response {
   @override
-  final String data;
+  final String? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,8 +24,8 @@ class _$Response extends Response {
       (ResponseBuilder()..update(updates))._build();
 
   _$Response._(
-      {required this.data,
-      required this.code,
+      {this.data,
+      this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -142,10 +142,8 @@ class ResponseBuilder implements Builder<Response, ResponseBuilder> {
     try {
       _$result = _$v ??
           _$Response._(
-            data: BuiltValueNullFieldError.checkNotNull(
-                data, r'Response', 'data'),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'Response', 'code'),
+            data: data,
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

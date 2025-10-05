@@ -13,7 +13,7 @@ class _$SessionPrepareGet200ResponseData
   @override
   final bool? ssoEnabled;
   @override
-  final bool passwordEnabled;
+  final bool? passwordEnabled;
   @override
   final bool? qqEnabled;
 
@@ -24,7 +24,7 @@ class _$SessionPrepareGet200ResponseData
   _$SessionPrepareGet200ResponseData._(
       {this.webauthnEnabled,
       this.ssoEnabled,
-      required this.passwordEnabled,
+      this.passwordEnabled,
       this.qqEnabled})
       : super._();
   @override
@@ -126,10 +126,7 @@ class SessionPrepareGet200ResponseDataBuilder
         _$SessionPrepareGet200ResponseData._(
           webauthnEnabled: webauthnEnabled,
           ssoEnabled: ssoEnabled,
-          passwordEnabled: BuiltValueNullFieldError.checkNotNull(
-              passwordEnabled,
-              r'SessionPrepareGet200ResponseData',
-              'passwordEnabled'),
+          passwordEnabled: passwordEnabled,
           qqEnabled: qqEnabled,
         );
     replace(_$result);

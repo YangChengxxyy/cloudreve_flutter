@@ -9,7 +9,7 @@ part of 'file_permission_delete200_response.dart';
 class _$FilePermissionDelete200Response
     extends FilePermissionDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -24,7 +24,7 @@ class _$FilePermissionDelete200Response
       (FilePermissionDelete200ResponseBuilder()..update(updates))._build();
 
   _$FilePermissionDelete200Response._(
-      {required this.code,
+      {this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -138,8 +138,7 @@ class FilePermissionDelete200ResponseBuilder
     try {
       _$result = _$v ??
           _$FilePermissionDelete200Response._(
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FilePermissionDelete200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),

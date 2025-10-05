@@ -21,6 +21,15 @@ class CloudreveRepository {
   static cloudreve_api.AuthNoneApi get _authNoneApi =>
       HttpUtil.apiClient.getAuthNoneApi();
 
+  static cloudreve_api.ShareApi get _shareApi =>
+      HttpUtil.apiClient.getShareApi();
+
+  static cloudreve_api.UserSettingApi get _userSettingApi =>
+      HttpUtil.apiClient.getUserSettingApi();
+
+  static cloudreve_api.WebDAVApi get _webDavApi =>
+      HttpUtil.apiClient.getWebDAVApi();
+
   static Future<LoginResult> signIn(
       {required String email, required String password}) async {
     final request = cloudreve_api.SessionTokenPostRequest((b) => b
@@ -87,20 +96,29 @@ class CloudreveRepository {
     );
 
     final data = response.data;
-    if (data == null || data.code != 0) {
+    if (data == null || (data.code ?? -1) != 0) {
       return FileListing.empty(path);
     }
 
     final list = data.data;
-    final fileResponses = list.files.toList();
+    if (list == null) {
+      return FileListing.empty(path);
+    }
+
+    final fileResponses =
+        list.files?.toList() ?? const <cloudreve_api.FileResponse>[];
     final files = fileResponses.map(MFile.fromFileResponse).toList();
-    final map = <String, cloudreve_api.FileResponse>{
-      for (final file in fileResponses) file.id: file,
-    };
+    final map = <String, cloudreve_api.FileResponse>{};
+    for (final file in fileResponses) {
+      final id = file.id;
+      if (id != null && id.isNotEmpty) {
+        map[id] = file;
+      }
+    }
     return FileListing(
       path: path,
       files: files,
-      contextHint: list.contextHint,
+      contextHint: list.contextHint ?? '',
       fileMap: map,
       raw: data,
     );
@@ -114,19 +132,27 @@ class CloudreveRepository {
       pageSize: 100,
     );
     final data = response.data;
-    if (data == null || data.code != 0) {
+    if (data == null || (data.code ?? -1) != 0) {
       return FileListing.empty('/');
     }
     final list = data.data;
-    final fileResponses = list.files.toList();
+    if (list == null) {
+      return FileListing.empty('/');
+    }
+    final fileResponses =
+        list.files?.toList() ?? const <cloudreve_api.FileResponse>[];
     final files = fileResponses.map(MFile.fromFileResponse).toList();
-    final map = <String, cloudreve_api.FileResponse>{
-      for (final file in fileResponses) file.id: file,
-    };
+    final map = <String, cloudreve_api.FileResponse>{};
+    for (final file in fileResponses) {
+      final id = file.id;
+      if (id != null && id.isNotEmpty) {
+        map[id] = file;
+      }
+    }
     return FileListing(
       path: '/',
       files: files,
-      contextHint: list.contextHint,
+      contextHint: list.contextHint ?? '',
       fileMap: map,
       raw: data,
     );
@@ -173,11 +199,16 @@ class CloudreveRepository {
     );
 
     final data = response.data;
-    if (data == null || data.code != 0) {
+    if (data == null || (data.code ?? -1) != 0) {
       return null;
     }
-    final urls = data.data.urls;
-    return urls.isNotEmpty ? urls.first.url : null;
+    final payload = data.data;
+    final urls = payload?.urls;
+    if (urls == null || urls.isEmpty) {
+      return null;
+    }
+    final firstUrl = urls.first;
+    return firstUrl.url;
   }
 
   static Future<Uint8List?> fetchThumbnailBytes(String fileUri) async {
@@ -185,14 +216,18 @@ class CloudreveRepository {
       uri: fileUri,
     );
     final data = response.data;
-    if (data == null || data.code != 0) {
+    if (data == null || (data.code ?? -1) != 0) {
       return null;
     }
     final thumb = data.data;
-    if (thumb.obfuscated == true) {
+    if (thumb == null || thumb.obfuscated == true) {
       return null;
     }
-    return fetchRaw(thumb.url);
+    final url = thumb.url;
+    if (url == null || url.isEmpty) {
+      return null;
+    }
+    return fetchRaw(url);
   }
 
   static Future<cloudreve_api.FileThumbGet200Response?> fetchThumbnail(
@@ -262,7 +297,7 @@ class CloudreveRepository {
       return LoginResult(code: -1, data: null, msg: null, error: null);
     }
     return LoginResult(
-      code: data.code,
+      code: data.code ?? -1,
       data: null,
       msg: data.msg,
       error: data.error,
@@ -280,12 +315,153 @@ class CloudreveRepository {
 
   static Future<Response<Uint8List>> fetchAvatar({
     required String userId,
-    String size = 's',
+    bool nocache = false,
   }) {
     return HttpUtil.dio.get(
-      '/api/v3/user/avatar/$userId/$size',
+      '/user/avatar/$userId',
+      queryParameters: nocache ? <String, dynamic>{'nocache': true} : null,
       options: Options(responseType: ResponseType.bytes),
     );
+  }
+
+  static Future<ShareListResult> fetchMyShares({
+    int pageSize = 50,
+    String? orderBy,
+    String? orderDirection,
+    String? nextPageToken,
+  }) async {
+    final response = await _shareApi.shareGet(
+      pageSize: pageSize,
+      orderBy: orderBy,
+      orderDirection: orderDirection,
+      nextPageToken: nextPageToken,
+    );
+    final data = response.data;
+    if (data == null || (data.code ?? -1) != 0) {
+      return ShareListResult.empty();
+    }
+    final list = data.data;
+    if (list == null) {
+      return ShareListResult.empty();
+    }
+    return ShareListResult(
+      shares: list.shares?.toList() ?? const [],
+      pagination: list.pagination,
+    );
+  }
+
+  static cloudreve_api.PermissionSetting _defaultSharePermissions() {
+    return cloudreve_api.PermissionSetting((b) {
+      b
+        ..anonymous = 'BQ=='
+        ..everyone = 'AQ==';
+    });
+  }
+
+  static Future<cloudreve_api.SharePut200Response?> createShare({
+    required String uri,
+    cloudreve_api.PermissionSetting? permissions,
+    bool? isPrivate,
+    bool? shareView,
+    int? expire,
+    int? price,
+    String? password,
+    bool? showReadme,
+  }) async {
+    final request = cloudreve_api.ShareCreateService((b) {
+      b
+        ..permissions.replace(permissions ?? _defaultSharePermissions())
+        ..uri = uri
+        ..shareView = shareView
+        ..expire = expire
+        ..price = price
+        ..showReadme = showReadme
+        ..isPrivate = isPrivate
+        ..password = password;
+    });
+    final response = await _shareApi.sharePut(
+      shareCreateService: request,
+    );
+    return response.data;
+  }
+
+  static Future<cloudreve_api.ShareIdPost200Response?> updateShare({
+    required String shareId,
+    cloudreve_api.PermissionSetting? permissions,
+    required String uri,
+    bool? shareView,
+    int? expire,
+    int? price,
+    bool? showReadme,
+  }) async {
+    final request = cloudreve_api.ShareIdPostRequest((b) {
+      b
+        ..permissions.replace(permissions ?? _defaultSharePermissions())
+        ..uri = uri
+        ..shareView = shareView
+        ..expire = expire
+        ..price = price
+        ..showReadme = showReadme;
+    });
+    final response = await _shareApi.shareIdPost(
+      id: shareId,
+      shareIdPostRequest: request,
+    );
+    return response.data;
+  }
+
+  static Future<bool> deleteShare(String shareId) async {
+    final response = await _shareApi.shareIdDelete(id: shareId);
+    final data = response.data;
+    return data != null && data.code == 0;
+  }
+
+  static Future<cloudreve_api.UserSettingPatch200Response?> updateNickname(
+      String nick) async {
+    final request =
+        cloudreve_api.UserSettingPatchRequest((b) => b..nick = nick.trim());
+    final response = await _userSettingApi.userSettingPatch(
+      userSettingPatchRequest: request,
+    );
+    return response.data;
+  }
+
+  static Future<cloudreve_api.UserSettingAvatarPut200Response?>
+      setAvatarFromGravatar() async {
+    final response = await _userSettingApi.userSettingAvatarPut();
+    return response.data;
+  }
+
+  static Future<cloudreve_api.UserSettingAvatarPut200Response?>
+      uploadAvatarBytes(List<int> bytes) async {
+    final file = MultipartFile.fromBytes(bytes);
+    final response = await _userSettingApi.userSettingAvatarPut(body: file);
+    return response.data;
+  }
+
+  static Future<List<cloudreve_api.DavAccount>> fetchWebDavAccounts({
+    int pageSize = 100,
+    String? nextPageToken,
+  }) async {
+    final response = await _webDavApi.devicesDavGet(
+      pageSize: pageSize,
+      nextPageToken: nextPageToken,
+    );
+    final data = response.data;
+    if (data == null || (data.code ?? -1) != 0) {
+      return const [];
+    }
+    final list = data.data;
+    if (list == null || list.isEmpty) {
+      return const [];
+    }
+    final accounts = <cloudreve_api.DavAccount>[];
+    for (final section in list) {
+      final sectionAccounts =
+          section.accounts?.toList() ?? const <cloudreve_api.DavAccount>[];
+      accounts.addAll(sectionAccounts);
+    }
+    return accounts;
   }
 
   static String _buildUri(String path) {
@@ -314,7 +490,7 @@ class FileListing {
   FileListing.empty(this.path)
       : files = const [],
         contextHint = '',
-        fileMap = const {},
+        fileMap = const <String, cloudreve_api.FileResponse>{},
         raw = null;
 
   final String path;
@@ -324,4 +500,26 @@ class FileListing {
   final cloudreve_api.FileGet200Response? raw;
 
   cloudreve_api.FileResponse? findResponseById(String id) => fileMap[id];
+}
+
+class ShareListResult {
+  ShareListResult({
+    required this.shares,
+    required this.pagination,
+  });
+
+  ShareListResult.empty()
+      : shares = const [],
+        pagination = null;
+
+  final List<cloudreve_api.Share> shares;
+  final cloudreve_api.ListShareResponsePagination? pagination;
+
+  String? get nextToken {
+    final token = pagination?.nextToken;
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+    return token;
+  }
 }

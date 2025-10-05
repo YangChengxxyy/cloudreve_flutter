@@ -20,10 +20,10 @@ part 'list_share_response.g.dart';
 abstract class ListShareResponse implements Built<ListShareResponse, ListShareResponseBuilder> {
   /// List of share links.
   @BuiltValueField(wireName: r'shares')
-  BuiltList<Share> get shares;
+  BuiltList<Share>? get shares;
 
   @BuiltValueField(wireName: r'pagination')
-  ListShareResponsePagination get pagination;
+  ListShareResponsePagination? get pagination;
 
   ListShareResponse._();
 
@@ -48,16 +48,20 @@ class _$ListShareResponseSerializer implements PrimitiveSerializer<ListShareResp
     ListShareResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'shares';
-    yield serializers.serialize(
-      object.shares,
-      specifiedType: const FullType(BuiltList, [FullType(Share)]),
-    );
-    yield r'pagination';
-    yield serializers.serialize(
-      object.pagination,
-      specifiedType: const FullType(ListShareResponsePagination),
-    );
+    if (object.shares != null) {
+      yield r'shares';
+      yield serializers.serialize(
+        object.shares,
+        specifiedType: const FullType(BuiltList, [FullType(Share)]),
+      );
+    }
+    if (object.pagination != null) {
+      yield r'pagination';
+      yield serializers.serialize(
+        object.pagination,
+        specifiedType: const FullType(ListShareResponsePagination),
+      );
+    }
   }
 
   @override

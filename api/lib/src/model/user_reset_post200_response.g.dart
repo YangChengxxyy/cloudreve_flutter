@@ -8,7 +8,7 @@ part of 'user_reset_post200_response.dart';
 
 class _$UserResetPost200Response extends UserResetPost200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -21,7 +21,7 @@ class _$UserResetPost200Response extends UserResetPost200Response {
       (UserResetPost200ResponseBuilder()..update(updates))._build();
 
   _$UserResetPost200Response._(
-      {required this.code, this.msg, this.error, this.correlationId})
+      {this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserResetPost200Response rebuild(
@@ -118,8 +118,7 @@ class UserResetPost200ResponseBuilder
   _$UserResetPost200Response _build() {
     final _$result = _$v ??
         _$UserResetPost200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'UserResetPost200Response', 'code'),
+          code: code,
           msg: msg,
           error: error,
           correlationId: correlationId,

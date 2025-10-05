@@ -26,7 +26,7 @@ abstract class UserResetPostRequest implements Built<UserResetPostRequest, UserR
 
   /// Account ematil.
   @BuiltValueField(wireName: r'email')
-  String get email;
+  String? get email;
 
   UserResetPostRequest._();
 
@@ -65,11 +65,13 @@ class _$UserResetPostRequestSerializer implements PrimitiveSerializer<UserResetP
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'email';
-    yield serializers.serialize(
-      object.email,
-      specifiedType: const FullType(String),
-    );
+    if (object.email != null) {
+      yield r'email';
+      yield serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

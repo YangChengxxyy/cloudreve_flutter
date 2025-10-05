@@ -20,11 +20,11 @@ part 'file_create_post_request.g.dart';
 abstract class FileCreatePostRequest implements Built<FileCreatePostRequest, FileCreatePostRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the file to be created.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Type of the new file.
   @BuiltValueField(wireName: r'type')
-  FileCreatePostRequestTypeEnum get type;
+  FileCreatePostRequestTypeEnum? get type;
   // enum typeEnum {  file,  folder,  };
 
   /// Key-value map of metadata for the new file.
@@ -58,16 +58,20 @@ class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreat
     FileCreatePostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
-    yield r'type';
-    yield serializers.serialize(
-      object.type,
-      specifiedType: const FullType(FileCreatePostRequestTypeEnum),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.type != null) {
+      yield r'type';
+      yield serializers.serialize(
+        object.type,
+        specifiedType: const FullType(FileCreatePostRequestTypeEnum),
+      );
+    }
     if (object.metadata != null) {
       yield r'metadata';
       yield serializers.serialize(

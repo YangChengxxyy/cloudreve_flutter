@@ -18,10 +18,10 @@ part 'vas_payment_put200_response_data.g.dart';
 @BuiltValue()
 abstract class VasPaymentPut200ResponseData implements Built<VasPaymentPut200ResponseData, VasPaymentPut200ResponseDataBuilder> {
   @BuiltValueField(wireName: r'payment')
-  Payment get payment;
+  Payment? get payment;
 
   @BuiltValueField(wireName: r'request')
-  VasPaymentPut200ResponseDataRequest get request;
+  VasPaymentPut200ResponseDataRequest? get request;
 
   VasPaymentPut200ResponseData._();
 
@@ -46,16 +46,20 @@ class _$VasPaymentPut200ResponseDataSerializer implements PrimitiveSerializer<Va
     VasPaymentPut200ResponseData object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'payment';
-    yield serializers.serialize(
-      object.payment,
-      specifiedType: const FullType(Payment),
-    );
-    yield r'request';
-    yield serializers.serialize(
-      object.request,
-      specifiedType: const FullType(VasPaymentPut200ResponseDataRequest),
-    );
+    if (object.payment != null) {
+      yield r'payment';
+      yield serializers.serialize(
+        object.payment,
+        specifiedType: const FullType(Payment),
+      );
+    }
+    if (object.request != null) {
+      yield r'request';
+      yield serializers.serialize(
+        object.request,
+        specifiedType: const FullType(VasPaymentPut200ResponseDataRequest),
+      );
+    }
   }
 
   @override

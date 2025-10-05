@@ -19,7 +19,7 @@ part 'payment_provider.g.dart';
 abstract class PaymentProvider implements Built<PaymentProvider, PaymentProviderBuilder> {
   /// UUID of the payment provider.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Type of the payment provider.
   @BuiltValueField(wireName: r'type')
@@ -28,7 +28,7 @@ abstract class PaymentProvider implements Built<PaymentProvider, PaymentProvider
 
   /// Display name of the payment method.
   @BuiltValueField(wireName: r'name')
-  String get name;
+  String? get name;
 
   PaymentProvider._();
 
@@ -53,11 +53,13 @@ class _$PaymentProviderSerializer implements PrimitiveSerializer<PaymentProvider
     PaymentProvider object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.type != null) {
       yield r'type';
       yield serializers.serialize(
@@ -65,11 +67,13 @@ class _$PaymentProviderSerializer implements PrimitiveSerializer<PaymentProvider
         specifiedType: const FullType(PaymentProviderTypeEnum),
       );
     }
-    yield r'name';
-    yield serializers.serialize(
-      object.name,
-      specifiedType: const FullType(String),
-    );
+    if (object.name != null) {
+      yield r'name';
+      yield serializers.serialize(
+        object.name,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

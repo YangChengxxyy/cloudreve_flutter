@@ -22,7 +22,7 @@ part 'file_metadata_patch200_response.g.dart';
 abstract class FileMetadataPatch200Response implements Built<FileMetadataPatch200Response, FileMetadataPatch200ResponseBuilder> {
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -64,11 +64,13 @@ class _$FileMetadataPatch200ResponseSerializer implements PrimitiveSerializer<Fi
     FileMetadataPatch200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

@@ -24,7 +24,7 @@ abstract class SharePut200Response implements Built<SharePut200Response, SharePu
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -69,11 +69,13 @@ class _$SharePut200ResponseSerializer implements PrimitiveSerializer<SharePut200
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

@@ -8,18 +8,17 @@ part of 'file_thumb_get200_response_data.dart';
 
 class _$FileThumbGet200ResponseData extends FileThumbGet200ResponseData {
   @override
-  final String url;
+  final String? url;
   @override
   final bool? obfuscated;
   @override
-  final DateTime expires;
+  final DateTime? expires;
 
   factory _$FileThumbGet200ResponseData(
           [void Function(FileThumbGet200ResponseDataBuilder)? updates]) =>
       (FileThumbGet200ResponseDataBuilder()..update(updates))._build();
 
-  _$FileThumbGet200ResponseData._(
-      {required this.url, this.obfuscated, required this.expires})
+  _$FileThumbGet200ResponseData._({this.url, this.obfuscated, this.expires})
       : super._();
   @override
   FileThumbGet200ResponseData rebuild(
@@ -108,11 +107,9 @@ class FileThumbGet200ResponseDataBuilder
   _$FileThumbGet200ResponseData _build() {
     final _$result = _$v ??
         _$FileThumbGet200ResponseData._(
-          url: BuiltValueNullFieldError.checkNotNull(
-              url, r'FileThumbGet200ResponseData', 'url'),
+          url: url,
           obfuscated: obfuscated,
-          expires: BuiltValueNullFieldError.checkNotNull(
-              expires, r'FileThumbGet200ResponseData', 'expires'),
+          expires: expires,
         );
     replace(_$result);
     return _$result;

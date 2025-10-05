@@ -90,16 +90,18 @@ def sanitize_schema(node: Any) -> Any:
             if isinstance(items, dict) and items.get("type") == "null":
                 items.pop("type", None)
                 items["nullable"] = True
-        if "required" in sanitized and isinstance(sanitized["required"], list):
-            sanitized["required"] = [item for item in sanitized["required"] if item]
-            if not sanitized["required"]:
-                sanitized.pop("required")
+        required = sanitized.get("required")
+        if isinstance(required, list):
+            sanitized.pop("required", None)
         if "properties" in sanitized and isinstance(sanitized["properties"], dict):
             sanitized["properties"] = {
                 prop_key: prop_val
                 for prop_key, prop_val in sanitized["properties"].items()
                 if prop_key
             }
+            metadata_schema = sanitized["properties"].get("metadata")
+            if isinstance(metadata_schema, dict):
+                metadata_schema.setdefault("nullable", True)
         return sanitized
     if isinstance(node, list):
         return [sanitize_schema(item) for item in node]

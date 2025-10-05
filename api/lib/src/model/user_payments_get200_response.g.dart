@@ -10,7 +10,7 @@ class _$UserPaymentsGet200Response extends UserPaymentsGet200Response {
   @override
   final UserPaymentsGet200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,7 +23,7 @@ class _$UserPaymentsGet200Response extends UserPaymentsGet200Response {
       (UserPaymentsGet200ResponseBuilder()..update(updates))._build();
 
   _$UserPaymentsGet200Response._(
-      {this.data, required this.code, this.msg, this.error, this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   UserPaymentsGet200Response rebuild(
@@ -132,8 +132,7 @@ class UserPaymentsGet200ResponseBuilder
       _$result = _$v ??
           _$UserPaymentsGet200Response._(
             data: _data?.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'UserPaymentsGet200Response', 'code'),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,

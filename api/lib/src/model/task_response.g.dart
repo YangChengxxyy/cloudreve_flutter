@@ -190,15 +190,15 @@ class _$TaskResponseTypeEnumSerializer
 
 class _$TaskResponse extends TaskResponse {
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
-  final String id;
+  final String? id;
   @override
-  final TaskResponseStatusEnum status;
+  final TaskResponseStatusEnum? status;
   @override
-  final TaskResponseTypeEnum type;
+  final TaskResponseTypeEnum? type;
   @override
   final TaskResponseSummary? summary;
   @override
@@ -212,24 +212,24 @@ class _$TaskResponse extends TaskResponse {
   @override
   final int? retryCount;
   @override
-  final Node node;
+  final Node? node;
 
   factory _$TaskResponse([void Function(TaskResponseBuilder)? updates]) =>
       (TaskResponseBuilder()..update(updates))._build();
 
   _$TaskResponse._(
-      {required this.createdAt,
-      required this.updatedAt,
-      required this.id,
-      required this.status,
-      required this.type,
+      {this.createdAt,
+      this.updatedAt,
+      this.id,
+      this.status,
+      this.type,
       this.summary,
       this.duration,
       this.resumeTime,
       this.error,
       this.errorHistory,
       this.retryCount,
-      required this.node})
+      this.node})
       : super._();
   @override
   TaskResponse rebuild(void Function(TaskResponseBuilder) updates) =>
@@ -367,7 +367,7 @@ class TaskResponseBuilder
       _error = $v.error;
       _errorHistory = $v.errorHistory?.toBuilder();
       _retryCount = $v.retryCount;
-      _node = $v.node.toBuilder();
+      _node = $v.node?.toBuilder();
       _$v = null;
     }
     return this;
@@ -391,23 +391,18 @@ class TaskResponseBuilder
     try {
       _$result = _$v ??
           _$TaskResponse._(
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'TaskResponse', 'createdAt'),
-            updatedAt: BuiltValueNullFieldError.checkNotNull(
-                updatedAt, r'TaskResponse', 'updatedAt'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'TaskResponse', 'id'),
-            status: BuiltValueNullFieldError.checkNotNull(
-                status, r'TaskResponse', 'status'),
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'TaskResponse', 'type'),
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            id: id,
+            status: status,
+            type: type,
             summary: _summary?.build(),
             duration: duration,
             resumeTime: resumeTime,
             error: error,
             errorHistory: _errorHistory?.build(),
             retryCount: retryCount,
-            node: node.build(),
+            node: _node?.build(),
           );
     } catch (_) {
       late String _$failedField;
@@ -419,7 +414,7 @@ class TaskResponseBuilder
         _errorHistory?.build();
 
         _$failedField = 'node';
-        node.build();
+        _node?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'TaskResponse', _$failedField, e.toString());

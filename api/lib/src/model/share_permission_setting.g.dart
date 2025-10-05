@@ -10,15 +10,15 @@ class _$SharePermissionSetting extends SharePermissionSetting {
   @override
   final JsonObject? sameGroup;
   @override
-  final String everyone;
+  final String? everyone;
   @override
   final JsonObject? other;
   @override
-  final String anonymous;
+  final String? anonymous;
   @override
-  final JsonObject groupExplicit;
+  final JsonObject? groupExplicit;
   @override
-  final JsonObject userExplicit;
+  final JsonObject? userExplicit;
 
   factory _$SharePermissionSetting(
           [void Function(SharePermissionSettingBuilder)? updates]) =>
@@ -26,11 +26,11 @@ class _$SharePermissionSetting extends SharePermissionSetting {
 
   _$SharePermissionSetting._(
       {this.sameGroup,
-      required this.everyone,
+      this.everyone,
       this.other,
-      required this.anonymous,
-      required this.groupExplicit,
-      required this.userExplicit})
+      this.anonymous,
+      this.groupExplicit,
+      this.userExplicit})
       : super._();
   @override
   SharePermissionSetting rebuild(
@@ -144,15 +144,11 @@ class SharePermissionSettingBuilder
     final _$result = _$v ??
         _$SharePermissionSetting._(
           sameGroup: sameGroup,
-          everyone: BuiltValueNullFieldError.checkNotNull(
-              everyone, r'SharePermissionSetting', 'everyone'),
+          everyone: everyone,
           other: other,
-          anonymous: BuiltValueNullFieldError.checkNotNull(
-              anonymous, r'SharePermissionSetting', 'anonymous'),
-          groupExplicit: BuiltValueNullFieldError.checkNotNull(
-              groupExplicit, r'SharePermissionSetting', 'groupExplicit'),
-          userExplicit: BuiltValueNullFieldError.checkNotNull(
-              userExplicit, r'SharePermissionSetting', 'userExplicit'),
+          anonymous: anonymous,
+          groupExplicit: groupExplicit,
+          userExplicit: userExplicit,
         );
     replace(_$result);
     return _$result;

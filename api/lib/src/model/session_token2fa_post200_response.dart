@@ -20,11 +20,11 @@ part 'session_token2fa_post200_response.g.dart';
 @BuiltValue()
 abstract class SessionToken2faPost200Response implements Built<SessionToken2faPost200Response, SessionToken2faPost200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  LoginResponse get data;
+  LoginResponse? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$SessionToken2faPost200ResponseSerializer implements PrimitiveSerializer<
     SessionToken2faPost200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(LoginResponse),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(LoginResponse),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

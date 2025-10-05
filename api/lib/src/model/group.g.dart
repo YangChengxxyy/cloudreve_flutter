@@ -8,25 +8,25 @@ part of 'group.dart';
 
 class _$Group extends Group {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
   @override
-  final String permission;
+  final String? permission;
   @override
-  final int directLinkBatchSize;
+  final int? directLinkBatchSize;
   @override
-  final int trashRetention;
+  final int? trashRetention;
 
   factory _$Group([void Function(GroupBuilder)? updates]) =>
       (GroupBuilder()..update(updates))._build();
 
   _$Group._(
-      {required this.id,
-      required this.name,
-      required this.permission,
-      required this.directLinkBatchSize,
-      required this.trashRetention})
+      {this.id,
+      this.name,
+      this.permission,
+      this.directLinkBatchSize,
+      this.trashRetention})
       : super._();
   @override
   Group rebuild(void Function(GroupBuilder) updates) =>
@@ -128,14 +128,11 @@ class GroupBuilder implements Builder<Group, GroupBuilder> {
   _$Group _build() {
     final _$result = _$v ??
         _$Group._(
-          id: BuiltValueNullFieldError.checkNotNull(id, r'Group', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(name, r'Group', 'name'),
-          permission: BuiltValueNullFieldError.checkNotNull(
-              permission, r'Group', 'permission'),
-          directLinkBatchSize: BuiltValueNullFieldError.checkNotNull(
-              directLinkBatchSize, r'Group', 'directLinkBatchSize'),
-          trashRetention: BuiltValueNullFieldError.checkNotNull(
-              trashRetention, r'Group', 'trashRetention'),
+          id: id,
+          name: name,
+          permission: permission,
+          directLinkBatchSize: directLinkBatchSize,
+          trashRetention: trashRetention,
         );
     replace(_$result);
     return _$result;

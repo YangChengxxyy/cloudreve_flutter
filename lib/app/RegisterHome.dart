@@ -1,8 +1,7 @@
 import 'package:cloudreve/entity/LoginResult.dart';
 import 'package:cloudreve/utils/cloudreve_repository.dart';
 import 'package:flutter/material.dart';
-
-import 'LoginHome.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterHome extends StatelessWidget {
   @override
@@ -124,7 +123,7 @@ class RegisterBody extends StatelessWidget {
                               _pwdController2.clear();
                               showDialog(
                                 context: context,
-                                builder: (_) {
+                                builder: (dialogContext) {
                                   return AlertDialog(
                                     title: Text(
                                       "提示",
@@ -132,13 +131,8 @@ class RegisterBody extends StatelessWidget {
                                     actions: [
                                       TextButton(
                                           onPressed: () {
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      LoginHome(),
-                                                ),
-                                                (route) => false);
+                                            Navigator.of(dialogContext).pop();
+                                            context.go('/login');
                                           },
                                           child: Text("OK"))
                                     ],
@@ -182,7 +176,7 @@ class RegisterBody extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.go('/login');
                       },
                       child: Text(
                         "返回登录",

@@ -132,15 +132,15 @@ class _$EntityCreatedByShareLinksInProfileEnumSerializer
 
 class _$EntityCreatedBy extends EntityCreatedBy {
   @override
-  final String id;
+  final String? id;
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final EntityCreatedByGroup group;
+  final EntityCreatedByGroup? group;
   @override
   final EntityCreatedByAvatarEnum? avatar;
   @override
@@ -152,11 +152,11 @@ class _$EntityCreatedBy extends EntityCreatedBy {
       (EntityCreatedByBuilder()..update(updates))._build();
 
   _$EntityCreatedBy._(
-      {required this.id,
+      {this.id,
       this.email,
       this.nickname,
-      required this.createdAt,
-      required this.group,
+      this.createdAt,
+      this.group,
       this.avatar,
       this.disableViewSync,
       this.shareLinksInProfile})
@@ -264,7 +264,7 @@ class EntityCreatedByBuilder
       _email = $v.email;
       _nickname = $v.nickname;
       _createdAt = $v.createdAt;
-      _group = $v.group.toBuilder();
+      _group = $v.group?.toBuilder();
       _avatar = $v.avatar;
       _disableViewSync = $v.disableViewSync;
       _shareLinksInProfile = $v.shareLinksInProfile;
@@ -291,13 +291,11 @@ class EntityCreatedByBuilder
     try {
       _$result = _$v ??
           _$EntityCreatedBy._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'EntityCreatedBy', 'id'),
+            id: id,
             email: email,
             nickname: nickname,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'EntityCreatedBy', 'createdAt'),
-            group: group.build(),
+            createdAt: createdAt,
+            group: _group?.build(),
             avatar: avatar,
             disableViewSync: disableViewSync,
             shareLinksInProfile: shareLinksInProfile,
@@ -306,7 +304,7 @@ class EntityCreatedByBuilder
       late String _$failedField;
       try {
         _$failedField = 'group';
-        group.build();
+        _group?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'EntityCreatedBy', _$failedField, e.toString());

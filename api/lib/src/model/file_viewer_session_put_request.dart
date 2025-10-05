@@ -21,7 +21,7 @@ part 'file_viewer_session_put_request.g.dart';
 abstract class FileViewerSessionPutRequest implements Built<FileViewerSessionPutRequest, FileViewerSessionPutRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the target file.
   @BuiltValueField(wireName: r'uri')
-  String get uri;
+  String? get uri;
 
   /// Desired version ID to open. Empty value indicating the current version.
   @BuiltValueField(wireName: r'version')
@@ -29,11 +29,11 @@ abstract class FileViewerSessionPutRequest implements Built<FileViewerSessionPut
 
   /// ID of the file apps. List of available file apps can be get from `file_viewers` in [Get site settings](./get-site-settings-289489676e0) under `explorer` section.
   @BuiltValueField(wireName: r'viewer_id')
-  String get viewerId;
+  String? get viewerId;
 
   /// Preferred action for this session.
   @BuiltValueField(wireName: r'preferred_action')
-  FileViewerSessionPutRequestPreferredActionEnum get preferredAction;
+  FileViewerSessionPutRequestPreferredActionEnum? get preferredAction;
   // enum preferredActionEnum {  edit,  view,  };
 
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the parent folder where the file is located. Usualy it can be calculated from `uri` field. But for single-file symbolic links, `uri` can be a different folder or filesystem from where the symbolic link is located.
@@ -63,11 +63,13 @@ class _$FileViewerSessionPutRequestSerializer implements PrimitiveSerializer<Fil
     FileViewerSessionPutRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'uri';
-    yield serializers.serialize(
-      object.uri,
-      specifiedType: const FullType(String),
-    );
+    if (object.uri != null) {
+      yield r'uri';
+      yield serializers.serialize(
+        object.uri,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.version != null) {
       yield r'version';
       yield serializers.serialize(
@@ -75,16 +77,20 @@ class _$FileViewerSessionPutRequestSerializer implements PrimitiveSerializer<Fil
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'viewer_id';
-    yield serializers.serialize(
-      object.viewerId,
-      specifiedType: const FullType(String),
-    );
-    yield r'preferred_action';
-    yield serializers.serialize(
-      object.preferredAction,
-      specifiedType: const FullType(FileViewerSessionPutRequestPreferredActionEnum),
-    );
+    if (object.viewerId != null) {
+      yield r'viewer_id';
+      yield serializers.serialize(
+        object.viewerId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.preferredAction != null) {
+      yield r'preferred_action';
+      yield serializers.serialize(
+        object.preferredAction,
+        specifiedType: const FullType(FileViewerSessionPutRequestPreferredActionEnum),
+      );
+    }
     if (object.parentUri != null) {
       yield r'parent_uri';
       yield serializers.serialize(

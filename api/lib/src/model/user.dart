@@ -30,7 +30,7 @@ part 'user.g.dart';
 abstract class User implements Built<User, UserBuilder> {
   /// ID of the user.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// Email of the user. For anonymous session, it is empty.
   @BuiltValueField(wireName: r'email')
@@ -42,14 +42,14 @@ abstract class User implements Built<User, UserBuilder> {
 
   /// Time at which the user is created. For anonymous session, this value is invalid.
   @BuiltValueField(wireName: r'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
 
   /// Indicating whether the session is anonymous.
   @BuiltValueField(wireName: r'anonymous')
   bool? get anonymous;
 
   @BuiltValueField(wireName: r'group')
-  Group get group;
+  Group? get group;
 
   @BuiltValueField(wireName: r'status')
   UserStatusEnum? get status;
@@ -70,7 +70,7 @@ abstract class User implements Built<User, UserBuilder> {
 
   /// Primary language.
   @BuiltValueField(wireName: r'language')
-  String get language;
+  String? get language;
 
   /// Whether syncing view setting to server is enabled.
   @BuiltValueField(wireName: r'disable_view_sync')
@@ -104,11 +104,13 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
     User object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.email != null) {
       yield r'email';
       yield serializers.serialize(
@@ -116,26 +118,34 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
         specifiedType: const FullType.nullable(String),
       );
     }
-    yield r'nickname';
-    yield object.nickname == null ? null : serializers.serialize(
-      object.nickname,
-      specifiedType: const FullType.nullable(String),
-    );
-    yield r'created_at';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'anonymous';
-    yield object.anonymous == null ? null : serializers.serialize(
-      object.anonymous,
-      specifiedType: const FullType.nullable(bool),
-    );
-    yield r'group';
-    yield serializers.serialize(
-      object.group,
-      specifiedType: const FullType(Group),
-    );
+    if (object.nickname != null) {
+      yield r'nickname';
+      yield serializers.serialize(
+        object.nickname,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.createdAt != null) {
+      yield r'created_at';
+      yield serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.anonymous != null) {
+      yield r'anonymous';
+      yield serializers.serialize(
+        object.anonymous,
+        specifiedType: const FullType.nullable(bool),
+      );
+    }
+    if (object.group != null) {
+      yield r'group';
+      yield serializers.serialize(
+        object.group,
+        specifiedType: const FullType(Group),
+      );
+    }
     if (object.status != null) {
       yield r'status';
       yield serializers.serialize(
@@ -143,26 +153,34 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
         specifiedType: const FullType.nullable(UserStatusEnum),
       );
     }
-    yield r'avatar';
-    yield object.avatar == null ? null : serializers.serialize(
-      object.avatar,
-      specifiedType: const FullType.nullable(UserAvatarEnum),
-    );
-    yield r'preferred_theme';
-    yield object.preferredTheme == null ? null : serializers.serialize(
-      object.preferredTheme,
-      specifiedType: const FullType.nullable(String),
-    );
-    yield r'credit';
-    yield object.credit == null ? null : serializers.serialize(
-      object.credit,
-      specifiedType: const FullType.nullable(int),
-    );
-    yield r'language';
-    yield serializers.serialize(
-      object.language,
-      specifiedType: const FullType(String),
-    );
+    if (object.avatar != null) {
+      yield r'avatar';
+      yield serializers.serialize(
+        object.avatar,
+        specifiedType: const FullType.nullable(UserAvatarEnum),
+      );
+    }
+    if (object.preferredTheme != null) {
+      yield r'preferred_theme';
+      yield serializers.serialize(
+        object.preferredTheme,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.credit != null) {
+      yield r'credit';
+      yield serializers.serialize(
+        object.credit,
+        specifiedType: const FullType.nullable(int),
+      );
+    }
+    if (object.language != null) {
+      yield r'language';
+      yield serializers.serialize(
+        object.language,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.disableViewSync != null) {
       yield r'disable_view_sync';
       yield serializers.serialize(

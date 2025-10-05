@@ -8,13 +8,13 @@ part of 'session_token_delete_request.dart';
 
 class _$SessionTokenDeleteRequest extends SessionTokenDeleteRequest {
   @override
-  final String refreshToken;
+  final String? refreshToken;
 
   factory _$SessionTokenDeleteRequest(
           [void Function(SessionTokenDeleteRequestBuilder)? updates]) =>
       (SessionTokenDeleteRequestBuilder()..update(updates))._build();
 
-  _$SessionTokenDeleteRequest._({required this.refreshToken}) : super._();
+  _$SessionTokenDeleteRequest._({this.refreshToken}) : super._();
   @override
   SessionTokenDeleteRequest rebuild(
           void Function(SessionTokenDeleteRequestBuilder) updates) =>
@@ -85,8 +85,7 @@ class SessionTokenDeleteRequestBuilder
   _$SessionTokenDeleteRequest _build() {
     final _$result = _$v ??
         _$SessionTokenDeleteRequest._(
-          refreshToken: BuiltValueNullFieldError.checkNotNull(
-              refreshToken, r'SessionTokenDeleteRequest', 'refreshToken'),
+          refreshToken: refreshToken,
         );
     replace(_$result);
     return _$result;

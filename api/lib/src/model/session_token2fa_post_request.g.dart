@@ -8,16 +8,15 @@ part of 'session_token2fa_post_request.dart';
 
 class _$SessionToken2faPostRequest extends SessionToken2faPostRequest {
   @override
-  final String opt;
+  final String? opt;
   @override
-  final String sessionId;
+  final String? sessionId;
 
   factory _$SessionToken2faPostRequest(
           [void Function(SessionToken2faPostRequestBuilder)? updates]) =>
       (SessionToken2faPostRequestBuilder()..update(updates))._build();
 
-  _$SessionToken2faPostRequest._({required this.opt, required this.sessionId})
-      : super._();
+  _$SessionToken2faPostRequest._({this.opt, this.sessionId}) : super._();
   @override
   SessionToken2faPostRequest rebuild(
           void Function(SessionToken2faPostRequestBuilder) updates) =>
@@ -96,10 +95,8 @@ class SessionToken2faPostRequestBuilder
   _$SessionToken2faPostRequest _build() {
     final _$result = _$v ??
         _$SessionToken2faPostRequest._(
-          opt: BuiltValueNullFieldError.checkNotNull(
-              opt, r'SessionToken2faPostRequest', 'opt'),
-          sessionId: BuiltValueNullFieldError.checkNotNull(
-              sessionId, r'SessionToken2faPostRequest', 'sessionId'),
+          opt: opt,
+          sessionId: sessionId,
         );
     replace(_$result);
     return _$result;

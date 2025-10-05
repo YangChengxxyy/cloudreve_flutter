@@ -9,16 +9,15 @@ part of 'devices_dav_get200_response_data_inner.dart';
 class _$DevicesDavGet200ResponseDataInner
     extends DevicesDavGet200ResponseDataInner {
   @override
-  final DevicesDavGet200ResponseDataInnerPagination pagination;
+  final DevicesDavGet200ResponseDataInnerPagination? pagination;
   @override
-  final BuiltList<DavAccount> accounts;
+  final BuiltList<DavAccount>? accounts;
 
   factory _$DevicesDavGet200ResponseDataInner(
           [void Function(DevicesDavGet200ResponseDataInnerBuilder)? updates]) =>
       (DevicesDavGet200ResponseDataInnerBuilder()..update(updates))._build();
 
-  _$DevicesDavGet200ResponseDataInner._(
-      {required this.pagination, required this.accounts})
+  _$DevicesDavGet200ResponseDataInner._({this.pagination, this.accounts})
       : super._();
   @override
   DevicesDavGet200ResponseDataInner rebuild(
@@ -82,8 +81,8 @@ class DevicesDavGet200ResponseDataInnerBuilder
   DevicesDavGet200ResponseDataInnerBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _pagination = $v.pagination.toBuilder();
-      _accounts = $v.accounts.toBuilder();
+      _pagination = $v.pagination?.toBuilder();
+      _accounts = $v.accounts?.toBuilder();
       _$v = null;
     }
     return this;
@@ -108,16 +107,16 @@ class DevicesDavGet200ResponseDataInnerBuilder
     try {
       _$result = _$v ??
           _$DevicesDavGet200ResponseDataInner._(
-            pagination: pagination.build(),
-            accounts: accounts.build(),
+            pagination: _pagination?.build(),
+            accounts: _accounts?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'pagination';
-        pagination.build();
+        _pagination?.build();
         _$failedField = 'accounts';
-        accounts.build();
+        _accounts?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'DevicesDavGet200ResponseDataInner', _$failedField, e.toString());

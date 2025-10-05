@@ -8,17 +8,15 @@ part of 'workflow_reloacte_post_request.dart';
 
 class _$WorkflowReloactePostRequest extends WorkflowReloactePostRequest {
   @override
-  final BuiltList<String> src;
+  final BuiltList<String>? src;
   @override
-  final String dstPolicyId;
+  final String? dstPolicyId;
 
   factory _$WorkflowReloactePostRequest(
           [void Function(WorkflowReloactePostRequestBuilder)? updates]) =>
       (WorkflowReloactePostRequestBuilder()..update(updates))._build();
 
-  _$WorkflowReloactePostRequest._(
-      {required this.src, required this.dstPolicyId})
-      : super._();
+  _$WorkflowReloactePostRequest._({this.src, this.dstPolicyId}) : super._();
   @override
   WorkflowReloactePostRequest rebuild(
           void Function(WorkflowReloactePostRequestBuilder) updates) =>
@@ -75,7 +73,7 @@ class WorkflowReloactePostRequestBuilder
   WorkflowReloactePostRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _src = $v.src.toBuilder();
+      _src = $v.src?.toBuilder();
       _dstPolicyId = $v.dstPolicyId;
       _$v = null;
     }
@@ -100,15 +98,14 @@ class WorkflowReloactePostRequestBuilder
     try {
       _$result = _$v ??
           _$WorkflowReloactePostRequest._(
-            src: src.build(),
-            dstPolicyId: BuiltValueNullFieldError.checkNotNull(
-                dstPolicyId, r'WorkflowReloactePostRequest', 'dstPolicyId'),
+            src: _src?.build(),
+            dstPolicyId: dstPolicyId,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'src';
-        src.build();
+        _src?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'WorkflowReloactePostRequest', _$failedField, e.toString());

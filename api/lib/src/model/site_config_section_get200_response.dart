@@ -20,11 +20,11 @@ part 'site_config_section_get200_response.g.dart';
 @BuiltValue()
 abstract class SiteConfigSectionGet200Response implements Built<SiteConfigSectionGet200Response, SiteConfigSectionGet200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  SiteConfig get data;
+  SiteConfig? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$SiteConfigSectionGet200ResponseSerializer implements PrimitiveSerializer
     SiteConfigSectionGet200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(SiteConfig),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(SiteConfig),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

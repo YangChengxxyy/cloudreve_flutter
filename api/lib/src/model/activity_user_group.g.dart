@@ -8,15 +8,15 @@ part of 'activity_user_group.dart';
 
 class _$ActivityUserGroup extends ActivityUserGroup {
   @override
-  final String id;
+  final String? id;
   @override
-  final String name;
+  final String? name;
 
   factory _$ActivityUserGroup(
           [void Function(ActivityUserGroupBuilder)? updates]) =>
       (ActivityUserGroupBuilder()..update(updates))._build();
 
-  _$ActivityUserGroup._({required this.id, required this.name}) : super._();
+  _$ActivityUserGroup._({this.id, this.name}) : super._();
   @override
   ActivityUserGroup rebuild(void Function(ActivityUserGroupBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -91,10 +91,8 @@ class ActivityUserGroupBuilder
   _$ActivityUserGroup _build() {
     final _$result = _$v ??
         _$ActivityUserGroup._(
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'ActivityUserGroup', 'id'),
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'ActivityUserGroup', 'name'),
+          id: id,
+          name: name,
         );
     replace(_$result);
     return _$result;

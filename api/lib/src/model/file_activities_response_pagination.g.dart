@@ -9,11 +9,11 @@ part of 'file_activities_response_pagination.dart';
 class _$FileActivitiesResponsePagination
     extends FileActivitiesResponsePagination {
   @override
-  final int page;
+  final int? page;
   @override
-  final int pageSize;
+  final int? pageSize;
   @override
-  final String nextToken;
+  final String? nextToken;
   @override
   final bool? isCursor;
 
@@ -22,10 +22,7 @@ class _$FileActivitiesResponsePagination
       (FileActivitiesResponsePaginationBuilder()..update(updates))._build();
 
   _$FileActivitiesResponsePagination._(
-      {required this.page,
-      required this.pageSize,
-      required this.nextToken,
-      this.isCursor})
+      {this.page, this.pageSize, this.nextToken, this.isCursor})
       : super._();
   @override
   FileActivitiesResponsePagination rebuild(
@@ -122,12 +119,9 @@ class FileActivitiesResponsePaginationBuilder
   _$FileActivitiesResponsePagination _build() {
     final _$result = _$v ??
         _$FileActivitiesResponsePagination._(
-          page: BuiltValueNullFieldError.checkNotNull(
-              page, r'FileActivitiesResponsePagination', 'page'),
-          pageSize: BuiltValueNullFieldError.checkNotNull(
-              pageSize, r'FileActivitiesResponsePagination', 'pageSize'),
-          nextToken: BuiltValueNullFieldError.checkNotNull(
-              nextToken, r'FileActivitiesResponsePagination', 'nextToken'),
+          page: page,
+          pageSize: pageSize,
+          nextToken: nextToken,
           isCursor: isCursor,
         );
     replace(_$result);

@@ -20,11 +20,11 @@ part 'file_create_post200_response.g.dart';
 @BuiltValue()
 abstract class FileCreatePost200Response implements Built<FileCreatePost200Response, FileCreatePost200ResponseBuilder> {
   @BuiltValueField(wireName: r'data')
-  FileCreatePost200ResponseData get data;
+  FileCreatePost200ResponseData? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$FileCreatePost200ResponseSerializer implements PrimitiveSerializer<FileC
     FileCreatePost200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(FileCreatePost200ResponseData),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(FileCreatePost200ResponseData),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

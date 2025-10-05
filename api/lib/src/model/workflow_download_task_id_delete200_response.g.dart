@@ -9,7 +9,7 @@ part of 'workflow_download_task_id_delete200_response.dart';
 class _$WorkflowDownloadTaskIdDelete200Response
     extends WorkflowDownloadTaskIdDelete200Response {
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
 
@@ -19,7 +19,7 @@ class _$WorkflowDownloadTaskIdDelete200Response
       (WorkflowDownloadTaskIdDelete200ResponseBuilder()..update(updates))
           ._build();
 
-  _$WorkflowDownloadTaskIdDelete200Response._({required this.code, this.msg})
+  _$WorkflowDownloadTaskIdDelete200Response._({this.code, this.msg})
       : super._();
   @override
   WorkflowDownloadTaskIdDelete200Response rebuild(
@@ -103,8 +103,7 @@ class WorkflowDownloadTaskIdDelete200ResponseBuilder
   _$WorkflowDownloadTaskIdDelete200Response _build() {
     final _$result = _$v ??
         _$WorkflowDownloadTaskIdDelete200Response._(
-          code: BuiltValueNullFieldError.checkNotNull(
-              code, r'WorkflowDownloadTaskIdDelete200Response', 'code'),
+          code: code,
           msg: msg,
         );
     replace(_$result);

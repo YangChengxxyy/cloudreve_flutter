@@ -9,7 +9,7 @@ part of 'file_metadata_patch_request_patches_inner.dart';
 class _$FileMetadataPatchRequestPatchesInner
     extends FileMetadataPatchRequestPatchesInner {
   @override
-  final String key;
+  final String? key;
   @override
   final String? value;
   @override
@@ -20,8 +20,7 @@ class _$FileMetadataPatchRequestPatchesInner
               updates]) =>
       (FileMetadataPatchRequestPatchesInnerBuilder()..update(updates))._build();
 
-  _$FileMetadataPatchRequestPatchesInner._(
-      {required this.key, this.value, this.remove})
+  _$FileMetadataPatchRequestPatchesInner._({this.key, this.value, this.remove})
       : super._();
   @override
   FileMetadataPatchRequestPatchesInner rebuild(
@@ -111,8 +110,7 @@ class FileMetadataPatchRequestPatchesInnerBuilder
   _$FileMetadataPatchRequestPatchesInner _build() {
     final _$result = _$v ??
         _$FileMetadataPatchRequestPatchesInner._(
-          key: BuiltValueNullFieldError.checkNotNull(
-              key, r'FileMetadataPatchRequestPatchesInner', 'key'),
+          key: key,
           value: value,
           remove: remove,
         );

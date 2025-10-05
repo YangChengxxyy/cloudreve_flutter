@@ -8,9 +8,9 @@ part of 'file_activities_get200_response.dart';
 
 class _$FileActivitiesGet200Response extends FileActivitiesGet200Response {
   @override
-  final FileActivitiesResponse data;
+  final FileActivitiesResponse? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -23,11 +23,7 @@ class _$FileActivitiesGet200Response extends FileActivitiesGet200Response {
       (FileActivitiesGet200ResponseBuilder()..update(updates))._build();
 
   _$FileActivitiesGet200Response._(
-      {required this.data,
-      required this.code,
-      this.msg,
-      this.error,
-      this.correlationId})
+      {this.data, this.code, this.msg, this.error, this.correlationId})
       : super._();
   @override
   FileActivitiesGet200Response rebuild(
@@ -108,7 +104,7 @@ class FileActivitiesGet200ResponseBuilder
   FileActivitiesGet200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -136,9 +132,8 @@ class FileActivitiesGet200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileActivitiesGet200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileActivitiesGet200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             correlationId: correlationId,
@@ -147,7 +142,7 @@ class FileActivitiesGet200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileActivitiesGet200Response', _$failedField, e.toString());

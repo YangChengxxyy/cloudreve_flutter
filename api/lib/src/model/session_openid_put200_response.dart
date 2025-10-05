@@ -20,11 +20,11 @@ part 'session_openid_put200_response.g.dart';
 abstract class SessionOpenidPut200Response implements Built<SessionOpenidPut200Response, SessionOpenidPut200ResponseBuilder> {
   /// Redirect URL for the 3rd party sign in.
   @BuiltValueField(wireName: r'data')
-  String get data;
+  String? get data;
 
   /// Response code. `0` - Success.
   @BuiltValueField(wireName: r'code')
-  int get code;
+  int? get code;
 
   /// Human readable error message (if any).
   @BuiltValueField(wireName: r'msg')
@@ -62,16 +62,20 @@ class _$SessionOpenidPut200ResponseSerializer implements PrimitiveSerializer<Ses
     SessionOpenidPut200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'data';
-    yield serializers.serialize(
-      object.data,
-      specifiedType: const FullType(String),
-    );
-    yield r'code';
-    yield serializers.serialize(
-      object.code,
-      specifiedType: const FullType(int),
-    );
+    if (object.data != null) {
+      yield r'data';
+      yield serializers.serialize(
+        object.data,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.code != null) {
+      yield r'code';
+      yield serializers.serialize(
+        object.code,
+        specifiedType: const FullType(int),
+      );
+    }
     if (object.msg != null) {
       yield r'msg';
       yield serializers.serialize(

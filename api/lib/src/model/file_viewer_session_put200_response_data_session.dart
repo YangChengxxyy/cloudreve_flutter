@@ -18,15 +18,15 @@ part 'file_viewer_session_put200_response_data_session.g.dart';
 abstract class FileViewerSessionPut200ResponseDataSession implements Built<FileViewerSessionPut200ResponseDataSession, FileViewerSessionPut200ResponseDataSessionBuilder> {
   /// ID of the viewer session.
   @BuiltValueField(wireName: r'id')
-  String get id;
+  String? get id;
 
   /// [AccessToken](https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/concepts#access-token) that can be used to get/update the file via WOPI protocol.
   @BuiltValueField(wireName: r'access_token')
-  String get accessToken;
+  String? get accessToken;
 
   /// Unix timestamp when the session is expired.
   @BuiltValueField(wireName: r'expires')
-  int get expires;
+  int? get expires;
 
   FileViewerSessionPut200ResponseDataSession._();
 
@@ -51,21 +51,27 @@ class _$FileViewerSessionPut200ResponseDataSessionSerializer implements Primitiv
     FileViewerSessionPut200ResponseDataSession object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'id';
-    yield serializers.serialize(
-      object.id,
-      specifiedType: const FullType(String),
-    );
-    yield r'access_token';
-    yield serializers.serialize(
-      object.accessToken,
-      specifiedType: const FullType(String),
-    );
-    yield r'expires';
-    yield serializers.serialize(
-      object.expires,
-      specifiedType: const FullType(int),
-    );
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.accessToken != null) {
+      yield r'access_token';
+      yield serializers.serialize(
+        object.accessToken,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.expires != null) {
+      yield r'expires';
+      yield serializers.serialize(
+        object.expires,
+        specifiedType: const FullType(int),
+      );
+    }
   }
 
   @override

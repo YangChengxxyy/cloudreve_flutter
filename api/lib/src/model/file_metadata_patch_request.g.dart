@@ -8,16 +8,15 @@ part of 'file_metadata_patch_request.dart';
 
 class _$FileMetadataPatchRequest extends FileMetadataPatchRequest {
   @override
-  final BuiltList<String> uris;
+  final BuiltList<String>? uris;
   @override
-  final BuiltList<FileMetadataPatchRequestPatchesInner> patches;
+  final BuiltList<FileMetadataPatchRequestPatchesInner>? patches;
 
   factory _$FileMetadataPatchRequest(
           [void Function(FileMetadataPatchRequestBuilder)? updates]) =>
       (FileMetadataPatchRequestBuilder()..update(updates))._build();
 
-  _$FileMetadataPatchRequest._({required this.uris, required this.patches})
-      : super._();
+  _$FileMetadataPatchRequest._({this.uris, this.patches}) : super._();
   @override
   FileMetadataPatchRequest rebuild(
           void Function(FileMetadataPatchRequestBuilder) updates) =>
@@ -75,8 +74,8 @@ class FileMetadataPatchRequestBuilder
   FileMetadataPatchRequestBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _uris = $v.uris.toBuilder();
-      _patches = $v.patches.toBuilder();
+      _uris = $v.uris?.toBuilder();
+      _patches = $v.patches?.toBuilder();
       _$v = null;
     }
     return this;
@@ -100,16 +99,16 @@ class FileMetadataPatchRequestBuilder
     try {
       _$result = _$v ??
           _$FileMetadataPatchRequest._(
-            uris: uris.build(),
-            patches: patches.build(),
+            uris: _uris?.build(),
+            patches: _patches?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'uris';
-        uris.build();
+        _uris?.build();
         _$failedField = 'patches';
-        patches.build();
+        _patches?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'FileMetadataPatchRequest', _$failedField, e.toString());

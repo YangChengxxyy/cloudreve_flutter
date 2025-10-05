@@ -8,8 +8,8 @@ import 'package:cloudreve_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**FileUrlPost200ResponseData**](FileUrlPost200ResponseData.md) |  | 
-**code** | **int** | Response code. `0` - Success. | [default to 0]
+**data** | [**FileUrlPost200ResponseData**](FileUrlPost200ResponseData.md) |  | [optional] 
+**code** | **int** | Response code. `0` - Success. | [optional] [default to 0]
 **msg** | **String** | Human readable error message (if any). | [optional] 
 **error** | **String** | Internal error message, only visable in debug mode. | [optional] 
 **aggregatedError** | [**BuiltMap&lt;String, Response&gt;**](Response.md) | Map of multiple error in batch request. The key is the failed resource ID, it could be a file URI or a resource ID, the value is a `Response`. | [optional] 

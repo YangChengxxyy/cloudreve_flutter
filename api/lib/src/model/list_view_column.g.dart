@@ -8,7 +8,7 @@ part of 'list_view_column.dart';
 
 class _$ListViewColumn extends ListViewColumn {
   @override
-  final int type;
+  final int? type;
   @override
   final int? width;
   @override
@@ -17,7 +17,7 @@ class _$ListViewColumn extends ListViewColumn {
   factory _$ListViewColumn([void Function(ListViewColumnBuilder)? updates]) =>
       (ListViewColumnBuilder()..update(updates))._build();
 
-  _$ListViewColumn._({required this.type, this.width, this.props}) : super._();
+  _$ListViewColumn._({this.type, this.width, this.props}) : super._();
   @override
   ListViewColumn rebuild(void Function(ListViewColumnBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -104,8 +104,7 @@ class ListViewColumnBuilder
     try {
       _$result = _$v ??
           _$ListViewColumn._(
-            type: BuiltValueNullFieldError.checkNotNull(
-                type, r'ListViewColumn', 'type'),
+            type: type,
             width: width,
             props: _props?.build(),
           );

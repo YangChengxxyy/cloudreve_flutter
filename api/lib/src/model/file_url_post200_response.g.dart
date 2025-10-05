@@ -8,9 +8,9 @@ part of 'file_url_post200_response.dart';
 
 class _$FileUrlPost200Response extends FileUrlPost200Response {
   @override
-  final FileUrlPost200ResponseData data;
+  final FileUrlPost200ResponseData? data;
   @override
-  final int code;
+  final int? code;
   @override
   final String? msg;
   @override
@@ -25,8 +25,8 @@ class _$FileUrlPost200Response extends FileUrlPost200Response {
       (FileUrlPost200ResponseBuilder()..update(updates))._build();
 
   _$FileUrlPost200Response._(
-      {required this.data,
-      required this.code,
+      {this.data,
+      this.code,
       this.msg,
       this.error,
       this.aggregatedError,
@@ -118,7 +118,7 @@ class FileUrlPost200ResponseBuilder
   FileUrlPost200ResponseBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _data = $v.data.toBuilder();
+      _data = $v.data?.toBuilder();
       _code = $v.code;
       _msg = $v.msg;
       _error = $v.error;
@@ -147,9 +147,8 @@ class FileUrlPost200ResponseBuilder
     try {
       _$result = _$v ??
           _$FileUrlPost200Response._(
-            data: data.build(),
-            code: BuiltValueNullFieldError.checkNotNull(
-                code, r'FileUrlPost200Response', 'code'),
+            data: _data?.build(),
+            code: code,
             msg: msg,
             error: error,
             aggregatedError: _aggregatedError?.build(),
@@ -159,7 +158,7 @@ class FileUrlPost200ResponseBuilder
       late String _$failedField;
       try {
         _$failedField = 'data';
-        data.build();
+        _data?.build();
 
         _$failedField = 'aggregatedError';
         _aggregatedError?.build();

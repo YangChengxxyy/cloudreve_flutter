@@ -17,11 +17,11 @@ part 'user_reset_user_id_patch_request.g.dart';
 abstract class UserResetUserIdPatchRequest implements Built<UserResetUserIdPatchRequest, UserResetUserIdPatchRequestBuilder> {
   /// New password.
   @BuiltValueField(wireName: r'password')
-  String get password;
+  String? get password;
 
   /// Value can be retrieved from the temp url in the email.
   @BuiltValueField(wireName: r'secret')
-  String get secret;
+  String? get secret;
 
   UserResetUserIdPatchRequest._();
 
@@ -46,16 +46,20 @@ class _$UserResetUserIdPatchRequestSerializer implements PrimitiveSerializer<Use
     UserResetUserIdPatchRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'password';
-    yield serializers.serialize(
-      object.password,
-      specifiedType: const FullType(String),
-    );
-    yield r'secret';
-    yield serializers.serialize(
-      object.secret,
-      specifiedType: const FullType(String),
-    );
+    if (object.password != null) {
+      yield r'password';
+      yield serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.secret != null) {
+      yield r'secret';
+      yield serializers.serialize(
+        object.secret,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override

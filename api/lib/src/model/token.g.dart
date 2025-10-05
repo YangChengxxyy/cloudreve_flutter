@@ -8,22 +8,22 @@ part of 'token.dart';
 
 class _$Token extends Token {
   @override
-  final String accessToken;
+  final String? accessToken;
   @override
-  final DateTime accessExpires;
+  final DateTime? accessExpires;
   @override
-  final String refreshToken;
+  final String? refreshToken;
   @override
-  final DateTime refreshExpires;
+  final DateTime? refreshExpires;
 
   factory _$Token([void Function(TokenBuilder)? updates]) =>
       (TokenBuilder()..update(updates))._build();
 
   _$Token._(
-      {required this.accessToken,
-      required this.accessExpires,
-      required this.refreshToken,
-      required this.refreshExpires})
+      {this.accessToken,
+      this.accessExpires,
+      this.refreshToken,
+      this.refreshExpires})
       : super._();
   @override
   Token rebuild(void Function(TokenBuilder) updates) =>
@@ -117,14 +117,10 @@ class TokenBuilder implements Builder<Token, TokenBuilder> {
   _$Token _build() {
     final _$result = _$v ??
         _$Token._(
-          accessToken: BuiltValueNullFieldError.checkNotNull(
-              accessToken, r'Token', 'accessToken'),
-          accessExpires: BuiltValueNullFieldError.checkNotNull(
-              accessExpires, r'Token', 'accessExpires'),
-          refreshToken: BuiltValueNullFieldError.checkNotNull(
-              refreshToken, r'Token', 'refreshToken'),
-          refreshExpires: BuiltValueNullFieldError.checkNotNull(
-              refreshExpires, r'Token', 'refreshExpires'),
+          accessToken: accessToken,
+          accessExpires: accessExpires,
+          refreshToken: refreshToken,
+          refreshExpires: refreshExpires,
         );
     replace(_$result);
     return _$result;

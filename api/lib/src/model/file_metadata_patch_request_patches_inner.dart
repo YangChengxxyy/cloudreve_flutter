@@ -18,7 +18,7 @@ part 'file_metadata_patch_request_patches_inner.g.dart';
 abstract class FileMetadataPatchRequestPatchesInner implements Built<FileMetadataPatchRequestPatchesInner, FileMetadataPatchRequestPatchesInnerBuilder> {
   /// Metadata key. For patch operation, only a set of selected key prefixs are allowed: `sys:*`,`dav:*`, `customize:*`, `tag:*`.
   @BuiltValueField(wireName: r'key')
-  String get key;
+  String? get key;
 
   /// Value of the metadata.
   @BuiltValueField(wireName: r'value')
@@ -51,11 +51,13 @@ class _$FileMetadataPatchRequestPatchesInnerSerializer implements PrimitiveSeria
     FileMetadataPatchRequestPatchesInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'key';
-    yield serializers.serialize(
-      object.key,
-      specifiedType: const FullType(String),
-    );
+    if (object.key != null) {
+      yield r'key';
+      yield serializers.serialize(
+        object.key,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.value != null) {
       yield r'value';
       yield serializers.serialize(

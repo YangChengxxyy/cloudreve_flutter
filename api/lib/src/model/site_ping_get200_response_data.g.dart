@@ -10,17 +10,17 @@ class _$SitePingGet200ResponseData extends SitePingGet200ResponseData {
   @override
   final bool? webauthnEnabled;
   @override
-  final bool passwordEnabled;
+  final bool? passwordEnabled;
   @override
   final bool? qqEnabled;
   @override
   final bool? ssoEnabled;
   @override
-  final JsonObject publicKey;
+  final JsonObject? publicKey;
   @override
-  final String sessionId;
+  final String? sessionId;
   @override
-  final SitePingGet200ResponseDataOptions options;
+  final SitePingGet200ResponseDataOptions? options;
 
   factory _$SitePingGet200ResponseData(
           [void Function(SitePingGet200ResponseDataBuilder)? updates]) =>
@@ -28,12 +28,12 @@ class _$SitePingGet200ResponseData extends SitePingGet200ResponseData {
 
   _$SitePingGet200ResponseData._(
       {this.webauthnEnabled,
-      required this.passwordEnabled,
+      this.passwordEnabled,
       this.qqEnabled,
       this.ssoEnabled,
-      required this.publicKey,
-      required this.sessionId,
-      required this.options})
+      this.publicKey,
+      this.sessionId,
+      this.options})
       : super._();
   @override
   SitePingGet200ResponseData rebuild(
@@ -135,7 +135,7 @@ class SitePingGet200ResponseDataBuilder
       _ssoEnabled = $v.ssoEnabled;
       _publicKey = $v.publicKey;
       _sessionId = $v.sessionId;
-      _options = $v.options.toBuilder();
+      _options = $v.options?.toBuilder();
       _$v = null;
     }
     return this;
@@ -160,23 +160,18 @@ class SitePingGet200ResponseDataBuilder
       _$result = _$v ??
           _$SitePingGet200ResponseData._(
             webauthnEnabled: webauthnEnabled,
-            passwordEnabled: BuiltValueNullFieldError.checkNotNull(
-                passwordEnabled,
-                r'SitePingGet200ResponseData',
-                'passwordEnabled'),
+            passwordEnabled: passwordEnabled,
             qqEnabled: qqEnabled,
             ssoEnabled: ssoEnabled,
-            publicKey: BuiltValueNullFieldError.checkNotNull(
-                publicKey, r'SitePingGet200ResponseData', 'publicKey'),
-            sessionId: BuiltValueNullFieldError.checkNotNull(
-                sessionId, r'SitePingGet200ResponseData', 'sessionId'),
-            options: options.build(),
+            publicKey: publicKey,
+            sessionId: sessionId,
+            options: _options?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'options';
-        options.build();
+        _options?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'SitePingGet200ResponseData', _$failedField, e.toString());
