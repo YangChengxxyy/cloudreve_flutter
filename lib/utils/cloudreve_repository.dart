@@ -166,7 +166,7 @@ class CloudreveRepository {
     final request = cloudreve_api.FileCreatePostRequest((b) => b
       ..uri = _buildUri(fullPath)
       ..type = cloudreve_api.FileCreatePostRequestTypeEnum.folder
-      ..errOnConflict = 'true');
+      ..errOnConflict = true);
     final response = await _fileApi.fileCreatePost(
       fileCreatePostRequest: request,
     );

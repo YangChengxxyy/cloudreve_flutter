@@ -72,7 +72,7 @@ class _$FileCreatePostRequest extends FileCreatePostRequest {
   @override
   final BuiltMap<String, String>? metadata;
   @override
-  final String? errOnConflict;
+  final bool? errOnConflict;
 
   factory _$FileCreatePostRequest(
           [void Function(FileCreatePostRequestBuilder)? updates]) =>
@@ -140,9 +140,9 @@ class FileCreatePostRequestBuilder
   set metadata(MapBuilder<String, String>? metadata) =>
       _$this._metadata = metadata;
 
-  String? _errOnConflict;
-  String? get errOnConflict => _$this._errOnConflict;
-  set errOnConflict(String? errOnConflict) =>
+  bool? _errOnConflict;
+  bool? get errOnConflict => _$this._errOnConflict;
+  set errOnConflict(bool? errOnConflict) =>
       _$this._errOnConflict = errOnConflict;
 
   FileCreatePostRequestBuilder() {

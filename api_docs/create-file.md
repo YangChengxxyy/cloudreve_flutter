@@ -66,7 +66,7 @@ paths:
                   x-apifox-ignore-properties: []
                   nullable: true
                 err_on_conflict:
-                  type: string
+                  type: boolean
                   description: >-
                     Define the behavior when there's conflict (object already
                     existed) for given `uri`:

@@ -17,7 +17,8 @@ part 'file_create_post_request.g.dart';
 /// * [metadata] - Key-value map of metadata for the new file.
 /// * [errOnConflict] - Define the behavior when there's conflict (object already existed) for given `uri`:  * If `true`, an error will be returned; * If `false`, no mutation is performed, the existing file in `uri` will be returned.
 @BuiltValue()
-abstract class FileCreatePostRequest implements Built<FileCreatePostRequest, FileCreatePostRequestBuilder> {
+abstract class FileCreatePostRequest
+    implements Built<FileCreatePostRequest, FileCreatePostRequestBuilder> {
   /// [URI](https://docs.cloudreve.org/api/file-uri) of the file to be created.
   @BuiltValueField(wireName: r'uri')
   String? get uri;
@@ -33,22 +34,28 @@ abstract class FileCreatePostRequest implements Built<FileCreatePostRequest, Fil
 
   /// Define the behavior when there's conflict (object already existed) for given `uri`:  * If `true`, an error will be returned; * If `false`, no mutation is performed, the existing file in `uri` will be returned.
   @BuiltValueField(wireName: r'err_on_conflict')
-  String? get errOnConflict;
+  bool? get errOnConflict;
 
   FileCreatePostRequest._();
 
-  factory FileCreatePostRequest([void updates(FileCreatePostRequestBuilder b)]) = _$FileCreatePostRequest;
+  factory FileCreatePostRequest(
+      [void updates(FileCreatePostRequestBuilder b)]) = _$FileCreatePostRequest;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FileCreatePostRequestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FileCreatePostRequest> get serializer => _$FileCreatePostRequestSerializer();
+  static Serializer<FileCreatePostRequest> get serializer =>
+      _$FileCreatePostRequestSerializer();
 }
 
-class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreatePostRequest> {
+class _$FileCreatePostRequestSerializer
+    implements PrimitiveSerializer<FileCreatePostRequest> {
   @override
-  final Iterable<Type> types = const [FileCreatePostRequest, _$FileCreatePostRequest];
+  final Iterable<Type> types = const [
+    FileCreatePostRequest,
+    _$FileCreatePostRequest
+  ];
 
   @override
   final String wireName = r'FileCreatePostRequest';
@@ -76,14 +83,15 @@ class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreat
       yield r'metadata';
       yield serializers.serialize(
         object.metadata,
-        specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(String)]),
+        specifiedType: const FullType.nullable(
+            BuiltMap, [FullType(String), FullType(String)]),
       );
     }
     if (object.errOnConflict != null) {
       yield r'err_on_conflict';
       yield serializers.serialize(
         object.errOnConflict,
-        specifiedType: const FullType(String),
+        specifiedType: const FullType(bool),
       );
     }
   }
@@ -94,7 +102,9 @@ class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreat
     FileCreatePostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    return _serializeProperties(serializers, object,
+            specifiedType: specifiedType)
+        .toList();
   }
 
   void _deserializeProperties(
@@ -126,7 +136,8 @@ class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreat
         case r'metadata':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(String)]),
+            specifiedType: const FullType.nullable(
+                BuiltMap, [FullType(String), FullType(String)]),
           ) as BuiltMap<String, String>?;
           if (valueDes == null) continue;
           result.metadata.replace(valueDes);
@@ -134,8 +145,8 @@ class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreat
         case r'err_on_conflict':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType(bool),
+          ) as bool;
           result.errOnConflict = valueDes;
           break;
         default:
@@ -168,19 +179,23 @@ class _$FileCreatePostRequestSerializer implements PrimitiveSerializer<FileCreat
 }
 
 class FileCreatePostRequestTypeEnum extends EnumClass {
-
   /// Type of the new file.
   @BuiltValueEnumConst(wireName: r'file')
-  static const FileCreatePostRequestTypeEnum file = _$fileCreatePostRequestTypeEnum_file;
+  static const FileCreatePostRequestTypeEnum file =
+      _$fileCreatePostRequestTypeEnum_file;
+
   /// Type of the new file.
   @BuiltValueEnumConst(wireName: r'folder')
-  static const FileCreatePostRequestTypeEnum folder = _$fileCreatePostRequestTypeEnum_folder;
+  static const FileCreatePostRequestTypeEnum folder =
+      _$fileCreatePostRequestTypeEnum_folder;
 
-  static Serializer<FileCreatePostRequestTypeEnum> get serializer => _$fileCreatePostRequestTypeEnumSerializer;
+  static Serializer<FileCreatePostRequestTypeEnum> get serializer =>
+      _$fileCreatePostRequestTypeEnumSerializer;
 
-  const FileCreatePostRequestTypeEnum._(String name): super(name);
+  const FileCreatePostRequestTypeEnum._(String name) : super(name);
 
-  static BuiltSet<FileCreatePostRequestTypeEnum> get values => _$fileCreatePostRequestTypeEnumValues;
-  static FileCreatePostRequestTypeEnum valueOf(String name) => _$fileCreatePostRequestTypeEnumValueOf(name);
+  static BuiltSet<FileCreatePostRequestTypeEnum> get values =>
+      _$fileCreatePostRequestTypeEnumValues;
+  static FileCreatePostRequestTypeEnum valueOf(String name) =>
+      _$fileCreatePostRequestTypeEnumValueOf(name);
 }
-
