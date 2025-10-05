@@ -4,8 +4,6 @@
 
 // ignore_for_file: unused_element
 import 'package:cloudreve_api_client/src/model/file_viewer.dart';
-import 'package:cloudreve_api_client/src/model/file_viewer_viewers_inner.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/any_of.dart';
