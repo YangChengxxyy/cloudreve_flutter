@@ -117,13 +117,18 @@ class _HomeState extends State<Home> {
   int _lastBack = -1;
 
   /// 默认下载路径
-  static const String _downPath = "/storage/emulated/0/Download/";
+  late String _downPath;
   FileListing? _currentListing;
 
   @override
   void initState() {
     super.initState();
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    _initDownPath();
+  }
+
+  void _initDownPath() async {
+    _downPath = (await getTemporaryDirectory()).path;
   }
 
   String get _path => widget.path;

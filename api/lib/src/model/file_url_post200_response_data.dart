@@ -93,11 +93,23 @@ class _$FileUrlPost200ResponseDataSerializer implements PrimitiveSerializer<File
           result.urls.replace(valueDes);
           break;
         case r'expires':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.expires = valueDes;
+          int? parsed;
+          if (value is int) {
+            parsed = value;
+          } else if (value is num) {
+            parsed = value.toInt();
+          } else if (value is String) {
+            parsed = int.tryParse(value);
+            if (parsed == null) {
+              final parsedDate = DateTime.tryParse(value);
+              if (parsedDate != null) {
+                parsed = parsedDate.millisecondsSinceEpoch ~/ 1000;
+              }
+            }
+          }
+          if (parsed != null) {
+            result.expires = parsed;
+          }
           break;
         default:
           unhandled.add(key);
@@ -127,4 +139,3 @@ class _$FileUrlPost200ResponseDataSerializer implements PrimitiveSerializer<File
     return result.build();
   }
 }
-
